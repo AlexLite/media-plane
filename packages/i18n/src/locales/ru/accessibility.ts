@@ -30,7 +30,7 @@ export default {
       edition_badge: "Открыть модал платных планов",
     },
     auth_forms: {
-      clear_email: "Очистить email",
+      clear_email: "Очистить электронную почту",
       show_password: "Показать пароль",
       hide_password: "Скрыть пароль",
       close_alert: "Закрыть уведомление",

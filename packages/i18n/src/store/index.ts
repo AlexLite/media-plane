@@ -14,6 +14,15 @@ import { enCore, locales } from "../locales";
 // types
 import type { TLanguage, ILanguageOption, ITranslations } from "../types";
 
+const getDefaultLanguage = (): TLanguage => {
+  const envLocale = import.meta.env?.VITE_DEFAULT_LANGUAGE as string | undefined;
+  if (envLocale && SUPPORTED_LANGUAGES.some((lang) => lang.value === envLocale)) {
+    return envLocale as TLanguage;
+  }
+
+  return FALLBACK_LANGUAGE;
+};
+
 /**
  * Mobx store class for handling translations and language changes in the application
  * Provides methods to translate keys with params and change the language
@@ -29,7 +38,7 @@ export class TranslationStore {
   // Cache for IntlMessageFormat instances
   private messageCache: Map<string, IntlMessageFormat> = new Map();
   // Current language
-  currentLocale: TLanguage = FALLBACK_LANGUAGE;
+  currentLocale: TLanguage = getDefaultLanguage();
   // Loading state
   isLoading: boolean = true;
   isInitialized: boolean = false;
@@ -60,7 +69,7 @@ export class TranslationStore {
     }
 
     // Fallback to default language
-    this.setLanguage(FALLBACK_LANGUAGE);
+    this.setLanguage(getDefaultLanguage());
   }
 
   /** Loads the translations for the current language */
