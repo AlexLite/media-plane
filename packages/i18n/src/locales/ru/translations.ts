@@ -95,6 +95,22 @@ export default {
       sign_in_with_unique_code: "Войти с уникальным кодом",
       forgot_password: "Забыли пароль?",
     },
+    landing: {
+      work_in_all_dimensions: "Работайте во всех измерениях.",
+      welcome_back_to_plane: "С возвращением в Plane.",
+      create_your_plane_account: "Создайте аккаунт Plane.",
+    },
+    legal: {
+      sign_up_prefix: "Создавая аккаунт, вы понимаете и соглашаетесь с",
+      sign_in_prefix: "Входя в систему, вы понимаете и соглашаетесь с",
+      our: "нашими",
+      and: "и",
+      terms_of_service: "Условиями использования",
+      privacy_policy: "Политикой конфиденциальности",
+    },
+    footer: {
+      join_teams_building_with_plane: "Присоединяйтесь к 10 000+ командам, которые строят с Plane",
+    },
     sign_up: {
       header: {
         label: "Создайте аккаунт, чтобы начать управлять работой с вашей командой.",

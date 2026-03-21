@@ -24,41 +24,10 @@ type TAuthHeader = {
   currentAuthStep: EAuthSteps;
 };
 
-const Titles = {
-  [EAuthModes.SIGN_IN]: {
-    [EAuthSteps.EMAIL]: {
-      header: "Work in all dimensions.",
-      subHeader: "Welcome back to Plane.",
-    },
-    [EAuthSteps.PASSWORD]: {
-      header: "Work in all dimensions.",
-      subHeader: "Welcome back to Plane.",
-    },
-    [EAuthSteps.UNIQUE_CODE]: {
-      header: "Work in all dimensions.",
-      subHeader: "Welcome back to Plane.",
-    },
-  },
-  [EAuthModes.SIGN_UP]: {
-    [EAuthSteps.EMAIL]: {
-      header: "Work in all dimensions.",
-      subHeader: "Create your Plane account.",
-    },
-    [EAuthSteps.PASSWORD]: {
-      header: "Work in all dimensions.",
-      subHeader: "Create your Plane account.",
-    },
-    [EAuthSteps.UNIQUE_CODE]: {
-      header: "Work in all dimensions.",
-      subHeader: "Create your Plane account.",
-    },
-  },
-};
-
 const workSpaceService = new WorkspaceService();
 
 export const AuthHeader = observer(function AuthHeader(props: TAuthHeader) {
-  const { workspaceSlug, invitationId, invitationEmail, authMode, currentAuthStep } = props;
+  const { workspaceSlug, invitationId, invitationEmail, authMode, currentAuthStep: _currentAuthStep } = props;
   // plane imports
   const { t } = useTranslation();
 
@@ -72,7 +41,6 @@ export const AuthHeader = observer(function AuthHeader(props: TAuthHeader) {
   );
 
   const getHeaderSubHeader = (
-    step: EAuthSteps,
     mode: EAuthModes,
     invitation: IWorkspaceMemberInvitation | undefined,
     email: string | undefined
@@ -89,15 +57,21 @@ export const AuthHeader = observer(function AuthHeader(props: TAuthHeader) {
         ),
         subHeader:
           mode == EAuthModes.SIGN_UP
-            ? "Create an account to start managing work with your team."
-            : "Log in to start managing work with your team.",
+            ? t("auth.sign_up.header.label")
+            : t("auth.sign_in.header.label"),
       };
     }
 
-    return Titles[mode][step];
+    return {
+      header: t("auth.landing.work_in_all_dimensions"),
+      subHeader:
+        mode === EAuthModes.SIGN_UP
+          ? t("auth.landing.create_your_plane_account")
+          : t("auth.landing.welcome_back_to_plane"),
+    };
   };
 
-  const { header, subHeader } = getHeaderSubHeader(currentAuthStep, authMode, invitation || undefined, invitationEmail);
+  const { header, subHeader } = getHeaderSubHeader(authMode, invitation || undefined, invitationEmail);
 
   if (isLoading)
     return (
