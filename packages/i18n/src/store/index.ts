@@ -15,7 +15,8 @@ import { enCore, locales } from "../locales";
 import type { TLanguage, ILanguageOption, ITranslations } from "../types";
 
 const getDefaultLanguage = (): TLanguage => {
-  const envLocale = import.meta.env?.VITE_DEFAULT_LANGUAGE as string | undefined;
+  const envLocale = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env
+    ?.VITE_DEFAULT_LANGUAGE;
   if (envLocale && SUPPORTED_LANGUAGES.some((lang) => lang.value === envLocale)) {
     return envLocale as TLanguage;
   }
