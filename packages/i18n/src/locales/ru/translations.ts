@@ -28,11 +28,11 @@ export default {
   auth: {
     common: {
       email: {
-        label: "Email",
+        label: "Электронная почта",
         placeholder: "name@company.com",
         errors: {
-          required: "Email обязателен",
-          invalid: "Email недействителен",
+          required: "Электронная почта обязательна",
+          invalid: "Недействительный адрес электронной почты",
         },
       },
       password: {
@@ -82,7 +82,7 @@ export default {
       unique_code: {
         label: "Уникальный код",
         placeholder: "123456",
-        paste_code: "Вставьте код, отправленный на ваш email",
+        paste_code: "Вставьте код, отправленный на вашу электронную почту",
         requesting_new_code: "Запрос нового кода",
         sending_code: "Отправка кода",
       },
@@ -105,11 +105,12 @@ export default {
           },
           password: {
             header: "Регистрация",
-            sub_header: "Зарегистрируйтесь, используя комбинацию email-пароль.",
+            sub_header: "Зарегистрируйтесь, используя комбинацию электронная почта-пароль.",
           },
           unique_code: {
             header: "Регистрация",
-            sub_header: "Зарегистрируйтесь, используя уникальный код, отправленный на указанный выше email.",
+            sub_header:
+              "Зарегистрируйтесь, используя уникальный код, отправленный на указанный выше адрес электронной почты.",
           },
         },
       },
@@ -129,19 +130,21 @@ export default {
           },
           password: {
             header: "Войти или зарегистрироваться",
-            sub_header: "Используйте комбинацию email-пароль для входа.",
+            sub_header: "Используйте комбинацию электронная почта-пароль для входа.",
           },
           unique_code: {
             header: "Войти или зарегистрироваться",
-            sub_header: "Войдите, используя уникальный код, отправленный на указанный выше email.",
+            sub_header:
+              "Войдите, используя уникальный код, отправленный на указанный выше адрес электронной почты.",
           },
         },
       },
     },
     forgot_password: {
       title: "Сбросьте ваш пароль",
-      description: "Введите проверенный email вашего аккаунта, и мы отправим вам ссылку для сброса пароля.",
-      email_sent: "Мы отправили ссылку для сброса на ваш email",
+      description:
+        "Введите подтвержденный адрес электронной почты вашего аккаунта, и мы отправим вам ссылку для сброса пароля.",
+      email_sent: "Мы отправили ссылку для сброса на вашу электронную почту",
       send_reset_link: "Отправить ссылку для сброса",
       errors: {
         smtp_not_enabled:
@@ -149,7 +152,7 @@ export default {
       },
       toast: {
         success: {
-          title: "Email отправлен",
+          title: "Письмо отправлено",
           message:
             "Проверьте ваши входящие для ссылки на сброс пароля. Если она не появится в течение нескольких минут, проверьте папку спама.",
         },
@@ -203,7 +206,7 @@ export default {
   remove_selected: "Удалить выбранное",
   first_name: "Имя",
   last_name: "Фамилия",
-  email: "Email",
+  email: "Электронная почта",
   display_name: "Отображаемое имя",
   role: "Роль",
   timezone: "Часовой пояс",
@@ -264,11 +267,12 @@ export default {
   updating_theme: "Обновление темы",
   theme_updated_successfully: "Тема успешно обновлена",
   failed_to_update_the_theme: "Не удалось обновить тему",
-  email_notifications: "Email-уведомления",
+  email_notifications: "Уведомления по электронной почте",
   stay_in_the_loop_on_issues_you_are_subscribed_to_enable_this_to_get_notified:
     "Будьте в курсе рабочих элементов, на которые вы подписаны. Включите уведомления.",
-  email_notification_setting_updated_successfully: "Настройки email-уведомлений успешно обновлены",
-  failed_to_update_email_notification_setting: "Не удалось обновить настройки email-уведомлений",
+  email_notification_setting_updated_successfully: "Настройки уведомлений по электронной почте успешно обновлены",
+  failed_to_update_email_notification_setting:
+    "Не удалось обновить настройки уведомлений по электронной почте",
   notify_me_when: "Уведомлять меня, когда",
   property_changes: "Изменения свойств",
   property_changes_description:
@@ -1305,7 +1309,7 @@ export default {
     errors: {
       creation_disabled: {
         title: "Только администратор экземпляра может создавать рабочие пространства",
-        description: "Если вы знаете email администратора, нажмите кнопку ниже для связи.",
+        description: "Если вы знаете адрес электронной почты администратора, нажмите кнопку ниже для связи.",
         request_button: "Запросить администратора",
       },
       validation: {
@@ -1547,27 +1551,27 @@ export default {
   account_settings: {
     profile: {
       change_email_modal: {
-        title: "Изменить email",
+        title: "Изменить электронную почту",
         description: "Введите новый адрес электронной почты, чтобы получить ссылку для подтверждения.",
         toasts: {
           success_title: "Успех!",
-          success_message: "Email успешно обновлён. Пожалуйста, войдите снова.",
+          success_message: "Электронная почта успешно обновлена. Пожалуйста, войдите снова.",
         },
         form: {
           email: {
-            label: "Новый email",
-            placeholder: "Введите свой email",
+            label: "Новая электронная почта",
+            placeholder: "Введите адрес электронной почты",
             errors: {
-              required: "Email обязателен",
-              invalid: "Email недействителен",
-              exists: "Email уже существует. Используйте другой.",
-              validation_failed: "Не удалось подтвердить email. Попробуйте ещё раз.",
+              required: "Электронная почта обязательна",
+              invalid: "Недействительный адрес электронной почты",
+              exists: "Электронная почта уже существует. Используйте другой адрес.",
+              validation_failed: "Не удалось подтвердить электронную почту. Попробуйте ещё раз.",
             },
           },
           code: {
             label: "Уникальный код",
             placeholder: "123456",
-            helper_text: "Код подтверждения отправлен на ваш новый email.",
+            helper_text: "Код подтверждения отправлен на вашу новую электронную почту.",
             errors: {
               required: "Уникальный код обязателен",
               invalid: "Неверный код подтверждения. Попробуйте ещё раз.",
@@ -1589,7 +1593,7 @@ export default {
       description: "Настройте приложение под свой стиль работы",
     },
     notifications: {
-      heading: "Email-уведомления",
+      heading: "Уведомления по электронной почте",
       description: "Будьте в курсе рабочих элементов, на которые вы подписаны. Включите уведомления.",
     },
     security: {
@@ -1654,7 +1658,7 @@ export default {
         details: {
           full_name: "Полное имя",
           display_name: "Отображаемое имя",
-          email_address: "Email",
+          email_address: "Электронная почта",
           account_type: "Тип аккаунта",
           authentication: "Аутентификация",
           joining_date: "Дата присоединения",
@@ -1666,8 +1670,8 @@ export default {
           button_loading: "Отправка...",
           placeholder: "name@company.com",
           errors: {
-            required: "Введите email адрес, чтобы пригласить участников",
-            invalid: "Неверный email",
+            required: "Введите адрес электронной почты, чтобы пригласить участников",
+            invalid: "Неверный адрес электронной почты",
           },
         },
       },
@@ -2726,7 +2730,7 @@ export default {
   project_members: {
     full_name: "Полное имя",
     display_name: "Отображаемое имя",
-    email: "Email",
+    email: "Электронная почта",
     joining_date: "Дата присоединения",
     role: "Роль",
   },
