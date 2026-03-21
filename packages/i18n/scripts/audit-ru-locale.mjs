@@ -16,7 +16,8 @@ import path from "node:path";
 import process from "node:process";
 
 const cwd = process.cwd();
-const ruDir = path.join(cwd, "packages", "i18n", "src", "locales", "ru");
+const repoRoot = cwd.endsWith(path.join("packages", "i18n")) ? path.resolve(cwd, "..", "..") : cwd;
+const ruDir = path.join(repoRoot, "packages", "i18n", "src", "locales", "ru");
 const ruFiles = ["translations.ts", "empty-state.ts", "accessibility.ts", "editor.ts"];
 
 const args = process.argv.slice(2);
@@ -129,4 +130,3 @@ const main = () => {
 };
 
 main();
-
