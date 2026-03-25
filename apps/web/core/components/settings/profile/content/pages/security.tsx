@@ -95,7 +95,7 @@ export const SecurityProfileSettings = observer(function SecurityProfileSettings
     } catch (error: unknown) {
       const err = error as Error & { error_code?: string };
       const code = err.error_code?.toString();
-      const errorInfo = code ? authErrorHandler(code as EAuthenticationErrorCodes) : undefined;
+      const errorInfo = code ? authErrorHandler(code as EAuthenticationErrorCodes, undefined, t) : undefined;
 
       setToast({
         type: TOAST_TYPE.ERROR,

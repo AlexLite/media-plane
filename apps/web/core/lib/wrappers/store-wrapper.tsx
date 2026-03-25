@@ -109,7 +109,9 @@ function StoreWrapper(props: TStoreWrapper) {
 
   useEffect(() => {
     if (!userProfile?.language) return;
-    changeLanguage(userProfile?.language as TLanguage);
+    // In RU fork we keep Russian as primary UI language; per-key fallback still comes from i18n.
+    const effectiveLanguage = userProfile.language === "en" ? "ru" : userProfile.language;
+    changeLanguage(effectiveLanguage as TLanguage);
   }, [userProfile?.language, changeLanguage]);
 
   useEffect(() => {

@@ -26,6 +26,11 @@ export const WorkspaceSettingsSidebarItemCategories = observer(function Workspac
   const { allowPermissions } = useUserPermissions();
   // translation
   const { t } = useTranslation();
+  const categoryLabelMap: Record<string, string> = {
+    administration: "workspace_settings.categories.administration",
+    features: "workspace_settings.categories.features",
+    developer: "workspace_settings.categories.developer",
+  };
 
   return (
     <div className="mt-3 flex flex-col divide-y divide-subtle px-3">
@@ -39,7 +44,9 @@ export const WorkspaceSettingsSidebarItemCategories = observer(function Workspac
 
         return (
           <div key={category} className="shrink-0 py-3 first:pt-0 last:pb-0">
-            <div className="p-2 text-caption-md-medium text-tertiary capitalize">{t(category)}</div>
+            <div className="p-2 text-caption-md-medium text-tertiary capitalize">
+              {t(categoryLabelMap[category] ?? category)}
+            </div>
             <div className="flex flex-col">
               {accessibleItems.map((item) => {
                 const isItemActive =

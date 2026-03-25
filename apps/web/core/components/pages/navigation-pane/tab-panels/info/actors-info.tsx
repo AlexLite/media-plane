@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 // plane imports
 import { useTranslation } from "@plane/i18n";
 import { Avatar } from "@plane/ui";
-import { calculateTimeAgoShort, getFileURL, renderFormattedDate } from "@plane/utils";
+import { calculateTimeAgo, getFileURL, renderFormattedDate } from "@plane/utils";
 // hooks
 import { useMember } from "@/hooks/store/use-member";
 // store
@@ -47,7 +47,7 @@ export const PageNavigationPaneInfoTabActorsInfo = observer(function PageNavigat
             />
             <span>{editorInformation?.display_name ?? t("common.deactivated_user")}</span>
           </Link>
-          <span className="flex-shrink-0 text-tertiary">{calculateTimeAgoShort(page.updated_at ?? "")} ago</span>
+          <span className="flex-shrink-0 text-tertiary">{calculateTimeAgo(page.updated_at ?? "")}</span>
         </div>
       </div>
       <div>

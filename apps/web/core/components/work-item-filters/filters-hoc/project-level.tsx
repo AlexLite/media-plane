@@ -9,6 +9,7 @@ import { isEqual, cloneDeep } from "lodash-es";
 import { observer } from "mobx-react";
 // plane imports
 import { EUserPermissionsLevel } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { setToast, TOAST_TYPE } from "@plane/propel/toast";
 import type { IProjectView, TWorkItemFilterExpression } from "@plane/types";
 import { EUserProjectRoles, EViewAccess } from "@plane/types";
@@ -47,6 +48,7 @@ export const ProjectLevelWorkItemFiltersHOC = observer(function ProjectLevelWork
   const { getViewById, updateView } = useProjectView();
   const { data: currentUser } = useUser();
   const { allowPermissions } = useUserPermissions();
+  const { t } = useTranslation();
   const { getProjectCycleIds } = useCycle();
   const { getProjectLabelIds } = useLabel();
   const {
@@ -140,8 +142,8 @@ export const ProjectLevelWorkItemFiltersHOC = observer(function ProjectLevelWork
       if (!viewDetails) {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "We couldn't find the view",
-          message: "The view you're trying to update doesn't exist.",
+          title: t("project_views.toast.not_found.title"),
+          message: t("project_views.toast.not_found.message"),
         });
 
         return;
@@ -153,15 +155,15 @@ export const ProjectLevelWorkItemFiltersHOC = observer(function ProjectLevelWork
         .then(() => {
           setToast({
             type: TOAST_TYPE.SUCCESS,
-            title: "Success!",
-            message: "Your view has been updated successfully.",
+            title: t("toast.success"),
+            message: t("project_views.toast.updated_success"),
           });
         })
         .catch(() => {
           setToast({
             type: TOAST_TYPE.ERROR,
-            title: "Error!",
-            message: "Your view could not be updated. Please try again.",
+            title: t("toast.error"),
+            message: t("project_views.toast.update_failed"),
           });
         });
     },

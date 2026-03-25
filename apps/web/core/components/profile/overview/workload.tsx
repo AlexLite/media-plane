@@ -18,6 +18,14 @@ type Props = {
 
 export function ProfileWorkload({ stateDistribution }: Props) {
   const { t } = useTranslation();
+  const getStateGroupLabel = (stateGroup: keyof typeof STATE_GROUPS) => {
+    if (stateGroup === "unstarted") return t("profile.stats.state_distribution.not_started");
+    if (stateGroup === "started") return t("profile.stats.state_distribution.working_on");
+    if (stateGroup === "backlog") return t("project_modules.state_distribution.backlog");
+    if (stateGroup === "completed") return t("project_modules.state_distribution.completed");
+    if (stateGroup === "cancelled") return t("project_modules.state_distribution.cancelled");
+    return "";
+  };
 
   return (
     <div className="space-y-2">
@@ -35,11 +43,7 @@ export function ProfileWorkload({ stateDistribution }: Props) {
                 />
                 <div className="flex-col space-y-1">
                   <span className="text-13 text-placeholder">
-                    {group.state_group === "unstarted"
-                      ? "Not started"
-                      : group.state_group === "started"
-                        ? "Working on"
-                        : STATE_GROUPS[group.state_group].label}
+                    {getStateGroupLabel(group.state_group)}
                   </span>
                   <p className="text-18 font-semibold">{group.state_count}</p>
                 </div>

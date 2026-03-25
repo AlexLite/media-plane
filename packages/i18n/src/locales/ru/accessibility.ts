@@ -29,6 +29,12 @@ export default {
       expand_sidebar: "Развернуть боковую панель",
       edition_badge: "Открыть модал платных планов",
     },
+    app_sidebar: {
+      open_workspace_menu: "Открыть меню рабочей области",
+      close_workspace_menu: "Закрыть меню рабочей области",
+      open_extended_sidebar: "Открыть расширенную боковую панель",
+      close_extended_sidebar: "Закрыть расширенную боковую панель",
+    },
     auth_forms: {
       clear_email: "Очистить электронную почту",
       show_password: "Показать пароль",

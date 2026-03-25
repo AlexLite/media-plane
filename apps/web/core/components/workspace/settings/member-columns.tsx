@@ -11,6 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Disclosure } from "@headlessui/react";
 // plane imports
 import { ROLE, EUserPermissions, EUserPermissionsLevel, MEMBER_TRACKER_ELEMENTS } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { TrashIcon, SuspendedUserIcon } from "@plane/propel/icons";
 import { Pill, EPillVariant, EPillSize } from "@plane/propel/pill";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -29,6 +30,18 @@ export interface RowData {
   is_active: boolean;
 }
 
+const getWorkspaceRoleLabel = (role: EUserPermissions, t: (key: string) => string): string => {
+  switch (role) {
+    case EUserPermissions.ADMIN:
+      return t("workspace_member_roles.admin");
+    case EUserPermissions.MEMBER:
+      return t("workspace_member_roles.member");
+    case EUserPermissions.GUEST:
+    default:
+      return t("workspace_member_roles.guest");
+  }
+};
+
 type NameProps = {
   rowData: RowData;
   workspaceSlug: string;
@@ -44,6 +57,7 @@ type AccountTypeProps = {
 
 export function NameColumn(props: NameProps) {
   const { rowData, workspaceSlug, isAdmin, currentUser, setRemoveMemberModal } = props;
+  const { t } = useTranslation();
   // derived values
   const { avatar_url, display_name, email, first_name, id, last_name } = rowData.member;
   const isSuspended = rowData.is_active === false;
@@ -100,7 +114,7 @@ export function NameColumn(props: NameProps) {
                     }}
                     data-ph-element={MEMBER_TRACKER_ELEMENTS.WORKSPACE_MEMBER_TABLE_CONTEXT_MENU}
                   >
-                    <TrashIcon className="size-3.5 align-middle" /> {id === currentUser?.id ? "Leave " : "Remove "}
+                    <TrashIcon className="size-3.5 align-middle" /> {id === currentUser?.id ? t("leave") : t("remove")}
                   </div>
                 )}
               />
@@ -114,6 +128,7 @@ export function NameColumn(props: NameProps) {
 
 export const AccountTypeColumn = observer(function AccountTypeColumn(props: AccountTypeProps) {
   const { rowData, workspaceSlug } = props;
+  const { t } = useTranslation();
   // form info
   const {
     control,
@@ -138,12 +153,12 @@ export const AccountTypeColumn = observer(function AccountTypeColumn(props: Acco
       {isSuspended ? (
         <div className="flex w-32">
           <Pill variant={EPillVariant.DEFAULT} size={EPillSize.SM} className="border-none">
-            Suspended
+            {t("workspace_member_roles.suspended")}
           </Pill>
         </div>
       ) : isRoleNonEditable ? (
         <div className="flex w-32">
-          <span>{ROLE[rowData.role]}</span>
+          <span>{getWorkspaceRoleLabel(rowData.role, t)}</span>
         </div>
       ) : (
         <Controller
@@ -165,14 +180,14 @@ export const AccountTypeColumn = observer(function AccountTypeColumn(props: Acco
 
                   setToast({
                     type: TOAST_TYPE.ERROR,
-                    title: "Error!",
-                    message: errorString ?? "An error occurred while updating member role. Please try again.",
+                    title: t("error.label"),
+                    message: errorString ?? t("workspace_settings.settings.members.role_update_error"),
                   });
                 }
               }}
               label={
                 <div className="flex">
-                  <span>{ROLE[rowData.role]}</span>
+                  <span>{getWorkspaceRoleLabel(rowData.role, t)}</span>
                 </div>
               }
               buttonClassName={`!px-0 !justify-start hover:bg-surface-1 ${errors.role ? "border-danger-strong" : "border-none"}`}
@@ -181,7 +196,7 @@ export const AccountTypeColumn = observer(function AccountTypeColumn(props: Acco
             >
               {Object.keys(ROLE).map((item) => (
                 <CustomSelect.Option key={item} value={item as unknown as EUserPermissions}>
-                  {ROLE[item as unknown as keyof typeof ROLE]}
+                  {getWorkspaceRoleLabel(item as unknown as EUserPermissions, t)}
                 </CustomSelect.Option>
               ))}
             </CustomSelect>

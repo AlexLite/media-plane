@@ -13,6 +13,7 @@ import { getButtonStyling } from "@plane/propel/button";
 import type { TInstanceAuthenticationMethodKeys } from "@plane/types";
 import { ToggleSwitch } from "@plane/ui";
 import { cn } from "@plane/utils";
+import { useAdminTranslation } from "@/helpers/i18n";
 // hooks
 import { useInstance } from "@/hooks/store";
 
@@ -23,6 +24,7 @@ type Props = {
 
 export const GitlabConfiguration = observer(function GitlabConfiguration(props: Props) {
   const { disabled, updateConfig } = props;
+  const { t } = useAdminTranslation();
   // store
   const { formattedConfig } = useInstance();
   // derived values
@@ -34,7 +36,7 @@ export const GitlabConfiguration = observer(function GitlabConfiguration(props: 
       {isGitlabConfigured ? (
         <div className="flex items-center gap-4">
           <Link href="/authentication/gitlab" className={cn(getButtonStyling("link", "base"), "font-medium")}>
-            Edit
+            {t("edit")}
           </Link>
           <ToggleSwitch
             value={Boolean(parseInt(enableGitlabConfig))}
@@ -49,7 +51,7 @@ export const GitlabConfiguration = observer(function GitlabConfiguration(props: 
       ) : (
         <Link href="/authentication/gitlab" className={cn(getButtonStyling("secondary", "base"), "text-tertiary")}>
           <Settings2 className="h-4 w-4 p-0.5 text-tertiary" />
-          Configure
+          {t("configure")}
         </Link>
       )}
     </>

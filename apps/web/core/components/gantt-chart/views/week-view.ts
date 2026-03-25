@@ -161,7 +161,7 @@ export const getWeeksBetweenTwoDates = (
       weekNumber,
       weekData: {
         shortTitle: `w${weekNumber}`,
-        title: `Week ${weekNumber}`,
+        title: `Неделя ${weekNumber}`,
       },
       title:
         monthAtStartOfTheWeek === monthAtEndOfTheWeek

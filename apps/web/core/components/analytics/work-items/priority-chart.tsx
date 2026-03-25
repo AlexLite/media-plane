@@ -80,8 +80,12 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
   );
   const parsedData = useMemo(
     () =>
-      priorityChartData && parseChartData(priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping),
-    [priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping]
+      priorityChartData &&
+      parseChartData(priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping, {
+        weekLabel: t("common.week"),
+        noneLabel: t("common.none"),
+      }),
+    [priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping, t]
   );
   const chart_model = props.group_by ? EChartModels.STACKED : EChartModels.BASIC;
 

@@ -6,6 +6,7 @@
 
 import Link from "next/link";
 // ui
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 // images
 import Image404 from "@/app/assets/404.svg?url";
@@ -18,6 +19,8 @@ export const meta: Route.MetaFunction = () => [
 ];
 
 function PageNotFound() {
+  const { t } = useTranslation();
+
   return (
     <div className={`h-screen w-full overflow-hidden bg-surface-1`}>
       <div className="grid h-full place-items-center p-4">
@@ -26,16 +29,13 @@ function PageNotFound() {
             <img src={Image404} className="h-full w-full object-contain" alt="404- Page not found" />
           </div>
           <div className="space-y-2">
-            <h3 className="text-16 font-semibold">Oops! Something went wrong.</h3>
-            <p className="text-13 text-secondary">
-              Sorry, the page you are looking for cannot be found. It may have been removed, had its name changed, or is
-              temporarily unavailable.
-            </p>
+            <h3 className="text-16 font-semibold">{t("oops_something_went_wrong")}</h3>
+            <p className="text-13 text-secondary">{t("page_not_found_description")}</p>
           </div>
           <Link href="/">
             <span className="flex justify-center">
               <Button variant="secondary" size="lg">
-                Go to Home
+                {t("go_to_home")}
               </Button>
             </span>
           </Link>

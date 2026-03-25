@@ -1,0 +1,7 @@
+{
+  "tool_name": "mcp__Windows-MCP__PowerShell",
+  "tool_input_preview": "{\"command\":\"cd \\\"E:\\\\Dev\\\\projects\\\\Plane\\\\plane-l10n-ru-sync\\\" ; git status --short \\\"packages/i18n/src/locales/ru/core.ts\\\"\",\"timeout\":10}",
+  "error": "Error: MCP error -32001: Request timed out",
+  "timestamp": "2026-03-25T21:16:10.985Z",
+  "retry_count": 1
+}

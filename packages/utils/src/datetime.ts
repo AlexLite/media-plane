@@ -5,6 +5,7 @@
  */
 
 import { differenceInDays, format, formatDistanceToNow, isAfter, isEqual, isValid, parseISO } from "date-fns";
+import { ru } from "date-fns/locale";
 import { isNumber } from "lodash-es";
 
 // Format Date Helpers
@@ -29,10 +30,10 @@ export const renderFormattedDate = (
   let formattedDate;
   try {
     // Format the date in the format provided or default format (MMM dd, yyyy)
-    formattedDate = format(parsedDate, formatToken);
+    formattedDate = format(parsedDate, formatToken, { locale: ru });
   } catch (_e) {
     // Format the date in format (MMM dd, yyyy) in case of any error
-    formattedDate = format(parsedDate, "MMM dd, yyyy");
+    formattedDate = format(parsedDate, "MMM dd, yyyy", { locale: ru });
   }
   return formattedDate;
 };
@@ -51,7 +52,7 @@ export const renderFormattedDateWithoutYear = (date: string | Date): string => {
   // Check if the parsed date is valid before formatting
   if (!isValid(parsedDate)) return ""; // Return empty string for invalid dates
   // Format the date in short format (MMM dd)
-  const formattedDate = format(parsedDate, "MMM dd");
+  const formattedDate = format(parsedDate, "MMM dd", { locale: ru });
   return formattedDate;
 };
 
@@ -171,11 +172,12 @@ export const findHowManyDaysLeft = (
 export const calculateTimeAgo = (time: string | number | Date | null): string => {
   if (!time) return "";
   // Parse the time to check if it is valid
-  const parsedTime = typeof time === "string" || typeof time === "number" ? parseISO(String(time)) : time;
+  const parsedTime =
+    typeof time === "number" ? new Date(time) : typeof time === "string" ? parseISO(String(time)) : time;
   // return if undefined
   if (!parsedTime) return ""; // Return empty string for invalid dates
   // Format the time in the form of amount of time passed since the event happened
-  const distance = formatDistanceToNow(parsedTime, { addSuffix: true });
+  const distance = formatDistanceToNow(parsedTime, { addSuffix: true, locale: ru });
   return distance;
 };
 
@@ -500,12 +502,12 @@ export const formatDateRange = (
 
   // If only start date is provided
   if (parsedStartDate && !parsedEndDate) {
-    return format(parsedStartDate, "MMM dd, yyyy");
+    return format(parsedStartDate, "MMM dd, yyyy", { locale: ru });
   }
 
   // If only end date is provided
   if (!parsedStartDate && parsedEndDate) {
-    return format(parsedEndDate, "MMM dd, yyyy");
+    return format(parsedEndDate, "MMM dd, yyyy", { locale: ru });
   }
 
   // If both dates are provided
@@ -517,21 +519,21 @@ export const formatDateRange = (
 
     // Same year, same month
     if (startYear === endYear && startMonth === endMonth) {
-      const startDay = format(parsedStartDate, "dd");
-      const endDay = format(parsedEndDate, "dd");
-      return `${format(parsedStartDate, "MMM")} ${startDay} - ${endDay}, ${startYear}`;
+      const startDay = format(parsedStartDate, "dd", { locale: ru });
+      const endDay = format(parsedEndDate, "dd", { locale: ru });
+      return `${format(parsedStartDate, "MMM", { locale: ru })} ${startDay} - ${endDay}, ${startYear}`;
     }
 
     // Same year, different month
     if (startYear === endYear) {
-      const startFormatted = format(parsedStartDate, "MMM dd");
-      const endFormatted = format(parsedEndDate, "MMM dd");
+      const startFormatted = format(parsedStartDate, "MMM dd", { locale: ru });
+      const endFormatted = format(parsedEndDate, "MMM dd", { locale: ru });
       return `${startFormatted} - ${endFormatted}, ${startYear}`;
     }
 
     // Different year
-    const startFormatted = format(parsedStartDate, "MMM dd, yyyy");
-    const endFormatted = format(parsedEndDate, "MMM dd, yyyy");
+    const startFormatted = format(parsedStartDate, "MMM dd, yyyy", { locale: ru });
+    const endFormatted = format(parsedEndDate, "MMM dd, yyyy", { locale: ru });
     return `${startFormatted} - ${endFormatted}`;
   }
 

@@ -9,6 +9,7 @@ import useSWR from "swr";
 import { Loader } from "@plane/ui";
 // components
 import { PageWrapper } from "@/components/common/page-wrapper";
+import { getAdminTranslation, useAdminTranslation } from "@/helpers/i18n";
 // hooks
 import { useInstance } from "@/hooks/store";
 // types
@@ -17,6 +18,7 @@ import type { Route } from "./+types/page";
 import { InstanceImageConfigForm } from "./form";
 
 const InstanceImagePage = observer(function InstanceImagePage(_props: Route.ComponentProps) {
+  const { t } = useAdminTranslation();
   // store
   const { formattedConfig, fetchInstanceConfigurations } = useInstance();
 
@@ -25,8 +27,8 @@ const InstanceImagePage = observer(function InstanceImagePage(_props: Route.Comp
   return (
     <PageWrapper
       header={{
-        title: "Third-party image libraries",
-        description: "Let your users search and choose images from third-party libraries",
+        title: t("image_page_title"),
+        description: t("image_page_description"),
       }}
     >
       {formattedConfig ? (
@@ -41,6 +43,6 @@ const InstanceImagePage = observer(function InstanceImagePage(_props: Route.Comp
   );
 });
 
-export const meta: Route.MetaFunction = () => [{ title: "Images Settings - God Mode" }];
+export const meta: Route.MetaFunction = () => [{ title: getAdminTranslation("image_page_meta_title") }];
 
 export default InstanceImagePage;

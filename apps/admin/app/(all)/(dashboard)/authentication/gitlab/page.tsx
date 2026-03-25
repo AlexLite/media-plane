@@ -14,6 +14,7 @@ import GitlabLogo from "@/app/assets/logos/gitlab-logo.svg?url";
 // components
 import { AuthenticationMethodCard } from "@/components/authentication/authentication-method-card";
 import { PageWrapper } from "@/components/common/page-wrapper";
+import { getAdminTranslation, useAdminTranslation } from "@/helpers/i18n";
 // hooks
 import { useInstance } from "@/hooks/store";
 // types
@@ -24,6 +25,7 @@ import { InstanceGitlabConfigForm } from "./form";
 const InstanceGitlabAuthenticationPage = observer(function InstanceGitlabAuthenticationPage(
   _props: Route.ComponentProps
 ) {
+  const { t } = useAdminTranslation();
   // store
   const { fetchInstanceConfigurations, formattedConfig, updateInstanceConfigurations } = useInstance();
   // state
@@ -43,14 +45,15 @@ const InstanceGitlabAuthenticationPage = observer(function InstanceGitlabAuthent
     const updateConfigPromise = updateInstanceConfigurations(payload);
 
     setPromiseToast(updateConfigPromise, {
-      loading: "Saving Configuration",
+      loading: t("saving_configuration"),
       success: {
-        title: "Configuration saved",
-        message: () => `GitLab authentication is now ${value === "1" ? "active" : "disabled"}.`,
+        title: t("configuration_saved"),
+        message: () =>
+          t(value === "1" ? "gitlab_authentication_active" : "gitlab_authentication_disabled"),
       },
       error: {
-        title: "Error",
-        message: () => "Failed to save configuration",
+        title: t("error"),
+        message: () => t("configuration_save_failed"),
       },
     });
 
@@ -67,9 +70,9 @@ const InstanceGitlabAuthenticationPage = observer(function InstanceGitlabAuthent
     <PageWrapper
       customHeader={
         <AuthenticationMethodCard
-          name="GitLab"
-          description="Allow members to login or sign up to plane with their GitLab accounts."
-          icon={<img src={GitlabLogo} height={24} width={24} alt="GitLab Logo" />}
+          name={t("gitlab")}
+          description={t("gitlab_auth_description")}
+          icon={<img src={GitlabLogo} height={24} width={24} alt={t("gitlab_logo_alt")} />}
           config={
             <ToggleSwitch
               value={Boolean(parseInt(enableGitlabConfig))}
@@ -104,6 +107,6 @@ const InstanceGitlabAuthenticationPage = observer(function InstanceGitlabAuthent
   );
 });
 
-export const meta: Route.MetaFunction = () => [{ title: "GitLab Authentication - God Mode" }];
+export const meta: Route.MetaFunction = () => [{ title: getAdminTranslation("gitlab_auth_meta_title") }];
 
 export default InstanceGitlabAuthenticationPage;

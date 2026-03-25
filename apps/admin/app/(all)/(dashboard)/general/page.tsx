@@ -7,6 +7,7 @@
 import { observer } from "mobx-react";
 // components
 import { PageWrapper } from "@/components/common/page-wrapper";
+import { getAdminTranslation, useAdminTranslation } from "@/helpers/i18n";
 // hooks
 import { useInstance } from "@/hooks/store";
 // local imports
@@ -15,14 +16,14 @@ import { GeneralConfigurationForm } from "./form";
 import type { Route } from "./+types/page";
 
 function GeneralPage() {
+  const { t } = useAdminTranslation();
   const { instance, instanceAdmins } = useInstance();
 
   return (
     <PageWrapper
       header={{
-        title: "General settings",
-        description:
-          "Change the name of your instance and instance admin e-mail addresses. Enable or disable telemetry in your instance.",
+        title: t("general_page_title"),
+        description: t("general_page_description"),
       }}
     >
       {instance && instanceAdmins && <GeneralConfigurationForm instance={instance} instanceAdmins={instanceAdmins} />}
@@ -30,6 +31,6 @@ function GeneralPage() {
   );
 }
 
-export const meta: Route.MetaFunction = () => [{ title: "General Settings - God Mode" }];
+export const meta: Route.MetaFunction = () => [{ title: getAdminTranslation("general_page_meta_title") }];
 
 export default observer(GeneralPage);

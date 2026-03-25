@@ -108,6 +108,199 @@ export type TAuthErrorInfo = {
   message: ReactNode;
 };
 
+type TTranslateFn = (key: string, params?: Record<string, unknown>) => string;
+
+const AUTH_ERROR_I18N_KEYS: Partial<Record<EAuthenticationErrorCodes, { title: string; message: string }>> = {
+  [EAuthenticationErrorCodes.INSTANCE_NOT_CONFIGURED]: {
+    title: "auth.error_codes.instance_not_configured.title",
+    message: "auth.error_codes.instance_not_configured.message",
+  },
+  [EAuthenticationErrorCodes.INVALID_EMAIL]: {
+    title: "auth.error_codes.invalid_email.title",
+    message: "auth.error_codes.invalid_email.message",
+  },
+  [EAuthenticationErrorCodes.EMAIL_REQUIRED]: {
+    title: "auth.error_codes.email_required.title",
+    message: "auth.error_codes.email_required.message",
+  },
+  [EAuthenticationErrorCodes.SIGNUP_DISABLED]: {
+    title: "auth.error_codes.signup_disabled.title",
+    message: "auth.error_codes.signup_disabled.message",
+  },
+  [EAuthenticationErrorCodes.MAGIC_LINK_LOGIN_DISABLED]: {
+    title: "auth.error_codes.magic_link_login_disabled.title",
+    message: "auth.error_codes.magic_link_login_disabled.message",
+  },
+  [EAuthenticationErrorCodes.PASSWORD_LOGIN_DISABLED]: {
+    title: "auth.error_codes.password_login_disabled.title",
+    message: "auth.error_codes.password_login_disabled.message",
+  },
+  [EAuthenticationErrorCodes.USER_ACCOUNT_DEACTIVATED]: {
+    title: "auth.error_codes.user_account_deactivated.title",
+    message: "auth.error_codes.user_account_deactivated.message",
+  },
+  [EAuthenticationErrorCodes.INVALID_PASSWORD]: {
+    title: "auth.error_codes.invalid_password.title",
+    message: "auth.error_codes.invalid_password.message",
+  },
+  [EAuthenticationErrorCodes.PASSWORD_TOO_WEAK]: {
+    title: "auth.error_codes.password_too_weak.title",
+    message: "auth.error_codes.password_too_weak.message",
+  },
+  [EAuthenticationErrorCodes.SMTP_NOT_CONFIGURED]: {
+    title: "auth.error_codes.smtp_not_configured.title",
+    message: "auth.error_codes.smtp_not_configured.message",
+  },
+  [EAuthenticationErrorCodes.AUTHENTICATION_FAILED_SIGN_UP]: {
+    title: "auth.error_codes.authentication_failed.title",
+    message: "auth.error_codes.authentication_failed.message",
+  },
+  [EAuthenticationErrorCodes.AUTHENTICATION_FAILED_SIGN_IN]: {
+    title: "auth.error_codes.authentication_failed.title",
+    message: "auth.error_codes.authentication_failed.message",
+  },
+  [EAuthenticationErrorCodes.REQUIRED_EMAIL_PASSWORD_SIGN_UP]: {
+    title: "auth.error_codes.email_and_password_required.title",
+    message: "auth.error_codes.email_and_password_required.message",
+  },
+  [EAuthenticationErrorCodes.REQUIRED_EMAIL_PASSWORD_SIGN_IN]: {
+    title: "auth.error_codes.email_and_password_required.title",
+    message: "auth.error_codes.email_and_password_required.message",
+  },
+  [EAuthenticationErrorCodes.MAGIC_SIGN_UP_EMAIL_CODE_REQUIRED]: {
+    title: "auth.error_codes.email_and_code_required.title",
+    message: "auth.error_codes.email_and_code_required.message",
+  },
+  [EAuthenticationErrorCodes.MAGIC_SIGN_IN_EMAIL_CODE_REQUIRED]: {
+    title: "auth.error_codes.email_and_code_required.title",
+    message: "auth.error_codes.email_and_code_required.message",
+  },
+  [EAuthenticationErrorCodes.INVALID_EMAIL_SIGN_UP]: {
+    title: "auth.error_codes.invalid_email.title",
+    message: "auth.error_codes.invalid_email.message",
+  },
+  [EAuthenticationErrorCodes.INVALID_EMAIL_MAGIC_SIGN_UP]: {
+    title: "auth.error_codes.invalid_email.title",
+    message: "auth.error_codes.invalid_email.message",
+  },
+  [EAuthenticationErrorCodes.INVALID_EMAIL_SIGN_IN]: {
+    title: "auth.error_codes.invalid_email.title",
+    message: "auth.error_codes.invalid_email.message",
+  },
+  [EAuthenticationErrorCodes.INVALID_EMAIL_MAGIC_SIGN_IN]: {
+    title: "auth.error_codes.invalid_email.title",
+    message: "auth.error_codes.invalid_email.message",
+  },
+  [EAuthenticationErrorCodes.INVALID_MAGIC_CODE_SIGN_UP]: {
+    title: "auth.error_codes.authentication_failed.title",
+    message: "auth.error_codes.invalid_magic_code.message",
+  },
+  [EAuthenticationErrorCodes.INVALID_MAGIC_CODE_SIGN_IN]: {
+    title: "auth.error_codes.authentication_failed.title",
+    message: "auth.error_codes.invalid_magic_code.message",
+  },
+  [EAuthenticationErrorCodes.EXPIRED_MAGIC_CODE_SIGN_UP]: {
+    title: "auth.error_codes.expired_magic_code.title",
+    message: "auth.error_codes.expired_magic_code.message",
+  },
+  [EAuthenticationErrorCodes.EXPIRED_MAGIC_CODE_SIGN_IN]: {
+    title: "auth.error_codes.expired_magic_code.title",
+    message: "auth.error_codes.expired_magic_code.message",
+  },
+  [EAuthenticationErrorCodes.EMAIL_CODE_ATTEMPT_EXHAUSTED_SIGN_UP]: {
+    title: "auth.error_codes.expired_magic_code.title",
+    message: "auth.error_codes.expired_magic_code.message",
+  },
+  [EAuthenticationErrorCodes.EMAIL_CODE_ATTEMPT_EXHAUSTED_SIGN_IN]: {
+    title: "auth.error_codes.expired_magic_code.title",
+    message: "auth.error_codes.expired_magic_code.message",
+  },
+  [EAuthenticationErrorCodes.OAUTH_NOT_CONFIGURED]: {
+    title: "auth.error_codes.oauth_not_configured.title",
+    message: "auth.error_codes.oauth_not_configured.message",
+  },
+  [EAuthenticationErrorCodes.GOOGLE_NOT_CONFIGURED]: {
+    title: "auth.error_codes.google_not_configured.title",
+    message: "auth.error_codes.google_not_configured.message",
+  },
+  [EAuthenticationErrorCodes.GITHUB_NOT_CONFIGURED]: {
+    title: "auth.error_codes.github_not_configured.title",
+    message: "auth.error_codes.github_not_configured.message",
+  },
+  [EAuthenticationErrorCodes.GITLAB_NOT_CONFIGURED]: {
+    title: "auth.error_codes.gitlab_not_configured.title",
+    message: "auth.error_codes.gitlab_not_configured.message",
+  },
+  [EAuthenticationErrorCodes.GOOGLE_OAUTH_PROVIDER_ERROR]: {
+    title: "auth.error_codes.google_oauth_provider_error.title",
+    message: "auth.error_codes.google_oauth_provider_error.message",
+  },
+  [EAuthenticationErrorCodes.GITHUB_OAUTH_PROVIDER_ERROR]: {
+    title: "auth.error_codes.github_oauth_provider_error.title",
+    message: "auth.error_codes.github_oauth_provider_error.message",
+  },
+  [EAuthenticationErrorCodes.GITLAB_OAUTH_PROVIDER_ERROR]: {
+    title: "auth.error_codes.gitlab_oauth_provider_error.title",
+    message: "auth.error_codes.gitlab_oauth_provider_error.message",
+  },
+  [EAuthenticationErrorCodes.INVALID_PASSWORD_TOKEN]: {
+    title: "auth.error_codes.invalid_password_token.title",
+    message: "auth.error_codes.invalid_password_token.message",
+  },
+  [EAuthenticationErrorCodes.EXPIRED_PASSWORD_TOKEN]: {
+    title: "auth.error_codes.expired_password_token.title",
+    message: "auth.error_codes.expired_password_token.message",
+  },
+  [EAuthenticationErrorCodes.MISSING_PASSWORD]: {
+    title: "auth.error_codes.password_required.title",
+    message: "auth.error_codes.password_required.message",
+  },
+  [EAuthenticationErrorCodes.INCORRECT_OLD_PASSWORD]: {
+    title: "auth.error_codes.incorrect_old_password.title",
+    message: "auth.error_codes.incorrect_old_password.message",
+  },
+  [EAuthenticationErrorCodes.INVALID_NEW_PASSWORD]: {
+    title: "auth.error_codes.invalid_new_password.title",
+    message: "auth.error_codes.invalid_new_password.message",
+  },
+  [EAuthenticationErrorCodes.PASSWORD_ALREADY_SET]: {
+    title: "auth.error_codes.password_already_set.title",
+    message: "auth.error_codes.password_already_set.message",
+  },
+  [EAuthenticationErrorCodes.ADMIN_ALREADY_EXIST]: {
+    title: "auth.error_codes.admin_already_exists.title",
+    message: "auth.error_codes.admin_already_exists.message",
+  },
+  [EAuthenticationErrorCodes.REQUIRED_ADMIN_EMAIL_PASSWORD_FIRST_NAME]: {
+    title: "auth.error_codes.admin_required_email_password_first_name.title",
+    message: "auth.error_codes.admin_required_email_password_first_name.message",
+  },
+  [EAuthenticationErrorCodes.INVALID_ADMIN_EMAIL]: {
+    title: "auth.error_codes.invalid_admin_email.title",
+    message: "auth.error_codes.invalid_admin_email.message",
+  },
+  [EAuthenticationErrorCodes.INVALID_ADMIN_PASSWORD]: {
+    title: "auth.error_codes.invalid_admin_password.title",
+    message: "auth.error_codes.invalid_admin_password.message",
+  },
+  [EAuthenticationErrorCodes.REQUIRED_ADMIN_EMAIL_PASSWORD]: {
+    title: "auth.error_codes.email_and_password_required.title",
+    message: "auth.error_codes.email_and_password_required.message",
+  },
+  [EAuthenticationErrorCodes.ADMIN_AUTHENTICATION_FAILED]: {
+    title: "auth.error_codes.authentication_failed.title",
+    message: "auth.error_codes.authentication_failed.message",
+  },
+  [EAuthenticationErrorCodes.ADMIN_USER_DEACTIVATED]: {
+    title: "auth.error_codes.admin_user_deactivated.title",
+    message: "auth.error_codes.admin_user_deactivated.message",
+  },
+  [EAuthenticationErrorCodes.RATE_LIMIT_EXCEEDED]: {
+    title: "auth.error_codes.rate_limit_exceeded.title",
+    message: "auth.error_codes.rate_limit_exceeded.message",
+  },
+};
+
 // TODO: move all error messages to translation files
 const errorCodeMessages: {
   [key in EAuthenticationErrorCodes]: { title: string; message: (email?: string) => ReactNode };
@@ -372,7 +565,17 @@ const errorCodeMessages: {
   },
 };
 
-export const authErrorHandler = (errorCode: EAuthenticationErrorCodes, email?: string): TAuthErrorInfo | undefined => {
+export const authErrorHandler = (
+  errorCode: EAuthenticationErrorCodes,
+  email?: string,
+  t?: TTranslateFn
+): TAuthErrorInfo | undefined => {
+  const tt = (key: string, fallback: string, params?: Record<string, unknown>) => {
+    if (!t) return fallback;
+    const translated = t(key, params);
+    return translated === key ? fallback : translated;
+  };
+
   const bannerAlertErrorCodes = [
     EAuthenticationErrorCodes.INSTANCE_NOT_CONFIGURED,
     EAuthenticationErrorCodes.INVALID_EMAIL,
@@ -427,13 +630,64 @@ export const authErrorHandler = (errorCode: EAuthenticationErrorCodes, email?: s
     EAuthenticationErrorCodes.PASSWORD_TOO_WEAK,
   ];
 
-  if (bannerAlertErrorCodes.includes(errorCode))
+  if (bannerAlertErrorCodes.includes(errorCode)) {
+    const fallbackTitle = errorCodeMessages[errorCode]?.title || "Error";
+    const fallbackMessageNode = errorCodeMessages[errorCode]?.message(email) || "Something went wrong. Please try again.";
+    const fallbackMessage = typeof fallbackMessageNode === "string" ? fallbackMessageNode : "Something went wrong. Please try again.";
+    const i18nKeys = AUTH_ERROR_I18N_KEYS[errorCode];
+
+    if (errorCode === EAuthenticationErrorCodes.USER_ALREADY_EXIST) {
+      return {
+        type: EErrorAlertType.BANNER_ALERT,
+        code: errorCode,
+        title: tt("auth.error_codes.user_already_exist.title", fallbackTitle),
+        message: (
+          <div>
+            {tt("auth.error_codes.user_already_exist.message_prefix", "Your account is already registered.")}&nbsp;
+            <Link
+              className="font-medium underline underline-offset-4 transition-all hover:font-bold"
+              href={`/sign-in${email ? `?email=${encodeURIComponent(email)}` : ``}`}
+            >
+              {tt("auth.error_codes.common.sign_in_link", "Sign In")}
+            </Link>
+            &nbsp;{tt("auth.error_codes.common.now_suffix", "now.")}
+          </div>
+        ),
+      };
+    }
+
+    if (errorCode === EAuthenticationErrorCodes.USER_DOES_NOT_EXIST) {
+      return {
+        type: EErrorAlertType.BANNER_ALERT,
+        code: errorCode,
+        title: tt("auth.error_codes.user_does_not_exist.title", fallbackTitle),
+        message: (
+          <div>
+            {tt("auth.error_codes.user_does_not_exist.message_prefix", "No account found.")}&nbsp;
+            <Link
+              className="font-medium underline underline-offset-4 transition-all hover:font-bold"
+              href={`/${email ? `?email=${encodeURIComponent(email)}` : ``}`}
+            >
+              {tt("auth.error_codes.user_does_not_exist.create_one_link", "Create one")}
+            </Link>
+            &nbsp;{tt("auth.error_codes.user_does_not_exist.message_suffix", "to get started.")}
+          </div>
+        ),
+      };
+    }
+
+    const title = i18nKeys ? tt(i18nKeys.title, fallbackTitle) : fallbackTitle;
+    const message = i18nKeys
+      ? tt(i18nKeys.message, fallbackMessage, { support_email: SUPPORT_EMAIL ? SUPPORT_EMAIL : "administrator" })
+      : fallbackMessageNode;
+
     return {
       type: EErrorAlertType.BANNER_ALERT,
       code: errorCode,
-      title: errorCodeMessages[errorCode]?.title || "Error",
-      message: errorCodeMessages[errorCode]?.message(email) || "Something went wrong. Please try again.",
+      title,
+      message,
     };
+  }
 
   return undefined;
 };
