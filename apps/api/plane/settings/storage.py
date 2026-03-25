@@ -39,27 +39,32 @@ class S3Storage(S3Boto3Storage):
         self.signed_url_expiration = int(os.environ.get("SIGNED_URL_EXPIRATION", "3600"))
 
         if os.environ.get("USE_MINIO") == "1":
-            # Prefer MINIO_SERVER_URL if set (public-facing URL for presigned URLs).
-            # Without this, presigned URLs use request.get_host() which may return
-            # the internal LAN IP when HTTPS is terminated by an upstream proxy.
+            # Always use internal endpoint for S3 client (Docker network communication).
+            # Public-facing URL for presigned links is handled separately via _rewrite_presigned_url().
+            if os.environ.get("MINIO_ENDPOINT_SSL") == "1":
+                endpoint_protocol = "https"
+            else:
+                endpoint_protocol = request.scheme if request else "http"
+            # Determine the public URL to use in presigned URLs returned to browsers.
+            # Priority: MINIO_SERVER_URL env var → request host (may be LAN IP behind proxy).
             minio_server_url = os.environ.get("MINIO_SERVER_URL")
             if minio_server_url:
-                endpoint_url = minio_server_url
-            elif os.environ.get("MINIO_ENDPOINT_SSL") == "1":
-                endpoint_url = f"https://{request.get_host()}" if request else self.aws_s3_endpoint_url
+                self.minio_public_url = minio_server_url
+            elif request:
+                self.minio_public_url = f"{endpoint_protocol}://{request.get_host()}"
             else:
-                protocol = request.scheme if request else "http"
-                endpoint_url = f"{protocol}://{request.get_host()}" if request else self.aws_s3_endpoint_url
-            # Create an S3 client for MinIO
+                self.minio_public_url = None
+            # Create an S3 client using the internal Docker endpoint for actual API calls.
             self.s3_client = boto3.client(
                 "s3",
                 aws_access_key_id=self.aws_access_key_id,
                 aws_secret_access_key=self.aws_secret_access_key,
                 region_name=self.aws_region,
-                endpoint_url=endpoint_url,
+                endpoint_url=self.aws_s3_endpoint_url,
                 config=boto3.session.Config(signature_version="s3v4"),
             )
         else:
+            self.minio_public_url = None
             # Create an S3 client
             self.s3_client = boto3.client(
                 "s3",
@@ -69,6 +74,12 @@ class S3Storage(S3Boto3Storage):
                 endpoint_url=self.aws_s3_endpoint_url,
                 config=boto3.session.Config(signature_version="s3v4"),
             )
+
+    def _rewrite_presigned_url(self, url: str) -> str:
+        """Replace internal S3 endpoint with public-facing URL in presigned links."""
+        if self.minio_public_url and self.aws_s3_endpoint_url and url:
+            return url.replace(self.aws_s3_endpoint_url, self.minio_public_url, 1)
+        return url
 
     def generate_presigned_post(self, object_name, file_type, file_size, expiration=None):
         """Generate a presigned URL to upload an S3 object"""
@@ -104,6 +115,9 @@ class S3Storage(S3Boto3Storage):
             print(f"Error generating presigned POST URL: {e}")
             return None
 
+        # Rewrite internal endpoint URL to public-facing URL for browser access
+        if response:
+            response["url"] = self._rewrite_presigned_url(response["url"])
         return response
 
     def _get_content_disposition(self, disposition, filename=None):
@@ -144,8 +158,8 @@ class S3Storage(S3Boto3Storage):
             log_exception(e)
             return None
 
-        # The response contains the presigned URL
-        return response
+        # Rewrite internal endpoint URL to public-facing URL for browser access
+        return self._rewrite_presigned_url(response)
 
     def get_object_metadata(self, object_name):
         """Get the metadata for an S3 object"""
