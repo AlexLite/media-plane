@@ -1,7 +1,7 @@
 {
-  "tool_name": "mcp__Windows-MCP__PowerShell",
-  "tool_input_preview": "{\"command\":\"cd \\\"E:\\\\Dev\\\\projects\\\\Plane\\\\plane-l10n-ru-sync\\\" ; git status --short \\\"packages/i18n/src/locales/ru/core.ts\\\"\",\"timeout\":10}",
-  "error": "Error: MCP error -32001: Request timed out",
-  "timestamp": "2026-03-25T21:16:10.985Z",
-  "retry_count": 1
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd E:/Dev/projects/Plane/plane-l10n-ru-sync && git status --short && echo \\\"---\\\" && gh pr create --title \\\"feat(i18n-ru): fix translation architecture and complete ru localization\\\" --hea...",
+  "error": "Exit code 1\n M .omc/state/idle-notif-cooldown.json\n M .omc/state/last-tool-error.json\n---\npull request create failed: GraphQL: Resource not accessible by personal access token (createPullRequest)",
+  "timestamp": "2026-03-25T21:20:25.357Z",
+  "retry_count": 2
 }
