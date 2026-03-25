@@ -193,8 +193,7 @@ export default {
   stay_in_the_loop_on_issues_you_are_subscribed_to_enable_this_to_get_notified:
     "Будьте в курсе рабочих элементов, на которые вы подписаны. Включите уведомления.",
   email_notification_setting_updated_successfully: "Настройки уведомлений по электронной почте успешно обновлены",
-  failed_to_update_email_notification_setting:
-    "Не удалось обновить настройки уведомлений по электронной почте",
+  failed_to_update_email_notification_setting: "Не удалось обновить настройки уведомлений по электронной почте",
   notify_me_when: "Уведомлять меня, когда",
   property_changes: "Изменения свойств",
   property_changes_description:
@@ -431,8 +430,6 @@ export default {
   you: "Вы",
   labels: "Метки",
   create_new_label: "Создать новую метку",
-  start_date: "Дата начала",
-  end_date: "Дата окончания",
   due_date: "Срок выполнения",
   estimate: "Оценка",
   change_parent_issue: "Изменить родительский рабочий элемент",
@@ -1419,6 +1416,21 @@ export default {
     no_invitations: "Приглашения не найдены",
     join_or_create_title: "Присоединитесь по приглашению или создайте пространство",
     join_or_create_description: "Вся ваша работа — в одном месте.",
+  },
+  workspace_invitation_page: {
+    invited_to: "Вас пригласили в {{workspace_name}}",
+    description:
+      "Рабочее пространство — это место, где вы создаёте проекты, совместно работаете над задачами и организуете различные потоки работы в вашем аккаунте Plane.",
+    accept: "Принять",
+    ignore: "Отклонить",
+    not_found: "Приглашение не найдено",
+    already_member: "Вы уже являетесь участником {{workspace_name}}",
+    link_not_active: "Ссылка-приглашение больше не активна.",
+    start_empty_project: "Или начните с пустого проекта",
+    sign_in_to_continue: "Войдите, чтобы продолжить",
+    continue_to_home: "На главную",
+    star_on_github: "Поставить звезду на GitHub",
+    join_community: "Присоединяйтесь к нашему сообществу",
   },
   onboarding_role_setup: {
     title: "Какая у вас роль?",
@@ -3268,8 +3280,10 @@ export default {
   horizontal_navigation_bar: "Вкладочная навигация",
   selected_items_will_always_stay_visible:
     "Выбранные элементы всегда будут видны в боковой панели. Остальные вы в любой момент найдете в меню «Ещё». Эти изменения применяются только к вашему интерфейсу и не влияют на других участников рабочего пространства.",
-  feature_tabs_nested_under_project: "Вкладки функций будут отображаться вложенными пунктами внутри проекта в формате аккордеона.",
-  feature_tabs_horizontal_inside_project: "Вкладки функций будут отображаться горизонтальными вкладками внутри проекта.",
+  feature_tabs_nested_under_project:
+    "Вкладки функций будут отображаться вложенными пунктами внутри проекта в формате аккордеона.",
+  feature_tabs_horizontal_inside_project:
+    "Вкладки функций будут отображаться горизонтальными вкладками внутри проекта.",
   minimum_value_is_1: "Минимальное значение — 1",
   show_limited_projects_on_sidebar: "Показывать ограниченное число проектов",
   enter_number_of_projects: "Введите количество проектов",
