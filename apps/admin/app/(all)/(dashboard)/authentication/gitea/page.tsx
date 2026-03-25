@@ -15,6 +15,7 @@ import giteaLogo from "@/app/assets/logos/gitea-logo.svg?url";
 // components
 import { AuthenticationMethodCard } from "@/components/authentication/authentication-method-card";
 import { PageWrapper } from "@/components/common/page-wrapper";
+import { getAdminTranslation, useAdminTranslation } from "@/helpers/i18n";
 // hooks
 import { useInstance } from "@/hooks/store";
 // types
@@ -23,6 +24,7 @@ import type { Route } from "./+types/page";
 import { InstanceGiteaConfigForm } from "./form";
 
 const InstanceGiteaAuthenticationPage = observer(function InstanceGiteaAuthenticationPage() {
+  const { t } = useAdminTranslation();
   // store
   const { fetchInstanceConfigurations, formattedConfig, updateInstanceConfigurations } = useInstance();
   // state
@@ -41,14 +43,15 @@ const InstanceGiteaAuthenticationPage = observer(function InstanceGiteaAuthentic
     const updateConfigPromise = updateInstanceConfigurations(payload);
 
     setPromiseToast(updateConfigPromise, {
-      loading: "Saving Configuration",
+      loading: t("saving_configuration"),
       success: {
-        title: "Configuration saved",
-        message: () => `Gitea authentication is now ${value === "1" ? "active" : "disabled"}.`,
+        title: t("configuration_saved"),
+        message: () =>
+          t(value === "1" ? "gitea_authentication_active" : "gitea_authentication_disabled"),
       },
       error: {
-        title: "Error",
-        message: () => "Failed to save configuration",
+        title: t("error"),
+        message: () => t("configuration_save_failed"),
       },
     });
 
@@ -68,9 +71,9 @@ const InstanceGiteaAuthenticationPage = observer(function InstanceGiteaAuthentic
     <PageWrapper
       customHeader={
         <AuthenticationMethodCard
-          name="Gitea"
-          description="Allow members to login or sign up to plane with their Gitea accounts."
-          icon={<img src={giteaLogo} height={24} width={24} alt="Gitea Logo" />}
+          name={t("gitea")}
+          description={t("gitea_auth_description")}
+          icon={<img src={giteaLogo} height={24} width={24} alt={t("gitea_logo_alt")} />}
           config={
             <ToggleSwitch
               value={isGiteaEnabled}
@@ -100,6 +103,6 @@ const InstanceGiteaAuthenticationPage = observer(function InstanceGiteaAuthentic
     </PageWrapper>
   );
 });
-export const meta: Route.MetaFunction = () => [{ title: "Gitea Authentication - God Mode" }];
+export const meta: Route.MetaFunction = () => [{ title: getAdminTranslation("gitea_auth_meta_title") }];
 
 export default InstanceGiteaAuthenticationPage;

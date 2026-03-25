@@ -7,6 +7,7 @@
 import type { FC } from "react";
 import { isEmpty } from "lodash-es";
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 // plane helpers
 import { EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
 // components
@@ -22,6 +23,7 @@ import { useUserPermissions } from "@/hooks/store/user";
 import { SidebarTeamsList } from "@/plane-web/components/workspace/sidebar/teams-sidebar-list";
 
 export const AppSidebar = observer(function AppSidebar() {
+  const { t } = useTranslation();
   // store hooks
   const { allowPermissions } = useUserPermissions();
   const { groupedFavorites } = useFavorite();
@@ -35,7 +37,7 @@ export const AppSidebar = observer(function AppSidebar() {
   const isFavoriteEmpty = isEmpty(groupedFavorites);
 
   return (
-    <SidebarWrapper title="Projects" quickActions={<SidebarQuickActions />}>
+    <SidebarWrapper title={t("projects")} quickActions={<SidebarQuickActions />} showCustomizeNavigation>
       <SidebarMenuItems />
       {/* Favorites Menu */}
       {canPerformWorkspaceMemberActions && !isFavoriteEmpty && <SidebarFavoritesMenu />}

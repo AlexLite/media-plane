@@ -14,6 +14,7 @@ import GoogleLogo from "@/app/assets/logos/google-logo.svg?url";
 // components
 import { AuthenticationMethodCard } from "@/components/authentication/authentication-method-card";
 import { PageWrapper } from "@/components/common/page-wrapper";
+import { getAdminTranslation, useAdminTranslation } from "@/helpers/i18n";
 // hooks
 import { useInstance } from "@/hooks/store";
 // types
@@ -24,6 +25,7 @@ import { InstanceGoogleConfigForm } from "./form";
 const InstanceGoogleAuthenticationPage = observer(function InstanceGoogleAuthenticationPage(
   _props: Route.ComponentProps
 ) {
+  const { t } = useAdminTranslation();
   // store
   const { fetchInstanceConfigurations, formattedConfig, updateInstanceConfigurations } = useInstance();
   // state
@@ -43,14 +45,15 @@ const InstanceGoogleAuthenticationPage = observer(function InstanceGoogleAuthent
     const updateConfigPromise = updateInstanceConfigurations(payload);
 
     setPromiseToast(updateConfigPromise, {
-      loading: "Saving Configuration",
+      loading: t("saving_configuration"),
       success: {
-        title: "Configuration saved",
-        message: () => `Google authentication is now ${value === "1" ? "active" : "disabled"}.`,
+        title: t("configuration_saved"),
+        message: () =>
+          t(value === "1" ? "google_authentication_active" : "google_authentication_disabled"),
       },
       error: {
-        title: "Error",
-        message: () => "Failed to save configuration",
+        title: t("error"),
+        message: () => t("configuration_save_failed"),
       },
     });
 
@@ -67,10 +70,9 @@ const InstanceGoogleAuthenticationPage = observer(function InstanceGoogleAuthent
     <PageWrapper
       customHeader={
         <AuthenticationMethodCard
-          name="Google"
-          description="Allow members to login or sign up to plane with their Google
-            accounts."
-          icon={<img src={GoogleLogo} height={24} width={24} alt="Google Logo" />}
+          name={t("google")}
+          description={t("google_auth_description")}
+          icon={<img src={GoogleLogo} height={24} width={24} alt={t("google_logo_alt")} />}
           config={
             <ToggleSwitch
               value={Boolean(parseInt(enableGoogleConfig))}
@@ -105,6 +107,6 @@ const InstanceGoogleAuthenticationPage = observer(function InstanceGoogleAuthent
   );
 });
 
-export const meta: Route.MetaFunction = () => [{ title: "Google Authentication - God Mode" }];
+export const meta: Route.MetaFunction = () => [{ title: getAdminTranslation("google_auth_meta_title") }];
 
 export default InstanceGoogleAuthenticationPage;

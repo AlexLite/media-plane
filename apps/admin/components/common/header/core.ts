@@ -4,16 +4,18 @@
  * See the LICENSE file for details.
  */
 
+import { getAdminTranslation } from "@/helpers/i18n";
+
 export const CORE_HEADER_SEGMENT_LABELS: Record<string, string> = {
-  general: "General",
-  ai: "Artificial Intelligence",
-  email: "Email",
-  authentication: "Authentication",
-  image: "Image",
-  google: "Google",
-  github: "GitHub",
-  gitlab: "GitLab",
-  gitea: "Gitea",
-  workspace: "Workspace",
-  create: "Create",
+  general: getAdminTranslation("header_general"),
+  ai: getAdminTranslation("header_ai"),
+  email: getAdminTranslation("header_email"),
+  authentication: getAdminTranslation("header_authentication"),
+  image: getAdminTranslation("header_image"),
+  google: getAdminTranslation("google"),
+  github: getAdminTranslation("github"),
+  gitlab: getAdminTranslation("gitlab"),
+  gitea: getAdminTranslation("gitea"),
+  workspace: getAdminTranslation("header_workspace"),
+  create: getAdminTranslation("header_create"),
 };

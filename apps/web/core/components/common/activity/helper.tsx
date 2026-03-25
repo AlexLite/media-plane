@@ -79,17 +79,35 @@ export const iconsMap: ActivityIconMap = {
   intake_view: IntakeIcon,
 };
 
-export const messages = (activity: TProjectActivity): { message: string | ReactNode; customUserName?: string } => {
+type TTranslateFn = (key: string) => string;
+
+export const messages = (
+  activity: TProjectActivity,
+  t?: TTranslateFn
+): { message: string | ReactNode; customUserName?: string } => {
   const activityType = activity.field;
   const newValue = activity.new_value;
   const oldValue = activity.old_value;
   const verb = activity.verb;
   const workspaceDetail = store.workspaceRoot.getWorkspaceById(activity.workspace);
 
+  const tt = (key: string, fallback: string) => {
+    if (!t) return fallback;
+    const translated = t(key);
+    return translated === key ? fallback : translated;
+  };
+
+  const verbText = (value: string | undefined) => {
+    if (value === "created") return tt("project_activity_feed.verbs.created", "created");
+    if (value === "removed") return tt("project_activity_feed.verbs.removed", "removed");
+    if (value === "updated") return tt("project_activity_feed.verbs.updated", "updated");
+    return value ?? "";
+  };
+
   const getBooleanActionText = (value: string | undefined) => {
-    if (value === "true") return "enabled";
-    if (value === "false") return "disabled";
-    return verb;
+    if (value === "true") return tt("project_activity_feed.enabled", "enabled");
+    if (value === "false") return tt("project_activity_feed.disabled", "disabled");
+    return verbText(verb);
   };
 
   switch (activityType) {
@@ -97,26 +115,33 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
       return {
         message: (
           <>
-            set the priority to <span className="font-medium text-primary">{newValue || "none"}</span>
+            {tt("project_activity_feed.set_priority_to", "set the priority to")}{" "}
+            <span className="font-medium text-primary">{newValue || tt("project_activity_feed.none", "none")}</span>
           </>
         ),
       };
     case "archived_at":
       return {
-        message: newValue === "restore" ? "restored the project" : "archived the project",
+        message:
+          newValue === "restore"
+            ? tt("project_activity_feed.restored_project", "restored the project")
+            : tt("project_activity_feed.archived_project", "archived the project"),
         customUserName: newValue === "archive" ? "Plane" : undefined,
       };
     case "name":
       return {
         message: (
           <>
-            renamed the project to <span className="font-medium text-primary">{newValue}</span>
+            {tt("project_activity_feed.renamed_project_to", "renamed the project to")}{" "}
+            <span className="font-medium text-primary">{newValue}</span>
           </>
         ),
       };
     case "description":
       return {
-        message: newValue ? "updated the project description" : "removed the project description",
+        message: newValue
+          ? tt("project_activity_feed.updated_project_description", "updated the project description")
+          : tt("project_activity_feed.removed_project_description", "removed the project description"),
       };
     case "start_date":
       return {
@@ -124,10 +149,11 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
           <>
             {newValue ? (
               <>
-                set the start date to <span className="font-medium text-primary">{newValue}</span>
+                {tt("project_activity_feed.set_start_date_to", "set the start date to")}{" "}
+                <span className="font-medium text-primary">{newValue}</span>
               </>
             ) : (
-              "removed the start date"
+              tt("project_activity_feed.removed_start_date", "removed the start date")
             )}
           </>
         ),
@@ -138,10 +164,11 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
           <>
             {newValue ? (
               <>
-                set the target date to <span className="font-medium text-primary">{newValue}</span>
+                {tt("project_activity_feed.set_target_date_to", "set the target date to")}{" "}
+                <span className="font-medium text-primary">{newValue}</span>
               </>
             ) : (
-              "removed the target date"
+              tt("project_activity_feed.removed_target_date", "removed the target date")
             )}
           </>
         ),
@@ -150,7 +177,8 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
       return {
         message: (
           <>
-            set the state to <span className="font-medium text-primary">{newValue || "none"}</span>
+            {tt("project_activity_feed.set_state_to", "set the state to")}{" "}
+            <span className="font-medium text-primary">{newValue || tt("project_activity_feed.none", "none")}</span>
           </>
         ),
       };
@@ -160,11 +188,12 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
           <>
             {newValue ? (
               <>
-                set the estimate point to <span className="font-medium text-primary">{newValue}</span>
+                {tt("project_activity_feed.set_estimate_to", "set the estimate point to")}{" "}
+                <span className="font-medium text-primary">{newValue}</span>
               </>
             ) : (
               <>
-                removed the estimate point
+                {tt("project_activity_feed.removed_estimate", "removed the estimate point")}
                 {oldValue && (
                   <>
                     {" "}
@@ -181,7 +210,11 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
         message: (
           <>
             <span>
-              {verb} this project {verb === "removed" ? "from" : "to"} the cycle{" "}
+              {verbText(verb)} {tt("project_activity_feed.this_project", "this project")}{" "}
+              {verb === "removed"
+                ? tt("project_activity_feed.from", "from")
+                : tt("project_activity_feed.to", "to")}{" "}
+              {tt("project_activity_feed.the_cycle", "the cycle")}{" "}
             </span>
             {verb !== "removed" ? (
               <a
@@ -193,7 +226,9 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
                 {activity.new_value}
               </a>
             ) : (
-              <span className="font-medium text-primary">{activity.old_value || "Unknown cycle"}</span>
+              <span className="font-medium text-primary">
+                {activity.old_value || tt("project_activity_feed.unknown_cycle", "Unknown cycle")}
+              </span>
             )}
           </>
         ),
@@ -203,10 +238,14 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
         message: (
           <>
             <span>
-              {verb} this project {verb === "removed" ? "from" : "to"} the module{" "}
+              {verbText(verb)} {tt("project_activity_feed.this_project", "this project")}{" "}
+              {verb === "removed"
+                ? tt("project_activity_feed.from", "from")
+                : tt("project_activity_feed.to", "to")}{" "}
+              {tt("project_activity_feed.the_module", "the module")}{" "}
             </span>
             <span className="font-medium text-primary">
-              {verb === "removed" ? oldValue : newValue || "Unknown module"}
+              {verb === "removed" ? oldValue : newValue || tt("project_activity_feed.unknown_module", "Unknown module")}
             </span>
           </>
         ),
@@ -215,33 +254,51 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
       return {
         message: (
           <>
-            {verb} the label{" "}
-            <span className="font-medium text-primary">{newValue || oldValue || "Untitled label"}</span>
+            {verbText(verb)} {tt("project_activity_feed.the_label", "the label")}{" "}
+            <span className="font-medium text-primary">
+              {newValue || oldValue || tt("project_activity_feed.untitled_label", "Untitled label")}
+            </span>
           </>
         ),
       };
     case "inbox":
       return {
-        message: <>{newValue ? "enabled" : "disabled"} inbox</>,
+        message: (
+          <>
+            {newValue ? tt("project_activity_feed.enabled", "enabled") : tt("project_activity_feed.disabled", "disabled")}{" "}
+            {tt("project_activity_feed.inbox", "inbox")}
+          </>
+        ),
       };
     case "page":
       return {
         message: (
           <>
-            {newValue ? "created" : "removed"} the project page{" "}
-            <span className="font-medium text-primary">{newValue || oldValue || "Untitled page"}</span>
+            {newValue
+              ? tt("project_activity_feed.verbs.created", "created")
+              : tt("project_activity_feed.verbs.removed", "removed")}{" "}
+            {tt("project_activity_feed.the_project_page", "the project page")}{" "}
+            <span className="font-medium text-primary">
+              {newValue || oldValue || tt("project_activity_feed.untitled_page", "Untitled page")}
+            </span>
           </>
         ),
       };
     case "network":
       return {
-        message: <>{newValue ? "enabled" : "disabled"} network access</>,
+        message: (
+          <>
+            {newValue ? tt("project_activity_feed.enabled", "enabled") : tt("project_activity_feed.disabled", "disabled")}{" "}
+            {tt("project_activity_feed.network_access", "network access")}
+          </>
+        ),
       };
     case "identifier":
       return {
         message: (
           <>
-            updated project identifier to <span className="font-medium text-primary">{newValue || "none"}</span>
+            {tt("project_activity_feed.updated_project_identifier_to", "updated project identifier to")}{" "}
+            <span className="font-medium text-primary">{newValue || tt("project_activity_feed.none", "none")}</span>
           </>
         ),
       };
@@ -249,7 +306,8 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
       return {
         message: (
           <>
-            changed project timezone to <span className="font-medium text-primary">{newValue || "default"}</span>
+            {tt("project_activity_feed.changed_project_timezone_to", "changed project timezone to")}{" "}
+            <span className="font-medium text-primary">{newValue || tt("project_activity_feed.default", "default")}</span>
           </>
         ),
       };
@@ -261,33 +319,54 @@ export const messages = (activity: TProjectActivity): { message: string | ReactN
       return {
         message: (
           <>
-            {getBooleanActionText(newValue)} {activityType.replace(/_view$/, "").replace(/_/g, " ")} view
+            {getBooleanActionText(newValue)} {activityType.replace(/_view$/, "").replace(/_/g, " ")}{" "}
+            {tt("project_activity_feed.view", "view")}
           </>
         ),
       };
     case "is_project_updates_enabled":
       return {
-        message: <>{getBooleanActionText(newValue)} project updates</>,
+        message: (
+          <>
+            {getBooleanActionText(newValue)} {tt("project_activity_feed.project_updates", "project updates")}
+          </>
+        ),
       };
     case "is_epic_enabled":
       return {
-        message: <>{getBooleanActionText(newValue)} epics</>,
+        message: (
+          <>
+            {getBooleanActionText(newValue)} {tt("project_activity_feed.epics", "epics")}
+          </>
+        ),
       };
     case "is_workflow_enabled":
       return {
-        message: <>{getBooleanActionText(newValue)} custom workflow</>,
+        message: (
+          <>
+            {getBooleanActionText(newValue)} {tt("project_activity_feed.custom_workflow", "custom workflow")}
+          </>
+        ),
       };
     case "is_time_tracking_enabled":
       return {
-        message: <>{getBooleanActionText(newValue)} time tracking</>,
+        message: (
+          <>
+            {getBooleanActionText(newValue)} {tt("project_activity_feed.time_tracking", "time tracking")}
+          </>
+        ),
       };
     case "is_issue_type_enabled":
       return {
-        message: <>{getBooleanActionText(newValue)} work item types</>,
+        message: (
+          <>
+            {getBooleanActionText(newValue)} {tt("project_activity_feed.work_item_types", "work item types")}
+          </>
+        ),
       };
     default:
       return {
-        message: `${verb} ${activityType?.replace(/_/g, " ")} `,
+        message: `${verbText(verb)} ${activityType?.replace(/_/g, " ")} `,
       };
   }
 };

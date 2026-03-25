@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import { LogoSpinner } from "@/components/common/logo-spinner";
 import { InstanceFailureView } from "@/components/instance/failure";
 import { InstanceSetupForm } from "@/components/instance/setup-form";
+import { getAdminTranslation } from "@/helpers/i18n";
 // hooks
 import { useInstance } from "@/hooks/store";
 // components
@@ -45,6 +46,6 @@ function HomePage() {
 export default observer(HomePage);
 
 export const meta: Route.MetaFunction = () => [
-  { title: "Admin – Instance Setup & Sign-In" },
-  { name: "description", content: "Configure your Plane instance or sign in to the admin portal." },
+  { title: getAdminTranslation("admin_meta_title") },
+  { name: "description", content: getAdminTranslation("admin_meta_description") },
 ];

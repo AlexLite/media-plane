@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import { GripVertical } from "lucide-react";
 import { EIconSize, STATE_TRACKER_ELEMENTS } from "@plane/constants";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { EditIcon, StateGroupIcon } from "@plane/propel/icons";
 import type { IState, TStateOperationsCallbacks } from "@plane/types";
 // local imports
@@ -36,11 +37,31 @@ export type TStateItemTitleProps = TEnabledStateItemTitleProps | TDisabledStateI
 
 export const StateItemTitle = observer(function StateItemTitle(props: TStateItemTitleProps) {
   const { stateCount, setUpdateStateModal, disabled, state, shouldShowDescription = true } = props;
+  const { t } = useTranslation();
   // store hooks
   const { getStatePercentageInGroup } = useProjectState();
   // derived values
   const statePercentage = getStatePercentageInGroup(state.id);
   const percentage = statePercentage ? statePercentage / 100 : undefined;
+  const defaultStateNameMap: Record<string, string> = {
+    backlog: "workspace_projects.state.backlog",
+    unstarted: "workspace_projects.state.unstarted",
+    "un-started": "workspace_projects.state.unstarted",
+    "un_started": "workspace_projects.state.unstarted",
+    todo: "workspace_projects.state.unstarted",
+    "to do": "workspace_projects.state.unstarted",
+    "in progress": "workspace_projects.state.started",
+    "in-progress": "workspace_projects.state.started",
+    "in_progress": "workspace_projects.state.started",
+    started: "workspace_projects.state.started",
+    done: "workspace_projects.state.completed",
+    completed: "workspace_projects.state.completed",
+    cancelled: "workspace_projects.state.cancelled",
+    canceled: "workspace_projects.state.cancelled",
+  };
+  const localizedStateName = defaultStateNameMap[state.name.toLowerCase()]
+    ? t(defaultStateNameMap[state.name.toLowerCase()])
+    : state.name;
 
   return (
     <div className="flex w-full items-center justify-between gap-2">
@@ -57,7 +78,7 @@ export const StateItemTitle = observer(function StateItemTitle(props: TStateItem
         </div>
         {/* state title and description */}
         <div className="min-h-5 px-2 text-13">
-          <h6 className="text-13 font-medium">{state.name}</h6>
+          <h6 className="text-13 font-medium">{localizedStateName}</h6>
           {shouldShowDescription && <p className="text-11 text-secondary">{state.description}</p>}
         </div>
       </div>

@@ -7,6 +7,7 @@
 import { observer } from "mobx-react";
 // plane imports
 import { START_OF_THE_WEEK_OPTIONS } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { EStartOfTheWeek } from "@plane/types";
 import { CustomSelect } from "@plane/ui";
@@ -23,13 +24,18 @@ export const StartOfWeekPreference = observer(function StartOfWeekPreference(pro
 }) {
   // hooks
   const { data: userProfile, updateUserProfile } = useUserProfile();
+  const { t } = useTranslation();
 
   const handleStartOfWeekChange = async (val: number) => {
     try {
       await updateUserProfile({ start_of_the_week: val });
-      setToast({ type: TOAST_TYPE.SUCCESS, title: "Success", message: "First day of the week updated successfully" });
+      setToast({
+        type: TOAST_TYPE.SUCCESS,
+        title: t("success"),
+        message: t("first_day_of_the_week_updated_successfully"),
+      });
     } catch (_error) {
-      setToast({ type: TOAST_TYPE.ERROR, title: "Update failed", message: "Please try again later." });
+      setToast({ type: TOAST_TYPE.ERROR, title: t("error"), message: t("something_went_wrong_please_try_again") });
     }
   };
 
@@ -40,7 +46,7 @@ export const StartOfWeekPreference = observer(function StartOfWeekPreference(pro
       control={
         <CustomSelect
           value={userProfile.start_of_the_week}
-          label={getStartOfWeekLabel(userProfile.start_of_the_week)}
+          label={t(getStartOfWeekLabel(userProfile.start_of_the_week) || "")}
           onChange={handleStartOfWeekChange}
           buttonClassName="border border-subtle-1"
           input
@@ -50,7 +56,7 @@ export const StartOfWeekPreference = observer(function StartOfWeekPreference(pro
           <>
             {START_OF_THE_WEEK_OPTIONS.map((day) => (
               <CustomSelect.Option key={day.value} value={day.value}>
-                {day.label}
+                {t(day.label)}
               </CustomSelect.Option>
             ))}
           </>

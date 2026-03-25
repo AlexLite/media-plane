@@ -26,6 +26,18 @@ type TInvitationFieldsProps = {
   className?: string;
 };
 
+const getWorkspaceRoleLabel = (role: number, t: (key: string) => string): string => {
+  switch (role) {
+    case 20:
+      return t("workspace_member_roles.admin");
+    case 15:
+      return t("workspace_member_roles.member");
+    case 10:
+    default:
+      return t("workspace_member_roles.guest");
+  }
+};
+
 export const InvitationFields = observer(function InvitationFields(props: TInvitationFieldsProps) {
   const {
     workspaceSlug,
@@ -91,16 +103,20 @@ export const InvitationFields = observer(function InvitationFields(props: TInvit
                 render={({ field: { value, onChange } }) => (
                   <CustomSelect
                     value={value}
-                    label={<span className="text-caption-sm-regular sm:text-body-xs-regular">{ROLE[value]}</span>}
+                    label={
+                      <span className="text-caption-sm-regular sm:text-body-xs-regular">
+                        {getWorkspaceRoleLabel(value, t)}
+                      </span>
+                    }
                     onChange={onChange}
                     className="w-24 flex-grow"
                     input
                   >
-                    {Object.entries(ROLE).map(([key, value]) => {
+                    {Object.keys(ROLE).map((key) => {
                       if (currentWorkspaceRole && currentWorkspaceRole >= parseInt(key))
                         return (
                           <CustomSelect.Option key={key} value={parseInt(key)}>
-                            {value}
+                            {getWorkspaceRoleLabel(parseInt(key), t)}
                           </CustomSelect.Option>
                         );
                     })}

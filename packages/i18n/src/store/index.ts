@@ -10,7 +10,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 // constants
 import { FALLBACK_LANGUAGE, SUPPORTED_LANGUAGES, LANGUAGE_STORAGE_KEY, ETranslationFiles } from "../constants";
 // core translations imports
-import { enCore, locales } from "../locales";
+import { enCore, ruCore, locales } from "../locales";
 // types
 import type { TLanguage, ILanguageOption, ITranslations } from "../types";
 
@@ -33,6 +33,7 @@ export class TranslationStore {
   // Core translations that are always loaded
   private coreTranslations: ITranslations = {
     en: enCore,
+    ru: ruCore,
   };
   // List of translations for each language
   private translations: ITranslations = {};
@@ -63,6 +64,14 @@ export class TranslationStore {
   private initializeLanguage() {
     if (typeof window === "undefined") return;
 
+    const defaultLanguage = getDefaultLanguage();
+    // If build-time default locale is explicitly configured (e.g. ru),
+    // keep startup language deterministic between SSR and hydration.
+    if (defaultLanguage !== FALLBACK_LANGUAGE) {
+      this.setLanguage(defaultLanguage);
+      return;
+    }
+
     const savedLocale = localStorage.getItem(LANGUAGE_STORAGE_KEY) as TLanguage;
     if (this.isValidLanguage(savedLocale)) {
       this.setLanguage(savedLocale);
@@ -70,7 +79,7 @@ export class TranslationStore {
     }
 
     // Fallback to default language
-    this.setLanguage(getDefaultLanguage());
+    this.setLanguage(defaultLanguage);
   }
 
   /** Loads the translations for the current language */

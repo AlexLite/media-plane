@@ -17,6 +17,8 @@ export enum EErrorAlertType {
   INLINE_EMAIL_CODE = "INLINE_EMAIL_CODE",
 }
 
+type TTranslateFn = (key: string) => string;
+
 const errorCodeMessages: {
   [key in EAdminAuthErrorCodes]: { title: string; message: (email?: string) => React.ReactNode };
 } = {
@@ -75,7 +77,48 @@ const errorCodeMessages: {
   },
 };
 
-export const authErrorHandler = (errorCode: EAdminAuthErrorCodes, email?: string): TAdminAuthErrorInfo | undefined => {
+const AUTH_ERROR_I18N_KEYS: Partial<Record<EAdminAuthErrorCodes, { title: string; message: string }>> = {
+  [EAdminAuthErrorCodes.ADMIN_ALREADY_EXIST]: {
+    title: "auth_error_admin_already_exists_title",
+    message: "auth_error_admin_already_exists_message",
+  },
+  [EAdminAuthErrorCodes.REQUIRED_ADMIN_EMAIL_PASSWORD_FIRST_NAME]: {
+    title: "auth_error_admin_required_email_password_first_name_title",
+    message: "auth_error_admin_required_email_password_first_name_message",
+  },
+  [EAdminAuthErrorCodes.INVALID_ADMIN_EMAIL]: {
+    title: "auth_error_invalid_admin_email_title",
+    message: "auth_error_invalid_admin_email_message",
+  },
+  [EAdminAuthErrorCodes.INVALID_ADMIN_PASSWORD]: {
+    title: "auth_error_invalid_admin_password_title",
+    message: "auth_error_invalid_admin_password_message",
+  },
+  [EAdminAuthErrorCodes.REQUIRED_ADMIN_EMAIL_PASSWORD]: {
+    title: "auth_error_email_and_password_required_title",
+    message: "auth_error_email_and_password_required_message",
+  },
+  [EAdminAuthErrorCodes.ADMIN_AUTHENTICATION_FAILED]: {
+    title: "auth_error_authentication_failed_title",
+    message: "auth_error_authentication_failed_message",
+  },
+  [EAdminAuthErrorCodes.ADMIN_USER_DEACTIVATED]: {
+    title: "auth_error_user_account_deactivated_title",
+    message: "auth_error_user_account_deactivated_message",
+  },
+};
+
+export const authErrorHandler = (
+  errorCode: EAdminAuthErrorCodes,
+  email?: string,
+  t?: TTranslateFn
+): TAdminAuthErrorInfo | undefined => {
+  const tt = (key: string, fallback: string) => {
+    if (!t) return fallback;
+    const translated = t(key);
+    return translated === key ? fallback : translated;
+  };
+
   const bannerAlertErrorCodes = [
     EAdminAuthErrorCodes.ADMIN_ALREADY_EXIST,
     EAdminAuthErrorCodes.REQUIRED_ADMIN_EMAIL_PASSWORD_FIRST_NAME,
@@ -88,13 +131,20 @@ export const authErrorHandler = (errorCode: EAdminAuthErrorCodes, email?: string
     EAdminAuthErrorCodes.ADMIN_USER_DEACTIVATED,
   ];
 
-  if (bannerAlertErrorCodes.includes(errorCode))
+  if (bannerAlertErrorCodes.includes(errorCode)) {
+    const fallbackTitle = errorCodeMessages[errorCode]?.title || "Error";
+    const fallbackMessageNode = errorCodeMessages[errorCode]?.message(email) || "Something went wrong. Please try again.";
+    const fallbackMessage =
+      typeof fallbackMessageNode === "string" ? fallbackMessageNode : "Something went wrong. Please try again.";
+    const i18nKeys = AUTH_ERROR_I18N_KEYS[errorCode];
+
     return {
       type: EErrorAlertType.BANNER_ALERT,
       code: errorCode,
-      title: errorCodeMessages[errorCode]?.title || "Error",
-      message: errorCodeMessages[errorCode]?.message(email) || "Something went wrong. Please try again.",
+      title: i18nKeys ? tt(i18nKeys.title, fallbackTitle) : fallbackTitle,
+      message: i18nKeys ? tt(i18nKeys.message, fallbackMessage) : fallbackMessageNode,
     };
+  }
 
   return undefined;
 };

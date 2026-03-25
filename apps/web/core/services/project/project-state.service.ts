@@ -40,10 +40,11 @@ export class ProjectStateService extends APIService {
       });
   }
 
-  async getIntakeState(workspaceSlug: string, projectId: string): Promise<IIntakeState> {
+  async getIntakeState(workspaceSlug: string, projectId: string): Promise<IIntakeState | null> {
     return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/intake-state/`)
       .then((response) => response?.data)
       .catch((error) => {
+        if (error?.response?.status === 404) return null;
         throw error?.response?.data;
       });
   }

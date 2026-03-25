@@ -5,196 +5,6 @@
  */
 
 export default {
-  sidebar: {
-    projects: "Проекты",
-    pages: "Страницы",
-    new_work_item: "Новый рабочий элемент",
-    home: "Главная",
-    your_work: "Ваша работа",
-    inbox: "Входящие",
-    workspace: "Рабочие пространства",
-    views: "Представления",
-    analytics: "Аналитика",
-    work_items: "Рабочие элементы",
-    cycles: "Циклы",
-    modules: "Модули",
-    intake: "Предложения",
-    drafts: "Черновики",
-    favorites: "Избранное",
-    pro: "Pro",
-    upgrade: "Обновить",
-    stickies: "Стикеры",
-  },
-  auth: {
-    common: {
-      email: {
-        label: "Электронная почта",
-        placeholder: "name@company.com",
-        errors: {
-          required: "Электронная почта обязательна",
-          invalid: "Недействительный адрес электронной почты",
-        },
-      },
-      password: {
-        label: "Пароль",
-        set_password: "Установить пароль",
-        placeholder: "Введите пароль",
-        confirm_password: {
-          label: "Подтвердите пароль",
-          placeholder: "Подтвердите пароль",
-        },
-        current_password: {
-          label: "Текущий пароль",
-        },
-        new_password: {
-          label: "Новый пароль",
-          placeholder: "Введите новый пароль",
-        },
-        change_password: {
-          label: {
-            default: "Сменить пароль",
-            submitting: "Смена пароля",
-          },
-        },
-        errors: {
-          match: "Пароли не совпадают",
-          empty: "Пожалуйста, введите ваш пароль",
-          length: "Длина пароля должна быть более 8 символов",
-          strength: {
-            weak: "Слабый пароль",
-            strong: "Сильный пароль",
-          },
-        },
-        submit: "Установить пароль",
-        toast: {
-          change_password: {
-            success: {
-              title: "Успех!",
-              message: "Пароль успешно изменён.",
-            },
-            error: {
-              title: "Ошибка!",
-              message: "Что-то пошло не так. Пожалуйста, попробуйте снова.",
-            },
-          },
-        },
-      },
-      unique_code: {
-        label: "Уникальный код",
-        placeholder: "123456",
-        paste_code: "Вставьте код, отправленный на вашу электронную почту",
-        requesting_new_code: "Запрос нового кода",
-        sending_code: "Отправка кода",
-      },
-      already_have_an_account: "Уже есть аккаунт?",
-      login: "Войти",
-      create_account: "Создать аккаунт",
-      new_to_plane: "Впервые в Plane?",
-      back_to_sign_in: "Вернуться к входу",
-      resend_in: "Отправить снова через {seconds} секунд",
-      sign_in_with_unique_code: "Войти с уникальным кодом",
-      forgot_password: "Забыли пароль?",
-    },
-    landing: {
-      work_in_all_dimensions: "Работайте во всех измерениях.",
-      welcome_back_to_plane: "С возвращением в Plane.",
-      create_your_plane_account: "Создайте аккаунт Plane.",
-    },
-    legal: {
-      sign_up_prefix: "Создавая аккаунт, вы понимаете и соглашаетесь с",
-      sign_in_prefix: "Входя в систему, вы понимаете и соглашаетесь с",
-      our: "нашими",
-      and: "и",
-      terms_of_service: "Условиями использования",
-      privacy_policy: "Политикой конфиденциальности",
-    },
-    footer: {
-      join_teams_building_with_plane: "Присоединяйтесь к 10 000+ командам, которые строят с Plane",
-    },
-    sign_up: {
-      header: {
-        label: "Создайте аккаунт, чтобы начать управлять работой с вашей командой.",
-        step: {
-          email: {
-            header: "Регистрация",
-            sub_header: "",
-          },
-          password: {
-            header: "Регистрация",
-            sub_header: "Зарегистрируйтесь, используя комбинацию электронная почта-пароль.",
-          },
-          unique_code: {
-            header: "Регистрация",
-            sub_header:
-              "Зарегистрируйтесь, используя уникальный код, отправленный на указанный выше адрес электронной почты.",
-          },
-        },
-      },
-      errors: {
-        password: {
-          strength: "Попробуйте установить сильный пароль для продолжения",
-        },
-      },
-    },
-    sign_in: {
-      header: {
-        label: "Войдите, чтобы начать управлять работой с вашей командой.",
-        step: {
-          email: {
-            header: "Войти или зарегистрироваться",
-            sub_header: "",
-          },
-          password: {
-            header: "Войти или зарегистрироваться",
-            sub_header: "Используйте комбинацию электронная почта-пароль для входа.",
-          },
-          unique_code: {
-            header: "Войти или зарегистрироваться",
-            sub_header:
-              "Войдите, используя уникальный код, отправленный на указанный выше адрес электронной почты.",
-          },
-        },
-      },
-    },
-    forgot_password: {
-      title: "Сбросьте ваш пароль",
-      description:
-        "Введите подтвержденный адрес электронной почты вашего аккаунта, и мы отправим вам ссылку для сброса пароля.",
-      email_sent: "Мы отправили ссылку для сброса на вашу электронную почту",
-      send_reset_link: "Отправить ссылку для сброса",
-      errors: {
-        smtp_not_enabled:
-          "Мы видим, что ваш администратор не включил SMTP, мы не сможем отправить ссылку для сброса пароля",
-      },
-      toast: {
-        success: {
-          title: "Письмо отправлено",
-          message:
-            "Проверьте ваши входящие для ссылки на сброс пароля. Если она не появится в течение нескольких минут, проверьте папку спама.",
-        },
-        error: {
-          title: "Ошибка!",
-          message: "Что-то пошло не так. Пожалуйста, попробуйте снова.",
-        },
-      },
-    },
-    reset_password: {
-      title: "Установите новый пароль",
-      description: "Обеспечьте безопасность вашего аккаунта с помощью сильного пароля",
-    },
-    set_password: {
-      title: "Обеспечьте безопасность вашего аккаунта",
-      description: "Установка пароля помогает вам безопасно входить в систему",
-    },
-    sign_out: {
-      toast: {
-        error: {
-          title: "Ошибка!",
-          message: "Не удалось выйти. Пожалуйста, попробуйте снова.",
-        },
-      },
-    },
-  },
   submit: "Отправить",
   cancel: "Отменить",
   loading: "Загрузка",
@@ -206,9 +16,79 @@ export default {
   yes: "Да",
   no: "Нет",
   ok: "OK",
+  skip: "Пропустить",
   name: "Имя",
   description: "Описание",
   search: "Поиск",
+  cycles_transfer_issues: {
+    title: "Перенос рабочих элементов",
+    search_placeholder: "Поиск цикла...",
+    success: "Рабочие элементы успешно перенесены",
+    error_transfer: "Не удалось перенести рабочие элементы. Попробуйте снова.",
+    error_fetch_cycle_details: "Не удалось получить данные цикла",
+    empty_current_cycle: "У вас нет активного цикла. Создайте цикл, чтобы перенести рабочие элементы.",
+  },
+  image_picker: {
+    search_for_images: "Поиск изображений",
+    no_images_found: "Изображения не найдены.",
+    drop_image_here_to_upload: "Отпустите изображение для загрузки",
+    drag_drop_image_here: "Перетащите изображение сюда",
+    max_size_error: "Размер изображения не должен превышать 5 МБ.",
+    invalid_format_error: "Загрузите файл в допустимом формате.",
+    supported_formats: "Поддерживаемые форматы: .jpeg, .jpg, .png, .webp",
+    uploading: "Загрузка",
+    upload_and_save: "Загрузить и сохранить",
+    image_not_uploaded: "Изображение не загружено",
+    image_could_not_be_uploaded: "Не удалось загрузить изображение",
+  },
+  project_multi_select: {
+    search_placeholder: "Поиск проектов",
+  },
+  project_activity_feed: {
+    verbs: {
+      created: "создал",
+      removed: "удалил",
+      updated: "обновил",
+    },
+    enabled: "включил",
+    disabled: "выключил",
+    none: "нет",
+    default: "по умолчанию",
+    set_priority_to: "установил приоритет",
+    restored_project: "восстановил проект",
+    archived_project: "архивировал проект",
+    renamed_project_to: "переименовал проект в",
+    updated_project_description: "обновил описание проекта",
+    removed_project_description: "удалил описание проекта",
+    set_start_date_to: "установил дату начала",
+    removed_start_date: "удалил дату начала",
+    set_target_date_to: "установил целевую дату",
+    removed_target_date: "удалил целевую дату",
+    set_state_to: "установил статус",
+    set_estimate_to: "установил оценку",
+    removed_estimate: "удалил оценку",
+    this_project: "этот проект",
+    from: "из",
+    to: "в",
+    the_cycle: "цикл",
+    unknown_cycle: "Неизвестный цикл",
+    the_module: "модуль",
+    unknown_module: "Неизвестный модуль",
+    the_label: "метку",
+    untitled_label: "Без названия",
+    inbox: "приём",
+    the_project_page: "страницу проекта",
+    untitled_page: "Страница без названия",
+    network_access: "доступ к сети",
+    updated_project_identifier_to: "обновил идентификатор проекта на",
+    changed_project_timezone_to: "изменил часовой пояс проекта на",
+    view: "представление",
+    project_updates: "обновления проекта",
+    epics: "эпики",
+    custom_workflow: "пользовательский workflow",
+    time_tracking: "учет времени",
+    work_item_types: "типы рабочих элементов",
+  },
   add_member: "Добавить участника",
   adding_members: "Добавление участников",
   remove_member: "Удалить участника",
@@ -246,6 +126,7 @@ export default {
   notifications: "Уведомления",
   workspaces: "Рабочие пространства",
   create_workspace: "Создать рабочее пространство",
+  create_new_workspace: "Создать новое рабочее пространство",
   invitations: "Приглашения",
   summary: "Сводка",
   assigned: "Назначено",
@@ -254,9 +135,34 @@ export default {
   you_do_not_have_the_permission_to_access_this_page: "У вас нет прав для доступа к этой странице.",
   something_went_wrong_please_try_again: "Что-то пошло не так. Пожалуйста, попробуйте еще раз.",
   load_more: "Загрузить еще",
+  failed_to_sign_out: "Не удалось выйти. Попробуйте снова.",
+  not_authorized: "Нет доступа!",
+  workspace_not_member_description:
+    "Вы не являетесь участником этого рабочего пространства. Обратитесь к администратору или проверьте ожидающие приглашения.",
+  check_pending_invites: "Проверить приглашения",
+  timezone_updated_successfully: "Часовой пояс успешно обновлен",
+  failed_to_update_timezone: "Не удалось обновить часовой пояс",
+  language_updated_successfully: "Язык успешно обновлен",
+  failed_to_update_language: "Не удалось обновить язык",
+  select_language: "Выберите язык",
+  profile_picture_deleted_successfully: "Фото профиля успешно удалено.",
+  profile_picture_delete_failed: "Не удалось удалить фото профиля. Попробуйте снова.",
+  failed_to_process_cover_image: "Не удалось обработать изображение обложки",
+  profile_updated_successfully: "Профиль успешно обновлен.",
+  profile_update_failed: "Не удалось обновить профиль. Попробуйте снова.",
+  please_enter_first_name: "Введите имя",
+  enter_your_first_name: "Введите ваше имя",
+  enter_your_last_name: "Введите вашу фамилию",
+  display_name_required: "Отображаемое имя обязательно.",
+  enter_your_display_name: "Введите отображаемое имя",
+  email_is_required: "Email обязателен.",
+  enter_your_email: "Введите ваш email",
   select_or_customize_your_interface_color_scheme: "Выберите или настройте цветовую схему интерфейса.",
   timezone_setting: "Текущий часовой пояс.",
   language_setting: "Выберите язык интерфейса.",
+  first_day_of_the_week: "Первый день недели",
+  first_day_of_the_week_description: "Это изменит отображение календарей во всем приложении.",
+  first_day_of_the_week_updated_successfully: "Первый день недели успешно обновлён",
   settings_moved_to_preferences: "Настройки часового пояса и языка перемещены в раздел предпочтений.",
   go_to_preferences: "Перейти к предпочтениям",
   theme: "Тема",
@@ -327,6 +233,18 @@ export default {
   stay_ahead_of_blockers: "Предупреждение блокирующих рабочих элементов",
   stay_ahead_of_blockers_description: "Выявление проблем между проектами и скрытых зависимостей между циклами.",
   analytics: "Аналитика",
+  add_page: "Добавить страницу",
+  created_on_date: "Создано {date}",
+  work_items_in_project:
+    "{count, plural, one {# рабочий элемент в проекте} few {# рабочих элемента в проекте} many {# рабочих элементов в проекте} other {# рабочих элементов в проекте}}",
+  work_items_in_cycle:
+    "{count, plural, one {# рабочий элемент в цикле} few {# рабочих элемента в цикле} many {# рабочих элементов в цикле} other {# рабочих элементов в цикле}}",
+  work_items_in_module:
+    "{count, plural, one {# рабочий элемент в модуле} few {# рабочих элемента в модуле} many {# рабочих элементов в модуле} other {# рабочих элементов в модуле}}",
+  no_member_yet: "Пока нет участников",
+  no_lead: "Лид не назначен",
+  start_date: "Дата начала",
+  end_date: "Дата окончания",
   workspace_invites: "Приглашения в рабочее пространство",
   enter_god_mode: "Режим администратора",
   workspace_logo: "Логотип рабочего пространства",
@@ -377,6 +295,17 @@ export default {
   project_id_max_char: "ID проекта должен содержать максимум 10 символов",
   project_description_placeholder: "Введите описание проекта",
   select_network: "Выбрать сеть",
+  access: "Доступ",
+  roles: "Роли",
+  suspended: "Приостановлен",
+  workspace_member_roles: {
+    admin: "Администратор",
+    member: "Участник",
+    guest: "Гость",
+    suspended: "Приостановлен",
+  },
+  created_date: "Дата создания",
+  custom_date: "Произвольный",
   lead: "Руководитель",
   date_range: "Диапазон дат",
   private: "Приватный",
@@ -448,6 +377,14 @@ export default {
   join_a_workspace_description: "Присоединиться к рабочему пространству",
   accept_and_join: "Принять и присоединиться",
   go_home: "На главную",
+  go_to_home: "Перейти на главную",
+  visit_profile: "Перейти в профиль",
+  workspace_not_found: "Рабочее пространство не найдено",
+  workspace_not_found_description:
+    "Рабочее пространство по этому URL не найдено. Возможно, оно не существует или у вас нет прав на просмотр.",
+  oops_something_went_wrong: "Упс! Что-то пошло не так.",
+  page_not_found_description:
+    "Извините, страница, которую вы ищете, не найдена. Возможно, она была удалена, переименована или временно недоступна.",
   no_pending_invites: "Нет ожидающих приглашений",
   you_can_see_here_if_someone_invites_you_to_a_workspace: "Здесь отображаются приглашения в рабочие пространства",
   back_to_home: "Вернуться на главную",
@@ -703,6 +640,10 @@ export default {
     estimates: "Оценки",
     estimate: "Оценка",
     created_at: "Создано в",
+    updated_at: "Обновлено в",
+    start_date: "Дата начала",
+    target_date: "Целевая дата",
+    custom: "Пользовательская",
     completed_at: "Завершено в",
     layout: "Макет",
     filters: "Фильтры",
@@ -784,6 +725,7 @@ export default {
     comments: "Комментарии",
     updates: "Обновления",
     clear_all: "Очистить все",
+    clear_filters: "Сбросить фильтры",
     copied: "Скопировано!",
     link_copied: "Ссылка скопирована!",
     link_copied_to_clipboard: "Ссылка скопирована в буфер обмена",
@@ -797,6 +739,11 @@ export default {
     optional: "Опционально",
     join: "Присоединиться",
     go_back: "Назад",
+    view_all: "Показать все",
+    view_less: "Свернуть",
+    search_results_for: "Результаты поиска для",
+    in_project: "в проекте:",
+    in_workspace: "в рабочем пространстве:",
     continue: "Продолжить",
     resend: "Отправить повторно",
     relations: "Связи",
@@ -949,6 +896,8 @@ export default {
     x_axis: "Ось X",
     y_axis: "Ось Y",
     metric: "Метрика",
+    date: "Дата",
+    completion: "Выполнение",
   },
   form: {
     title: {
@@ -1016,6 +965,11 @@ export default {
         success:
           "{count, plural, one {Рабочий элемент} other {Рабочие элементы}} успешно {count, plural, one {добавлен} other {добавлены}} в цикл.",
         loading: "Добавление {count, plural, one {рабочего элемента} other {рабочих элементов}} в цикл",
+      },
+      module: {
+        failed: "Не удалось добавить рабочий элемент в модуль. Попробуйте снова.",
+        success:
+          "{count, plural, one {Рабочий элемент} other {Рабочие элементы}} успешно {count, plural, one {добавлен} other {добавлены}} в модуль.",
       },
       assignee: "Добавить ответственных",
       start_date: "Добавить дату начала",
@@ -1356,6 +1310,237 @@ export default {
       },
     },
   },
+  onboarding_profile_setup: {
+    toast: {
+      success: {
+        title: "Успех",
+        completed: "Профиль успешно настроен!",
+      },
+      error: {
+        title: "Ошибка",
+        failed: "Не удалось завершить настройку профиля. Попробуйте снова!",
+        user_details_failed: "Не удалось обновить данные пользователя. Попробуйте снова!",
+      },
+    },
+    choose_image: "Выбрать изображение",
+    first_name: {
+      label: "Имя",
+      placeholder: "Иван",
+      errors: {
+        required: "Имя обязательно",
+        max_length: "Имя должно быть не длиннее 50 символов.",
+      },
+    },
+    last_name: {
+      label: "Фамилия",
+      placeholder: "Иванов",
+      errors: {
+        required: "Фамилия обязательна",
+        max_length: "Фамилия должна быть не длиннее 50 символов.",
+      },
+    },
+    password: {
+      label: "Задать пароль",
+      placeholder: "Новый пароль...",
+      confirm: {
+        errors: {
+          mismatch: "Пароли не совпадают",
+        },
+      },
+    },
+    role: {
+      question: "Какую роль вы выполняете? Выберите один вариант.",
+      errors: {
+        required: "Это поле обязательно",
+      },
+    },
+    domain: {
+      question: "В какой области вы работаете? Выберите один или несколько вариантов.",
+      errors: {
+        required: "Выберите хотя бы один вариант",
+      },
+    },
+    roles: {
+      individual_contributor: "Исполнитель",
+      senior_leader: "Старший руководитель",
+      manager: "Менеджер",
+      executive: "Топ-менеджер",
+      freelancer: "Фрилансер",
+      student: "Студент",
+    },
+    domains: {
+      engineering: "Разработка",
+      product: "Продукт",
+      marketing: "Маркетинг",
+      sales: "Продажи",
+      operations: "Операции",
+      legal: "Юридический отдел",
+      finance: "Финансы",
+      human_resources: "HR",
+      project: "Проекты",
+      other: "Другое",
+    },
+  },
+  onboarding_invite_members: {
+    title: "Пригласите команду",
+    description: "Работа в Plane эффективнее вместе с командой. Пригласите коллег прямо сейчас.",
+    add_another: "Добавить еще",
+    later: "Сделаю позже",
+    errors: {
+      invalid_email: "Некорректный email",
+      invalid_email_hint: "Это не похоже на адрес электронной почты.",
+    },
+    toast: {
+      success: {
+        title: "Успешно!",
+        message: "Приглашения успешно отправлены.",
+      },
+      error: {
+        title: "Ошибка!",
+      },
+    },
+  },
+  onboarding_set_password: {
+    title: "Задать пароль",
+    placeholder: "Задайте пароль",
+    password_mismatch: "Пароли не совпадают",
+    passwords_match: "✓ Пароли совпадают",
+  },
+  onboarding_profile_consent: {
+    marketing: "Я согласен(а) на маркетинговые коммуникации Plane",
+  },
+  onboarding_invites: {
+    title: "Вас пригласили!",
+    description: "Примите приглашения, чтобы работать вместе с командой.",
+    continue_to_workspace: "Перейти в пространство",
+    or: "или",
+    create_workspace: "Создать свое пространство",
+    create_new_workspace: "Создать новое пространство",
+    no_invitations: "Приглашения не найдены",
+    join_or_create_title: "Присоединитесь по приглашению или создайте пространство",
+    join_or_create_description: "Вся ваша работа — в одном месте.",
+  },
+  onboarding_role_setup: {
+    title: "Какая у вас роль?",
+    description: "Настроим Plane под ваш стиль работы.",
+    select_one: "Выберите один вариант",
+    roles: {
+      product_manager: "Продакт-менеджер",
+      engineering_manager: "Инженерный менеджер",
+      designer: "Дизайнер",
+      developer: "Разработчик",
+      founder_executive: "Основатель/руководитель",
+      operations_manager: "Операционный менеджер",
+      others: "Другое",
+    },
+  },
+  onboarding_use_case_setup: {
+    title: "Что привело вас в Plane?",
+    description: "Расскажите о ваших целях и размере команды.",
+    select_one_or_more: "Выберите один или несколько вариантов",
+    options: {
+      plan_and_track_product_roadmaps: "Планировать и вести продуктовые роадмапы",
+      manage_engineering_sprints: "Управлять инженерными спринтами",
+      coordinate_cross_functional_projects: "Координировать кросс-функциональные проекты",
+      replace_current_tool: "Заменить текущий инструмент",
+      just_exploring: "Просто изучаю",
+    },
+  },
+  project_modals: {
+    delete_project: {
+      title: "Удалить проект",
+      description:
+        "Вы уверены, что хотите удалить проект {projectName}? Все данные, связанные с проектом, будут удалены без возможности восстановления.",
+      project_name_prompt: "Введите имя проекта {projectName} для продолжения:",
+      project_name_placeholder: "Имя проекта",
+      confirm_prompt_prefix: "Для подтверждения введите",
+      confirm_phrase_input: "удалить мой проект",
+      confirm_prompt_suffix: "ниже:",
+      confirm_placeholder: "Введите 'удалить мой проект'",
+      submit: "Удалить проект",
+      deleting: "Удаление...",
+      toast: {
+        success: {
+          title: "Успешно!",
+          message: "Проект успешно удален.",
+        },
+        error: {
+          title: "Ошибка!",
+          message: "Что-то пошло не так. Пожалуйста, попробуйте позже.",
+        },
+      },
+    },
+    leave_project: {
+      title: "Покинуть проект",
+      description_prefix: "Вы уверены, что хотите покинуть проект -",
+      description_suffix: "Все связанные с вами рабочие элементы станут недоступны.",
+      project_name_prompt: "Введите имя проекта {projectName} для продолжения:",
+      project_name_placeholder: "Введите имя проекта",
+      confirm_prompt_prefix: "Для подтверждения введите",
+      confirm_phrase_input: "Покинуть проект",
+      confirm_prompt_suffix: "ниже:",
+      confirm_placeholder: "Введите 'Покинуть проект'",
+      submit: "Покинуть проект",
+      leaving: "Выход...",
+      errors: {
+        project_name_required: "Имя проекта обязательно",
+      },
+      toast: {
+        error: {
+          title: "Ошибка!",
+          generic: "Что-то пошло не так, пожалуйста, попробуйте позже.",
+          confirm_phrase: "Подтвердите выход из проекта, введя фразу 'Покинуть проект'.",
+          project_name: "Введите имя проекта, как указано в описании.",
+          all_fields: "Заполните все поля.",
+        },
+      },
+    },
+  },
+  page_modals: {
+    create: {
+      title: "Создать страницу",
+      name_placeholder: "Заголовок",
+      name_max_length: "Максимальная длина названия должна быть меньше 255 символов",
+      creating: "Создание",
+      submit: "Создать страницу",
+    },
+    export: {
+      title: "Экспорт страницы",
+      export_format: "Формат экспорта",
+      include_content: "Включить содержимое",
+      page_format: "Формат страницы",
+      exporting: "Экспорт",
+      submit: "Экспортировать",
+      options: {
+        format: {
+          pdf: "PDF",
+          markdown: "Markdown",
+        },
+        page_format: {
+          a4: "A4",
+          a3: "A3",
+          a2: "A2",
+          letter: "Letter",
+          legal: "Legal",
+          tabloid: "Tabloid",
+        },
+        content_variety: {
+          everything: "Все",
+          no_assets: "Без изображений",
+        },
+      },
+      toast: {
+        success: {
+          title: "Успешно!",
+          message: "Страница успешно экспортирована.",
+        },
+        error: {
+          title: "Ошибка!",
+          message: "Не удалось экспортировать страницу. Пожалуйста, попробуйте позже.",
+        },
+      },
+    },
+  },
   workspace_dashboard: {
     empty_state: {
       general: {
@@ -1564,6 +1749,85 @@ export default {
       content:
         "При подтверждении все параметры сортировки, фильтрации и отображения + макет, выбранный для этого представления, будут безвозвратно удалены без возможности восстановления.",
     },
+    toast: {
+      created_success: "Представление успешно создано.",
+      create_failed: "Не удалось создать представление. Попробуйте снова.",
+      updated_success: "Представление успешно обновлено.",
+      update_failed: "Не удалось обновить представление. Попробуйте снова.",
+      deleted_success: "Представление удалено.",
+      delete_failed: "Не удалось удалить представление. Попробуйте снова.",
+      not_found: {
+        title: "Представление не найдено",
+        message: "Представление, которое вы пытаетесь обновить, не существует.",
+      },
+    },
+  },
+  activity_feed: {
+    work_item_deleted_tooltip: "Этот рабочий элемент был удалён",
+    a_work_item: "рабочий элемент",
+    created: "создал",
+    deleted: "удалил",
+    converted: "преобразовал",
+    via: "через",
+    to_epic: "в эпик",
+    to_work_item: "в рабочий элемент",
+    commented: "Прокомментировал",
+    added: "добавил",
+    removed: "удалил",
+    marked: "отметил",
+    marked_that: "отметил, что",
+    this_work_item: "этот рабочий элемент",
+    to: "в",
+    from: "из",
+    for: "для",
+    of: "у",
+    added_new_assignee: "добавил нового исполнителя",
+    removed_assignee: "удалил исполнителя",
+    restored: "восстановил",
+    archived: "архивировал",
+    uploaded_attachment: "загрузил вложение",
+    removed_attachment: "удалил вложение",
+    updated_description: "обновил описание",
+    removed_estimate: "удалил оценку",
+    set_estimate_to: "установил оценку",
+    added_new_label: "добавил метку",
+    removed_label: "удалил метку",
+    added_this: "добавил эту",
+    updated_the: "обновил",
+    removed_this: "удалил эту",
+    to_cycle: "в цикл",
+    set_cycle_to: "установил цикл",
+    from_cycle: "из цикла",
+    to_module: "в модуль",
+    set_module_to: "установил модуль",
+    from_module: "из модуля",
+    set_title_to: "установил название",
+    removed_parent: "удалил родительский элемент",
+    set_parent_to: "установил родительский элемент",
+    set_priority_to: "установил приоритет",
+    relates_to: "связан с",
+    removed_relation_from: "удалил связь с",
+    is_blocking_work_item: "блокирует рабочий элемент",
+    removed_blocking_work_item: "удалил блокирующий рабочий элемент",
+    is_blocked_by: "блокируется рабочим элементом",
+    being_blocked_by_work_item: "блокируется рабочим элементом",
+    as_duplicate_of: "как дубликат",
+    set_state_to: "установил статус",
+    removed_start_date: "удалил дату начала",
+    set_start_date_to: "установил дату начала",
+    removed_due_date: "удалил срок",
+    set_due_date_to: "установил срок",
+    inbox: {
+      declined_issue: "отклонил рабочий элемент",
+      declined_no_issue: "отклонил этот рабочий элемент из приёма.",
+      snoozed_issue: "отложил рабочий элемент",
+      snoozed_no_issue: "отложил этот рабочий элемент.",
+      accepted_issue: "принял рабочий элемент",
+      accepted_no_issue: "принял этот рабочий элемент из приёма.",
+      declined_duplicate_no_issue: "отклонил этот рабочий элемент из приёма, отметив его дубликатом.",
+      updated_status: "обновил статус рабочего элемента во входящих.",
+      from_intake_by_marking_duplicate: "из приёма, отметив дубликат.",
+    },
   },
   account_settings: {
     profile: {
@@ -1632,6 +1896,11 @@ export default {
     copy_key:
       "Скопируйте и сохраните секретный ключ в Plane Pages. После закрытия ключ будет недоступен. CSV-файл с ключом был скачан.",
     token_copied: "Токен скопирован в буфер",
+    categories: {
+      administration: "Администрирование",
+      features: "Функции",
+      developer: "Разработка",
+    },
     settings: {
       general: {
         title: "Основные",
@@ -1648,6 +1917,13 @@ export default {
         delete_modal: {
           title: "Подтвердите удаление пространства",
           description: "У вас есть активная пробная подписка. Сначала отмените её.",
+          confirmation_prefix: "Вы собираетесь удалить пространство",
+          confirmation_suffix:
+            ". Если подтвердите действие, вы потеряете доступ ко всем данным в этом пространстве без возможности восстановления. Пожалуйста, будьте предельно внимательны.",
+          enter_workspace_name: "Введите имя этого пространства, чтобы продолжить.",
+          final_confirmation_prefix: "Для окончательного подтверждения введите",
+          confirm_phrase: "удалить мое пространство",
+          final_confirmation_suffix: "ниже.",
           dismiss: "Отмена",
           cancel: "Отменить подписку",
           success_title: "Пространство удалено",
@@ -1665,12 +1941,19 @@ export default {
             select_a_range: "Выберите размер организации",
           },
         },
+        toasts: {
+          workspace_updated: "Пространство успешно обновлено.",
+          workspace_logo_removed: "Логотип пространства успешно удалён.",
+          workspace_url_copied: "URL пространства скопирован в буфер обмена.",
+        },
       },
       members: {
         title: "Участники",
         add_member: "Добавить участника",
         pending_invites: "Ожидающие приглашения",
         invitations_sent_successfully: "Приглашения отправлены",
+        role_update_error: "Не удалось обновить роль участника. Попробуйте снова.",
+        invitation_removed_successfully: "Приглашение удалено.",
         leave_confirmation: "Подтвердите выход из пространства. Доступ будет утрачен. Это действие нельзя отменить.",
         details: {
           full_name: "Полное имя",
@@ -1834,6 +2117,8 @@ export default {
       state_distribution: {
         title: "Рабочие элементы по статусам",
         empty: "Создавайте рабочие элементы для анализа по статусам",
+        not_started: "Не начато",
+        working_on: "В работе",
       },
       priority_distribution: {
         title: "Рабочие элементы по приоритетам",
@@ -1882,6 +2167,12 @@ export default {
     },
   },
   project_settings: {
+    categories: {
+      general: "Общие",
+      features: "Функции",
+      work_structure: "Структура работ",
+      execution: "Исполнение",
+    },
     general: {
       enter_project_id: "Введите ID проекта",
       please_select_a_timezone: "Выберите часовой пояс",
@@ -1904,7 +2195,9 @@ export default {
     members: {
       label: "Участники",
       project_lead: "Руководитель проекта",
+      project_lead_description: "Выберите руководителя проекта.",
       default_assignee: "Ответственный по умолчанию",
+      default_assignee_description: "Выберите ответственного по умолчанию для проекта.",
       guest_super_permissions: {
         title: "Дать гостям доступ на просмотр всех рабочих элементов:",
         sub_heading: "Гости смогут просматривать все рабочие элементы проекта",
@@ -2024,6 +2317,15 @@ export default {
       label: "Автоматизация",
       heading: "Автоматизация",
       description: "Настройте автоматические действия для оптимизации рабочего процесса и сокращения ручных задач.",
+      select_month_modal: {
+        title: "Настроить период времени",
+        months_label: "Месяцы",
+        months_placeholder: "Введите количество месяцев",
+        submitting: "Отправка...",
+        errors: {
+          month_range: "Выберите значение от 1 до 12 месяцев.",
+        },
+      },
       "auto-archive": {
         title: "Автоархивация закрытых рабочих элементов",
         description: "Plane будет автоматически архивировать рабочие элементы, которые были завершены или отменены.",
@@ -2086,6 +2388,11 @@ export default {
         toggle_title: "Включить приём",
         toggle_description: "Разрешить участникам проекта создавать запросы на приём в приложении.",
       },
+      toasts: {
+        updating: "Обновление функции проекта...",
+        updated: "Функция проекта успешно обновлена.",
+        update_failed: "Не удалось обновить функцию проекта. Попробуйте снова.",
+      },
     },
   },
   project_cycles: {
@@ -2113,6 +2420,8 @@ export default {
       issue_burndown: "Выгорание рабочих элементов",
       ideal: "Идеальный",
       current: "Текущий",
+      pending_points: "Ожидающие поинты - {count}",
+      pending_work_items: "Ожидающие рабочие элементы - {count}",
       labels: "Метки",
     },
     upcoming_cycle: {
@@ -2700,6 +3009,10 @@ export default {
     edited_by: "Отредактировано",
   },
   self_hosted_maintenance_message: {
+    startup_failed_title: "\uD83D\uDEA7 Похоже, Plane запустился некорректно!",
+    startup_failed_description:
+      "Некоторые сервисы могли не запуститься. Проверьте логи контейнеров, чтобы найти и устранить проблему. Если не удается разобраться, обратитесь в нашу поддержку.",
+    contact_support: "Связаться с поддержкой",
     plane_didnt_start_up_this_could_be_because_one_or_more_plane_services_failed_to_start:
       "Plane не запустился. Это может быть из-за того, что один или несколько сервисов Plane не смогли запуститься.",
     choose_view_logs_from_setup_sh_and_docker_logs_to_be_sure:
@@ -2744,12 +3057,28 @@ export default {
     close_button: "Закрыть панель навигации",
     outline_floating_button: "Открыть структуру",
   },
+  project_states: {
+    mark_as_default: "Сделать по умолчанию",
+    marking_as_default: "Назначение по умолчанию",
+  },
   project_members: {
     full_name: "Полное имя",
     display_name: "Отображаемое имя",
     email: "Электронная почта",
     joining_date: "Дата присоединения",
     role: "Роль",
+    toasts: {
+      leave_failed_title: "Вы пока не можете покинуть этот проект.",
+      remove_failed_title: "Вы пока не можете удалить участника из этого проекта.",
+    },
+  },
+  navigation: {
+    toasts: {
+      default_tab_updated: "Вкладка по умолчанию успешно обновлена.",
+      default_tab_update_failed: "Не удалось обновить вкладку по умолчанию. Попробуйте позже.",
+      hide_tab_failed: "Не удалось скрыть вкладку. Попробуйте позже.",
+      show_tab_failed: "Что-то пошло не так. Попробуйте позже.",
+    },
   },
   power_k: {
     contextual_actions: {
@@ -2937,8 +3266,22 @@ export default {
   personal: "Личное",
   accordion_navigation_control: "Аккордеонная навигация",
   horizontal_navigation_bar: "Вкладочная навигация",
+  selected_items_will_always_stay_visible:
+    "Выбранные элементы всегда будут видны в боковой панели. Остальные вы в любой момент найдете в меню «Ещё». Эти изменения применяются только к вашему интерфейсу и не влияют на других участников рабочего пространства.",
+  feature_tabs_nested_under_project: "Вкладки функций будут отображаться вложенными пунктами внутри проекта в формате аккордеона.",
+  feature_tabs_horizontal_inside_project: "Вкладки функций будут отображаться горизонтальными вкладками внутри проекта.",
+  minimum_value_is_1: "Минимальное значение — 1",
   show_limited_projects_on_sidebar: "Показывать ограниченное число проектов",
   enter_number_of_projects: "Введите количество проектов",
   pin: "Закрепить",
   unpin: "Открепить",
+  weekday: {
+    sunday: "Воскресенье",
+    monday: "Понедельник",
+    tuesday: "Вторник",
+    wednesday: "Среда",
+    thursday: "Четверг",
+    friday: "Пятница",
+    saturday: "Суббота",
+  },
 } as const;

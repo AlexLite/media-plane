@@ -18,6 +18,7 @@ import githubDarkModeImage from "@/app/assets/logos/github-white.png?url";
 // components
 import { AuthenticationMethodCard } from "@/components/authentication/authentication-method-card";
 import { PageWrapper } from "@/components/common/page-wrapper";
+import { getAdminTranslation, useAdminTranslation } from "@/helpers/i18n";
 // hooks
 import { useInstance } from "@/hooks/store";
 // types
@@ -28,6 +29,7 @@ import { InstanceGithubConfigForm } from "./form";
 const InstanceGithubAuthenticationPage = observer(function InstanceGithubAuthenticationPage(
   _props: Route.ComponentProps
 ) {
+  const { t } = useAdminTranslation();
   // store
   const { fetchInstanceConfigurations, formattedConfig, updateInstanceConfigurations } = useInstance();
   // state
@@ -49,14 +51,15 @@ const InstanceGithubAuthenticationPage = observer(function InstanceGithubAuthent
     const updateConfigPromise = updateInstanceConfigurations(payload);
 
     setPromiseToast(updateConfigPromise, {
-      loading: "Saving Configuration",
+      loading: t("saving_configuration"),
       success: {
-        title: "Configuration saved",
-        message: () => `GitHub authentication is now ${value === "1" ? "active" : "disabled"}.`,
+        title: t("configuration_saved"),
+        message: () =>
+          t(value === "1" ? "github_authentication_active" : "github_authentication_disabled"),
       },
       error: {
-        title: "Error",
-        message: () => "Failed to save configuration",
+        title: t("error"),
+        message: () => t("configuration_save_failed"),
       },
     });
 
@@ -76,14 +79,14 @@ const InstanceGithubAuthenticationPage = observer(function InstanceGithubAuthent
     <PageWrapper
       customHeader={
         <AuthenticationMethodCard
-          name="GitHub"
-          description="Allow members to login or sign up to plane with their GitHub accounts."
+          name={t("github")}
+          description={t("github_auth_description")}
           icon={
             <img
               src={resolveGeneralTheme(resolvedTheme) === "dark" ? githubDarkModeImage : githubLightModeImage}
               height={24}
               width={24}
-              alt="GitHub Logo"
+              alt={t("github_logo_alt")}
             />
           }
           config={
@@ -116,6 +119,6 @@ const InstanceGithubAuthenticationPage = observer(function InstanceGithubAuthent
   );
 });
 
-export const meta: Route.MetaFunction = () => [{ title: "GitHub Authentication - God Mode" }];
+export const meta: Route.MetaFunction = () => [{ title: getAdminTranslation("github_auth_meta_title") }];
 
 export default InstanceGithubAuthenticationPage;
