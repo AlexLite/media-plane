@@ -110,3 +110,7 @@ build/
 .react-router/
 temp/
 scripts/
+
+# OMC tool state files
+.omc/state/
+.omc/project-memory.json

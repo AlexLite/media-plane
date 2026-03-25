@@ -39,36 +39,24 @@ class S3Storage(S3Boto3Storage):
         self.signed_url_expiration = int(os.environ.get("SIGNED_URL_EXPIRATION", "3600"))
 
         if os.environ.get("USE_MINIO") == "1":
-            if os.environ.get("MINIO_ENDPOINT_SSL") == "1":
-                endpoint_protocol = "https"
-            else:
-                endpoint_protocol = request.scheme if request else "http"
-            # Determine the public URL for presigned URLs returned to browsers.
-            # Priority: MINIO_SERVER_URL env var → request host.
+            # Prefer MINIO_SERVER_URL if set (public-facing URL for presigned URLs).
+            # Without this, presigned URLs use request.get_host() which may return
+            # the internal LAN IP when HTTPS is terminated by an upstream proxy.
             minio_server_url = os.environ.get("MINIO_SERVER_URL")
             if minio_server_url:
-                minio_public_url = minio_server_url
-            elif request:
-                minio_public_url = f"{endpoint_protocol}://{request.get_host()}"
+                endpoint_url = minio_server_url
+            elif os.environ.get("MINIO_ENDPOINT_SSL") == "1":
+                endpoint_url = f"https://{request.get_host()}" if request else self.aws_s3_endpoint_url
             else:
-                minio_public_url = self.aws_s3_endpoint_url
-            # Internal client for actual minio API calls (head, copy, upload, delete).
+                protocol = request.scheme if request else "http"
+                endpoint_url = f"{protocol}://{request.get_host()}" if request else self.aws_s3_endpoint_url
+            # Create an S3 client for MinIO
             self.s3_client = boto3.client(
                 "s3",
                 aws_access_key_id=self.aws_access_key_id,
                 aws_secret_access_key=self.aws_secret_access_key,
                 region_name=self.aws_region,
-                endpoint_url=self.aws_s3_endpoint_url,
-                config=boto3.session.Config(signature_version="s3v4"),
-            )
-            # Separate client for presigned URL generation — signed with public endpoint
-            # so AWS4 HMAC includes the correct host that browsers will connect to.
-            self.s3_presign_client = boto3.client(
-                "s3",
-                aws_access_key_id=self.aws_access_key_id,
-                aws_secret_access_key=self.aws_secret_access_key,
-                region_name=self.aws_region,
-                endpoint_url=minio_public_url,
+                endpoint_url=endpoint_url,
                 config=boto3.session.Config(signature_version="s3v4"),
             )
         else:
@@ -81,7 +69,6 @@ class S3Storage(S3Boto3Storage):
                 endpoint_url=self.aws_s3_endpoint_url,
                 config=boto3.session.Config(signature_version="s3v4"),
             )
-            self.s3_presign_client = self.s3_client
 
     def generate_presigned_post(self, object_name, file_type, file_size, expiration=None):
         """Generate a presigned URL to upload an S3 object"""
@@ -105,7 +92,7 @@ class S3Storage(S3Boto3Storage):
         # Generate the presigned POST URL
         try:
             # Generate a presigned URL for the S3 object
-            response = self.s3_presign_client.generate_presigned_post(
+            response = self.s3_client.generate_presigned_post(
                 Bucket=self.aws_storage_bucket_name,
                 Key=object_name,
                 Fields=fields,
@@ -143,7 +130,7 @@ class S3Storage(S3Boto3Storage):
             expiration = self.signed_url_expiration
         content_disposition = self._get_content_disposition(disposition, filename)
         try:
-            response = self.s3_presign_client.generate_presigned_url(
+            response = self.s3_client.generate_presigned_url(
                 "get_object",
                 Params={
                     "Bucket": self.aws_storage_bucket_name,
@@ -157,6 +144,7 @@ class S3Storage(S3Boto3Storage):
             log_exception(e)
             return None
 
+        # The response contains the presigned URL
         return response
 
     def get_object_metadata(self, object_name):
