@@ -23,6 +23,17 @@ const FILTER_LABEL_KEY_MAP: Record<string, string> = {
 };
 
 export const translateFilterLabel = (t: TTranslate, label: string) => {
-  const key = FILTER_LABEL_KEY_MAP[label];
-  return key ? t(key) : label;
+  const normalizedLabel = label.trim();
+  const key =
+    FILTER_LABEL_KEY_MAP[normalizedLabel] ??
+    FILTER_LABEL_KEY_MAP[
+      normalizedLabel
+        .toLowerCase()
+        .replace(/\s+/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase())
+    ];
+
+  if (key) return t(key);
+  if (normalizedLabel.includes(".")) return t(normalizedLabel);
+  return normalizedLabel;
 };
