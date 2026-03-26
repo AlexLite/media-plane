@@ -7,10 +7,9 @@
 import { useState } from "react";
 import { observer } from "mobx-react";
 import { SearchIcon, CloseIcon } from "@plane/propel/icons";
+import { useTranslation } from "@plane/i18n";
 // plane imports
 import type { TCycleFilters, TCycleGroups } from "@plane/types";
-// hooks
-import { usePlatformOS } from "@/hooks/use-platform-os";
 // local imports
 import { FilterEndDate } from "./end-date";
 import { FilterStartDate } from "./start-date";
@@ -26,8 +25,7 @@ export const CycleFiltersSelection = observer(function CycleFiltersSelection(pro
   const { filters, handleFiltersUpdate, isArchived = false } = props;
   // states
   const [filtersSearchQuery, setFiltersSearchQuery] = useState("");
-  // hooks
-  const { isMobile } = usePlatformOS();
+  const { t } = useTranslation();
 
   return (
     <div className="flex h-full w-full flex-col overflow-hidden">
@@ -37,10 +35,9 @@ export const CycleFiltersSelection = observer(function CycleFiltersSelection(pro
           <input
             type="text"
             className="w-full bg-surface-2 outline-none placeholder:text-placeholder"
-            placeholder="Search"
+            placeholder={t("common.search.label")}
             value={filtersSearchQuery}
             onChange={(e) => setFiltersSearchQuery(e.target.value)}
-            autoFocus={!isMobile}
           />
           {filtersSearchQuery !== "" && (
             <button type="button" className="grid place-items-center" onClick={() => setFiltersSearchQuery("")}>
