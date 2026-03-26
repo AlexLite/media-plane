@@ -9,6 +9,7 @@ import type { Placement } from "@popperjs/core";
 import { usePopper } from "react-popper";
 // headless ui
 import { Popover, Transition } from "@headlessui/react";
+import { useTranslation } from "@plane/i18n";
 // ui
 import { Button } from "@plane/propel/button";
 
@@ -25,17 +26,19 @@ type Props = {
 };
 
 export function FiltersDropdown(props: Props) {
+  const { t } = useTranslation();
   const {
     children,
     miniIcon,
     icon,
-    title = "Dropdown",
+    title,
     placement,
     disabled = false,
     tabIndex,
     menuButton,
     isFiltersApplied = false,
   } = props;
+  const resolvedTitle = title ?? t("common.filters");
 
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | HTMLDivElement | null>(null);
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
@@ -66,7 +69,7 @@ export function FiltersDropdown(props: Props) {
                   >
                     <>
                       <div className={`${open ? "text-primary" : "text-secondary"}`}>
-                        <span>{title}</span>
+                        <span>{resolvedTitle}</span>
                       </div>
                       {isFiltersApplied && (
                         <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-accent-primary" />
@@ -82,7 +85,7 @@ export function FiltersDropdown(props: Props) {
                     tabIndex={tabIndex}
                     size="lg"
                   >
-                    {miniIcon || title}
+                    {miniIcon || resolvedTitle}
                   </Button>
                 </div>
               </div>
