@@ -13,6 +13,7 @@ import type { IFilterInstance } from "@plane/shared-state";
 import type { TExternalFilter, TFilterProperty, TSupportedOperators } from "@plane/types";
 import { CustomSearchSelect } from "@plane/ui";
 import { getOperatorForPayload } from "@plane/utils";
+import { translateFilterLabel } from "../i18n";
 
 export type TAddFilterDropdownProps<P extends TFilterProperty, E extends TExternalFilter> = {
   customButton: React.ReactNode;
@@ -32,25 +33,6 @@ export const AddFilterDropdown = observer(function AddFilterDropdown<
   const { filter, customButton, buttonConfig } = props;
   const { className, defaultOpen = false, isDisabled = false } = buttonConfig || {};
   const { t } = useTranslation();
-  const translateFilterLabel = (label: string) => {
-    const keyMap: Record<string, string> = {
-      State: "common.state",
-      "State Group": "common.state_group",
-      Assignees: "common.assignees",
-      Priority: "common.priority",
-      Mentions: "mentions",
-      Label: "common.label",
-      "Start date": "common.start_date",
-      "Target date": "common.target_date",
-      "Created at": "common.created_at",
-      "Updated at": "common.updated_at",
-      "Created by": "common.created_by",
-    };
-
-    const key = keyMap[label];
-    return key ? t(key) : label;
-  };
-
   // Transform available filter configs to CustomSearchSelect options format
   const filterOptions = filter.configManager.allAvailableConfigs.map((config) => ({
     value: config.id,
@@ -60,12 +42,12 @@ export const AddFilterDropdown = observer(function AddFilterDropdown<
           {config.icon && (
             <config.icon className="size-4 text-tertiary transition-transform duration-200 ease-in-out" />
           )}
-          <span>{translateFilterLabel(config.label)}</span>
+          <span>{translateFilterLabel(t, config.label)}</span>
         </div>
         {config.rightContent}
       </div>
     ),
-    query: translateFilterLabel(config.label).toLowerCase(),
+    query: translateFilterLabel(t, config.label).toLowerCase(),
   }));
 
   // If all filters are applied, show disabled options
