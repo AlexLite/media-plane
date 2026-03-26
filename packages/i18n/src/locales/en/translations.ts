@@ -100,6 +100,10 @@ export default {
   remove: "Remove",
   add_new: "Add new",
   remove_selected: "Remove selected",
+  new: "New",
+  old: "Old",
+  most: "Most",
+  least: "Least",
   first_name: "First name",
   last_name: "Last name",
   email: "Email",
@@ -303,6 +307,19 @@ export default {
   },
   created_date: "Created date",
   custom_date: "Custom",
+  date_filters: {
+    "1_week_from_now": "1 week from now",
+    "2_weeks_from_now": "2 weeks from now",
+    "1_month_from_now": "1 month from now",
+    "2_months_from_now": "2 months from now",
+    "1_week_ago": "1 week ago",
+    "2_weeks_ago": "2 weeks ago",
+    "1_month_ago": "1 month ago",
+    today: "Today",
+    yesterday: "Yesterday",
+    last_7_days: "Last 7 days",
+    last_30_days: "Last 30 days",
+  },
   lead: "Lead",
   date_range: "Date range",
   private: "Private",
@@ -376,6 +393,17 @@ export default {
   oops_something_went_wrong: "Oops! Something went wrong.",
   page_not_found_description:
     "Sorry, the page you are looking for cannot be found. It may have been removed, had its name changed, or is temporarily unavailable.",
+  not_found: {
+    cycle_title: "Cycle does not exist",
+    cycle_description: "The cycle you are looking for does not exist or has been deleted.",
+    module_title: "Module does not exist",
+    module_description: "The module you are looking for does not exist or has been deleted.",
+    page_title: "Page not found",
+    page_description: "The page you are trying to access doesn't exist or you don't have permission to view it.",
+    view_other_cycles: "View other cycles",
+    view_other_modules: "View other modules",
+    view_other_pages: "View other pages",
+  },
   no_pending_invites: "No pending invites",
   you_can_see_here_if_someone_invites_you_to_a_workspace: "You can see here if someone invites you to a workspace",
   back_to_home: "Back to home",
@@ -446,6 +474,8 @@ export default {
   evening: "evening",
   show_all: "Show all",
   show_less: "Show less",
+  more: "more",
+  selected: "selected",
   no_data_yet: "No Data yet",
   syncing: "Syncing",
   add_work_item: "Add work item",
@@ -643,6 +673,7 @@ export default {
     load_more: "Load more",
     activity: "Activity",
     analytics: "Analytics",
+    date: "Date",
     dates: "Dates",
     success: "Success!",
     something_went_wrong: "Something went wrong",
@@ -2088,6 +2119,7 @@ export default {
     },
   },
   project_settings: {
+    label: "Project settings",
     categories: {
       general: "General",
       features: "Features",
@@ -2159,6 +2191,7 @@ export default {
       new: "New estimate system",
       create: {
         custom: "Custom",
+        custom_date: "Custom",
         start_from_scratch: "Start from scratch",
         choose_template: "Choose a template",
         choose_estimate_system: "Choose an estimate system",
@@ -3268,6 +3301,44 @@ export default {
       help: "Help",
     },
   },
+  onboarding_tour: {
+    welcome_title: "Welcome to Plane, {first_name} {last_name}",
+    welcome_description:
+      "We're glad that you decided to try out Plane. You can now manage your projects with ease. Get started by creating a project.",
+    take_product_tour: "Take a Product Tour",
+    skip_tour: "No thanks, I will explore it myself",
+    create_first_project: "Create your first project",
+    steps: {
+      "work-items": {
+        title: "Plan with work items",
+        description:
+          "The work item is the building block of Plane. Most concepts in Plane are associated with work items and their properties.",
+      },
+      cycles: {
+        title: "Move with cycles",
+        description:
+          "Cycles help you and your team progress faster, similar to sprints commonly used in agile development.",
+      },
+      modules: {
+        title: "Break into modules",
+        description: "Modules break your big work into Projects or Features, to help you organize better.",
+      },
+      views: {
+        title: "Views",
+        description:
+          "Create custom filters to display only the work items that matter to you. Save and share your filters in just a few clicks.",
+      },
+      pages: {
+        title: "Document with pages",
+        description: "Use Pages to quickly jot down work items when you're in a meeting or starting a day.",
+      },
+    },
+  },
+  instance_not_ready: {
+    title: "Welcome to Plane",
+    description: "Set up your instance and create your first workspace to begin managing projects and work.",
+    action: "Get started",
+  },
   // Navigation customization
   customize_navigation: "Customize navigation",
   personal: "Personal",
@@ -3277,6 +3348,11 @@ export default {
     "Selected items will always stay visible in your sidebar. You can still find the others anytime from the More menu. These changes are personal to you and won't affect anyone else on your workspace.",
   feature_tabs_nested_under_project: "Feature tabs will appear as nested items under project and acts as accordion.",
   feature_tabs_horizontal_inside_project: "Feature tabs will appear as horizontal tabs inside a project.",
+  tab_navigation: {
+    clear_default: "Clear default",
+    set_as_default: "Set as default",
+    hide_in_more_menu: "Hide in more menu",
+  },
   minimum_value_is_1: "Minimum value is 1",
   show_limited_projects_on_sidebar: "Show limited projects on sidebar",
   enter_number_of_projects: "Enter number of projects",

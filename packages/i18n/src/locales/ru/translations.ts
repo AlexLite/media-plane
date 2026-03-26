@@ -100,6 +100,10 @@ export default {
   remove: "Удалить",
   add_new: "Добавить новый",
   remove_selected: "Удалить выбранное",
+  new: "Новые",
+  old: "Старые",
+  most: "Больше",
+  least: "Меньше",
   first_name: "Имя",
   last_name: "Фамилия",
   email: "Электронная почта",
@@ -305,6 +309,19 @@ export default {
   },
   created_date: "Дата создания",
   custom_date: "Произвольный",
+  date_filters: {
+    "1_week_from_now": "через 1 неделю",
+    "2_weeks_from_now": "через 2 недели",
+    "1_month_from_now": "через 1 месяц",
+    "2_months_from_now": "через 2 месяца",
+    "1_week_ago": "1 неделю назад",
+    "2_weeks_ago": "2 недели назад",
+    "1_month_ago": "1 месяц назад",
+    today: "Сегодня",
+    yesterday: "Вчера",
+    last_7_days: "Последние 7 дней",
+    last_30_days: "Последние 30 дней",
+  },
   lead: "Руководитель",
   date_range: "Диапазон дат",
   private: "Приватный",
@@ -384,6 +401,18 @@ export default {
   oops_something_went_wrong: "Упс! Что-то пошло не так.",
   page_not_found_description:
     "Извините, страница, которую вы ищете, не найдена. Возможно, она была удалена, переименована или временно недоступна.",
+  not_found: {
+    cycle_title: "Цикл не существует",
+    cycle_description: "Цикл, который вы ищете, не существует или был удален.",
+    module_title: "Модуль не существует",
+    module_description: "Модуль, который вы ищете, не существует или был удален.",
+    page_title: "Страница не найдена",
+    page_description:
+      "Страница, к которой вы пытаетесь получить доступ, не существует или у вас нет прав на ее просмотр.",
+    view_other_cycles: "Посмотреть другие циклы",
+    view_other_modules: "Посмотреть другие модули",
+    view_other_pages: "Посмотреть другие страницы",
+  },
   no_pending_invites: "Нет ожидающих приглашений",
   you_can_see_here_if_someone_invites_you_to_a_workspace: "Здесь отображаются приглашения в рабочие пространства",
   back_to_home: "Вернуться на главную",
@@ -454,6 +483,8 @@ export default {
   evening: "вечера",
   show_all: "Показать все",
   show_less: "Свернуть",
+  more: "еще",
+  selected: "выбрано",
   no_data_yet: "Нет данных",
   syncing: "Синхронизация",
   add_work_item: "Добавить рабочий элемент",
@@ -648,6 +679,7 @@ export default {
     load_more: "Загрузить еще",
     activity: "Активность",
     analytics: "Аналитика",
+    date: "Дата",
     dates: "Даты",
     success: "Успешно!",
     something_went_wrong: "Что-то пошло не так",
@@ -2179,6 +2211,7 @@ export default {
     },
   },
   project_settings: {
+    label: "Настройки проекта",
     categories: {
       general: "Общие",
       features: "Функции",
@@ -2249,6 +2282,7 @@ export default {
       new: "Новая система оценок",
       create: {
         custom: "Пользовательская",
+        custom_date: "Произвольная",
         start_from_scratch: "Начать с нуля",
         choose_template: "Выбрать шаблон",
         choose_estimate_system: "Выбрать систему оценок",
@@ -3274,6 +3308,44 @@ export default {
       help: "Помощь",
     },
   },
+  onboarding_tour: {
+    welcome_title: "Добро пожаловать в Plane, {first_name} {last_name}",
+    welcome_description:
+      "Рады, что вы решили попробовать Plane. Теперь вы можете легко управлять проектами. Начните с создания проекта.",
+    take_product_tour: "Пройти обзор продукта",
+    skip_tour: "Нет, я изучу всё самостоятельно",
+    create_first_project: "Создать первый проект",
+    steps: {
+      "work-items": {
+        title: "Планируйте с рабочими элементами",
+        description:
+          "Рабочий элемент — базовая сущность Plane. Большинство возможностей Plane связаны с рабочими элементами и их свойствами.",
+      },
+      cycles: {
+        title: "Двигайтесь циклами",
+        description: "Циклы помогают команде двигаться быстрее, как спринты в agile-разработке.",
+      },
+      modules: {
+        title: "Разбивайте на модули",
+        description: "Модули помогают разбивать большую работу на проекты и фичи для лучшей организации.",
+      },
+      views: {
+        title: "Представления",
+        description:
+          "Создавайте кастомные фильтры, чтобы видеть только нужные рабочие элементы. Сохраняйте и делитесь ими в пару кликов.",
+      },
+      pages: {
+        title: "Документируйте в страницах",
+        description: "Используйте Pages, чтобы быстро фиксировать рабочие элементы на встрече или в начале дня.",
+      },
+    },
+  },
+  instance_not_ready: {
+    title: "Добро пожаловать в Plane",
+    description:
+      "Настройте инстанс и создайте первое рабочее пространство, чтобы начать управлять проектами и работой.",
+    action: "Начать",
+  },
   customize_navigation: "Настроить навигацию",
   personal: "Личное",
   accordion_navigation_control: "Аккордеонная навигация",
@@ -3284,6 +3356,11 @@ export default {
     "Вкладки функций будут отображаться вложенными пунктами внутри проекта в формате аккордеона.",
   feature_tabs_horizontal_inside_project:
     "Вкладки функций будут отображаться горизонтальными вкладками внутри проекта.",
+  tab_navigation: {
+    clear_default: "Убрать по умолчанию",
+    set_as_default: "Сделать по умолчанию",
+    hide_in_more_menu: "Скрыть в меню Еще",
+  },
   minimum_value_is_1: "Минимальное значение — 1",
   show_limited_projects_on_sidebar: "Показывать ограниченное число проектов",
   enter_number_of_projects: "Введите количество проектов",
