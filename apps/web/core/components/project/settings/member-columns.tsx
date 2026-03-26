@@ -113,10 +113,10 @@ export const AccountTypeColumn = observer(function AccountTypeColumn(props: Acco
   } = useForm();
   // derived values
   const getRoleLabel = (role: number) => {
-    if (role === EUserPermissions.ADMIN) return t("user_roles.admin");
-    if (role === EUserPermissions.MEMBER) return t("user_roles.member");
-    if (role === EUserPermissions.GUEST) return t("user_roles.guest");
-    return (ROLE as Record<number, string>)[role] ?? t("user_roles.guest");
+    if (role === EUserPermissions.ADMIN) return t("workspace_member_roles.admin");
+    if (role === EUserPermissions.MEMBER) return t("workspace_member_roles.member");
+    if (role === EUserPermissions.GUEST) return t("workspace_member_roles.guest");
+    return (ROLE as Record<number, string>)[role] ?? t("workspace_member_roles.guest");
   };
   const roleLabel = getRoleLabel(rowData.original_role ?? EUserPermissions.GUEST);
   const isCurrentUser = currentUser?.id === rowData.member.id;

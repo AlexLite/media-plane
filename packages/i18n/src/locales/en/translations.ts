@@ -454,6 +454,8 @@ export default {
   estimate: "Estimate",
   change_parent_issue: "Change parent work item",
   remove_parent_issue: "Remove parent work item",
+  change_parent_work_item: "Change parent work item",
+  remove_parent_work_item: "Remove parent work item",
   add_parent: "Add parent",
   loading_members: "Loading members",
   view_link_copied_to_clipboard: "View link copied to clipboard.",
@@ -723,7 +725,9 @@ export default {
     access: {
       public: "Public",
       private: "Private",
+      archived: "Archived",
     },
+    cycle_status: "Cycle status",
     done: "Done",
     sub_work_items: "Sub-work items",
     comment: "Comment",
@@ -3349,6 +3353,7 @@ export default {
   feature_tabs_nested_under_project: "Feature tabs will appear as nested items under project and acts as accordion.",
   feature_tabs_horizontal_inside_project: "Feature tabs will appear as horizontal tabs inside a project.",
   tab_navigation: {
+    show: "Show",
     clear_default: "Clear default",
     set_as_default: "Set as default",
     hide_in_more_menu: "Hide in more menu",
