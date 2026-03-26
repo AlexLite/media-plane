@@ -27,7 +27,9 @@ export const FilterAccess = observer(function FilterAccess(props: Props) {
   const { t } = useTranslation();
 
   const appliedFiltersCount = appliedFilters?.length ?? 0;
-  const filteredOptions = NETWORK_CHOICES.filter((a) => a.i18n_label.includes(searchQuery.toLowerCase()));
+  const filteredOptions = NETWORK_CHOICES.filter((a) =>
+    t(a.i18n_label).toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <>

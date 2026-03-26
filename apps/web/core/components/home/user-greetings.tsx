@@ -4,7 +4,6 @@
  * See the LICENSE file for details.
  */
 
-import type { FC } from "react";
 // plane types
 import { useTranslation } from "@plane/i18n";
 import type { IUser } from "@plane/types";
@@ -16,6 +15,31 @@ export interface IUserGreetingsView {
   user: IUser;
 }
 
+const RU_WEEKDAY_FALLBACK: Record<string, string> = {
+  monday: "Понедельник",
+  tuesday: "Вторник",
+  wednesday: "Среда",
+  thursday: "Четверг",
+  friday: "Пятница",
+  saturday: "Суббота",
+  sunday: "Воскресенье",
+};
+
+const RU_MONTH_FALLBACK: Record<string, string> = {
+  jan: "янв.",
+  feb: "февр.",
+  mar: "мар.",
+  apr: "апр.",
+  may: "мая",
+  jun: "июн.",
+  jul: "июл.",
+  aug: "авг.",
+  sep: "сент.",
+  oct: "окт.",
+  nov: "нояб.",
+  dec: "дек.",
+};
+
 export function UserGreetingsView(props: IUserGreetingsView) {
   const { user } = props;
   // current time hook
@@ -24,24 +48,33 @@ export function UserGreetingsView(props: IUserGreetingsView) {
   const { t } = useTranslation();
 
   const locale = "ru-RU";
+  const timeZone = user?.user_timezone;
 
-  const hour = new Intl.DateTimeFormat(locale, {
+  const hourParts = new Intl.DateTimeFormat("en-US", {
+    timeZone,
     hour12: false,
-    hour: "numeric",
-  }).format(currentTime);
+    hour: "2-digit",
+  }).formatToParts(currentTime);
+  const hour = hourParts.find((part) => part.type === "hour")?.value ?? "00";
 
-  const date = new Intl.DateTimeFormat(locale, {
-    month: "short",
-    day: "numeric",
-  }).format(currentTime);
-
-  const weekDay = new Intl.DateTimeFormat(locale, {
+  const dateParts = new Intl.DateTimeFormat(locale, {
+    timeZone,
     weekday: "long",
-  }).format(currentTime);
+    month: "short",
+    day: "2-digit",
+  }).formatToParts(currentTime);
+  const day = dateParts.find((part) => part.type === "day")?.value ?? "";
+  const weekDayRaw = dateParts.find((part) => part.type === "weekday")?.value ?? "";
+  const monthRaw = dateParts.find((part) => part.type === "month")?.value ?? "";
+  const weekDayKey = weekDayRaw.toLowerCase().replace(".", "");
+  const monthKey = monthRaw.toLowerCase().replace(".", "");
+  const weekDay = RU_WEEKDAY_FALLBACK[weekDayKey] ?? weekDayRaw;
+  const month = RU_MONTH_FALLBACK[monthKey] ?? monthRaw;
+  const date = `${day} ${month}`.trim();
 
   const timeString = new Intl.DateTimeFormat(locale, {
-    timeZone: user?.user_timezone,
-    hour12: false, // Use 24-hour format
+    timeZone,
+    hour12: false,
     hour: "2-digit",
     minute: "2-digit",
   }).format(currentTime);

@@ -463,6 +463,8 @@ export default {
   estimate: "Оценка",
   change_parent_issue: "Изменить родительский рабочий элемент",
   remove_parent_issue: "Удалить родительский рабочий элемент",
+  change_parent_work_item: "Изменить родительский рабочий элемент",
+  remove_parent_work_item: "Удалить родительский рабочий элемент",
   add_parent: "Добавить родительский",
   loading_members: "Загрузка участников",
   view_link_copied_to_clipboard: "Ссылка на представление скопирована в буфер",
@@ -729,7 +731,9 @@ export default {
     access: {
       public: "Публичный",
       private: "Приватный",
+      archived: "Архивный",
     },
+    cycle_status: "Статус цикла",
     done: "Готово",
     sub_work_items: "Подэлементы",
     comment: "Комментарий",
@@ -3357,6 +3361,7 @@ export default {
   feature_tabs_horizontal_inside_project:
     "Вкладки функций будут отображаться горизонтальными вкладками внутри проекта.",
   tab_navigation: {
+    show: "Показать",
     clear_default: "Убрать по умолчанию",
     set_as_default: "Сделать по умолчанию",
     hide_in_more_menu: "Скрыть в меню Еще",
