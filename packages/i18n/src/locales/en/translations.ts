@@ -2673,6 +2673,20 @@ export default {
       from_intake_by_marking_duplicate: "from intake by marking a duplicate work item.",
     },
   },
+  pages_list: {
+    search_pages: "Search pages",
+    owned_by: "Owned by",
+    tabs: {
+      public: "Public",
+      private: "Private",
+      archived: "Archived",
+    },
+    order_by: {
+      name: "Name",
+      created_at: "Date created",
+      updated_at: "Date modified",
+    },
+  },
   project_page: {
     empty_state: {
       general: {

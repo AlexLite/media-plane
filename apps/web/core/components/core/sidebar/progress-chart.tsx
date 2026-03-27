@@ -18,9 +18,7 @@ type Props = {
   plotTitle?: string;
 };
 
-function ProgressChart({ distribution, totalIssues, className = "", plotTitle = "work items" }: Props) {
-  const { t } = useTranslation();
-
+function ProgressChart({ distribution, totalIssues, className = "", plotTitle = "рабочих элементов" }: Props) {
   const chartData: TChartData<string, string>[] = Object.keys(distribution ?? []).map((key, index) => ({
     name: renderFormattedDateWithoutYear(key),
     current: distribution[key] ?? 0,
