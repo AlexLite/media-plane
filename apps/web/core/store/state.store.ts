@@ -37,7 +37,7 @@ export interface IStateStore {
   getProjectDefaultStateId: (projectId: string | null | undefined) => string | undefined;
   // fetch actions
   fetchProjectStates: (workspaceSlug: string, projectId: string) => Promise<IState[]>;
-  fetchProjectIntakeState: (workspaceSlug: string, projectId: string) => Promise<IIntakeState>;
+  fetchProjectIntakeState: (workspaceSlug: string, projectId: string) => Promise<IIntakeState | null>;
   fetchWorkspaceStates: (workspaceSlug: string) => Promise<IState[]>;
   // crud actions
   createState: (workspaceSlug: string, projectId: string, data: Partial<IState>) => Promise<IState>;
@@ -235,7 +235,9 @@ export class StateStore implements IStateStore {
   fetchProjectIntakeState = async (workspaceSlug: string, projectId: string) => {
     const intakeStateResponse = await this.stateService.getIntakeState(workspaceSlug, projectId);
     runInAction(() => {
-      set(this.intakeStateMap, [intakeStateResponse.id], intakeStateResponse);
+      if (intakeStateResponse?.id) {
+        set(this.intakeStateMap, [intakeStateResponse.id], intakeStateResponse);
+      }
       set(this.fetchedIntakeMap, projectId, true);
     });
     return intakeStateResponse;

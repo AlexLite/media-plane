@@ -6,12 +6,14 @@
 
 import { observer } from "mobx-react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { Tooltip } from "@plane/propel/tooltip";
 import { cn } from "@plane/propel/utils";
 import type { IFilterInstance } from "@plane/shared-state";
 import type { TExternalFilter, TFilterProperty, TSupportedOperators } from "@plane/types";
 // local imports
 import { AddFilterDropdown } from "../add-filters/dropdown";
+import { translateFilterLabel } from "../i18n";
 import { COMMON_FILTER_ITEM_BORDER_CLASSNAME } from "../shared";
 
 interface IFilterItemPropertyProps<P extends TFilterProperty, E extends TExternalFilter> {
@@ -51,6 +53,7 @@ type TPropertyButtonProps<P extends TFilterProperty, E extends TExternalFilter> 
 };
 
 function PropertyButton<P extends TFilterProperty, E extends TExternalFilter>(props: TPropertyButtonProps<P, E>) {
+  const { t } = useTranslation();
   const { icon: Icon, label, tooltipContent, className } = props;
 
   return (
@@ -67,7 +70,7 @@ function PropertyButton<P extends TFilterProperty, E extends TExternalFilter>(pr
             <Icon className="size-3.5" />
           </div>
         )}
-        <span className="truncate">{label}</span>
+        <span className="truncate">{translateFilterLabel(t, label)}</span>
       </div>
     </Tooltip>
   );

@@ -16,6 +16,7 @@ import { FilterHeader, FilterOption } from "@/components/issues/issue-layouts/fi
 // hooks
 import { useMember } from "@/hooks/store/use-member";
 import { useUser } from "@/hooks/store/user";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   appliedFilters: string[] | null;
@@ -26,6 +27,7 @@ type Props = {
 
 export const FilterAssignees = observer(function FilterAssignees(props: Props) {
   const { appliedFilters, handleUpdate, memberIds, searchQuery } = props;
+  const { t } = useTranslation();
   // states
   const [itemsToRender, setItemsToRender] = useState(5);
   const [previewEnabled, setPreviewEnabled] = useState(true);
@@ -58,7 +60,7 @@ export const FilterAssignees = observer(function FilterAssignees(props: Props) {
   return (
     <>
       <FilterHeader
-        title={`Assignee${appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : ""}`}
+        title={`${t("common.assignee")}${appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : ""}`}
         isPreviewEnabled={previewEnabled}
         handleIsPreviewEnabled={() => setPreviewEnabled(!previewEnabled)}
       />
@@ -84,7 +86,7 @@ export const FilterAssignees = observer(function FilterAssignees(props: Props) {
                           size="md"
                         />
                       }
-                      title={currentUser?.id === member.id ? "You" : member?.display_name}
+                      title={currentUser?.id === member.id ? t("you") : member?.display_name}
                     />
                   );
                 })}
@@ -94,12 +96,12 @@ export const FilterAssignees = observer(function FilterAssignees(props: Props) {
                     className="ml-8 text-11 font-medium text-accent-primary"
                     onClick={handleViewToggle}
                   >
-                    {itemsToRender === sortedOptions.length ? "View less" : "View all"}
+                    {itemsToRender === sortedOptions.length ? t("common.view_less") : t("common.view_all")}
                   </button>
                 )}
               </>
             ) : (
-              <p className="text-11 text-placeholder italic">No matches found</p>
+              <p className="text-11 text-placeholder italic">{t("issues.search.no_matches_found")}</p>
             )
           ) : (
             <Loader className="space-y-2">

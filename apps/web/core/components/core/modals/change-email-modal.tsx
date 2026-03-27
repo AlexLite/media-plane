@@ -118,7 +118,7 @@ export const ChangeEmailModal = observer(function ChangeEmailModal(props: Props)
       const errorCode = err?.error_code?.toString();
 
       // Use authErrorHandler to get user-friendly error message
-      const errorInfo = errorCode ? authErrorHandler(errorCode as EAuthenticationErrorCodes) : undefined;
+      const errorInfo = errorCode ? authErrorHandler(errorCode as EAuthenticationErrorCodes, undefined, t) : undefined;
 
       // Get error message from handler or fallback
       const errorMessage = errorInfo

@@ -15,6 +15,7 @@ import { Loader } from "@plane/ui";
 import { FilterHeader, FilterOption } from "@/components/issues/issue-layouts/filters";
 // hooks
 import { useProjectInbox } from "@/hooks/store/use-project-inbox";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   states: IState[] | undefined;
@@ -23,6 +24,7 @@ type Props = {
 
 export const FilterState = observer(function FilterState(props: Props) {
   const { states, searchQuery } = props;
+  const { t } = useTranslation();
 
   const [itemsToRender, setItemsToRender] = useState(5);
   const [previewEnabled, setPreviewEnabled] = useState(true);
@@ -48,7 +50,7 @@ export const FilterState = observer(function FilterState(props: Props) {
   return (
     <>
       <FilterHeader
-        title={`State${appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : ""}`}
+        title={`${t("common.state")}${appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : ""}`}
         isPreviewEnabled={previewEnabled}
         handleIsPreviewEnabled={() => setPreviewEnabled(!previewEnabled)}
       />
@@ -79,12 +81,12 @@ export const FilterState = observer(function FilterState(props: Props) {
                     className="ml-8 text-11 font-medium text-accent-primary"
                     onClick={handleViewToggle}
                   >
-                    {itemsToRender === filteredOptions.length ? "View less" : "View all"}
+                    {itemsToRender === filteredOptions.length ? t("common.view_less") : t("common.view_all")}
                   </button>
                 )}
               </>
             ) : (
-              <p className="text-11 text-placeholder italic">No matches found</p>
+              <p className="text-11 text-placeholder italic">{t("issues.search.no_matches_found")}</p>
             )
           ) : (
             <Loader className="space-y-2">

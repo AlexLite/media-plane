@@ -19,6 +19,7 @@ import {
   IS_FAVORITE_MENU_OPEN,
 } from "@plane/constants";
 import { useLocalStorage } from "@plane/hooks";
+import { useTranslation } from "@plane/i18n";
 import { WorkItemsIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setPromiseToast, setToast } from "@plane/propel/toast";
 import { Tooltip } from "@plane/propel/tooltip";
@@ -66,6 +67,7 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
   const renderIcon = Boolean(moduleDetails?.start_date) || Boolean(moduleDetails?.target_date);
 
   const { isMobile } = usePlatformOS();
+  const { t } = useTranslation();
   const handleAddToFavorites = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
@@ -168,11 +170,11 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
 
   const issueCount = moduleDetails
     ? !moduleTotalIssues || moduleTotalIssues === 0
-      ? `0 work items`
+      ? t("issue.label", { count: 0 })
       : moduleTotalIssues === moduleCompletedIssues
-        ? `${moduleTotalIssues} Work item${moduleTotalIssues > 1 ? `s` : ``}`
-        : `${moduleCompletedIssues}/${moduleTotalIssues} Work items`
-    : `0 work items`;
+        ? t("issue.label", { count: moduleTotalIssues })
+        : `${moduleCompletedIssues}/${moduleTotalIssues} ${t("issue.label", { count: moduleTotalIssues })}`
+    : t("issue.label", { count: 0 });
 
   const moduleLeadDetails = moduleDetails.lead_id ? getUserDetails(moduleDetails.lead_id) : undefined;
 
@@ -217,7 +219,7 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
                   <ButtonAvatars showTooltip={false} userIds={moduleLeadDetails?.id} />
                 </span>
               ) : (
-                <Tooltip tooltipContent="No lead">
+                <Tooltip tooltipContent={t("common.no_lead")}>
                   <SquareUser className="mx-1 h-4 w-4 text-tertiary" />
                 </Tooltip>
               )}
@@ -239,8 +241,8 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
                   });
                 }}
                 placeholder={{
-                  from: "Start date",
-                  to: "End date",
+                  from: t("common.start_date"),
+                  to: t("common.end_date"),
                 }}
                 disabled={isDisabled}
                 hideIcon={{ from: renderIcon ?? true, to: renderIcon }}

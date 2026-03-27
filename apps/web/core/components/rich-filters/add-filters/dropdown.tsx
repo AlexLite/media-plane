@@ -7,11 +7,13 @@
 import React from "react";
 import { observer } from "mobx-react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { setToast, TOAST_TYPE } from "@plane/propel/toast";
 import type { IFilterInstance } from "@plane/shared-state";
 import type { TExternalFilter, TFilterProperty, TSupportedOperators } from "@plane/types";
 import { CustomSearchSelect } from "@plane/ui";
 import { getOperatorForPayload } from "@plane/utils";
+import { translateFilterLabel } from "../i18n";
 
 export type TAddFilterDropdownProps<P extends TFilterProperty, E extends TExternalFilter> = {
   customButton: React.ReactNode;
@@ -30,7 +32,7 @@ export const AddFilterDropdown = observer(function AddFilterDropdown<
 >(props: TAddFilterDropdownProps<P, E>) {
   const { filter, customButton, buttonConfig } = props;
   const { className, defaultOpen = false, isDisabled = false } = buttonConfig || {};
-
+  const { t } = useTranslation();
   // Transform available filter configs to CustomSearchSelect options format
   const filterOptions = filter.configManager.allAvailableConfigs.map((config) => ({
     value: config.id,
@@ -40,12 +42,12 @@ export const AddFilterDropdown = observer(function AddFilterDropdown<
           {config.icon && (
             <config.icon className="size-4 text-tertiary transition-transform duration-200 ease-in-out" />
           )}
-          <span>{config.label}</span>
+          <span>{translateFilterLabel(t, config.label)}</span>
         </div>
         {config.rightContent}
       </div>
     ),
-    query: config.label.toLowerCase(),
+    query: translateFilterLabel(t, config.label).toLowerCase(),
   }));
 
   // If all filters are applied, show disabled options
@@ -54,8 +56,8 @@ export const AddFilterDropdown = observer(function AddFilterDropdown<
     ? [
         {
           value: "all_filters_applied",
-          content: <div className="text-placeholder italic">All filters applied</div>,
-          query: "all filters applied",
+          content: <div className="text-placeholder italic">{t("no_matching_results")}</div>,
+          query: t("no_matching_results").toLowerCase(),
           disabled: true,
         },
       ]
@@ -68,8 +70,8 @@ export const AddFilterDropdown = observer(function AddFilterDropdown<
       props.handleFilterSelect(property, operator, isNegation);
     } else {
       setToast({
-        title: "Filter configuration error",
-        message: "This filter is not properly configured and cannot be applied",
+        title: t("error"),
+        message: t("something_went_wrong_please_try_again"),
         type: TOAST_TYPE.ERROR,
       });
     }
@@ -86,6 +88,7 @@ export const AddFilterDropdown = observer(function AddFilterDropdown<
         maxHeight="2xl"
         placement="bottom-start"
         disabled={isDisabled}
+        noResultsMessage={t("issues.search.no_matches_found")}
         customButtonClassName={className}
         customButton={customButton}
       />

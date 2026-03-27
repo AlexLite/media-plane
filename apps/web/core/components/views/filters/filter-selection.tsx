@@ -8,6 +8,7 @@ import { useState } from "react";
 import { observer } from "mobx-react";
 
 import { SearchIcon, CloseIcon } from "@plane/propel/icons";
+import { useTranslation } from "@plane/i18n";
 import type { TViewFilterProps, TViewFilters } from "@plane/types";
 import { EViewAccess } from "@plane/types";
 // components
@@ -15,8 +16,6 @@ import { FilterCreatedDate } from "@/components/common/filters/created-at";
 import { FilterCreatedBy } from "@/components/common/filters/created-by";
 import { FilterOption } from "@/components/issues/issue-layouts/filters";
 // constants
-// hooks
-import { usePlatformOS } from "@/hooks/use-platform-os";
 // plane web components
 import { FilterByAccess } from "@/plane-web/components/views/filters/access-filter";
 
@@ -30,8 +29,7 @@ export const ViewFiltersSelection = observer(function ViewFiltersSelection(props
   const { filters, handleFiltersUpdate, memberIds } = props;
   // states
   const [filtersSearchQuery, setFiltersSearchQuery] = useState("");
-  // store
-  const { isMobile } = usePlatformOS();
+  const { t } = useTranslation();
 
   // handles filter update
   const handleFilters = (key: keyof TViewFilterProps, value: boolean | string | EViewAccess | string[]) => {
@@ -65,10 +63,9 @@ export const ViewFiltersSelection = observer(function ViewFiltersSelection(props
           <input
             type="text"
             className="w-full bg-surface-2 outline-none placeholder:text-placeholder"
-            placeholder="Search"
+            placeholder={t("common.search.label")}
             value={filtersSearchQuery}
             onChange={(e) => setFiltersSearchQuery(e.target.value)}
-            autoFocus={!isMobile}
           />
           {filtersSearchQuery !== "" && (
             <button type="button" className="grid place-items-center" onClick={() => setFiltersSearchQuery("")}>
@@ -87,7 +84,7 @@ export const ViewFiltersSelection = observer(function ViewFiltersSelection(props
                 favorites: !filters.filters?.favorites,
               })
             }
-            title="Favorites"
+            title={t("favorites")}
           />
         </div>
 

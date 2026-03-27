@@ -7,6 +7,7 @@
 import { Image, BrainCog, Cog, Mail } from "lucide-react";
 // plane imports
 import { LockIcon, WorkspaceIcon } from "@plane/propel/icons";
+import { getAdminTranslation } from "@/helpers/i18n";
 // types
 import type { TSidebarMenuItem } from "./types";
 
@@ -15,38 +16,38 @@ export type TCoreSidebarMenuKey = "general" | "email" | "workspace" | "authentic
 export const coreSidebarMenuLinks: Record<TCoreSidebarMenuKey, TSidebarMenuItem> = {
   general: {
     Icon: Cog,
-    name: "General",
-    description: "Identify your instances and get key details.",
+    name: getAdminTranslation("sidebar_general"),
+    description: getAdminTranslation("sidebar_general_description"),
     href: `/general/`,
   },
   email: {
     Icon: Mail,
-    name: "Email",
-    description: "Configure your SMTP controls.",
+    name: getAdminTranslation("sidebar_email"),
+    description: getAdminTranslation("sidebar_email_description"),
     href: `/email/`,
   },
   workspace: {
     Icon: WorkspaceIcon,
-    name: "Workspaces",
-    description: "Manage all workspaces on this instance.",
+    name: getAdminTranslation("sidebar_workspaces"),
+    description: getAdminTranslation("sidebar_workspaces_description"),
     href: `/workspace/`,
   },
   authentication: {
     Icon: LockIcon,
-    name: "Authentication",
-    description: "Configure authentication modes.",
+    name: getAdminTranslation("sidebar_authentication"),
+    description: getAdminTranslation("sidebar_authentication_description"),
     href: `/authentication/`,
   },
   ai: {
     Icon: BrainCog,
-    name: "Artificial intelligence",
-    description: "Configure your OpenAI creds.",
+    name: getAdminTranslation("sidebar_ai"),
+    description: getAdminTranslation("sidebar_ai_description"),
     href: `/ai/`,
   },
   image: {
     Icon: Image,
-    name: "Images in Plane",
-    description: "Allow third-party image libraries.",
+    name: getAdminTranslation("sidebar_images"),
+    description: getAdminTranslation("sidebar_images_description"),
     href: `/image/`,
   },
 };

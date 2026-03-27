@@ -16,6 +16,7 @@ import { FilterHeader, FilterOption } from "@/components/issues/issue-layouts/fi
 // constants
 // hooks
 import { useProjectInbox } from "@/hooks/store/use-project-inbox";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   filterKey: TInboxIssueFilterDateKeys;
@@ -30,6 +31,7 @@ const isDate = (date: string) => {
 
 export const FilterDate = observer(function FilterDate(props: Props) {
   const { filterKey, label, searchQuery } = props;
+  const { t } = useTranslation();
   // hooks
   const { inboxFilters, handleInboxIssueFilters } = useProjectInbox();
   // state
@@ -65,11 +67,11 @@ export const FilterDate = observer(function FilterDate(props: Props) {
           handleClose={() => setIsDateFilterModalOpen(false)}
           isOpen={isDateFilterModalOpen}
           onSelect={(val) => handleInboxIssueFilters(filterKey, val)}
-          title="Created date"
+          title={t(label || "created_date")}
         />
       )}
       <FilterHeader
-        title={`${label || "Created date"}${appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : ""}`}
+        title={`${t(label || "created_date")}${appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : ""}`}
         isPreviewEnabled={previewEnabled}
         handleIsPreviewEnabled={() => setPreviewEnabled(!previewEnabled)}
       />
@@ -89,12 +91,12 @@ export const FilterDate = observer(function FilterDate(props: Props) {
               <FilterOption
                 isChecked={isCustomDateSelected()}
                 onClick={handleCustomDate}
-                title="Custom"
+                title={t("common.custom")}
                 multiple={false}
               />
             </>
           ) : (
-            <p className="text-11 text-placeholder italic">No matches found</p>
+            <p className="text-11 text-placeholder italic">{t("issues.search.no_matches_found")}</p>
           )}
         </div>
       )}

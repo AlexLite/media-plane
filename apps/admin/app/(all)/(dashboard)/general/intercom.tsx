@@ -10,6 +10,7 @@ import useSWR from "swr";
 import { MessageSquare } from "lucide-react";
 import type { IFormattedInstanceConfiguration } from "@plane/types";
 import { ToggleSwitch } from "@plane/ui";
+import { useAdminTranslation } from "@/helpers/i18n";
 // hooks
 import { useInstance } from "@/hooks/store";
 
@@ -19,6 +20,7 @@ type TIntercomConfig = {
 
 export const IntercomConfig = observer(function IntercomConfig(props: TIntercomConfig) {
   const { isTelemetryEnabled } = props;
+  const { t } = useAdminTranslation();
   // hooks
   const { instanceConfigurations, updateInstanceConfigurations, fetchInstanceConfigurations } = useInstance();
   // states
@@ -64,10 +66,9 @@ export const IntercomConfig = observer(function IntercomConfig(props: TIntercomC
           </div>
 
           <div className="grow">
-            <div className="text-13 leading-5 font-medium text-primary">Chat with us</div>
+            <div className="text-13 leading-5 font-medium text-primary">{t("chat_with_us")}</div>
             <div className="text-11 leading-5 font-regular text-tertiary">
-              Let your users chat with us via Intercom or another service. Toggling Telemetry off turns this off
-              automatically.
+              {t("intercom_description")}
             </div>
           </div>
 

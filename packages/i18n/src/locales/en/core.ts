@@ -96,6 +96,22 @@ export default {
       sign_in_with_unique_code: "Sign in with unique code",
       forgot_password: "Forgot your password?",
     },
+    landing: {
+      work_in_all_dimensions: "Work in all dimensions.",
+      welcome_back_to_plane: "Welcome back to Plane.",
+      create_your_plane_account: "Create your Plane account.",
+    },
+    legal: {
+      sign_up_prefix: "By creating an account, you understand and agree to",
+      sign_in_prefix: "By signing in, you understand and agree to",
+      our: "our",
+      and: "and",
+      terms_of_service: "Terms of Service",
+      privacy_policy: "Privacy Policy",
+    },
+    footer: {
+      join_teams_building_with_plane: "Join 10,000+ teams building with Plane",
+    },
     sign_up: {
       header: {
         label: "Create an account to start managing work with your team.",

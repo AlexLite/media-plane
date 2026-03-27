@@ -38,7 +38,7 @@ const TOUR_STEPS: {
 }[] = [
   {
     key: "work-items",
-    title: "Plan with work items",
+    title: "Планируйте с рабочими элементами",
     description:
       "The work item is the building block of the Plane. Most concepts in Plane are either associated with work items and their properties.",
     image: IssuesTour,
@@ -46,7 +46,7 @@ const TOUR_STEPS: {
   },
   {
     key: "cycles",
-    title: "Move with cycles",
+    title: "Двигайтесь с циклами",
     description:
       "Cycles help you and your team to progress faster, similar to the sprints commonly used in agile development.",
     image: CyclesTour,
@@ -55,7 +55,7 @@ const TOUR_STEPS: {
   },
   {
     key: "modules",
-    title: "Break into modules",
+    title: "Разбивайте на модули",
     description: "Modules break your big thing into Projects or Features, to help you organize better.",
     image: ModulesTour,
     prevStep: "cycles",
@@ -63,7 +63,7 @@ const TOUR_STEPS: {
   },
   {
     key: "views",
-    title: "Views",
+    title: "Представления",
     description:
       "Create custom filters to display only the work items that matter to you. Save and share your filters in just a few clicks.",
     image: ViewsTour,
@@ -72,7 +72,7 @@ const TOUR_STEPS: {
   },
   {
     key: "pages",
-    title: "Document with pages",
+    title: "Документируйте на страницах",
     description: "Use Pages to quickly jot down work items when you're in a meeting or starting a day.",
     image: PagesTour,
     prevStep: "views",
@@ -100,7 +100,7 @@ export const TourRoot = observer(function TourRoot(props: TOnboardingTourProps) 
             </div>
             <div className="flex flex-col overflow-y-auto p-6">
               <h3 className="font-semibold sm:text-18">
-                Welcome to Plane, {currentUser?.first_name} {currentUser?.last_name}
+                Добро пожаловать в Plane, {currentUser?.first_name} {currentUser?.last_name}
               </h3>
               <p className="mt-3 text-13 text-secondary">
                 We{"'"}re glad that you decided to try out Plane. You can now manage your projects with ease. Get
@@ -114,7 +114,7 @@ export const TourRoot = observer(function TourRoot(props: TOnboardingTourProps) 
                       setStep("work-items");
                     }}
                   >
-                    Take a Product Tour
+                    Пройти обзор продукта
                   </Button>
                   <button
                     type="button"
@@ -123,7 +123,7 @@ export const TourRoot = observer(function TourRoot(props: TOnboardingTourProps) 
                       onComplete();
                     }}
                   >
-                    No thanks, I will explore it myself
+                    Нет, я разберусь сам
                   </button>
                 </div>
               </div>

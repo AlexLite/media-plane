@@ -11,6 +11,7 @@ import { useParams } from "next/navigation";
 import { ArchiveRestoreIcon, Settings, UserPlus } from "lucide-react";
 // plane imports
 import { EUserPermissions, EUserPermissionsLevel, IS_FAVORITE_MENU_OPEN } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { useLocalStorage } from "@plane/hooks";
 import { Button } from "@plane/propel/button";
 import { Logo } from "@plane/propel/emoji-icon-picker";
@@ -51,6 +52,7 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
   const { workspaceSlug } = useParams();
   // store hooks
   const { getUserDetails } = useMember();
+  const { t } = useTranslation();
   const { addProjectToFavorites, removeProjectFromFavorites } = useProject();
   const { allowPermissions } = useUserPermissions();
   // hooks
@@ -274,15 +276,17 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
           <p className="line-clamp-2 text-13 break-words text-tertiary">
             {project.description && project.description.trim() !== ""
               ? project.description
-              : `Created on ${renderFormattedDate(project.created_at)}`}
+              : t("common.created_on_date", { date: renderFormattedDate(project.created_at) })}
           </p>
           <div className="item-center flex justify-between">
             <div className="flex items-center justify-center gap-2">
               <Tooltip
                 isMobile={isMobile}
-                tooltipHeading="Members"
+                tooltipHeading={t("members")}
                 tooltipContent={
-                  project.members && project.members.length > 0 ? `${project.members.length} Members` : "No Member"
+                  project.members && project.members.length > 0
+                    ? t("member", { count: project.members.length })
+                    : t("common.no_member_yet")
                 }
                 position="top"
               >
@@ -299,10 +303,10 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
                     </AvatarGroup>
                   </div>
                 ) : (
-                  <span className="text-13 text-placeholder italic">No Member Yet</span>
+                  <span className="text-13 text-placeholder italic">{t("common.no_member_yet")}</span>
                 )}
               </Tooltip>
-              {isArchived && <div className="text-11 font-medium text-placeholder">Archived</div>}
+              {isArchived && <div className="text-11 font-medium text-placeholder">{t("access.archived")}</div>}
             </div>
             {isArchived ? (
               hasAdminRole && (

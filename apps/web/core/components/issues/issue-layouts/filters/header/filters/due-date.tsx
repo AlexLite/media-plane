@@ -11,6 +11,7 @@ import { DATE_AFTER_FILTER_OPTIONS } from "@plane/constants";
 // components
 import { DateFilterModal } from "@/components/core/filters/date-filter-modal";
 import { FilterHeader, FilterOption } from "@/components/issues/issue-layouts/filters";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   appliedFilters: string[] | null;
@@ -20,6 +21,7 @@ type Props = {
 
 export const FilterDueDate = observer(function FilterDueDate(props: Props) {
   const { appliedFilters, handleUpdate, searchQuery } = props;
+  const { t } = useTranslation();
 
   const [previewEnabled, setPreviewEnabled] = useState(true);
   const [isDateFilterModalOpen, setIsDateFilterModalOpen] = useState(false);
@@ -48,11 +50,11 @@ export const FilterDueDate = observer(function FilterDueDate(props: Props) {
           handleClose={() => setIsDateFilterModalOpen(false)}
           isOpen={isDateFilterModalOpen}
           onSelect={(val) => handleUpdate(val)}
-          title="Due date"
+          title={t("common.due_date")}
         />
       )}
       <FilterHeader
-        title={`Due date${appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : ""}`}
+        title={`${t("common.due_date")}${appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : ""}`}
         isPreviewEnabled={previewEnabled}
         handleIsPreviewEnabled={() => setPreviewEnabled(!previewEnabled)}
       />
@@ -69,10 +71,15 @@ export const FilterDueDate = observer(function FilterDueDate(props: Props) {
                   multiple
                 />
               ))}
-              <FilterOption isChecked={isCustomDateSelected()} onClick={handleCustomDate} title="Custom" multiple />
+              <FilterOption
+                isChecked={isCustomDateSelected()}
+                onClick={handleCustomDate}
+                title={t("common.custom")}
+                multiple
+              />
             </>
           ) : (
-            <p className="text-11 text-placeholder italic">No matches found</p>
+            <p className="text-11 text-placeholder italic">{t("issues.search.no_matches_found")}</p>
           )}
         </div>
       )}

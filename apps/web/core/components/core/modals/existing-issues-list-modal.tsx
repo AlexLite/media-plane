@@ -215,13 +215,13 @@ export function ExistingIssuesListModal(props: Props) {
           {/* TODO: Translate here */}
           {searchTerm !== "" && (
             <h5 className="mx-2 text-13 text-secondary">
-              Search results for{" "}
+              {t("common.search_results_for")}{" "}
               <span className="text-primary">
                 {'"'}
                 {searchTerm}
                 {'"'}
               </span>{" "}
-              in project:
+              {t("common.in_project")}
             </h5>
           )}
 

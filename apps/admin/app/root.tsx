@@ -12,6 +12,7 @@ import favicon16 from "@/app/assets/favicon/favicon-16x16.png?url";
 import favicon32 from "@/app/assets/favicon/favicon-32x32.png?url";
 import faviconIco from "@/app/assets/favicon/favicon.ico?url";
 import { LogoSpinner } from "@/components/common/logo-spinner";
+import { getAdminTranslation } from "@/helpers/i18n";
 import globalStyles from "@/styles/globals.css?url";
 import { AppProviders } from "@/providers";
 import type { Route } from "./+types/root";
@@ -43,7 +44,7 @@ export const links: LinksFunction = () => [
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="ru" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -91,7 +92,7 @@ export function HydrateFallback() {
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   return (
     <div>
-      <p>Something went wrong.</p>
+      <p>{getAdminTranslation("something_went_wrong")}</p>
     </div>
   );
 }

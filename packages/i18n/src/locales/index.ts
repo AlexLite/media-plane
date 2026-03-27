@@ -6,6 +6,7 @@
 
 // Export all locale files to make them accessible from the package root
 export { default as enCore } from "./en/core";
+export { default as ruCore } from "./ru/core";
 export { default as enTranslations } from "./en/translations";
 export { default as enAccessibility } from "./en/accessibility";
 export { default as enEditor } from "./en/editor";
@@ -51,6 +52,7 @@ export const locales = {
     "empty-state": () => import("./zh-TW/empty-state"),
   },
   ru: {
+    core: () => import("./ru/core"),
     translations: () => import("./ru/translations"),
     accessibility: () => import("./ru/accessibility"),
     editor: () => import("./ru/editor"),

@@ -101,7 +101,6 @@ dev-editor
 
 storybook-static
 
-CLAUDE.md
 
 build/
 .react-router/
@@ -109,4 +108,10 @@ build/
 build/
 .react-router/
 temp/
-scripts/
+scripts/*
+!scripts/audit-keys.mjs
+!scripts/sync-upstream.sh
+
+# OMC tool state files
+.omc/state/
+.omc/project-memory.json

@@ -32,6 +32,12 @@ export const ProjectSettingsSidebarItemCategories = observer(function ProjectSet
   const { allowPermissions } = useUserPermissions();
   // translation
   const { t } = useTranslation();
+  const categoryLabelMap: Record<string, string> = {
+    general: "project_settings.categories.general",
+    features: "project_settings.categories.features",
+    "work-structure": "project_settings.categories.work_structure",
+    execution: "project_settings.categories.execution",
+  };
 
   return (
     <div className="mt-3 flex flex-col divide-y divide-subtle px-3">
@@ -45,7 +51,9 @@ export const ProjectSettingsSidebarItemCategories = observer(function ProjectSet
 
         return (
           <div key={category} className="shrink-0 py-3 first:pt-0 last:pb-0">
-            <div className="p-2 text-caption-md-medium text-tertiary capitalize">{t(category)}</div>
+            <div className="p-2 text-caption-md-medium text-tertiary capitalize">
+              {t(categoryLabelMap[category] ?? category)}
+            </div>
             <div className="flex flex-col">
               {accessibleItems.map((item) => {
                 const isItemActive =

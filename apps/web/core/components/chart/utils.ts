@@ -17,7 +17,7 @@ import {
 //
 
 const getDateGroupingName = (date: string, dateGrouping: ChartXAxisDateGrouping): string => {
-  if (!date || ["none", "null"].includes(date.toLowerCase())) return "None";
+  if (!date || ["none", "null"].includes(date.toLowerCase())) return "Нет";
 
   const formattedData = new Date(date);
   const isValidDate = isValid(formattedData);
@@ -38,7 +38,7 @@ const getDateGroupingName = (date: string, dateGrouping: ChartXAxisDateGrouping)
       break;
     case ChartXAxisDateGrouping.WEEK: {
       const month = renderFormattedDate(formattedData, "MMM");
-      parsedName = `${month}, Week ${getWeekOfMonth(formattedData)}`;
+      parsedName = `${month}, неделя ${getWeekOfMonth(formattedData)}`;
       break;
     }
     case ChartXAxisDateGrouping.MONTH:
@@ -59,7 +59,8 @@ export const parseChartData = (
   data: TChart | null | undefined,
   xAxisProperty: ChartXAxisProperty | null | undefined,
   groupByProperty: ChartXAxisProperty | null | undefined,
-  xAxisDateGrouping: ChartXAxisDateGrouping | null | undefined
+  xAxisDateGrouping: ChartXAxisDateGrouping | null | undefined,
+  options?: TDateGroupingOptions
 ): TChart => {
   if (!data) {
     return {
@@ -83,7 +84,7 @@ export const parseChartData = (
 
       // parse timestamp to visual date if xAxisProperty is in WIDGET_X_AXIS_DATE_PROPERTIES
       if (CHART_X_AXIS_DATE_PROPERTIES.includes(xAxisProperty)) {
-        datum.name = getDateGroupingName(datum.name, xAxisDateGrouping ?? ChartXAxisDateGrouping.DAY);
+        datum.name = getDateGroupingName(datum.name, xAxisDateGrouping ?? ChartXAxisDateGrouping.DAY, options);
       }
     }
 
@@ -104,7 +105,11 @@ export const parseChartData = (
 
     if (CHART_X_AXIS_DATE_PROPERTIES.includes(groupByProperty)) {
       Object.keys(updatedSchema).forEach((key) => {
-        updatedSchema[key] = getDateGroupingName(updatedSchema[key], xAxisDateGrouping ?? ChartXAxisDateGrouping.DAY);
+        updatedSchema[key] = getDateGroupingName(
+          updatedSchema[key],
+          xAxisDateGrouping ?? ChartXAxisDateGrouping.DAY,
+          options
+        );
       });
     }
   }

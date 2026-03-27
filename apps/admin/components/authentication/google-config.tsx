@@ -13,6 +13,7 @@ import { getButtonStyling } from "@plane/propel/button";
 import type { TInstanceAuthenticationMethodKeys } from "@plane/types";
 import { ToggleSwitch } from "@plane/ui";
 import { cn } from "@plane/utils";
+import { useAdminTranslation } from "@/helpers/i18n";
 // hooks
 import { useInstance } from "@/hooks/store";
 
@@ -23,6 +24,7 @@ type Props = {
 
 export const GoogleConfiguration = observer(function GoogleConfiguration(props: Props) {
   const { disabled, updateConfig } = props;
+  const { t } = useAdminTranslation();
   // store
   const { formattedConfig } = useInstance();
   // derived values
@@ -34,7 +36,7 @@ export const GoogleConfiguration = observer(function GoogleConfiguration(props: 
       {isGoogleConfigured ? (
         <div className="flex items-center gap-4">
           <Link href="/authentication/google" className={cn(getButtonStyling("link", "base"), "font-medium")}>
-            Edit
+            {t("edit")}
           </Link>
           <ToggleSwitch
             value={Boolean(parseInt(enableGoogleConfig))}
@@ -49,7 +51,7 @@ export const GoogleConfiguration = observer(function GoogleConfiguration(props: 
       ) : (
         <Link href="/authentication/google" className={cn(getButtonStyling("secondary", "base"), "text-tertiary")}>
           <Settings2 className="h-4 w-4 p-0.5 text-tertiary" />
-          Configure
+          {t("configure")}
         </Link>
       )}
     </>

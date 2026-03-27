@@ -17,6 +17,7 @@ import { Input, Spinner } from "@plane/ui";
 import { Banner } from "@/components/common/banner";
 // local components
 import { FormHeader } from "@/components/instance/form-header";
+import { useAdminTranslation } from "@/helpers/i18n";
 import { AuthBanner } from "./auth-banner";
 import { AuthHeader } from "./auth-header";
 import { authErrorHandler } from "./auth-helpers";
@@ -50,6 +51,7 @@ const defaultFromData: TFormData = {
 };
 
 export function InstanceSignInForm() {
+  const { t } = useAdminTranslation();
   // search params
   const searchParams = useSearchParams();
   const emailParam = searchParams.get("email") || undefined;
@@ -101,12 +103,12 @@ export function InstanceSignInForm() {
 
   useEffect(() => {
     if (errorCode) {
-      const errorDetail = authErrorHandler(errorCode?.toString() as EAdminAuthErrorCodes);
+      const errorDetail = authErrorHandler(errorCode?.toString() as EAdminAuthErrorCodes, undefined, t);
       if (errorDetail) {
         setErrorInfo(errorDetail);
       }
     }
-  }, [errorCode]);
+  }, [errorCode, t]);
 
   return (
     <>
@@ -114,8 +116,8 @@ export function InstanceSignInForm() {
       <div className="mt-10 flex w-full flex-grow flex-col items-center justify-center py-6">
         <div className="relative flex w-full max-w-[22.5rem] flex-col gap-6">
           <FormHeader
-            heading="Manage your Plane instance"
-            subHeading="Configure instance-wide settings to secure your instance"
+            heading={t("sign_in_heading")}
+            subHeading={t("sign_in_subheading")}
           />
           <form
             className="space-y-4"
@@ -135,7 +137,7 @@ export function InstanceSignInForm() {
 
             <div className="w-full space-y-1">
               <label className="text-13 font-medium text-tertiary" htmlFor="email">
-                Email <span className="text-danger-primary">*</span>
+                {t("sign_in_email_label")} <span className="text-danger-primary">*</span>
               </label>
               <Input
                 className="w-full border border-subtle !bg-surface-1 placeholder:text-placeholder"
@@ -143,7 +145,7 @@ export function InstanceSignInForm() {
                 name="email"
                 type="email"
                 inputSize="md"
-                placeholder="name@company.com"
+                placeholder={t("sign_in_email_placeholder")}
                 value={formData.email}
                 onChange={(e) => handleFormChange("email", e.target.value)}
                 autoComplete="off"
@@ -153,7 +155,7 @@ export function InstanceSignInForm() {
 
             <div className="w-full space-y-1">
               <label className="text-13 font-medium text-tertiary" htmlFor="password">
-                Password <span className="text-danger-primary">*</span>
+                {t("sign_in_password_label")} <span className="text-danger-primary">*</span>
               </label>
               <div className="relative">
                 <Input
@@ -162,7 +164,7 @@ export function InstanceSignInForm() {
                   name="password"
                   type={showPassword ? "text" : "password"}
                   inputSize="md"
-                  placeholder="Enter your password"
+                  placeholder={t("sign_in_password_placeholder")}
                   value={formData.password}
                   onChange={(e) => handleFormChange("password", e.target.value)}
                   autoComplete="off"
@@ -188,7 +190,7 @@ export function InstanceSignInForm() {
             </div>
             <div className="py-2">
               <Button type="submit" size="xl" className="w-full" disabled={isButtonDisabled}>
-                {isSubmitting ? <Spinner height="20px" width="20px" /> : "Sign in"}
+                {isSubmitting ? <Spinner height="20px" width="20px" /> : t("sign_in_button")}
               </Button>
             </div>
           </form>

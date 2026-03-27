@@ -4,11 +4,11 @@
  * See the LICENSE file for details.
  */
 
-import type { FC } from "react";
 import { ListFilter } from "lucide-react";
 import { getButtonStyling } from "@plane/propel/button";
 // plane imports
 import { ChevronDownIcon } from "@plane/propel/icons";
+import { useTranslation } from "@plane/i18n";
 import { cn } from "@plane/utils";
 // components
 import { FiltersDropdown } from "@/components/issues/issue-layouts/filters";
@@ -20,15 +20,16 @@ import { InboxIssueOrderByDropdown } from "./sorting/order-by";
 
 const smallButton = <ListFilter className="size-3" />;
 
-const largeButton = (
-  <div className={cn(getButtonStyling("secondary", "base"), "px-2 text-tertiary")}>
-    <ListFilter className="size-3" />
-    <span>Filters</span>
-    <ChevronDownIcon className="size-3" strokeWidth={2} />
-  </div>
-);
 export function FiltersRoot() {
+  const { t } = useTranslation();
   const windowSize = useSize();
+  const largeButton = (
+    <div className={cn(getButtonStyling("secondary", "base"), "px-2 text-tertiary")}>
+      <ListFilter className="size-3" />
+      <span>{t("common.filters")}</span>
+      <ChevronDownIcon className="size-3" strokeWidth={2} />
+    </div>
+  );
 
   return (
     <div className="relative flex items-center gap-2">
