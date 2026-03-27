@@ -94,11 +94,6 @@ export default {
       resend_in: "Отправить снова через {seconds} секунд",
       sign_in_with_unique_code: "Войти с уникальным кодом",
       forgot_password: "Забыли пароль?",
-      sign_up_action: "Регистрация",
-      sign_in_action: "Вход",
-      no_auth_methods_available: "Нет доступных методов аутентификации",
-      no_auth_methods_available_description:
-        "Попросите администратора включить аутентификацию для вашего инстанса.",
     },
     landing: {
       work_in_all_dimensions: "Работайте во всех измерениях.",
@@ -155,8 +150,7 @@ export default {
           },
           unique_code: {
             header: "Войти или зарегистрироваться",
-            sub_header:
-              "Войдите, используя уникальный код, отправленный на указанный выше адрес электронной почты.",
+            sub_header: "Войдите, используя уникальный код, отправленный на указанный выше адрес электронной почты.",
           },
         },
       },
@@ -190,157 +184,6 @@ export default {
     set_password: {
       title: "Обеспечьте безопасность вашего аккаунта",
       description: "Установка пароля помогает вам безопасно входить в систему",
-    },
-    error_codes: {
-      common: {
-        sign_in_link: "Войти",
-        now_suffix: "сейчас.",
-      },
-      instance_not_configured: {
-        title: "Инстанс не настроен",
-        message: "Инстанс не настроен. Обратитесь к администратору.",
-      },
-      invalid_email: {
-        title: "Некорректный email",
-        message: "Некорректный email. Попробуйте снова.",
-      },
-      email_required: {
-        title: "Требуется email",
-        message: "Укажите email. Попробуйте снова.",
-      },
-      signup_disabled: {
-        title: "Регистрация отключена",
-        message: "Регистрация отключена. Обратитесь к администратору.",
-      },
-      magic_link_login_disabled: {
-        title: "Вход по магической ссылке отключен",
-        message: "Вход по магической ссылке отключен. Обратитесь к администратору.",
-      },
-      password_login_disabled: {
-        title: "Вход по паролю отключен",
-        message: "Вход по паролю отключен. Обратитесь к администратору.",
-      },
-      user_account_deactivated: {
-        title: "Учетная запись деактивирована",
-        message: "Учетная запись деактивирована. Обратитесь к администратору.",
-      },
-      invalid_password: {
-        title: "Неверный пароль",
-        message: "Неверный пароль. Попробуйте снова.",
-      },
-      password_too_weak: {
-        title: "Слабый пароль",
-        message: "Используйте более надежный пароль.",
-      },
-      smtp_not_configured: {
-        title: "SMTP не настроен",
-        message: "SMTP не настроен. Обратитесь к администратору.",
-      },
-      authentication_failed: {
-        title: "Ошибка аутентификации",
-        message: "Ошибка аутентификации. Попробуйте снова.",
-      },
-      email_and_password_required: {
-        title: "Требуются email и пароль",
-        message: "Введите email и пароль. Попробуйте снова.",
-      },
-      email_and_code_required: {
-        title: "Требуются email и код",
-        message: "Введите email и код. Попробуйте снова.",
-      },
-      invalid_magic_code: {
-        message: "Неверный код из письма. Попробуйте снова.",
-      },
-      expired_magic_code: {
-        title: "Срок действия кода истек",
-        message: "Срок действия кода истек. Запросите новый код.",
-      },
-      invalid_password_token: {
-        title: "Неверный токен пароля",
-        message: "Неверный токен сброса пароля.",
-      },
-      expired_password_token: {
-        title: "Срок действия токена истек",
-        message: "Срок действия токена сброса истек. Попробуйте снова.",
-      },
-      password_required: {
-        title: "Требуется пароль",
-        message: "Введите пароль. Попробуйте снова.",
-      },
-      incorrect_old_password: {
-        title: "Неверный текущий пароль",
-        message: "Неверный текущий пароль. Попробуйте снова.",
-      },
-      invalid_new_password: {
-        title: "Некорректный новый пароль",
-        message: "Некорректный новый пароль. Попробуйте снова.",
-      },
-      password_already_set: {
-        title: "Пароль уже установлен",
-        message: "Пароль уже установлен. Попробуйте снова.",
-      },
-      oauth_not_configured: {
-        title: "OAuth не настроен",
-        message: "OAuth не настроен. Обратитесь к администратору.",
-      },
-      google_not_configured: {
-        title: "Google OAuth не настроен",
-        message: "Google OAuth не настроен. Обратитесь к администратору.",
-      },
-      github_not_configured: {
-        title: "GitHub OAuth не настроен",
-        message: "GitHub OAuth не настроен. Обратитесь к администратору.",
-      },
-      gitlab_not_configured: {
-        title: "GitLab OAuth не настроен",
-        message: "GitLab OAuth не настроен. Обратитесь к администратору.",
-      },
-      google_oauth_provider_error: {
-        title: "Ошибка провайдера Google OAuth",
-        message: "Ошибка провайдера Google OAuth. Попробуйте снова.",
-      },
-      github_oauth_provider_error: {
-        title: "Ошибка провайдера GitHub OAuth",
-        message: "Ошибка провайдера GitHub OAuth. Попробуйте снова.",
-      },
-      gitlab_oauth_provider_error: {
-        title: "Ошибка провайдера GitLab OAuth",
-        message: "Ошибка провайдера GitLab OAuth. Попробуйте снова.",
-      },
-      admin_already_exists: {
-        title: "Администратор уже существует",
-        message: "Администратор уже существует. Попробуйте снова.",
-      },
-      admin_required_email_password_first_name: {
-        title: "Требуются email, пароль и имя",
-        message: "Введите email, пароль и имя. Попробуйте снова.",
-      },
-      invalid_admin_email: {
-        title: "Некорректный email администратора",
-        message: "Некорректный email администратора. Попробуйте снова.",
-      },
-      invalid_admin_password: {
-        title: "Некорректный пароль администратора",
-        message: "Некорректный пароль администратора. Попробуйте снова.",
-      },
-      admin_user_deactivated: {
-        title: "Учетная запись администратора деактивирована",
-        message: "Учетная запись администратора деактивирована.",
-      },
-      rate_limit_exceeded: {
-        title: "Слишком много попыток",
-        message: "Превышен лимит попыток. Попробуйте позже.",
-      },
-      user_already_exist: {
-        title: "Пользователь уже существует",
-        message_prefix: "Аккаунт уже зарегистрирован.",
-      },
-      user_does_not_exist: {
-        title: "Пользователь не найден",
-        message_prefix: "Аккаунт не найден.",
-        create_one_link: "Создать аккаунт",
-        message_suffix: "чтобы продолжить.",
-      },
     },
     sign_out: {
       toast: {
