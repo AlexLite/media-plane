@@ -38,6 +38,7 @@ function WorkspaceInvitationPage() {
   const invitation_id = searchParams.get("invitation_id");
   const slug = searchParams.get("slug");
   const token = searchParams.get("token");
+  const emailFromUrl = searchParams.get("email");
   // store hooks
   const { data: currentUser } = useUser();
 
@@ -59,6 +60,7 @@ function WorkspaceInvitationPage() {
       ? workspaceService.joinWorkspaces({ invitations: [invitationDetail.id] })
       : workspaceService.joinWorkspace(invitationDetail.workspace.slug, invitationDetail.id, {
           accepted: true,
+          email: invitationDetail.email || emailFromUrl,
           token: token,
         });
     void acceptPromise
@@ -70,10 +72,11 @@ function WorkspaceInvitationPage() {
   };
 
   const handleReject = () => {
-    if (!invitationDetail || !token) return;
+    if (!invitationDetail) return;
     void workspaceService
       .joinWorkspace(invitationDetail.workspace.slug, invitationDetail.id, {
         accepted: false,
+        email: invitationDetail.email || emailFromUrl,
         token: token,
       })
       .then(() => {
