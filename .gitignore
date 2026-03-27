@@ -111,6 +111,7 @@ temp/
 scripts/*
 !scripts/audit-keys.mjs
 !scripts/sync-upstream.sh
+!scripts/audit-hardcoded.mjs
 
 # OMC tool state files
 .omc/state/
