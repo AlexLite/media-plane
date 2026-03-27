@@ -24,6 +24,36 @@ type TAuthHeader = {
   currentAuthStep: EAuthSteps;
 };
 
+const Titles = {
+  [EAuthModes.SIGN_IN]: {
+    [EAuthSteps.EMAIL]: {
+      header: "Работайте во всех измерениях.",
+      subHeader: "С возвращением в Plane.",
+    },
+    [EAuthSteps.PASSWORD]: {
+      header: "Работайте во всех измерениях.",
+      subHeader: "С возвращением в Plane.",
+    },
+    [EAuthSteps.UNIQUE_CODE]: {
+      header: "Работайте во всех измерениях.",
+      subHeader: "С возвращением в Plane.",
+    },
+  },
+  [EAuthModes.SIGN_UP]: {
+    [EAuthSteps.EMAIL]: {
+      header: "Работайте во всех измерениях.",
+      subHeader: "Создайте аккаунт Plane.",
+    },
+    [EAuthSteps.PASSWORD]: {
+      header: "Работайте во всех измерениях.",
+      subHeader: "Создайте аккаунт Plane.",
+    },
+    [EAuthSteps.UNIQUE_CODE]: {
+      header: "Работайте во всех измерениях.",
+      subHeader: "Создайте аккаунт Plane.",
+    },
+  },
+};
 const workSpaceService = new WorkspaceService();
 
 export const AuthHeader = observer(function AuthHeader(props: TAuthHeader) {

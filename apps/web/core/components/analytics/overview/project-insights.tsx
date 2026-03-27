@@ -51,6 +51,21 @@ const ProjectInsights = observer(function ProjectInsights() {
       )
   );
 
+  const metricLabelMap: Record<string, string> = {
+    work_items: t("common.work_items"),
+    cycles: t("common.cycles"),
+    modules: t("common.modules"),
+    intake: t("sidebar.intake"),
+    members: t("common.members"),
+    pages: t("sidebar.pages"),
+    views: t("sidebar.views"),
+  };
+
+  const localizedProjectInsightsData = projectInsightsData?.map((item) => ({
+    ...item,
+    name: metricLabelMap[item.key] ?? item.name,
+  }));
+
   return (
     <AnalyticsSectionWrapper
       title={`${t("workspace_analytics.project_insights")}`}
@@ -68,11 +83,11 @@ const ProjectInsights = observer(function ProjectInsights() {
         />
       ) : (
         <div className="gap-8 lg:flex">
-          {projectInsightsData && (
+          {localizedProjectInsightsData && (
             <Suspense fallback={<ProjectInsightsLoader />}>
               <RadarChart
                 className="h-[350px] w-full text-accent-primary lg:w-3/5"
-                data={projectInsightsData}
+                data={localizedProjectInsightsData}
                 dataKey="key"
                 radars={[
                   {
@@ -103,7 +118,7 @@ const ProjectInsights = observer(function ProjectInsights() {
                 <div>{t("workspace_analytics.trend_on_charts")}</div>
                 <div>{t("common.work_items")}</div>
               </div>
-              {projectInsightsData?.map((item) => (
+              {localizedProjectInsightsData?.map((item) => (
                 <div key={item.key} className="flex items-center justify-between text-13 text-primary">
                   <div>{item.name}</div>
                   <div className="flex items-center gap-1">

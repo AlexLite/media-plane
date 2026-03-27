@@ -5,6 +5,7 @@
  */
 
 import Link from "next/link";
+import { useTranslation } from "@plane/i18n";
 // types
 import type { TPageNavigationTabs } from "@plane/types";
 // helpers
@@ -20,20 +21,21 @@ type TPageTabNavigation = {
 const pageTabs: { key: TPageNavigationTabs; label: string }[] = [
   {
     key: "public",
-    label: "Public",
+    label: "pages_list.tabs.public",
   },
   {
     key: "private",
-    label: "Private",
+    label: "pages_list.tabs.private",
   },
   {
     key: "archived",
-    label: "Archived",
+    label: "pages_list.tabs.archived",
   },
 ];
 
 export function PageTabNavigation(props: TPageTabNavigation) {
   const { workspaceSlug, projectId, pageType } = props;
+  const { t } = useTranslation();
 
   const handleTabClick = (e: React.MouseEvent<HTMLAnchorElement>, tabKey: TPageNavigationTabs) => {
     if (tabKey === pageType) e.preventDefault();
@@ -53,7 +55,7 @@ export function PageTabNavigation(props: TPageTabNavigation) {
               "text-accent-primary": tab.key === pageType,
             })}
           >
-            {tab.label}
+            {t(tab.label)}
           </div>
           <div
             className={cn(`w-full rounded-t border-t-2 border-transparent transition-all`, {

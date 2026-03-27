@@ -2677,6 +2677,20 @@ export default {
       },
     },
   },
+  pages_list: {
+    search_pages: "Поиск страниц",
+    owned_by: "Владелец",
+    tabs: {
+      public: "Публичные",
+      private: "Приватные",
+      archived: "Архив",
+    },
+    order_by: {
+      name: "Название",
+      created_at: "Дата создания",
+      updated_at: "Дата изменения",
+    },
+  },
   project_page: {
     empty_state: {
       general: {

@@ -16,17 +16,8 @@ import {
 } from "@plane/utils";
 //
 
-type TDateGroupingOptions = {
-  weekLabel?: string;
-  noneLabel?: string;
-};
-
-const getDateGroupingName = (
-  date: string,
-  dateGrouping: ChartXAxisDateGrouping,
-  options?: TDateGroupingOptions
-): string => {
-  if (!date || ["none", "null"].includes(date.toLowerCase())) return options?.noneLabel ?? "None";
+const getDateGroupingName = (date: string, dateGrouping: ChartXAxisDateGrouping): string => {
+  if (!date || ["none", "null"].includes(date.toLowerCase())) return "Нет";
 
   const formattedData = new Date(date);
   const isValidDate = isValid(formattedData);
@@ -47,7 +38,7 @@ const getDateGroupingName = (
       break;
     case ChartXAxisDateGrouping.WEEK: {
       const month = renderFormattedDate(formattedData, "MMM");
-      parsedName = `${month}, ${options?.weekLabel ?? "Week"} ${getWeekOfMonth(formattedData)}`;
+      parsedName = `${month}, неделя ${getWeekOfMonth(formattedData)}`;
       break;
     }
     case ChartXAxisDateGrouping.MONTH:

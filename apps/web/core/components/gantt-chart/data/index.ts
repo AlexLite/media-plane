@@ -68,7 +68,7 @@ export const datePreview = (date: Date, includeTime: boolean = false) => {
   month = months[month];
   const year = date.getFullYear();
 
-  return `${charCapitalize(month?.shortTitle)} ${day}, ${year}${includeTime ? `, ${timePreview(date)}` : ``}`;
+  return `${month?.shortTitle} ${day}, ${year}${includeTime ? `, ${timePreview(date)}` : ``}`;
 };
 
 // context data

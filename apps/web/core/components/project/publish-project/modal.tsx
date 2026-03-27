@@ -243,7 +243,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
             )}
             <div className="space-y-4">
               <div className="relative flex items-center justify-between gap-2">
-                <div className="text-13">Views</div>
+                <div className="text-13">Представления</div>
                 <Controller
                   control={control}
                   name="view_props"
