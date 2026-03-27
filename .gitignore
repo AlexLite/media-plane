@@ -109,7 +109,9 @@ build/
 build/
 .react-router/
 temp/
-scripts/
+scripts/*
+!scripts/audit-keys.mjs
+!scripts/sync-upstream.sh
 
 # OMC tool state files
 .omc/state/
