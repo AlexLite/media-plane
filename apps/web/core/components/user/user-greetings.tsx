@@ -15,31 +15,6 @@ export interface IUserGreetingsView {
   user: IUser;
 }
 
-const RU_WEEKDAY_FALLBACK: Record<string, string> = {
-  monday: "Понедельник",
-  tuesday: "Вторник",
-  wednesday: "Среда",
-  thursday: "Четверг",
-  friday: "Пятница",
-  saturday: "Суббота",
-  sunday: "Воскресенье",
-};
-
-const RU_MONTH_FALLBACK: Record<string, string> = {
-  jan: "янв.",
-  feb: "февр.",
-  mar: "мар.",
-  apr: "апр.",
-  may: "мая",
-  jun: "июн.",
-  jul: "июл.",
-  aug: "авг.",
-  sep: "сент.",
-  oct: "окт.",
-  nov: "нояб.",
-  dec: "дек.",
-};
-
 export function UserGreetingsView(props: IUserGreetingsView) {
   const { user } = props;
   // current time hook
@@ -64,12 +39,8 @@ export function UserGreetingsView(props: IUserGreetingsView) {
     day: "2-digit",
   }).formatToParts(currentTime);
   const day = dateParts.find((part) => part.type === "day")?.value ?? "";
-  const weekDayRaw = dateParts.find((part) => part.type === "weekday")?.value ?? "";
-  const monthRaw = dateParts.find((part) => part.type === "month")?.value ?? "";
-  const weekDayKey = weekDayRaw.toLowerCase().replace(".", "");
-  const monthKey = monthRaw.toLowerCase().replace(".", "");
-  const weekDay = RU_WEEKDAY_FALLBACK[weekDayKey] ?? weekDayRaw;
-  const month = RU_MONTH_FALLBACK[monthKey] ?? monthRaw;
+  const weekDay = dateParts.find((part) => part.type === "weekday")?.value ?? "";
+  const month = dateParts.find((part) => part.type === "month")?.value ?? "";
   const date = `${day} ${month}`.trim();
 
   const timeString = new Intl.DateTimeFormat(locale, {

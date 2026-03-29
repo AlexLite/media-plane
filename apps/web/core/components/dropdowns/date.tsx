@@ -14,6 +14,7 @@ import { Combobox } from "@headlessui/react";
 import type { Matcher } from "@plane/propel/calendar";
 import { Calendar } from "@plane/propel/calendar";
 import { CloseIcon } from "@plane/propel/icons";
+import { useTranslation } from "@plane/i18n";
 import { ComboDropDown } from "@plane/ui";
 import { cn, renderFormattedDate, getDate } from "@plane/utils";
 // helpers
@@ -62,7 +63,7 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
     maxDate,
     onChange,
     onClose,
-    placeholder = "Дата",
+    placeholder,
     placement,
     showTooltip = false,
     tabIndex,
@@ -71,6 +72,8 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
     renderByDefault = true,
     labelClassName = "",
   } = props;
+  const { t } = useTranslation();
+  const displayPlaceholder = placeholder ?? t("common.date");
   // states
   const [isOpen, setIsOpen] = useState(defaultOpen);
   // refs
@@ -138,8 +141,8 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
       <DropdownButton
         className={buttonClassName}
         isActive={isOpen}
-        tooltipHeading={placeholder}
-        tooltipContent={value ? renderFormattedDate(value, formatToken) : "Нет"}
+        tooltipHeading={displayPlaceholder}
+        tooltipContent={value ? renderFormattedDate(value, formatToken) : t("common.none")}
         showTooltip={showTooltip}
         variant={buttonVariant}
         renderToolTipByDefault={renderByDefault}
@@ -147,7 +150,7 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
         {!hideIcon && icon}
         {BUTTON_VARIANTS_WITH_TEXT.includes(buttonVariant) && (
           <span className={cn("flex-grow truncate text-left text-body-xs-medium", labelClassName)}>
-            {value ? renderFormattedDate(value, formatToken) : placeholder}
+            {value ? renderFormattedDate(value, formatToken) : displayPlaceholder}
           </span>
         )}
         {isClearable && !disabled && isDateSelected && (

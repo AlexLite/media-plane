@@ -336,6 +336,7 @@ export default {
   couldnt_remove_the_project_from_favorites: "Couldn't remove the project from favorites. Please try again.",
   add_to_favorites: "Add to favorites",
   remove_from_favorites: "Remove from favorites",
+  rename_folder: "Rename Folder",
   publish_project: "Publish project",
   publish: "Publish",
   copy_link: "Copy link",
@@ -679,6 +680,9 @@ export default {
     analytics: "Analytics",
     date: "Date",
     dates: "Dates",
+    offline: "Offline",
+    offline_tooltip_heading: "You are offline.",
+    offline_tooltip_content: "You can continue making changes. They will be synced when you are back online.",
     success: "Success!",
     something_went_wrong: "Something went wrong",
     error: {
