@@ -2370,6 +2370,7 @@ export default {
     },
   },
   project_cycles: {
+    delete_cycle: "Delete cycle",
     add_cycle: "Add cycle",
     more_details: "More details",
     cycle: "Cycle",
