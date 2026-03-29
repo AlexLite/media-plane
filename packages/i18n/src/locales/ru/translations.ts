@@ -338,6 +338,7 @@ export default {
   couldnt_remove_the_project_from_favorites: "Не удалось удалить проект из избранного. Попробуйте снова.",
   add_to_favorites: "Добавить в избранное",
   remove_from_favorites: "Удалить из избранного",
+  rename_folder: "Переименовать папку",
   publish_project: "Опубликовать проект",
   publish: "Опубликовать",
   copy_link: "Копировать ссылку",
@@ -683,6 +684,9 @@ export default {
     analytics: "Аналитика",
     date: "Дата",
     dates: "Даты",
+    offline: "Не в сети",
+    offline_tooltip_heading: "Вы не в сети.",
+    offline_tooltip_content: "Вы можете продолжать вносить изменения. Они будут синхронизированы, когда вы снова подключитесь к сети.",
     success: "Успешно!",
     something_went_wrong: "Что-то пошло не так",
     error: {
