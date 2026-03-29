@@ -204,7 +204,7 @@ export const ProjectDropdownBase = observer(function ProjectDropdownBase(props: 
           <DropdownButton
             className={buttonClassName}
             isActive={isOpen}
-            tooltipHeading="Project"
+            tooltipHeading={t("common.project")}
             tooltipContent={value?.length ? `${value.length} project${value.length !== 1 ? "s" : ""}` : placeholder}
             showTooltip={showTooltip}
             variant={buttonVariant}

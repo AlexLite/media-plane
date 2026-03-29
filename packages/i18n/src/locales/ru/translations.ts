@@ -2445,6 +2445,7 @@ export default {
     },
   },
   project_cycles: {
+    delete_cycle: "Удалить цикл",
     add_cycle: "Добавить цикл",
     more_details: "Подробнее",
     cycle: "Цикл",
