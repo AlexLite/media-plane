@@ -666,6 +666,7 @@ export default {
     created_by: "Создано",
     none: "Нет",
     link: "Ссылка",
+    link_count: "{count, plural, one {# ссылка} other {# ссылок}}",
     estimates: "Оценки",
     estimate: "Оценка",
     created_at: "Создано в",
@@ -1675,6 +1676,18 @@ export default {
     un_started_work_items: "Не начатые {entity}",
     completed_work_items: "Завершённые {entity}",
     total: "Общее количество {entity}",
+    add_property: "Добавить свойство",
+    add_metric: "Добавить метрику",
+    x_axis: {
+      state_name: "Название статуса",
+      estimate_point: "Оценка в очках",
+    },
+    duration: {
+      yesterday: "Вчера",
+      last_7_days: "Последние 7 дней",
+      last_30_days: "Последние 30 дней",
+      last_3_months: "Последние 3 месяца",
+    },
   },
   workspace_projects: {
     label: "{count, plural, one {Проект} other {Проекты}}",

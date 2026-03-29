@@ -7,6 +7,7 @@
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { EEstimateSystem } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { ProjectIcon } from "@plane/propel/icons";
 import type { ChartYAxisMetric } from "@plane/types";
 // plane package imports
@@ -24,6 +25,7 @@ type Props = {
 export const SelectYAxis = observer(function SelectYAxis({ value, onChange, hiddenOptions, options }: Props) {
   // hooks
   const { projectId } = useParams();
+  const { t } = useTranslation();
   const { areEstimateEnabledByProjectId, currentActiveEstimateId, estimateById } = useProjectEstimates();
 
   const isEstimateEnabled = (analyticsOption: string) => {
@@ -49,7 +51,7 @@ export const SelectYAxis = observer(function SelectYAxis({ value, onChange, hidd
       label={
         <div className="flex items-center gap-2">
           <ProjectIcon className="h-3 w-3" />
-          <span>{options.find((v) => v.value === value)?.label ?? "Add Metric"}</span>
+          <span>{options.find((v) => v.value === value) ? t(options.find((v) => v.value === value)!.label) : t("workspace_analytics.add_metric")}</span>
         </div>
       }
       onChange={onChange}
@@ -60,7 +62,7 @@ export const SelectYAxis = observer(function SelectYAxis({ value, onChange, hidd
         return (
           isEstimateEnabled(item.value) && (
             <CustomSelect.Option key={item.value} value={item.value}>
-              {item.label}
+              {t(item.label)}
             </CustomSelect.Option>
           )
         );

@@ -144,12 +144,20 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
   }, [chart_model, group_by, parsedData, resolvedTheme, workspaceStates, x_axis, y_axis]);
 
   const yAxisLabel = useMemo(
-    () => ANALYTICS_Y_AXIS_VALUES.find((item) => item.value === props.y_axis)?.label ?? props.y_axis,
-    [props.y_axis]
+    () => {
+      const item = ANALYTICS_Y_AXIS_VALUES.find((item) => item.value === props.y_axis);
+      return item ? t(item.label) : props.y_axis;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.y_axis, t]
   );
   const xAxisLabel = useMemo(
-    () => ANALYTICS_X_AXIS_VALUES.find((item) => item.value === props.x_axis)?.label ?? props.x_axis,
-    [props.x_axis]
+    () => {
+      const item = ANALYTICS_X_AXIS_VALUES.find((item) => item.value === props.x_axis);
+      return item ? t(item.label) : props.x_axis;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.x_axis, t]
   );
 
   const defaultColumns: ColumnDef<TChartDatum>[] = useMemo(

@@ -661,6 +661,7 @@ export default {
     created_by: "Created by",
     none: "None",
     link: "Link",
+    link_count: "{count, plural, one {# link} other {# links}}",
     estimates: "Estimates",
     estimate: "Estimate",
     created_at: "Created at",
@@ -1639,6 +1640,18 @@ export default {
     active_projects: "Active Projects",
     customized_insights: "Customized Insights",
     created_vs_resolved: "Created vs Resolved",
+    add_property: "Add Property",
+    add_metric: "Add Metric",
+    x_axis: {
+      state_name: "State name",
+      estimate_point: "Estimate point",
+    },
+    duration: {
+      yesterday: "Yesterday",
+      last_7_days: "Last 7 days",
+      last_30_days: "Last 30 days",
+      last_3_months: "Last 3 months",
+    },
     empty_state: {
       project_insights: {
         title: "No data yet",
