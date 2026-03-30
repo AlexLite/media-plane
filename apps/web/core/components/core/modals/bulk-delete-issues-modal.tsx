@@ -116,7 +116,7 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
         setToast({
           type: TOAST_TYPE.SUCCESS,
           title: t("common.success"),
-          message: "Work items deleted successfully!",
+          message: t("work_item_operations.bulk_deleted"),
         });
         handleClose();
       })

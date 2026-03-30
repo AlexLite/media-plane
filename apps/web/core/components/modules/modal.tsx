@@ -65,7 +65,7 @@ export const CreateUpdateModuleModal = observer(function CreateUpdateModuleModal
         setToast({
           type: TOAST_TYPE.SUCCESS,
           title: t("common.success"),
-          message: "Module created successfully.",
+          message: t("module_operations.created"),
         });
       })
       .catch((err) => {

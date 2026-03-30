@@ -43,7 +43,7 @@ export function DeactivateAccountModal(props: Props) {
         setToast({
           type: TOAST_TYPE.SUCCESS,
           title: t("common.success"),
-          message: "Account deactivated successfully.",
+          message: t("account_deactivated_successfully"),
         });
         signOut();
         router.push("/");

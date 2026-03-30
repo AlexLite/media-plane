@@ -53,7 +53,7 @@ export const DeleteModuleModal = observer(function DeleteModuleModal(props: Prop
         setToast({
           type: TOAST_TYPE.SUCCESS,
           title: t("common.success"),
-          message: "Module deleted successfully.",
+          message: t("module_operations.deleted"),
         });
       })
       .catch((errors) => {
