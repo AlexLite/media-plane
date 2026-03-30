@@ -492,6 +492,7 @@ export default {
   add_work_item: "Добавить рабочий элемент",
   advanced_description_placeholder: "Нажмите '/' для команд",
   create_work_item: "Создать рабочий элемент",
+  add_existing_work_item: "Добавить существующий рабочий элемент",
   attachments: "Вложения",
   declining: "Отмена...",
   declined: "Отменено",
@@ -2614,6 +2615,9 @@ export default {
     archive_module: "Архивировать модуль",
     restore_module: "Восстановить модуль",
     delete_module: "Удалить модуль",
+    no_matching_modules: "Нет подходящих модулей",
+    remove_filters_to_see_all_modules: "Снимите фильтры для просмотра всех модулей",
+    remove_search_criteria_to_see_all_modules: "Очистите поиск для просмотра всех модулей",
     empty_state: {
       general: {
         title: "Связывайте этапы проекта с модулями для удобного отслеживания рабочих элементов.",

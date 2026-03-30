@@ -484,6 +484,7 @@ export default {
   add_work_item: "Add work item",
   advanced_description_placeholder: "Press '/' for commands",
   create_work_item: "Create work item",
+  add_existing_work_item: "Add an existing work item",
   attachments: "Attachments",
   declining: "Declining",
   declined: "Declined",
@@ -2543,6 +2544,9 @@ export default {
     archive_module: "Archive Module",
     restore_module: "Restore Module",
     delete_module: "Delete module",
+    no_matching_modules: "No matching modules",
+    remove_filters_to_see_all_modules: "Remove the filters to see all modules",
+    remove_search_criteria_to_see_all_modules: "Remove the search criteria to see all modules",
     empty_state: {
       general: {
         title: "Map your project milestones to Modules and track aggregated work easily.",
