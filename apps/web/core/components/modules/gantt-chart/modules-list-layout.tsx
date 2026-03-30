@@ -6,6 +6,7 @@
 
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
+import { useTranslation } from "@plane/i18n";
 // PLane
 import { GANTT_TIMELINE_TYPE } from "@plane/types";
 import type { IBlockUpdateData, IBlockUpdateDependencyData, IModule } from "@plane/types";
@@ -19,6 +20,7 @@ import { useModuleFilter } from "@/hooks/store/use-module-filter";
 import { useProject } from "@/hooks/store/use-project";
 
 export const ModulesListGanttChartView = observer(function ModulesListGanttChartView() {
+  const { t } = useTranslation();
   // router
   const { workspaceSlug, projectId } = useParams();
   // store
@@ -58,8 +60,8 @@ export const ModulesListGanttChartView = observer(function ModulesListGanttChart
   return (
     <TimeLineTypeContext.Provider value={GANTT_TIMELINE_TYPE.MODULE}>
       <GanttChartRoot
-        title="Modules"
-        loaderTitle="Modules"
+        title={t("common.modules")}
+        loaderTitle={t("common.modules")}
         blockIds={filteredModuleIds}
         sidebarToRender={(props) => <ModuleGanttSidebar {...props} />}
         blockUpdateHandler={(block, payload) => handleModuleUpdate(block, payload)}

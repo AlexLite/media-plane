@@ -699,6 +699,7 @@ export default {
       message: "Произошла ошибка. Пожалуйста, попробуйте снова.",
     },
     group_by: "Группировать по",
+    sub_group_by: "Подгруппировать по",
     epic: "Эпик",
     epics: "Эпики",
     work_item: "Рабочий элемент",
@@ -1556,6 +1557,9 @@ export default {
     },
   },
   page_modals: {
+    delete: {
+      title: "Удалить страницу",
+    },
     create: {
       title: "Создать страницу",
       name_placeholder: "Заголовок",
@@ -3143,6 +3147,7 @@ export default {
     outline_floating_button: "Открыть структуру",
   },
   project_states: {
+    delete_state: "Удалить статус",
     mark_as_default: "Сделать по умолчанию",
     marking_as_default: "Назначение по умолчанию",
   },
