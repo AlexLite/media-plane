@@ -687,6 +687,10 @@ export default {
     offline: "Не в сети",
     offline_tooltip_heading: "Вы не в сети.",
     offline_tooltip_content: "Вы можете продолжать вносить изменения. Они будут синхронизированы, когда вы снова подключитесь к сети.",
+    locked: "Заблокировано",
+    drop_here: "Перетащите сюда...",
+    click_or_drag_file: "Нажмите или перетащите файл сюда",
+    links: "Ссылки",
     success: "Успешно!",
     something_went_wrong: "Что-то пошло не так",
     error: {
