@@ -116,6 +116,8 @@ export default {
   change_cover: "Изменить обложку",
   language: "Язык",
   saving: "Сохранение",
+  saving_ellipsis: "Сохранение...",
+  saved: "Сохранено",
   save_changes: "Сохранить изменения",
   deactivate_account: "Деактивировать аккаунт",
   deactivate_account_description:
@@ -489,6 +491,8 @@ export default {
   selected: "выбрано",
   no_data_yet: "Нет данных",
   syncing: "Синхронизация",
+  syncing_ellipsis: "Синхронизация...",
+  connection_lost: "Соединение потеряно",
   add_work_item: "Добавить рабочий элемент",
   advanced_description_placeholder: "Нажмите '/' для команд",
   create_work_item: "Создать рабочий элемент",
@@ -3145,6 +3149,11 @@ export default {
     open_button: "Открыть панель навигации",
     close_button: "Закрыть панель навигации",
     outline_floating_button: "Открыть структуру",
+  },
+  page_sync: {
+    syncing_tooltip: "Ваши изменения синхронизируются с сервером. Вы можете продолжать вносить изменения.",
+    connection_lost_tooltip: "Не удаётся подключиться к серверу WebSocket. Изменения будут синхронизированы и сохранены каждые 10 секунд.",
+    content_limit_message: "Достигнут лимит контента, живая синхронизация отключена. Создайте новую страницу или используйте вложенные страницы.",
   },
   project_states: {
     delete_state: "Удалить статус",
