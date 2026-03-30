@@ -9,6 +9,7 @@ import { useCallback, useEffect } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { EIssueGroupByToServerOptions, EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TGroupedIssues } from "@plane/types";
@@ -43,6 +44,7 @@ interface IBaseCalendarRoot {
 }
 
 export const BaseCalendarRoot = observer(function BaseCalendarRoot(props: IBaseCalendarRoot) {
+  const { t } = useTranslation();
   const {
     QuickActions,
     addIssuesToView,
@@ -121,7 +123,7 @@ export const BaseCalendarRoot = observer(function BaseCalendarRoot(props: IBaseC
       updateIssue
     ).catch((err) => {
       setToast({
-        title: "Error!",
+        title: t("common.error.label"),
         type: TOAST_TYPE.ERROR,
         message: err?.detail ?? "Failed to perform this action",
       });

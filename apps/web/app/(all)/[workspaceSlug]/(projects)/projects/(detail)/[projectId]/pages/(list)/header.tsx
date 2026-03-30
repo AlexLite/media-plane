@@ -53,7 +53,7 @@ export const PagesListHeader = observer(function PagesListHeader() {
       .catch((err) => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: err?.data?.error || t("something_went_wrong_please_try_again"),
         });
       })

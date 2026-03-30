@@ -98,7 +98,7 @@ export const CreateUpdateLabelInline = observer(
         .catch((error) => {
           const errorMessage = getErrorMessage(error, "create");
           setToast({
-            title: "Error!",
+            title: t("common.error.label"),
             type: TOAST_TYPE.ERROR,
             message: errorMessage,
           });

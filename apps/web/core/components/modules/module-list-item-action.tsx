@@ -79,11 +79,11 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
     setPromiseToast(addToFavoritePromise, {
       loading: "Adding module to favorites...",
       success: {
-        title: "Success!",
+        title: t("common.success"),
         message: () => "Module added to favorites.",
       },
       error: {
-        title: "Error!",
+        title: t("common.error.label"),
         message: () => "Couldn't add the module to favorites. Please try again.",
       },
     });
@@ -103,11 +103,11 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
     setPromiseToast(removeFromFavoritePromise, {
       loading: "Removing module from favorites...",
       success: {
-        title: "Success!",
+        title: t("common.success"),
         message: () => "Module removed from favorites.",
       },
       error: {
-        title: "Error!",
+        title: t("common.error.label"),
         message: () => "Couldn't remove the module from favorites. Please try again.",
       },
     });
@@ -120,14 +120,14 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success!",
+          title: t("common.success"),
           message: "Module updated successfully.",
         });
       })
       .catch((err) => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: err?.detail ?? "Module could not be updated. Please try again.",
         });
       });

@@ -6,6 +6,7 @@
 
 import { useState } from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 import { STATE_GROUPS } from "@plane/constants";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { IState, TStateGroups, TStateOperationsCallbacks } from "@plane/types";
@@ -20,6 +21,7 @@ type TStateCreate = {
 };
 
 export const StateCreate = observer(function StateCreate(props: TStateCreate) {
+  const { t } = useTranslation();
   const { groupKey, createStateCallback, handleClose } = props;
 
   // states
@@ -38,7 +40,7 @@ export const StateCreate = observer(function StateCreate(props: TStateCreate) {
 
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Success!",
+        title: t("common.success"),
         message: "State created successfully.",
       });
       handleClose();
@@ -48,14 +50,14 @@ export const StateCreate = observer(function StateCreate(props: TStateCreate) {
       if (errorStatus?.status === 400) {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: "State with that name already exists. Please try again with another name.",
         });
         return { status: "already_exists" };
       } else {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: errorStatus.data.error ?? "State could not be created. Please try again.",
         });
         return { status: "error" };

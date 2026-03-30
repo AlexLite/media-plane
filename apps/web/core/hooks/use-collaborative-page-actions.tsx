@@ -5,6 +5,7 @@
  */
 
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { useTranslation } from "@plane/i18n";
 import type { EditorRefApi, TDocumentEventsServer } from "@plane/editor";
 import type { TDocumentEventsClient } from "@plane/editor/lib";
 import { DocumentCollaborativeEvents, getServerEventName } from "@plane/editor/lib";
@@ -26,6 +27,7 @@ type Props = {
 };
 
 export const useCollaborativePageActions = (props: Props) => {
+  const { t } = useTranslation();
   const { page } = props;
   const editorRef = page.editor.editorRef;
   // currentUserAction local state to track if the current action is being processed, a
@@ -80,7 +82,7 @@ export const useCollaborativePageActions = (props: Props) => {
         if (actionDetails?.errorMessage) {
           setToast({
             type: TOAST_TYPE.ERROR,
-            title: "Error!",
+            title: t("common.error.label"),
             message: actionDetails.errorMessage,
           });
         }

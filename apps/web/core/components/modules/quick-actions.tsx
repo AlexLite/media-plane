@@ -78,7 +78,7 @@ export const ModuleQuickActions = observer(function ModuleQuickActions(props: Pr
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Module could not be restored. Please try again.",
       });
     }

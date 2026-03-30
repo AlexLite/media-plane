@@ -123,7 +123,7 @@ export const useIssueActionHandlers = (props: MenuItemFactoryProps) => {
       .catch(() => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: "Work item could not be restored. Please try again.",
         });
       });
