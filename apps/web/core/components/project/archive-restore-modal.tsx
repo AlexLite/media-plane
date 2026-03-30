@@ -47,7 +47,7 @@ export function ArchiveRestoreProjectModal(props: Props) {
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Archive success",
+          title: t("project_archive.archive_title"),
           message: `${projectDetails.name} has been archived successfully`,
         });
         onClose();
@@ -58,7 +58,7 @@ export function ArchiveRestoreProjectModal(props: Props) {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: "Project could not be archived. Please try again.",
+          message: t("project_archive.archive_failed"),
         })
       )
       .finally(() => setIsLoading(false));
@@ -70,7 +70,7 @@ export function ArchiveRestoreProjectModal(props: Props) {
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Restore success",
+          title: t("work_item_operations.restore_success_title"),
           message: `You can find ${projectDetails.name} in your projects.`,
         });
         onClose();
@@ -81,7 +81,7 @@ export function ArchiveRestoreProjectModal(props: Props) {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: "Project could not be restored. Please try again.",
+          message: t("project_archive.restore_failed"),
         })
       )
       .finally(() => setIsLoading(false));

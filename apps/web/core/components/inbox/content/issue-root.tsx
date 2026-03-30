@@ -105,14 +105,14 @@ export const InboxIssueMainContent = observer(function InboxIssueMainContent(pro
           setToast({
             title: t("common.success"),
             type: TOAST_TYPE.SUCCESS,
-            message: "Work item deleted successfully",
+            message: t("work_item_operations.deleted"),
           });
         } catch (error) {
           console.log("Error in deleting work item:", error);
           setToast({
             title: t("common.error.label"),
             type: TOAST_TYPE.ERROR,
-            message: "Work item delete failed",
+            message: t("work_item_operations.delete_failed"),
           });
         }
       },
@@ -121,9 +121,9 @@ export const InboxIssueMainContent = observer(function InboxIssueMainContent(pro
           await inboxIssue.updateIssue(data);
         } catch (_error) {
           setToast({
-            title: "Work item update failed",
+            title: t("work_item_operations.update_failed"),
             type: TOAST_TYPE.ERROR,
-            message: "Work item update failed",
+            message: t("work_item_operations.update_failed"),
           });
         }
       },

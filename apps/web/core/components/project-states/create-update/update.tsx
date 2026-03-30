@@ -38,7 +38,7 @@ export const StateUpdate = observer(function StateUpdate(props: TStateUpdate) {
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("common.success"),
-        message: "State updated successfully.",
+        message: t("project_states.state_updated"),
       });
       handleClose();
       return { status: "success" };
@@ -48,14 +48,14 @@ export const StateUpdate = observer(function StateUpdate(props: TStateUpdate) {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: "Another state exists with the same name. Please try again with another name.",
+          message: t("project_states.state_name_exists"),
         });
         return { status: "already_exists" };
       } else {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: "State could not be updated. Please try again.",
+          message: t("project_states.state_update_failed"),
         });
         return { status: "error" };
       }

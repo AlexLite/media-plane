@@ -44,13 +44,13 @@ export function DeleteWebhookModal(props: IDeleteWebhook) {
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("common.success"),
-        message: "Webhook deleted successfully.",
+        message: t("webhook_operations.deleted"),
       });
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "Webhook could not be deleted. Please try again.",
+        message: t("webhook_operations.delete_failed"),
       });
     }
     setIsDeleting(false);
