@@ -537,7 +537,7 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
                             setToast({
                               type: TOAST_TYPE.ERROR,
                               title: t("common.error.label"),
-                              message: "Editor is still processing changes. Please wait before proceeding.",
+                              message: t("editor_still_processing"),
                             });
                           }
                         }}

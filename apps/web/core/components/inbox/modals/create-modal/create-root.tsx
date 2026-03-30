@@ -111,7 +111,7 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "Editor is still processing changes. Please wait before proceeding.",
+        message: t("editor_still_processing"),
       });
       event.preventDefault(); // Prevent default action if editor is not ready to discard
     }
@@ -143,7 +143,7 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "Editor is still processing changes. Please wait before proceeding.",
+        message: t("editor_still_processing"),
       });
       return;
     }
@@ -177,7 +177,7 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
         setToast({
           type: TOAST_TYPE.SUCCESS,
           title: `Success!`,
-          message: "Work item created successfully.",
+          message: t("issue_created_successfully"),
         });
       })
       .catch((error) => {
@@ -254,7 +254,7 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
                     setToast({
                       type: TOAST_TYPE.ERROR,
                       title: t("common.error.label"),
-                      message: "Editor is still processing changes. Please wait before proceeding.",
+                      message: t("editor_still_processing"),
                     });
                   }
                 }}

@@ -104,7 +104,7 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "Please select at least one work item.",
+        message: t("select_at_least_one_work_item"),
       });
       return;
     }
@@ -124,7 +124,7 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: "Something went wrong. Please try again.",
+          message: t("something_went_wrong_please_try_again"),
         })
       );
   };

@@ -69,7 +69,7 @@ export const CycleDeleteModal = observer(function CycleDeleteModal(props: ICycle
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.warning"),
-        message: "Something went wrong please try again later.",
+        message: t("something_went_wrong_please_try_again"),
       });
     }
 

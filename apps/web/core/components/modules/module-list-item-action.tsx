@@ -114,7 +114,7 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
         setToast({
           type: TOAST_TYPE.SUCCESS,
           title: t("common.success"),
-          message: "Module updated successfully.",
+          message: t("module_updated_successfully"),
         });
       })
       .catch((err) => {
