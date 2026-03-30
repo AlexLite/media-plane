@@ -3151,6 +3151,8 @@ export default {
     delete_state: "Delete State",
     mark_as_default: "Mark as default",
     marking_as_default: "Marking as default",
+    state_has_issues: "This state contains some work items, please move them to another state before deleting.",
+    state_delete_failed: "State could not be deleted. Please try again.",
   },
   project_members: {
     full_name: "Full name",
