@@ -66,7 +66,7 @@ export const useGroupIssuesDragNDrop = (
     const errorToastProps = {
       type: TOAST_TYPE.ERROR,
       title: t("common.error.label"),
-      message: "Error while updating work item",
+      message: t("work_item_operations.update_failed"),
     };
     const moduleKey = ISSUE_FILTER_DEFAULT_DATA["module"];
     const cycleKey = ISSUE_FILTER_DEFAULT_DATA["cycle"];

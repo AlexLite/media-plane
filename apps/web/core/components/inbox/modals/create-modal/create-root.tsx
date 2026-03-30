@@ -185,7 +185,7 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
         setToast({
           type: TOAST_TYPE.ERROR,
           title: `Error!`,
-          message: "Some error occurred. Please try again.",
+          message: t("something_went_wrong_please_try_again"),
         });
       });
     setFormSubmitting(false);

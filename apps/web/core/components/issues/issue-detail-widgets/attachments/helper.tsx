@@ -5,6 +5,7 @@
  */
 
 import { useMemo } from "react";
+import { useTranslation } from "@plane/i18n";
 import { setPromiseToast, TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TIssueServiceType } from "@plane/types";
 import { EIssueServiceType } from "@plane/types";
@@ -33,6 +34,7 @@ export const useAttachmentOperations = (
   issueId: string,
   issueServiceType: TIssueServiceType = EIssueServiceType.ISSUES
 ): TAttachmentHelpers => {
+  const { t } = useTranslation();
   const {
     attachment: { createAttachment, removeAttachment, getAttachmentsUploadStatusByIssueId },
   } = useIssueDetail(issueServiceType);
@@ -61,13 +63,13 @@ export const useAttachmentOperations = (
           if (!workspaceSlug || !projectId || !issueId) throw new Error("Missing required fields");
           await removeAttachment(workspaceSlug, projectId, issueId, attachmentId);
           setToast({
-            message: "The attachment has been successfully removed",
+            message: t("attachment_operations.removed"),
             type: TOAST_TYPE.SUCCESS,
             title: "Attachment removed",
           });
         } catch (_error) {
           setToast({
-            message: "The Attachment could not be removed",
+            message: t("attachment_operations.remove_failed"),
             type: TOAST_TYPE.ERROR,
             title: "Attachment not removed",
           });

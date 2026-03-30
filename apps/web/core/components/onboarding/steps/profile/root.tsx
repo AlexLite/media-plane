@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import { Controller, useForm } from "react-hook-form";
 import { ImageIcon } from "lucide-react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { E_PASSWORD_STRENGTH } from "@plane/constants";
 import { Button } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -54,6 +55,7 @@ const defaultValues: Partial<TProfileSetupFormValues> = {
 };
 
 export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepChange }: Props) {
+  const { t } = useTranslation();
   // states
   const [isImageUploadModalOpen, setIsImageUploadModalOpen] = useState(false);
   // store hooks
@@ -100,7 +102,7 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
       setToast({
         type: TOAST_TYPE.ERROR,
         title: "Error",
-        message: "User details update failed. Please try again!",
+        message: t("user_update_failed"),
       });
     }
   };
@@ -211,7 +213,7 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
               validate: validatePersonName,
               maxLength: {
                 value: 50,
-                message: "Name must be within 50 characters.",
+                message: t("name_within_50_chars"),
               },
             }}
             render={({ field: { value, onChange, ref } }) => (
