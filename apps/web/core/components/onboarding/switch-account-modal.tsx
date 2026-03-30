@@ -52,7 +52,7 @@ export function SwitchAccountModal(props: Props) {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: "Failed to sign out. Please try again.",
+          message: t("failed_to_sign_out"),
         })
       )
       .finally(() => setSwitchingAccount(false));

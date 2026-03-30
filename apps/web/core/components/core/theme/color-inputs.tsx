@@ -8,6 +8,7 @@ import { observer } from "mobx-react";
 import type { Control } from "react-hook-form";
 import { Controller } from "react-hook-form";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import type { IUserTheme } from "@plane/types";
 import { InputColorPicker } from "@plane/ui";
 
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export const CustomThemeColorInputs = observer(function CustomThemeColorInputs(props: Props) {
+  const { t } = useTranslation();
   const { control } = props;
 
   const handleValueChange = (val: string | undefined, onChange: (...args: unknown[]) => void) => {
@@ -40,7 +42,7 @@ export const CustomThemeColorInputs = observer(function CustomThemeColorInputs(p
               required: "Neutral color is required",
               pattern: {
                 value: /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/,
-                message: "Enter a valid hex code",
+                message: t("enter_valid_hex_code"),
               },
             }}
             render={({ field: { value, onChange } }) => (
@@ -73,7 +75,7 @@ export const CustomThemeColorInputs = observer(function CustomThemeColorInputs(p
               required: "Brand color is required",
               pattern: {
                 value: /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/,
-                message: "Enter a valid hex code",
+                message: t("enter_valid_hex_code"),
               },
             }}
             render={({ field: { value, onChange } }) => (
