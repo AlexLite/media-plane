@@ -3150,6 +3150,8 @@ export default {
     delete_state: "Удалить статус",
     mark_as_default: "Сделать по умолчанию",
     marking_as_default: "Назначение по умолчанию",
+    state_has_issues: "Этот статус содержит рабочие элементы, сначала переместите их в другой статус.",
+    state_delete_failed: "Не удалось удалить статус. Попробуйте снова.",
   },
   project_members: {
     full_name: "Полное имя",

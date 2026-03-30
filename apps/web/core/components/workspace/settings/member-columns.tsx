@@ -180,7 +180,7 @@ export const AccountTypeColumn = observer(function AccountTypeColumn(props: Acco
 
                   setToast({
                     type: TOAST_TYPE.ERROR,
-                    title: t("error.label"),
+                    title: t("common.error.label"),
                     message: errorString ?? t("workspace_settings.settings.members.role_update_error"),
                   });
                 }
@@ -195,8 +195,8 @@ export const AccountTypeColumn = observer(function AccountTypeColumn(props: Acco
               input
             >
               {Object.keys(ROLE).map((item) => (
-                <CustomSelect.Option key={item} value={item as unknown as EUserPermissions}>
-                  {getWorkspaceRoleLabel(item as unknown as EUserPermissions, t)}
+                <CustomSelect.Option key={item} value={Number(item) as unknown as EUserPermissions}>
+                  {getWorkspaceRoleLabel(Number(item) as EUserPermissions, t)}
                 </CustomSelect.Option>
               ))}
             </CustomSelect>
