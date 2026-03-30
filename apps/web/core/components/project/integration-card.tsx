@@ -6,6 +6,7 @@
 
 import { useParams } from "next/navigation";
 import useSWR, { mutate } from "swr";
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { IWorkspaceIntegration } from "@plane/types";
 // assets
@@ -38,6 +39,7 @@ const integrationDetails: { [key: string]: any } = {
 const projectService = new ProjectService();
 
 export function IntegrationCard({ integration }: Props) {
+  const { t } = useTranslation();
   const { workspaceSlug, projectId } = useParams();
 
   const { data: syncedGithubRepository } = useSWR(projectId ? PROJECT_GITHUB_REPOSITORY(projectId) : null, () =>
@@ -68,7 +70,7 @@ export function IntegrationCard({ integration }: Props) {
 
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success!",
+          title: t("common.success"),
           message: `${login}/${name} repository synced with the project successfully.`,
         });
       })
@@ -76,7 +78,7 @@ export function IntegrationCard({ integration }: Props) {
         console.error(err);
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: "Repository could not be synced with the project. Please try again.",
         });
       });
