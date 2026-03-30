@@ -116,6 +116,8 @@ export default {
   change_cover: "Change cover",
   language: "Language",
   saving: "Saving",
+  saving_ellipsis: "Saving...",
+  saved: "Saved",
   save_changes: "Save changes",
   deactivate_account: "Deactivate account",
   deactivate_account_description:
@@ -481,6 +483,8 @@ export default {
   selected: "selected",
   no_data_yet: "No Data yet",
   syncing: "Syncing",
+  syncing_ellipsis: "Syncing...",
+  connection_lost: "Connection lost",
   add_work_item: "Add work item",
   advanced_description_placeholder: "Press '/' for commands",
   create_work_item: "Create work item",
@@ -3145,6 +3149,11 @@ export default {
     open_button: "Open navigation pane",
     close_button: "Close navigation pane",
     outline_floating_button: "Open outline",
+  },
+  page_sync: {
+    syncing_tooltip: "Your changes are being synced with the server. You can continue making changes.",
+    connection_lost_tooltip: "We're having trouble connecting to the websocket server. Your changes will be synced and saved every 10 seconds.",
+    content_limit_message: "Content limit reached and live sync is off. Create a new page or use nested pages to continue syncing.",
   },
   project_states: {
     delete_state: "Delete State",

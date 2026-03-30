@@ -7,6 +7,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { RefreshCw } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 // types
 import type { TNameDescriptionLoader } from "@plane/types";
 
@@ -16,6 +17,7 @@ type Props = {
 
 export const NameDescriptionUpdateStatus = observer(function NameDescriptionUpdateStatus(props: Props) {
   const { isSubmitting } = props;
+  const { t } = useTranslation();
 
   return (
     <>
@@ -27,7 +29,7 @@ export const NameDescriptionUpdateStatus = observer(function NameDescriptionUpda
         {isSubmitting !== "submitted" && isSubmitting !== "saved" && (
           <RefreshCw className="size-3.5 animate-spin stroke-tertiary" />
         )}
-        <span className="text-13 text-tertiary">{isSubmitting === "submitting" ? "Saving..." : "Saved"}</span>
+        <span className="text-13 text-tertiary">{isSubmitting === "submitting" ? t("saving_ellipsis") : t("saved")}</span>
       </div>
     </>
   );
