@@ -118,7 +118,7 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
     copyUrlToClipboard(projectLink).then(() =>
       setToast({
         type: TOAST_TYPE.INFO,
-        title: "Link Copied!",
+        title: t("common.link_copied"),
         message: t("project_link_copied_to_clipboard"),
       })
     );

@@ -66,7 +66,7 @@ export function CycleCreateUpdateModal(props: CycleModalProps) {
         setToast({
           type: TOAST_TYPE.SUCCESS,
           title: t("common.success"),
-          message: "Cycle created successfully.",
+          message: t("cycle_operations.created"),
         });
       })
       .catch((err) => {
@@ -87,7 +87,7 @@ export function CycleCreateUpdateModal(props: CycleModalProps) {
         setToast({
           type: TOAST_TYPE.SUCCESS,
           title: t("common.success"),
-          message: "Cycle updated successfully.",
+          message: t("cycle_operations.updated"),
         });
       })
       .catch((err) => {
@@ -155,7 +155,7 @@ export function CycleCreateUpdateModal(props: CycleModalProps) {
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "You already have a cycle on the given dates, if you want to create a draft cycle, remove the dates.",
+        message: t("cycle_operations.date_conflict"),
       });
   };
 

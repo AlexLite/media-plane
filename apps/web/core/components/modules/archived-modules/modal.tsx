@@ -46,7 +46,7 @@ export function ArchiveModuleModal(props: Props) {
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Archive success",
+          title: t("project_archive.archive_title"),
           message: t("archive_success_message"),
         });
         onClose();

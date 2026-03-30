@@ -103,7 +103,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("common.success"),
-        message: "Publish settings updated successfully!",
+        message: t("project_archive.publish_updated"),
       });
 
       handleClose();
@@ -121,7 +121,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: "Something went wrong while unpublishing the project.",
+          message: t("project_archive.unpublish_failed"),
         })
       )
       .finally(() => setIsUnPublishing(false));
@@ -139,7 +139,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "Please select at least one view layout to publish the project.",
+        message: t("project_archive.select_layout"),
       });
       return;
     }
@@ -174,7 +174,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: "",
-        message: "Published page link copied successfully.",
+        message: t("project_archive.published_link_copied"),
       })
     );
 
