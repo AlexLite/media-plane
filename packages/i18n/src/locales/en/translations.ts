@@ -694,6 +694,7 @@ export default {
       message: "Some error occurred. Please try again.",
     },
     group_by: "Group by",
+    sub_group_by: "Sub-group by",
     epic: "Epic",
     epics: "Epics",
     work_item: "Work item",
@@ -1548,6 +1549,9 @@ export default {
     },
   },
   page_modals: {
+    delete: {
+      title: "Delete page",
+    },
     create: {
       title: "Create page",
       name_placeholder: "Title",
@@ -3143,6 +3147,7 @@ export default {
     outline_floating_button: "Open outline",
   },
   project_states: {
+    delete_state: "Delete State",
     mark_as_default: "Mark as default",
     marking_as_default: "Marking as default",
   },
