@@ -99,7 +99,7 @@ export const IssueDescriptionEditor = observer(function IssueDescriptionEditor(p
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "Editor is still processing changes. Please wait before proceeding.",
+        message: t("editor_still_processing"),
       });
       event.preventDefault(); // Prevent default action if editor is not ready to discard
     }

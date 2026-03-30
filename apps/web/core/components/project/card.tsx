@@ -119,7 +119,7 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
       setToast({
         type: TOAST_TYPE.INFO,
         title: "Link Copied!",
-        message: "Project link copied to clipboard.",
+        message: t("project_link_copied_to_clipboard"),
       })
     );
   const handleOpenInNewTab = () => window.open(`/${projectLink}`, "_blank");
