@@ -1179,6 +1179,7 @@ export default {
   },
   label: {
     select: "Выбрать метку",
+    delete_label: "Удалить метку",
     create: {
       success: "Метка создана",
       failed: "Ошибка создания метки",

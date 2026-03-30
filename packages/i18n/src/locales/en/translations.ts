@@ -1171,6 +1171,7 @@ export default {
   },
   label: {
     select: "Add labels",
+    delete_label: "Delete Label",
     create: {
       success: "Label created successfully",
       failed: "Label creation failed",
