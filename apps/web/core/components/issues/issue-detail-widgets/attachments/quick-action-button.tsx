@@ -65,7 +65,7 @@ export const IssueAttachmentActionButton = observer(function IssueAttachmentActi
             setToast({
               type: TOAST_TYPE.ERROR,
               title: t("common.error.label"),
-              message: "File could not be attached. Try uploading again.",
+              message: t("attachment_operations.upload_failed"),
             });
           })
           .finally(() => {

@@ -50,7 +50,7 @@ export const CycleDeleteModal = observer(function CycleDeleteModal(props: ICycle
           setToast({
             type: TOAST_TYPE.SUCCESS,
             title: t("common.success"),
-            message: "Cycle deleted successfully.",
+            message: t("cycle_operations.deleted"),
           });
         })
         .catch((errors) => {

@@ -89,7 +89,7 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
         setToast({
           title: t("common.success"),
           type: TOAST_TYPE.SUCCESS,
-          message: "Members added successfully.",
+          message: t("members_added_successfully"),
         });
       })
       .catch((error) => {

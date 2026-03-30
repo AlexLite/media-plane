@@ -126,7 +126,7 @@ export function GptAssistantPopover(props: Props) {
     setToast({
       type: TOAST_TYPE.ERROR,
       title: t("common.error.label"),
-      message: "Please enter some task to get AI assistance.",
+      message: t("gpt_enter_task"),
     });
   };
 

@@ -57,7 +57,7 @@ export function ArchiveModuleModal(props: Props) {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: "Module could not be archived. Please try again.",
+          message: t("module_operations.archive_failed"),
         })
       )
       .finally(() => setIsArchiving(false));

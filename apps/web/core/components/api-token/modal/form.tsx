@@ -91,7 +91,7 @@ export function CreateApiTokenForm(props: Props) {
       return setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "Please select an expiration date.",
+        message: t("api_token_select_expiration"),
       });
 
     const payload: Partial<IApiToken> = {

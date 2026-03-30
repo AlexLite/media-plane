@@ -57,7 +57,7 @@ export function ArchiveCycleModal(props: Props) {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: "Cycle could not be archived. Please try again.",
+          message: t("cycle_operations.archive_failed"),
         });
       })
       .finally(() => setIsArchiving(false));

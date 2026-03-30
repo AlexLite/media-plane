@@ -110,7 +110,7 @@ export const GanttDnDHOC = observer(function GanttDnDHOC(props: Props) {
           setToast({
             title: t("common.warning"),
             type: TOAST_TYPE.WARNING,
-            message: "Drag and drop is only enabled when sorted by manual",
+            message: t("drag_drop_manual_only"),
           });
         }
       }}

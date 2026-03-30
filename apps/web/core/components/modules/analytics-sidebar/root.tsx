@@ -101,13 +101,13 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("common.success"),
-        message: "Module link deleted successfully.",
+        message: t("module_operations.link_deleted"),
       });
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "Some error occurred",
+        message: t("some_error_occurred"),
       });
     }
   };

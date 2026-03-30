@@ -82,7 +82,7 @@ export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: 
             setToast({
               type: TOAST_TYPE.SUCCESS,
               title: t("common.success"),
-              message: "Markdown copied to clipboard.",
+              message: t("markdown_copied"),
             });
           },
           title: "Copy markdown",

@@ -47,7 +47,7 @@ export const usePowerKModuleContextBasedActions = (): TPowerKCommandConfig[] => 
           setToast({
             type: TOAST_TYPE.ERROR,
             title: t("common.error.label"),
-            message: "Module could not be updated. Please try again.",
+            message: t("module_operations.update_failed"),
           });
         }
       );
