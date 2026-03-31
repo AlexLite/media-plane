@@ -3287,6 +3287,11 @@ export default {
     state_updated: "State updated successfully.",
     state_name_exists: "Another state exists with the same name. Please try again with another name.",
     state_update_failed: "State could not be updated. Please try again.",
+    delete_state_confirm_prefix: "Are you sure you want to delete state-",
+    delete_state_confirm_suffix:
+      "? All of the data related to the state will be permanently removed. This action cannot be undone.",
+    cannot_delete_default: "Cannot delete the default state.",
+    cannot_have_empty_group: "Cannot have an empty group.",
   },
   project_members: {
     full_name: "Full name",

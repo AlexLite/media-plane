@@ -44,6 +44,7 @@ export const StateDelete = observer(function StateDelete(props: TStateDelete) {
     try {
       await deleteStateCallback(state.id);
       setIsDelete(false);
+      setIsDeleteModal(false);
     } catch (error) {
       const errorStatus = error as { status: number; data: { error: string } };
       if (errorStatus.status === 400) {
@@ -73,10 +74,13 @@ export const StateDelete = observer(function StateDelete(props: TStateDelete) {
         title={t("project_states.delete_state")}
         content={
           <>
-            Are you sure you want to delete state- <span className="font-medium text-primary">{state?.name}</span>? All
-            of the data related to the state will be permanently removed. This action cannot be undone.
+            {t("project_states.delete_state_confirm_prefix")}{" "}
+            <span className="font-medium text-primary">{state?.name}</span>
+            {t("project_states.delete_state_confirm_suffix")}
           </>
         }
+        primaryButtonText={{ loading: t("deleting"), default: t("delete") }}
+        secondaryButtonText={t("cancel")}
       />
 
       <button
@@ -90,7 +94,11 @@ export const StateDelete = observer(function StateDelete(props: TStateDelete) {
       >
         <Tooltip
           tooltipContent={
-            state.default ? "Cannot delete the default state." : totalStates === 1 ? `Cannot have an empty group.` : ``
+            state.default
+            ? t("project_states.cannot_delete_default")
+            : totalStates === 1
+              ? t("project_states.cannot_have_empty_group")
+              : ``
           }
           isMobile={isMobile}
           disabled={!isDeleteDisabled}
