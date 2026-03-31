@@ -3286,6 +3286,11 @@ export default {
     state_updated: "Статус успешно обновлён.",
     state_name_exists: "Статус с таким названием уже существует. Попробуйте другое название.",
     state_update_failed: "Не удалось обновить статус. Попробуйте снова.",
+    delete_state_confirm_prefix: "Вы уверены, что хотите удалить статус",
+    delete_state_confirm_suffix:
+      "? Все данные, связанные с этим статусом, будут безвозвратно удалены. Это действие нельзя отменить.",
+    cannot_delete_default: "Нельзя удалить статус по умолчанию.",
+    cannot_have_empty_group: "Группа не может быть пустой.",
   },
   project_members: {
     full_name: "Полное имя",

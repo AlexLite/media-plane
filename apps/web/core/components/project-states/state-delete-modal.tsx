@@ -73,10 +73,13 @@ export const StateDeleteModal = observer(function StateDeleteModal(props: TState
       title={t("project_states.delete_state")}
       content={
         <>
-          Are you sure you want to delete state- <span className="font-medium text-primary">{data?.name}</span>? All of
-          the data related to the state will be permanently removed. This action cannot be undone.
+          {t("project_states.delete_state_confirm_prefix")}{" "}
+          <span className="font-medium text-primary">{data?.name}</span>
+          {t("project_states.delete_state_confirm_suffix")}
         </>
       }
+      primaryButtonText={{ loading: t("deleting"), default: t("delete") }}
+      secondaryButtonText={t("cancel")}
     />
   );
 });
