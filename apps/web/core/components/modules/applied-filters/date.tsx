@@ -7,6 +7,7 @@
 import { observer } from "mobx-react";
 // icons
 import { DATE_AFTER_FILTER_OPTIONS } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { CloseIcon } from "@plane/propel/icons";
 import { renderFormattedDate, capitalizeFirstLetter } from "@plane/utils";
 // helpers
@@ -20,13 +21,21 @@ type Props = {
 
 export const AppliedDateFilters = observer(function AppliedDateFilters(props: Props) {
   const { editable, handleRemove, values } = props;
+  const { t } = useTranslation();
+
+  const dateFilterI18nMap: Record<string, string> = {
+    "1_weeks;after;fromnow": t("date_filters.1_week_from_now"),
+    "2_weeks;after;fromnow": t("date_filters.2_weeks_from_now"),
+    "1_months;after;fromnow": t("date_filters.1_month_from_now"),
+    "2_months;after;fromnow": t("date_filters.2_months_from_now"),
+  };
 
   const getDateLabel = (value: string): string => {
     let dateLabel = "";
 
     const dateDetails = DATE_AFTER_FILTER_OPTIONS.find((d) => d.value === value);
 
-    if (dateDetails) dateLabel = dateDetails.name;
+    if (dateDetails) dateLabel = dateFilterI18nMap[dateDetails.value] ?? dateDetails.name;
     else {
       const dateParts = value.split(";");
 
