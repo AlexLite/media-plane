@@ -94,14 +94,33 @@ See `LOCALIZATION.md` for full details.
 ## Server
 
 - `dev@10.0.100.201` (SSH key: `~/.ssh/dev_proxmox`)
-- Frontend image: `plane-frontend-ru:i18n-invitations-20260325`
+- Frontend image: `plane-frontend-ru:v1.2.3-ru` (single tag, always current)
 - Backend image: `plane-backend-ru:v1.2.3-storage-fix`
-- Source: `/home/dev/src/plane` (detached HEAD at v1.2.3)
+- Source: `/home/dev/src/plane` (`preview` branch of our fork)
 - App: `/home/dev/plane-selfhost/plane-app/`
+- Caddy routes ALL traffic to `web-ru` service (not `web`)
 
 Rebuild frontend after translation changes:
 ```bash
-ssh dev@10.0.100.201 "cd /home/dev/plane-selfhost && \
-  docker build -f Dockerfile.web-ru -t plane-frontend-ru:$(date +%Y%m%d) . && \
-  cd plane-app && docker compose up -d web"
+# 1. Apply commits to server (if GitHub push fails, use patch):
+git format-patch <last-deployed-sha>..HEAD --stdout > /tmp/patch.patch
+scp -i ~/.ssh/dev_proxmox /tmp/patch.patch dev@10.0.100.201:/tmp/
+ssh -i ~/.ssh/dev_proxmox dev@10.0.100.201 "cd /home/dev/src/plane && git am /tmp/patch.patch"
+
+# 2. Build (always use the fixed tag v1.2.3-ru — no dated tags):
+ssh -i ~/.ssh/dev_proxmox dev@10.0.100.201 "cd /home/dev && bash build-web-ru.sh"
+
+# 3. Deploy to web-ru (the container Caddy actually routes to):
+ssh -i ~/.ssh/dev_proxmox dev@10.0.100.201 "cd /home/dev/plane-selfhost/plane-app && docker compose up -d --force-recreate web-ru web"
 ```
+
+### Image / build hygiene rules
+
+**Always keep only one current image tag (`v1.2.3-ru`). Never accumulate dated tags.**
+
+- Build script (`build-web-ru.sh`) always produces `plane-frontend-ru:v1.2.3-ru` — no dated suffixes.
+- After a successful deploy, remove any old/dangling images: `docker image prune -f`
+- `docker-compose.override.yml` must always reference `plane-frontend-ru:v1.2.3-ru` — never a dated tag.
+- The source of truth is `/home/dev/src/plane` on the server (our fork's `preview` branch). No other source copies should exist under `/home/dev/plane-selfhost/`.
+- If the same image ID appears under multiple tags, remove the extra tags immediately.
+- Rationale: stale images cause accidental rollbacks and make it impossible to tell which version is actually running.
