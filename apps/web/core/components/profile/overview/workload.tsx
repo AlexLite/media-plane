@@ -21,9 +21,9 @@ export function ProfileWorkload({ stateDistribution }: Props) {
   const getStateGroupLabel = (stateGroup: keyof typeof STATE_GROUPS) => {
     if (stateGroup === "unstarted") return t("profile.stats.state_distribution.not_started");
     if (stateGroup === "started") return t("profile.stats.state_distribution.working_on");
-    if (stateGroup === "backlog") return t("project_modules.state_distribution.backlog");
-    if (stateGroup === "completed") return t("project_modules.state_distribution.completed");
-    if (stateGroup === "cancelled") return t("project_modules.state_distribution.cancelled");
+    if (stateGroup === "backlog") return t("project_modules.status.backlog");
+    if (stateGroup === "completed") return t("project_modules.status.completed");
+    if (stateGroup === "cancelled") return t("project_modules.status.cancelled");
     return "";
   };
 

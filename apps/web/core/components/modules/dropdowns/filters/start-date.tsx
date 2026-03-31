@@ -31,9 +31,17 @@ export const FilterStartDate = observer(function FilterStartDate(props: Props) {
 
   const appliedFiltersCount = appliedFilters?.length ?? 0;
 
-  const filteredOptions = DATE_AFTER_FILTER_OPTIONS.filter((d) =>
-    d.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const dateFilterI18nMap: Record<string, string> = {
+    "1_weeks;after;fromnow": t("date_filters.1_week_from_now"),
+    "2_weeks;after;fromnow": t("date_filters.2_weeks_from_now"),
+    "1_months;after;fromnow": t("date_filters.1_month_from_now"),
+    "2_months;after;fromnow": t("date_filters.2_months_from_now"),
+  };
+
+  const filteredOptions = DATE_AFTER_FILTER_OPTIONS.filter((d) => {
+    const label = dateFilterI18nMap[d.value] ?? d.name;
+    return label.toLowerCase().includes(searchQuery.toLowerCase());
+  });
 
   const isCustomDateSelected = () => {
     const isValidDateSelected = appliedFilters?.filter((f) => isInDateFormat(f.split(";")[0])) || [];
@@ -70,7 +78,7 @@ export const FilterStartDate = observer(function FilterStartDate(props: Props) {
                   key={option.value}
                   isChecked={appliedFilters?.includes(option.value) ? true : false}
                   onClick={() => handleUpdate(option.value)}
-                  title={option.name}
+                  title={dateFilterI18nMap[option.value] ?? option.name}
                   multiple
                 />
               ))}
