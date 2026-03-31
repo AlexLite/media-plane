@@ -267,6 +267,7 @@ export default {
   your_work: "Ваша работа",
   drafts: "Черновики",
   projects: "Проекты",
+  subscriber: "Подписчик",
   views: "Представления",
   workspace: "Рабочее пространство",
   archives: "Архивы",

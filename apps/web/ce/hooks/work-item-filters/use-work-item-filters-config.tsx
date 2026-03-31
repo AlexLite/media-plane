@@ -7,6 +7,7 @@
 import { useCallback, useMemo } from "react";
 import { AtSign, Briefcase } from "lucide-react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { Logo } from "@plane/propel/emoji-icon-picker";
 import {
   CalendarLayoutIcon,
@@ -91,6 +92,8 @@ export type TWorkItemFiltersConfig = {
 export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps): TWorkItemFiltersConfig => {
   const { allowedFilters, cycleIds, labelIds, memberIds, moduleIds, projectId, projectIds, stateIds, workspaceSlug } =
     props;
+  // i18n
+  const { t } = useTranslation();
   // store hooks
   const { loader: projectLoader, getProjectById } = useProject();
   const { getCycleById } = useCycle();
@@ -279,6 +282,7 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
       getSubscriberFilterConfig<TWorkItemFilterProperty>("subscriber_id")({
         isEnabled: isFilterEnabled("subscriber_id") && members !== undefined,
         filterIcon: MembersPropertyIcon,
+        label: t("subscriber"),
         members: members ?? [],
         getOptionIcon: (memberDetails) => (
           <Avatar
@@ -290,7 +294,8 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
         ),
         ...operatorConfigs,
       }),
-    [isFilterEnabled, members, operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isFilterEnabled, members, operatorConfigs, t]
   );
 
   // priority filter config
@@ -355,11 +360,13 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
       getProjectFilterConfig<TWorkItemFilterProperty>("project_id")({
         isEnabled: isFilterEnabled("project_id") && projects !== undefined,
         filterIcon: Briefcase,
+        label: t("projects"),
         projects: projects,
         getOptionIcon: (project) => <Logo logo={project.logo_props} size={12} />,
         ...operatorConfigs,
       }),
-    [isFilterEnabled, projects, operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isFilterEnabled, projects, operatorConfigs, t]
   );
 
   return {

@@ -266,6 +266,7 @@ export default {
   your_work: "Your work",
   drafts: "Drafts",
   projects: "Projects",
+  subscriber: "Subscriber",
   views: "Views",
   workspace: "Workspace",
   archives: "Archives",
