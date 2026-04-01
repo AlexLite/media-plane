@@ -409,6 +409,9 @@ export default {
   error_page_title: "🚧 Looks like something went wrong!",
   error_page_description:
     "We track these errors automatically and working on getting things back up and running. If the problem persists feel free to contact us. In the meantime, try refreshing.",
+  error_page_contact_support: "Contact Support",
+  error_page_status_page: "Status Page",
+  error_page_twitter: "@planepowers",
   page_not_found_description:
     "Sorry, the page you are looking for cannot be found. It may have been removed, had its name changed, or is temporarily unavailable.",
   not_found: {
