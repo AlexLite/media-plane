@@ -259,6 +259,13 @@ export class StateStore implements IStateStore {
   fetchWorkspaceStates = async (workspaceSlug: string) => {
     const statesResponse = await this.stateService.getWorkspaceStates(workspaceSlug);
     runInAction(() => {
+      // Remove states that are no longer returned (soft-deleted) from workspace fetch
+      const responseIds = new Set(statesResponse.map((s) => s.id));
+      Object.keys(this.stateMap).forEach((stateId) => {
+        if (!responseIds.has(stateId)) {
+          delete this.stateMap[stateId];
+        }
+      });
       statesResponse.forEach((state) => {
         set(this.stateMap, [state.id], state);
       });
