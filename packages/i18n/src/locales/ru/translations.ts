@@ -690,6 +690,7 @@ export default {
     created_at: "Создано в",
     updated_at: "Обновлено в",
     start_date: "Дата начала",
+    due_date: "Срок выполнения",
     target_date: "Целевая дата",
     custom: "Пользовательская",
     completed_at: "Завершено в",

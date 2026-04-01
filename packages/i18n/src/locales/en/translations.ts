@@ -685,6 +685,7 @@ export default {
     created_at: "Created at",
     updated_at: "Updated at",
     start_date: "Start date",
+    due_date: "Due date",
     target_date: "Target date",
     custom: "Custom",
     completed_at: "Completed at",
