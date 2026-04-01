@@ -48,7 +48,7 @@ export const StateMarksAsDefault = observer(function StateMarksAsDefault(props: 
       {isLoading
         ? t("project_states.marking_as_default")
         : isDefault
-          ? t("default")
+          ? t("common.default")
           : t("project_states.mark_as_default")}
     </button>
   );
