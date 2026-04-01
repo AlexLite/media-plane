@@ -218,9 +218,11 @@ export class StateStore implements IStateStore {
   fetchProjectStates = async (workspaceSlug: string, projectId: string) => {
     const statesResponse = await this.stateService.getStates(workspaceSlug, projectId);
     runInAction(() => {
-      // Remove stale states for this project before re-populating
+      // Remove states for this project that are no longer returned by the API
+      // (e.g. soft-deleted states) to keep stateMap in sync
+      const responseIds = new Set(statesResponse.map((s) => s.id));
       Object.keys(this.stateMap).forEach((stateId) => {
-        if (this.stateMap[stateId]?.project_id === projectId) {
+        if (this.stateMap[stateId]?.project_id === projectId && !responseIds.has(stateId)) {
           delete this.stateMap[stateId];
         }
       });

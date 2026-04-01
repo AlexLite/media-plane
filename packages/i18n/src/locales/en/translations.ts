@@ -406,6 +406,9 @@ export default {
   workspace_not_found_description:
     "No workspace found with the URL. It may not exist or you lack authorization to view it.",
   oops_something_went_wrong: "Oops! Something went wrong.",
+  error_page_title: "🚧 Looks like something went wrong!",
+  error_page_description:
+    "We track these errors automatically and working on getting things back up and running. If the problem persists feel free to contact us. In the meantime, try refreshing.",
   page_not_found_description:
     "Sorry, the page you are looking for cannot be found. It may have been removed, had its name changed, or is temporarily unavailable.",
   not_found: {
@@ -3279,6 +3282,7 @@ export default {
     unpublish_failed: "Something went wrong while unpublishing the project.",
   },
   project_states: {
+    describe_state_placeholder: "Describe this state for your members.",
     delete_state: "Delete State",
     mark_as_default: "Mark as default",
     marking_as_default: "Marking as default",
