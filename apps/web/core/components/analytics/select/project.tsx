@@ -61,7 +61,7 @@ export const ProjectSelect = observer(function ProjectSelect(props: Props) {
                   ?.filter((p) => value.includes(p))
                   .map((p) => getProjectById(p)?.name)
                   .join(", ")
-              : t("analytics.all_projects")}
+              : t("workspace_analytics.all_projects")}
           <ChevronDownIcon className="h-3 w-3" aria-hidden="true" />
         </div>
       }

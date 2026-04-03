@@ -753,6 +753,7 @@ export default {
     properties: "Properties",
     parent: "Parent",
     page: "Page",
+    add_page: "Add page",
     remove: "Remove",
     archiving: "Archiving",
     archive: "Archive",
@@ -950,6 +951,8 @@ export default {
     overview: "Overview",
     no_of: "No. of {entity}",
     resolved: "Resolved",
+    created: "Created",
+    count: "Count",
   },
   chart: {
     x_axis: "X-axis",

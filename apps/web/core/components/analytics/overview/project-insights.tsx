@@ -92,7 +92,7 @@ const ProjectInsights = observer(function ProjectInsights() {
                 radars={[
                   {
                     key: "count",
-                    name: "Count",
+                    name: t("common.count"),
                     fill: "var(--text-color-accent-primary)",
                     stroke: "var(--text-color-accent-primary)",
                     fillOpacity: 0.6,

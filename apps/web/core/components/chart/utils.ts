@@ -16,6 +16,12 @@ import {
 } from "@plane/utils";
 //
 
+type TDateGroupingOptions = {
+  weekLabel?: string;
+  noneLabel?: string;
+  translate?: (key: string) => string;
+};
+
 const getDateGroupingName = (date: string, dateGrouping: ChartXAxisDateGrouping): string => {
   if (!date || ["none", "null"].includes(date.toLowerCase())) return "Нет";
 
@@ -79,7 +85,9 @@ export const parseChartData = (
     if (xAxisProperty) {
       // capitalize first letter if xAxisProperty is in TO_CAPITALIZE_PROPERTIES and no groupByProperty is set
       if (TO_CAPITALIZE_PROPERTIES.includes(xAxisProperty)) {
-        datum.name = capitalizeFirstLetter(datum.name);
+        datum.name = options?.translate
+          ? options.translate(datum.name.toLowerCase())
+          : capitalizeFirstLetter(datum.name);
       }
 
       // parse timestamp to visual date if xAxisProperty is in WIDGET_X_AXIS_DATE_PROPERTIES
@@ -99,7 +107,9 @@ export const parseChartData = (
   if (groupByProperty) {
     if (TO_CAPITALIZE_PROPERTIES.includes(groupByProperty)) {
       Object.keys(updatedSchema).forEach((key) => {
-        updatedSchema[key] = capitalizeFirstLetter(updatedSchema[key]);
+        updatedSchema[key] = options?.translate
+          ? options.translate(updatedSchema[key].toLowerCase())
+          : capitalizeFirstLetter(updatedSchema[key]);
       });
     }
 

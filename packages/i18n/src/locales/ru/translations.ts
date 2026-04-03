@@ -757,7 +757,8 @@ export default {
     property: "Свойство",
     properties: "Свойства",
     parent: "Родительский",
-    page: "Пейдж",
+    page: "Страница",
+    add_page: "Добавить страницу",
     remove: "Удалить",
     archiving: "Архивация",
     archive: "Архивировать",
@@ -957,6 +958,8 @@ export default {
     paused: "На паузе",
     no_of: "Количество {entity}",
     resolved: "Решено",
+    created: "Создано",
+    count: "Количество",
     overview: "Обзор",
   },
   chart: {

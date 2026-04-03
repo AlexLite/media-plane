@@ -84,6 +84,7 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
       parseChartData(priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping, {
         weekLabel: t("common.week"),
         noneLabel: t("common.none"),
+        translate: (key: string) => t(key),
       }),
     [priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping, t]
   );
@@ -99,7 +100,7 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
       parsedBars = [
         {
           key: "count",
-          label: "Count",
+          label: t("common.count"),
           stackId: "bar-one",
           fill: (payload) => generateBarColor(payload.key, { x_axis, y_axis, group_by }, baseColors, workspaceStates),
           textClassName: "",
@@ -175,18 +176,18 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
       },
       {
         accessorKey: "count",
-        header: () => <div className="text-right">Count</div>,
+        header: () => <div className="text-right">{t("common.count")}</div>,
         cell: ({ row }) => <div className="text-right">{row.original.count}</div>,
         meta: {
           export: {
             key: "Count",
             value: (row) => row.original.count,
-            label: "Count",
+            label: t("common.count"),
           },
         },
       },
     ],
-    [xAxisLabel]
+    [xAxisLabel, t]
   );
 
   const columns: ColumnDef<TChartDatum>[] = useMemo(
