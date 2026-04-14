@@ -742,6 +742,8 @@ export default {
     project_id: "Project ID",
     project_timezone: "Project Timezone",
     created_on: "Created on",
+    created_on_date: "Created on {date}",
+    joined: "Joined",
     update_project: "Update project",
     identifier_already_exists: "Identifier already exists",
     add_more: "Add more",

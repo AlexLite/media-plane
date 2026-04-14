@@ -747,6 +747,8 @@ export default {
     project_id: "ID проекта",
     project_timezone: "Часовой пояс проекта",
     created_on: "Создано",
+    created_on_date: "Создано {date}",
+    joined: "Вступил",
     update_project: "Обновить проект",
     identifier_already_exists: "Идентификатор уже существует",
     add_more: "Добавить еще",

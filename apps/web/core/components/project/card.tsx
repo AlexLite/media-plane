@@ -352,7 +352,7 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
                   ) : (
                     <span className="flex items-center gap-1 text-13 text-placeholder">
                       <CheckIcon className="h-3.5 w-3.5" />
-                      Joined
+                      {t("common.joined")}
                     </span>
                   ))}
                 {!isMemberOfProject && (
