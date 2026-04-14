@@ -708,6 +708,7 @@ export default {
     offline_tooltip_content: "You can continue making changes. They will be synced when you are back online.",
     locked: "Locked",
     drop_here: "Drop here...",
+    drop_here_to_delete: "Drop here to delete the work item.",
     click_or_drag_file: "Click or drag a file here",
     links: "Links",
     success: "Success!",
