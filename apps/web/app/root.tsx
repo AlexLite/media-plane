@@ -146,5 +146,9 @@ export function HydrateFallback() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  return <CustomErrorComponent error={error} />;
+  return (
+    <AppProvider>
+      <CustomErrorComponent error={error} />
+    </AppProvider>
+  );
 }
