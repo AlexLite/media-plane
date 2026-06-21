@@ -15,6 +15,11 @@ deploy-specific patches for the `preview` branch.
 See [CHANGELOG.md](./CHANGELOG.md) for the current fork version and the changes
 included in each release snapshot.
 
+### Workflow
+
+See [docs/fork-workflow.md](./docs/fork-workflow.md) for the working rules we
+use to keep GitHub, local development, and the deploy on `plane2` aligned.
+
 ### Compose files
 
 - `docker-compose.yml` is the main self-host stack
