@@ -101,8 +101,6 @@ services:
     build:
       context: ./apps/api
       dockerfile: Dockerfile.dev
-      args:
-        DOCKER_BUILDKIT: 1
     networks:
       - test_env
     env_file:
