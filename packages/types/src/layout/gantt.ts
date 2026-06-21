@@ -20,6 +20,7 @@ export interface IGanttBlock {
   sort_order: number | undefined;
   start_date: string | undefined;
   target_date: string | undefined;
+  target_time?: string | undefined;
   meta?: Record<string, any>;
 }
 
@@ -41,7 +42,7 @@ export interface IBlockUpdateDependencyData {
   meta?: Record<string, any>;
 }
 
-export type TGanttViews = "week" | "month" | "quarter";
+export type TGanttViews = "day" | "week" | "month" | "quarter";
 
 // chart render types
 export interface WeekMonthDataType {

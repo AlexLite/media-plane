@@ -73,7 +73,7 @@ export function ProjectOrderByDropdown(props: Props) {
         }}
         disabled={isOrderingDisabled}
       >
-        Ascending
+        {t("common.sort.asc")}
         {!isOrderingDisabled && !isDescending && <CheckIcon className="h-3 w-3" />}
       </CustomMenu.MenuItem>
       <CustomMenu.MenuItem
@@ -83,7 +83,7 @@ export function ProjectOrderByDropdown(props: Props) {
         }}
         disabled={isOrderingDisabled}
       >
-        Descending
+        {t("common.sort.desc")}
         {!isOrderingDisabled && isDescending && <CheckIcon className="h-3 w-3" />}
       </CustomMenu.MenuItem>
     </CustomMenu>

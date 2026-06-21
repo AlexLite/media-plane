@@ -22,23 +22,30 @@ export function UserGreetingsView(props: IUserGreetingsView) {
   // store hooks
   const { t } = useTranslation();
 
-  const hour = new Intl.DateTimeFormat("en-US", {
+  const locale = "ru-RU";
+  const timeZone = user?.user_timezone;
+
+  const hourParts = new Intl.DateTimeFormat("en-US", {
+    timeZone,
     hour12: false,
-    hour: "numeric",
-  }).format(currentTime);
+    hour: "2-digit",
+  }).formatToParts(currentTime);
+  const hour = hourParts.find((part) => part.type === "hour")?.value ?? "00";
 
-  const date = new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-  }).format(currentTime);
-
-  const weekDay = new Intl.DateTimeFormat("en-US", {
+  const dateParts = new Intl.DateTimeFormat(locale, {
+    timeZone,
     weekday: "long",
-  }).format(currentTime);
+    month: "short",
+    day: "2-digit",
+  }).formatToParts(currentTime);
+  const day = dateParts.find((part) => part.type === "day")?.value ?? "";
+  const weekDay = dateParts.find((part) => part.type === "weekday")?.value ?? "";
+  const month = dateParts.find((part) => part.type === "month")?.value ?? "";
+  const date = `${day} ${month}`.trim();
 
-  const timeString = new Intl.DateTimeFormat("en-US", {
-    timeZone: user?.user_timezone,
-    hour12: false, // Use 24-hour format
+  const timeString = new Intl.DateTimeFormat(locale, {
+    timeZone,
+    hour12: false,
     hour: "2-digit",
     minute: "2-digit",
   }).format(currentTime);

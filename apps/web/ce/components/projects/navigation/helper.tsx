@@ -24,7 +24,7 @@ export const getProjectFeatureNavigation = (
   {
     i18n_key: "sidebar.work_items",
     key: EProjectFeatureKey.WORK_ITEMS,
-    name: "Work items",
+    name: "Рабочие элементы",
     href: `/${workspaceSlug}/projects/${projectId}/issues`,
     icon: WorkItemsIcon,
     access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER, EUserPermissions.GUEST],
@@ -34,7 +34,7 @@ export const getProjectFeatureNavigation = (
   {
     i18n_key: "sidebar.cycles",
     key: EProjectFeatureKey.CYCLES,
-    name: "Cycles",
+    name: "Циклы",
     href: `/${workspaceSlug}/projects/${projectId}/cycles`,
     icon: CycleIcon,
     access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
@@ -44,7 +44,7 @@ export const getProjectFeatureNavigation = (
   {
     i18n_key: "sidebar.modules",
     key: EProjectFeatureKey.MODULES,
-    name: "Modules",
+    name: "Модули",
     href: `/${workspaceSlug}/projects/${projectId}/modules`,
     icon: ModuleIcon,
     access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
@@ -54,7 +54,7 @@ export const getProjectFeatureNavigation = (
   {
     i18n_key: "sidebar.views",
     key: EProjectFeatureKey.VIEWS,
-    name: "Views",
+    name: "Представления",
     href: `/${workspaceSlug}/projects/${projectId}/views`,
     icon: ViewsIcon,
     access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER, EUserPermissions.GUEST],
@@ -64,7 +64,7 @@ export const getProjectFeatureNavigation = (
   {
     i18n_key: "sidebar.pages",
     key: EProjectFeatureKey.PAGES,
-    name: "Pages",
+    name: "Страницы",
     href: `/${workspaceSlug}/projects/${projectId}/pages`,
     icon: PageIcon,
     access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER, EUserPermissions.GUEST],
@@ -74,7 +74,7 @@ export const getProjectFeatureNavigation = (
   {
     i18n_key: "sidebar.intake",
     key: EProjectFeatureKey.INTAKE,
-    name: "Intake",
+    name: "Предложения",
     href: `/${workspaceSlug}/projects/${projectId}/intake`,
     icon: IntakeIcon,
     access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER, EUserPermissions.GUEST],

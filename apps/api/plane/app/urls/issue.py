@@ -8,6 +8,9 @@ from plane.app.views import (
     BulkCreateIssueLabelsEndpoint,
     BulkDeleteIssuesEndpoint,
     SubIssuesEndpoint,
+    IssuePipelineEndpoint,
+    IssuePipelineItemEndpoint,
+    IssuePipelineCompleteEndpoint,
     IssueLinkViewSet,
     IssueAttachmentEndpoint,
     CommentReactionViewSet,
@@ -105,6 +108,26 @@ urlpatterns = [
         "workspaces/<str:slug>/projects/<uuid:project_id>/issues/<uuid:issue_id>/sub-issues/",
         SubIssuesEndpoint.as_view(),
         name="sub-issues",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/issues/<uuid:issue_id>/pipeline/",
+        IssuePipelineEndpoint.as_view(),
+        name="issue-pipeline",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/issues/<uuid:issue_id>/pipeline/initialize/",
+        IssuePipelineEndpoint.as_view(),
+        name="issue-pipeline-initialize",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/issues/<uuid:issue_id>/pipeline/<uuid:pipeline_item_id>/",
+        IssuePipelineItemEndpoint.as_view(),
+        name="issue-pipeline-item",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/issues/<uuid:issue_id>/pipeline/<uuid:pipeline_item_id>/complete/",
+        IssuePipelineCompleteEndpoint.as_view(),
+        name="issue-pipeline-complete",
     ),
     path(
         "workspaces/<str:slug>/projects/<uuid:project_id>/issues/<uuid:issue_id>/issue-links/",

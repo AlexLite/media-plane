@@ -5,6 +5,7 @@
  */
 
 import React from "react";
+import { observer } from "mobx-react";
 import { Paperclip } from "lucide-react";
 import { useTranslation } from "@plane/i18n";
 import { LinkIcon, ViewsIcon, RelationPropertyIcon } from "@plane/propel/icons";
@@ -12,9 +13,11 @@ import { LinkIcon, ViewsIcon, RelationPropertyIcon } from "@plane/propel/icons";
 import type { TIssueServiceType, TWorkItemWidgets } from "@plane/types";
 // plane web imports
 import { WorkItemAdditionalWidgetActionButtons } from "@/plane-web/components/issues/issue-detail-widgets/action-buttons";
+import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 // local imports
 import { IssueAttachmentActionButton } from "./attachments";
 import { IssueLinksActionButton } from "./links";
+import { PipelineActionButton } from "./pipeline";
 import { RelationActionButton } from "./relations";
 import { SubIssuesActionButton } from "./sub-issues";
 import { IssueDetailWidgetButton } from "./widget-button";
@@ -28,10 +31,15 @@ type Props = {
   hideWidgets?: TWorkItemWidgets[];
 };
 
-export function IssueDetailWidgetActionButtons(props: Props) {
+export const IssueDetailWidgetActionButtons = observer(function IssueDetailWidgetActionButtons(props: Props) {
   const { workspaceSlug, projectId, issueId, disabled, issueServiceType, hideWidgets } = props;
   // translation
   const { t } = useTranslation();
+  const {
+    issue: { getIssueById },
+  } = useIssueDetail(issueServiceType);
+  const issue = getIssueById(issueId);
+  const canUsePipeline = !issue?.parent_id;
 
   return (
     <div className="flex flex-wrap items-center gap-2">
@@ -47,6 +55,14 @@ export function IssueDetailWidgetActionButtons(props: Props) {
           }
           disabled={disabled}
           issueServiceType={issueServiceType}
+        />
+      )}
+      {canUsePipeline && !hideWidgets?.includes("sub-work-items") && (
+        <PipelineActionButton
+          workspaceSlug={workspaceSlug}
+          projectId={projectId}
+          issueId={issueId}
+          disabled={disabled}
         />
       )}
       {!hideWidgets?.includes("relations") && (
@@ -102,4 +118,4 @@ export function IssueDetailWidgetActionButtons(props: Props) {
       />
     </div>
   );
-}
+});

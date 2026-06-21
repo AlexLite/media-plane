@@ -101,7 +101,6 @@ dev-editor
 
 storybook-static
 
-CLAUDE.md
 
 build/
 .react-router/
@@ -109,11 +108,11 @@ build/
 build/
 .react-router/
 temp/
-scripts/
-!packages/i18n/scripts/
+scripts/*
+!scripts/audit-keys.mjs
+!scripts/sync-upstream.sh
+!scripts/audit-hardcoded.mjs
 
-# i18n auto-generated types (regenerated on every build)
-packages/i18n/src/types/keys.generated.ts
-
-# Local security notes (not for version control)
-/security/
+# OMC tool state files
+.omc/state/
+.omc/project-memory.json

@@ -6,6 +6,7 @@
 
 import { observer } from "mobx-react";
 import { MessageSquare } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 // hooks
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 // components
@@ -19,6 +20,7 @@ export const IssueLinkActivity = observer(function IssueLinkActivity(props: TIss
   const {
     activity: { getActivityById },
   } = useIssueDetail();
+  const { t } = useTranslation();
 
   const activity = getActivityById(activityId);
 
@@ -32,42 +34,42 @@ export const IssueLinkActivity = observer(function IssueLinkActivity(props: TIss
       <>
         {activity.verb === "created" ? (
           <>
-            <span>added </span>
+            <span>{t("activity_feed.added")} </span>
             <a
               href={`${activity.new_value}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 font-medium text-primary hover:underline"
             >
-              link
+              {t("common.link")}
             </a>
           </>
         ) : activity.verb === "updated" ? (
           <>
-            <span>updated the </span>
+            <span>{t("activity_feed.updated_the")} </span>
             <a
               href={`${activity.old_value}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 font-medium text-primary hover:underline"
             >
-              link
+              {t("common.link")}
             </a>
           </>
         ) : (
           <>
-            <span>removed this </span>
+            <span>{t("activity_feed.removed_this")} </span>
             <a
               href={`${activity.old_value}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 font-medium text-primary hover:underline"
             >
-              link
+              {t("common.link")}
             </a>
           </>
         )}
-        {showIssue && (activity.verb === "created" ? ` to ` : ` from `)}
+        {showIssue && (activity.verb === "created" ? ` ${t("activity_feed.to")} ` : ` ${t("activity_feed.from")} `)}
         {showIssue && <IssueLink activityId={activityId} />}.
       </>
     </IssueActivityBlockComponent>

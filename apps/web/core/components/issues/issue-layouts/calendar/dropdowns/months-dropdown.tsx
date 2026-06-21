@@ -8,12 +8,12 @@ import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { usePopper } from "react-popper";
 import { Popover, Transition } from "@headlessui/react";
+import { useTranslation } from "@plane/i18n";
 import { ChevronLeftIcon, ChevronRightIcon } from "@plane/propel/icons";
 //hooks
 // icons
 // constants
 import { getDate } from "@plane/utils";
-import { MONTHS_LIST } from "@/constants/calendar";
 import { useCalendarView } from "@/hooks/store/use-calendar-view";
 import type { ICycleIssuesFilter } from "@/store/issue/cycle";
 import type { IModuleIssuesFilter } from "@/store/issue/module";
@@ -26,6 +26,7 @@ interface Props {
 }
 export const CalendarMonthsDropdown = observer(function CalendarMonthsDropdown(props: Props) {
   const { issuesFilterStore } = props;
+  const { t } = useTranslation();
 
   const issueCalendarView = useCalendarView();
 
@@ -46,31 +47,34 @@ export const CalendarMonthsDropdown = observer(function CalendarMonthsDropdown(p
     ],
   });
 
-  const { activeMonthDate } = issueCalendarView.calendarFilters;
+  const { activeMonthDate, activeWeekDate } = issueCalendarView.calendarFilters;
+  const locale = "ru-RU";
+  const monthTitle = (date: Date) => new Intl.DateTimeFormat(locale, { month: "long" }).format(date);
+  const monthShortTitle = (date: Date) => new Intl.DateTimeFormat(locale, { month: "short" }).format(date);
+  const monthPickerItems = Array.from({ length: 12 }, (_, index) => ({
+    index,
+    shortTitle: monthShortTitle(new Date(2026, index, 1)),
+  }));
 
   const getWeekLayoutHeader = (): string => {
     const allDaysOfActiveWeek = issueCalendarView.allDaysOfActiveWeek;
 
-    if (!allDaysOfActiveWeek) return "Week view";
+    if (!allDaysOfActiveWeek) return t("common.week");
 
     const daysList = Object.keys(allDaysOfActiveWeek);
 
     const firstDay = getDate(daysList[0]);
     const lastDay = getDate(daysList[daysList.length - 1]);
 
-    if (!firstDay || !lastDay) return "Week view";
+    if (!firstDay || !lastDay) return t("common.week");
 
     if (firstDay.getMonth() === lastDay.getMonth() && firstDay.getFullYear() === lastDay.getFullYear())
-      return `${MONTHS_LIST[firstDay.getMonth() + 1].title} ${firstDay.getFullYear()}`;
+      return `${monthTitle(firstDay)} ${firstDay.getFullYear()}`;
 
     if (firstDay.getFullYear() !== lastDay.getFullYear()) {
-      return `${MONTHS_LIST[firstDay.getMonth() + 1].shortTitle} ${firstDay.getFullYear()} - ${
-        MONTHS_LIST[lastDay.getMonth() + 1].shortTitle
-      } ${lastDay.getFullYear()}`;
+      return `${monthShortTitle(firstDay)} ${firstDay.getFullYear()} - ${monthShortTitle(lastDay)} ${lastDay.getFullYear()}`;
     } else
-      return `${MONTHS_LIST[firstDay.getMonth() + 1].shortTitle} - ${
-        MONTHS_LIST[lastDay.getMonth() + 1].shortTitle
-      } ${lastDay.getFullYear()}`;
+      return `${monthShortTitle(firstDay)} - ${monthShortTitle(lastDay)} ${lastDay.getFullYear()}`;
   };
 
   const handleDateChange = (date: Date) => {
@@ -86,11 +90,13 @@ export const CalendarMonthsDropdown = observer(function CalendarMonthsDropdown(p
           type="button"
           ref={setReferenceElement}
           className="text-18 font-semibold outline-none"
-          disabled={calendarLayout === "week"}
+          disabled={calendarLayout === "week" || calendarLayout === "day"}
         >
           {calendarLayout === "month"
-            ? `${MONTHS_LIST[activeMonthDate.getMonth() + 1].title} ${activeMonthDate.getFullYear()}`
-            : getWeekLayoutHeader()}
+            ? `${monthTitle(activeMonthDate)} ${activeMonthDate.getFullYear()}`
+            : calendarLayout === "day"
+              ? activeWeekDate.toLocaleDateString("ru-RU", { day: "2-digit", month: "short" })
+              : getWeekLayoutHeader()}
         </button>
       </Popover.Button>
       <Transition
@@ -133,13 +139,13 @@ export const CalendarMonthsDropdown = observer(function CalendarMonthsDropdown(p
               </button>
             </div>
             <div className="grid grid-cols-4 items-stretch justify-items-stretch gap-4 pt-3">
-              {Object.values(MONTHS_LIST).map((month, index) => (
+              {monthPickerItems.map((month) => (
                 <button
                   key={month.shortTitle}
                   type="button"
                   className="rounded-sm py-0.5 text-11 hover:bg-layer-1"
                   onClick={() => {
-                    const newDate = new Date(activeMonthDate.getFullYear(), index, 1);
+                    const newDate = new Date(activeMonthDate.getFullYear(), month.index, 1);
                     handleDateChange(newDate);
                   }}
                 >

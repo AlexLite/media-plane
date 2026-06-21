@@ -113,6 +113,8 @@ class IssueSearchEndpoint(BaseAPIView):
             project__project_projectmember__is_active=True,
             project__archived_at__isnull=True,
         )
+        if request.GET.get("include_pipeline_items", "false").lower() != "true":
+            issues = issues.exclude(pipeline_metadata__hidden_from_board=True)
 
         if workspace_search == "false":
             issues = self.filter_issues_by_project(project_id, issues)

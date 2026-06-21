@@ -5,9 +5,10 @@
  */
 
 import { observer } from "mobx-react";
+import { useParams } from "next/navigation";
 
 // components
-import type { TSupportedFilterTypeForUpdate } from "@plane/constants";
+import { EIssueFilterType, type TSupportedFilterTypeForUpdate } from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import { ChevronLeftIcon, ChevronRightIcon } from "@plane/propel/icons";
 import type { TSupportedFilterForUpdate } from "@plane/types";
@@ -34,6 +35,7 @@ export const CalendarHeader = observer(function CalendarHeader(props: ICalendarH
   const { issuesFilterStore, updateFilters, setSelectedDate } = props;
 
   const { t } = useTranslation();
+  const { projectId } = useParams();
 
   const issueCalendarView = useCalendarView();
 
@@ -93,6 +95,12 @@ export const CalendarHeader = observer(function CalendarHeader(props: ICalendarH
     const today = new Date();
     const firstDayOfCurrentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
+    updateFilters?.(projectId?.toString() ?? "", EIssueFilterType.DISPLAY_FILTERS, {
+      calendar: {
+        ...issuesFilterStore.issueFilters?.displayFilters?.calendar,
+        layout: "day",
+      },
+    });
     issueCalendarView.updateCalendarFilters({
       activeMonthDate: firstDayOfCurrentMonth,
       activeWeekDate: today,
@@ -119,7 +127,7 @@ export const CalendarHeader = observer(function CalendarHeader(props: ICalendarH
         >
           {t("common.today")}
         </button>
-        <CalendarOptionsDropdown issuesFilterStore={issuesFilterStore} updateFilters={updateFilters} />
+        <CalendarOptionsDropdown issuesFilterStore={issuesFilterStore} onToday={handleToday} updateFilters={updateFilters} />
       </div>
     </Row>
   );

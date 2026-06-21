@@ -25,6 +25,18 @@ type Props = {
   invitationId: string;
 };
 
+const getWorkspaceRoleLabel = (role: EUserPermissions, t: (key: string) => string): string => {
+  switch (role) {
+    case EUserPermissions.ADMIN:
+      return t("workspace_member_roles.admin");
+    case EUserPermissions.MEMBER:
+      return t("workspace_member_roles.member");
+    case EUserPermissions.GUEST:
+    default:
+      return t("workspace_member_roles.guest");
+  }
+};
+
 export const WorkspaceInvitationsListItem = observer(function WorkspaceInvitationsListItem(props: Props) {
   const { invitationId } = props;
   // router
@@ -60,15 +72,15 @@ export const WorkspaceInvitationsListItem = observer(function WorkspaceInvitatio
       await deleteMemberInvitation(workspaceSlug.toString(), invitationDetails.id);
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Success!",
-        message: "Invitation removed successfully.",
+        title: t("toast.success"),
+        message: t("workspace_settings.settings.members.invitation_removed_successfully"),
       });
     } catch (err: unknown) {
       const error = err as { error?: string };
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
-        message: error?.error || "Something went wrong. Please try again.",
+        title: t("toast.error"),
+        message: error?.error || t("something_went_wrong_please_try_again"),
       });
     }
   };
@@ -142,7 +154,7 @@ export const WorkspaceInvitationsListItem = observer(function WorkspaceInvitatio
                     hasRoleChangeAccess ? "" : "text-placeholder"
                   }`}
                 >
-                  {ROLE[invitationDetails.role]}
+                  {getWorkspaceRoleLabel(invitationDetails.role, t)}
                 </span>
                 {hasRoleChangeAccess && (
                   <span className="grid place-items-center">
@@ -161,8 +173,8 @@ export const WorkspaceInvitationsListItem = observer(function WorkspaceInvitatio
                 const error = err as { error?: string };
                 setToast({
                   type: TOAST_TYPE.ERROR,
-                  title: "Error!",
-                  message: error?.error || "An error occurred while updating member role. Please try again.",
+                  title: t("toast.error"),
+                  message: error?.error || t("workspace_settings.settings.members.role_update_error"),
                 });
               });
             }}
@@ -179,7 +191,7 @@ export const WorkspaceInvitationsListItem = observer(function WorkspaceInvitatio
 
               return (
                 <CustomSelect.Option key={key} value={parseInt(key, 10)}>
-                  <>{ROLE[parseInt(key) as keyof typeof ROLE]}</>
+                  <>{getWorkspaceRoleLabel(parseInt(key, 10) as EUserPermissions, t)}</>
                 </CustomSelect.Option>
               );
             })}

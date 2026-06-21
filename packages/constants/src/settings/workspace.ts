@@ -20,12 +20,6 @@ export const WORKSPACE_SETTINGS_CATEGORIES: WORKSPACE_SETTINGS_CATEGORY[] = [
   WORKSPACE_SETTINGS_CATEGORY.DEVELOPER,
 ];
 
-export const WORKSPACE_SETTINGS_CATEGORY_LABELS: Record<WORKSPACE_SETTINGS_CATEGORY, string> = {
-  [WORKSPACE_SETTINGS_CATEGORY.ADMINISTRATION]: "common.administration",
-  [WORKSPACE_SETTINGS_CATEGORY.FEATURES]: "common.features",
-  [WORKSPACE_SETTINGS_CATEGORY.DEVELOPER]: "common.developer",
-};
-
 export const WORKSPACE_SETTINGS: Record<TWorkspaceSettingsTabs, TWorkspaceSettingsItem> = {
   general: {
     key: "general",
@@ -40,6 +34,13 @@ export const WORKSPACE_SETTINGS: Record<TWorkspaceSettingsTabs, TWorkspaceSettin
     href: `/settings/members`,
     access: [EUserWorkspaceRoles.ADMIN, EUserWorkspaceRoles.MEMBER],
     highlight: (pathname: string, baseUrl: string) => pathname === `${baseUrl}/settings/members/`,
+  },
+  groups: {
+    key: "groups",
+    i18n_label: "workspace_settings.settings.groups.title",
+    href: `/settings/groups`,
+    access: [EUserWorkspaceRoles.ADMIN, EUserWorkspaceRoles.MEMBER],
+    highlight: (pathname: string, baseUrl: string) => pathname === `${baseUrl}/settings/groups/`,
   },
   "billing-and-plans": {
     key: "billing-and-plans",
@@ -72,6 +73,7 @@ export const GROUPED_WORKSPACE_SETTINGS: Record<WORKSPACE_SETTINGS_CATEGORY, TWo
   [WORKSPACE_SETTINGS_CATEGORY.ADMINISTRATION]: [
     WORKSPACE_SETTINGS["general"],
     WORKSPACE_SETTINGS["members"],
+    WORKSPACE_SETTINGS["groups"],
     WORKSPACE_SETTINGS["billing-and-plans"],
     WORKSPACE_SETTINGS["export"],
   ],

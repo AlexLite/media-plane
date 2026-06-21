@@ -95,21 +95,19 @@ export const SecurityProfileSettings = observer(function SecurityProfileSettings
     } catch (error: unknown) {
       const err = error as Error & { error_code?: string };
       const code = err.error_code?.toString();
-      const errorInfo = code ? authErrorHandler(code as EAuthenticationErrorCodes) : undefined;
+      const errorInfo = code ? authErrorHandler(code as EAuthenticationErrorCodes, undefined, t) : undefined;
 
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: errorInfo?.title ?? t("auth.common.password.toast.change_password.error.title"),
+        title: errorInfo?.title ?? t("auth.common.password.toast.error.title"),
         message:
-          typeof errorInfo?.message === "string"
-            ? errorInfo.message
-            : t("auth.common.password.toast.change_password.error.message"),
+          typeof errorInfo?.message === "string" ? errorInfo.message : t("auth.common.password.toast.error.message"),
       });
 
       if (code && passwordErrors.includes(code as EAuthenticationErrorCodes)) {
         setError("new_password", {
           type: "manual",
-          message: errorInfo?.message?.toString() || t("auth.common.password.toast.change_password.error.message"),
+          message: errorInfo?.message?.toString() || t("auth.common.password.toast.error.message"),
         });
       }
     }

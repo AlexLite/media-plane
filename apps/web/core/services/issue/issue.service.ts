@@ -283,6 +283,54 @@ export class IssueService extends APIService {
       });
   }
 
+  async getIssuePipeline(workspaceSlug: string, projectId: string, issueId: string): Promise<any[]> {
+    return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/issues/${issueId}/pipeline/`)
+      .then((response) => response?.data)
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
+  async initializeIssuePipeline(workspaceSlug: string, projectId: string, issueId: string): Promise<any[]> {
+    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/issues/${issueId}/pipeline/initialize/`)
+      .then((response) => response?.data)
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
+  async completeIssuePipelineItem(
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    pipelineItemId: string
+  ): Promise<any> {
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/issues/${issueId}/pipeline/${pipelineItemId}/complete/`
+    )
+      .then((response) => response?.data)
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
+  async updateIssuePipelineItem(
+    workspaceSlug: string,
+    projectId: string,
+    issueId: string,
+    pipelineItemId: string,
+    data: any
+  ): Promise<any> {
+    return this.patch(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/issues/${issueId}/pipeline/${pipelineItemId}/`,
+      data
+    )
+      .then((response) => response?.data)
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
   async fetchIssueLinks(workspaceSlug: string, projectId: string, issueId: string): Promise<TIssueLink[]> {
     return this.get(
       `/api/workspaces/${workspaceSlug}/projects/${projectId}/${this.serviceType}/${issueId}/${this.serviceType === EIssueServiceType.EPICS ? "links" : "issue-links"}/`

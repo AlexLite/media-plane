@@ -6,7 +6,7 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
-import { create } from "axios";
+import axios from "axios";
 
 export abstract class APIService {
   protected baseURL: string;
@@ -14,7 +14,7 @@ export abstract class APIService {
 
   constructor(baseURL: string) {
     this.baseURL = baseURL;
-    this.axiosInstance = create({
+    this.axiosInstance = axios.create({
       baseURL,
       withCredentials: true,
     });

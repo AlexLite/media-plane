@@ -37,6 +37,7 @@ from .issue import (
     IssueComment,
     IssueLabel,
     IssueLink,
+    IssuePipelineItem,
     IssueMention,
     IssueReaction,
     IssueRelation,
@@ -45,7 +46,6 @@ from .issue import (
     IssueVote,
     IssueVersion,
     IssueDescriptionVersion,
-    IssuePipelineItem,
 )
 from .module import Module, ModuleIssue, ModuleLink, ModuleMember, ModuleUserProperties
 from .notification import EmailNotificationLog, Notification, UserNotificationPreference
@@ -85,6 +85,7 @@ from .issue_type import IssueType
 from .recent_visit import UserRecentVisit
 
 from .label import Label
+from .workspace_group import WorkspaceGroup, WorkspaceGroupMember
 
 from .device import Device, DeviceSession
 

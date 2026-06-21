@@ -18,6 +18,7 @@ import { useOutsideClickDetector } from "@plane/hooks";
 import { Tabs } from "@plane/propel/tabs";
 import { Button, getButtonStyling } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
+import { useTranslation } from "@plane/i18n";
 import { EFileAssetType } from "@plane/types";
 import { Input, Loader } from "@plane/ui";
 // helpers
@@ -50,6 +51,7 @@ const fileService = new FileService();
 
 export const ImagePickerPopover = observer(function ImagePickerPopover(props: Props) {
   const { label, value, control, onChange, disabled = false, tabIndex, isProfileCover = false, projectId } = props;
+  const { t } = useTranslation();
   // states
   const [image, setImage] = useState<File | null>(null);
   const [isImageUploading, setIsImageUploading] = useState(false);
@@ -140,9 +142,9 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
           console.error("Error uploading user cover image:", error);
           setIsImageUploading(false);
           setToast({
-            message: error?.error ?? "The image could not be uploaded",
+            message: error?.error ?? t("image_picker.image_could_not_be_uploaded"),
             type: TOAST_TYPE.ERROR,
-            title: "Image not uploaded",
+            title: t("image_picker.image_not_uploaded"),
           });
         });
     } else {
@@ -161,9 +163,9 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
           console.error("Error uploading project cover image:", error);
           setIsImageUploading(false);
           setToast({
-            message: error?.error ?? "The image could not be uploaded",
+            message: error?.error ?? t("image_picker.image_could_not_be_uploaded"),
             type: TOAST_TYPE.ERROR,
-            title: "Image not uploaded",
+            title: t("image_picker.image_not_uploaded"),
           });
         });
     }
@@ -233,13 +235,13 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                               value={value}
                               onChange={(e) => setFormData({ ...formData, search: e.target.value })}
                               ref={ref}
-                              placeholder="Search for images"
+                              placeholder={t("image_picker.search_for_images")}
                               className="w-full text-13"
                             />
                           )}
                         />
                         <Button variant="primary" size="xl" onClick={() => setSearchParams(formData.search)}>
-                          Search
+                          {t("search")}
                         </Button>
                       </div>
                       {unsplashImages ? (
@@ -263,7 +265,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                             ))}
                           </div>
                         ) : (
-                          <p className="pt-7 text-center text-11 text-secondary">No images found.</p>
+                          <p className="pt-7 text-center text-11 text-secondary">{t("image_picker.no_images_found")}</p>
                         )
                       ) : (
                         <Loader className="grid grid-cols-4 gap-4">
@@ -325,7 +327,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                         ) : (
                           <div>
                             <span className="mt-2 block text-13 font-medium text-secondary">
-                              {isDragActive ? "Drop image here to upload" : "Drag & drop image here"}
+                              {isDragActive ? t("image_picker.drop_image_here_to_upload") : t("image_picker.drag_drop_image_here")}
                             </span>
                           </div>
                         )}
@@ -336,12 +338,12 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                     {fileRejections.length > 0 && (
                       <p className="text-13 text-danger-primary">
                         {fileRejections[0].errors[0].code === "file-too-large"
-                          ? "The image size cannot exceed 5 MB."
-                          : "Please upload a file in a valid format."}
+                          ? t("image_picker.max_size_error")
+                          : t("image_picker.invalid_format_error")}
                       </p>
                     )}
 
-                    <p className="text-13 text-secondary">File formats supported- .jpeg, .jpg, .png, .webp</p>
+                    <p className="text-13 text-secondary">{t("image_picker.supported_formats")}</p>
 
                     <div className="flex h-12 items-start justify-end gap-2">
                       <Button
@@ -351,7 +353,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                           setImage(null);
                         }}
                       >
-                        Cancel
+                        {t("cancel")}
                       </Button>
                       <Button
                         variant="primary"
@@ -360,7 +362,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                         disabled={!image}
                         loading={isImageUploading}
                       >
-                        {isImageUploading ? "Uploading" : "Upload & Save"}
+                        {isImageUploading ? t("image_picker.uploading") : t("image_picker.upload_and_save")}
                       </Button>
                     </div>
                   </div>

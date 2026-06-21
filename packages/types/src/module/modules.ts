@@ -87,7 +87,9 @@ export interface IModule {
   status?: TModuleStatus;
   archived_at: string | null;
   start_date: string | null;
+  start_time: string | null;
   target_date: string | null;
+  target_time: string | null;
   created_at: string;
   updated_at: string;
   created_by?: string;

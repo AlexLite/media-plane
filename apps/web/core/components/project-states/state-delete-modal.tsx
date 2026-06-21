@@ -7,6 +7,7 @@
 import { useState } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
+import { useTranslation } from "@plane/i18n";
 // Plane imports
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { IState } from "@plane/types";
@@ -23,6 +24,7 @@ type TStateDeleteModal = {
 
 export const StateDeleteModal = observer(function StateDeleteModal(props: TStateDeleteModal) {
   const { isOpen, onClose, data } = props;
+  const { t } = useTranslation();
   // states
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   // router
@@ -47,15 +49,14 @@ export const StateDeleteModal = observer(function StateDeleteModal(props: TState
         if (err.status === 400)
           setToast({
             type: TOAST_TYPE.ERROR,
-            title: "Error!",
-            message:
-              "This state contains some work items within it, please move them to some other state to delete this state.",
+            title: t("common.error.label"),
+            message: t("project_states.state_has_issues"),
           });
         else
           setToast({
             type: TOAST_TYPE.ERROR,
-            title: "Error!",
-            message: "State could not be deleted. Please try again.",
+            title: t("common.error.label"),
+            message: t("project_states.state_delete_failed"),
           });
       })
       .finally(() => {
@@ -69,13 +70,16 @@ export const StateDeleteModal = observer(function StateDeleteModal(props: TState
       handleSubmit={handleDeletion}
       isSubmitting={isDeleteLoading}
       isOpen={isOpen}
-      title="Delete State"
+      title={t("project_states.delete_state")}
       content={
         <>
-          Are you sure you want to delete state- <span className="font-medium text-primary">{data?.name}</span>? All of
-          the data related to the state will be permanently removed. This action cannot be undone.
+          {t("project_states.delete_state_confirm_prefix")}{" "}
+          <span className="font-medium text-primary">{data?.name}</span>
+          {t("project_states.delete_state_confirm_suffix")}
         </>
       }
+      primaryButtonText={{ loading: t("deleting"), default: t("delete") }}
+      secondaryButtonText={t("cancel")}
     />
   );
 });

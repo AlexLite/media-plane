@@ -170,6 +170,7 @@ export const IssueDetailsSidebar = observer(function IssueDetailsSidebar(props: 
                   onChange={(val) =>
                     issueOperations.update(workspaceSlug, projectId, issueId, {
                       target_date: val ? renderFormattedPayloadDate(val) : null,
+                      ...(val ? {} : { target_time: null }),
                     })
                   }
                   minDate={minDate ?? undefined}
@@ -183,6 +184,27 @@ export const IssueDetailsSidebar = observer(function IssueDetailsSidebar(props: 
                   })}
                   hideIcon
                   clearIconClassName="h-3 w-3 hidden group-hover:inline text-primary"
+                  selectedLabelSuffix={issue.target_time ? ` ${issue.target_time.slice(0, 5)}` : ""}
+                  showTimeInput
+                  timeInputLabel={t("common.end_time")}
+                  timeValue={issue.target_time}
+                  onTimeChange={(time) =>
+                    issueOperations.update(workspaceSlug, projectId, issueId, {
+                      target_time: time,
+                    })
+                  }
+                />
+                <input
+                  type="time"
+                  value={issue.target_time?.slice(0, 5) ?? ""}
+                  onChange={(event) =>
+                    issueOperations.update(workspaceSlug, projectId, issueId, {
+                      target_time: event.target.value || null,
+                    })
+                  }
+                  disabled={!isEditable || !issue.target_date}
+                  aria-label={t("common.due_time")}
+                  className="h-7.5 w-20 rounded-sm border border-subtle bg-transparent px-1 text-body-xs-regular text-primary outline-none disabled:cursor-not-allowed disabled:text-placeholder"
                 />
                 {issue.target_date && <DateAlert date={issue.target_date} workItem={issue} projectId={projectId} />}
               </div>

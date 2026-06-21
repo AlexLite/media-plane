@@ -33,6 +33,7 @@ type BlockData = {
   sort_order: number | null;
   start_date?: string | undefined | null;
   target_date?: string | undefined | null;
+  target_time?: string | undefined | null;
   project_id?: string | undefined | null;
 };
 
@@ -206,6 +207,7 @@ export class BaseTimeLineStore implements IBaseTimelineStore {
         sort_order: blockData?.sort_order ?? undefined,
         start_date: blockData?.start_date ?? undefined,
         target_date: blockData?.target_date ?? undefined,
+        target_time: blockData?.target_time ?? undefined,
         meta: {
           type,
           index,

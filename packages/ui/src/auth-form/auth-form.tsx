@@ -140,7 +140,7 @@ export function AuthForm({
         label="Email"
         value={formData.email}
         onChange={handleInputChange("email")}
-        placeholder="name@company.com"
+        placeholder="name@company.ru"
         error={emailError}
         disabled={disabled}
         // autoComplete="email"

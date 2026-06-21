@@ -19,7 +19,6 @@ def project(db, workspace, create_user):
         identifier="TP",
         workspace=workspace,
         created_by=create_user,
-        cycle_view=True,
     )
     ProjectMember.objects.create(
         project=project,

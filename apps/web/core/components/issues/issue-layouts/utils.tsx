@@ -30,7 +30,7 @@ import type {
 import { EIssuesStoreType } from "@plane/types";
 // plane ui
 import { Avatar } from "@plane/ui";
-import { renderFormattedDate, getFileURL } from "@plane/utils";
+import { renderFormattedDateWithTime, getFileURL } from "@plane/utils";
 // helpers
 // store
 import { store } from "@/lib/store-context";
@@ -97,7 +97,7 @@ export const getGroupByColumns = ({
     return [
       {
         id: "All Issues",
-        name: `All ${isEpic ? "Epics" : "work items"}`,
+        name: isEpic ? "Все эпики" : "Все рабочие элементы",
         payload: {},
         icon: undefined,
       },
@@ -169,7 +169,7 @@ const getCycleColumns = (): IGroupByColumn[] | undefined => {
       icon: <CycleGroupIcon cycleGroup={cycleStatus} className="h-3.5 w-3.5" />,
       payload: { cycle_id: cycle.id },
       isDropDisabled,
-      dropErrorMessage: isDropDisabled ? "Work item cannot be moved to completed cycles" : undefined,
+      dropErrorMessage: isDropDisabled ? "Рабочий элемент нельзя переместить в завершенный цикл" : undefined,
     });
   });
   cycles.push({
@@ -681,7 +681,10 @@ export function getApproximateCardHeight(displayProperties: IIssueDisplayPropert
  * @returns
  */
 export const getBlockViewDetails = (
-  block: { start_date: string | undefined | null; target_date: string | undefined | null } | undefined | null,
+  block:
+    | { start_date: string | undefined | null; target_date: string | undefined | null; target_time?: string | null }
+    | undefined
+    | null,
   backgroundColor: string
 ) => {
   const isBlockVisibleOnChart = block?.start_date || block?.target_date;
@@ -691,17 +694,16 @@ export const getBlockViewDetails = (
   const blockStyle: CSSProperties = {
     backgroundColor,
   };
-
   if (isBlockVisibleOnChart && !isBlockComplete) {
     if (block?.start_date) {
-      message = `From ${renderFormattedDate(block.start_date)}`;
+      message = `С ${renderFormattedDateWithTime(block.start_date)}`;
       blockStyle.maskImage = `linear-gradient(to right, ${backgroundColor} 50%, transparent 95%)`;
     } else if (block?.target_date) {
-      message = `Till ${renderFormattedDate(block.target_date)}`;
+      message = `До ${renderFormattedDateWithTime(block.target_date, block.target_time)}`;
       blockStyle.maskImage = `linear-gradient(to left, ${backgroundColor} 50%, transparent 95%)`;
     }
   } else if (isBlockComplete) {
-    message = `${renderFormattedDate(block?.start_date)} to ${renderFormattedDate(block?.target_date)}`;
+    message = `${renderFormattedDateWithTime(block?.start_date)} - ${renderFormattedDateWithTime(block?.target_date, block?.target_time)}`;
   }
 
   return {

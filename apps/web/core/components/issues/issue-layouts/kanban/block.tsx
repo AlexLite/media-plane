@@ -278,7 +278,11 @@ export const KanbanIssueBlock = observer(function KanbanIssueBlock(props: IssueB
             "block w-full rounded-lg border border-subtle bg-layer-2 p-3 text-13 shadow-raised-100 outline-[0.5px] outline-transparent transition-all hover:border-strong hover:shadow-raised-200",
             { "hover:cursor-pointer": isDragAllowed },
             { "border border-accent-strong hover:border-accent-strong": getIsIssuePeeked(issue.id) },
-            { "z-[100] bg-layer-1": isCurrentBlockDragging }
+            { "z-[100] bg-layer-1": isCurrentBlockDragging },
+            {
+              "border-red-400/40 bg-red-500/10 hover:border-red-400/60": issue.has_overdue_pipeline_items,
+              "border-red-500/60 bg-red-500/20 hover:border-red-500/80": issue.has_overdue_final_pipeline_item,
+            }
           )}
           onClick={() => handleIssuePeekOverview(issue)}
           disabled={!!issue?.tempId}

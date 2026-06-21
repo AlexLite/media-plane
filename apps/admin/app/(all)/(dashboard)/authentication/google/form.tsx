@@ -23,6 +23,7 @@ import { ControllerSwitch } from "@/components/common/controller-switch";
 import { ControllerInput } from "@/components/common/controller-input";
 import type { TCopyField } from "@/components/common/copy-field";
 import { CopyField } from "@/components/common/copy-field";
+import { useAdminTranslation } from "@/helpers/i18n";
 // hooks
 import { useInstance } from "@/hooks/store";
 
@@ -34,6 +35,7 @@ type GoogleConfigFormValues = Record<TInstanceGoogleAuthenticationConfigurationK
 
 export function InstanceGoogleConfigForm(props: Props) {
   const { config } = props;
+  const { t } = useAdminTranslation();
   // states
   const [isDiscardChangesModalOpen, setIsDiscardChangesModalOpen] = useState(false);
   // store hooks
@@ -58,10 +60,10 @@ export function InstanceGoogleConfigForm(props: Props) {
     {
       key: "GOOGLE_CLIENT_ID",
       type: "text",
-      label: "Client ID",
+      label: t("oauth_client_id"),
       description: (
         <>
-          Your client ID lives in your Google API Console.{" "}
+          {t("oauth_google_client_id_description_prefix")}{" "}
           <a
             tabIndex={-1}
             href="https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow#creatingcred"
@@ -69,7 +71,7 @@ export function InstanceGoogleConfigForm(props: Props) {
             className="text-accent-primary hover:underline"
             rel="noreferrer"
           >
-            Learn more
+            {t("learn_more")}
           </a>
         </>
       ),
@@ -80,10 +82,10 @@ export function InstanceGoogleConfigForm(props: Props) {
     {
       key: "GOOGLE_CLIENT_SECRET",
       type: "password",
-      label: "Client secret",
+      label: t("oauth_client_secret"),
       description: (
         <>
-          Your client secret should also be in your Google API Console.{" "}
+          {t("oauth_google_client_secret_description_prefix")}{" "}
           <a
             tabIndex={-1}
             href="https://developers.google.com/identity/oauth2/web/guides/get-google-api-clientid"
@@ -91,7 +93,7 @@ export function InstanceGoogleConfigForm(props: Props) {
             className="text-accent-primary hover:underline"
             rel="noreferrer"
           >
-            Learn more
+            {t("learn_more")}
           </a>
         </>
       ),
@@ -103,25 +105,25 @@ export function InstanceGoogleConfigForm(props: Props) {
 
   const GOOGLE_FORM_SWITCH_FIELD: TControllerSwitchFormField<GoogleConfigFormValues> = {
     name: "ENABLE_GOOGLE_SYNC",
-    label: "Google",
+    label: t("google"),
   };
 
   const GOOGLE_COMMON_SERVICE_DETAILS: TCopyField[] = [
     {
       key: "Origin_URL",
-      label: "Origin URL",
+      label: t("oauth_origin_url"),
       url: originURL,
       description: (
         <p>
-          We will auto-generate this. Paste this into your{" "}
-          <CodeBlock darkerShade>Authorized JavaScript origins</CodeBlock> field. For this OAuth client{" "}
+          {t("oauth_autogenerate_paste_into_your")}{" "}
+          <CodeBlock darkerShade>{t("oauth_authorized_javascript_origins")}</CodeBlock> {t("oauth_field_for_client")}{" "}
           <a
             href="https://console.cloud.google.com/apis/credentials/oauthclient"
             target="_blank"
             className="text-accent-primary hover:underline"
             rel="noreferrer"
           >
-            here.
+            {t("here")}
           </a>
         </p>
       ),
@@ -131,19 +133,19 @@ export function InstanceGoogleConfigForm(props: Props) {
   const GOOGLE_SERVICE_DETAILS: TCopyField[] = [
     {
       key: "Callback_URI",
-      label: "Callback URI",
+      label: t("oauth_callback_uri"),
       url: `${originURL}/auth/google/callback/`,
       description: (
         <p>
-          We will auto-generate this. Paste this into your <CodeBlock darkerShade>Authorized Redirect URI</CodeBlock>{" "}
-          field. For this OAuth client{" "}
+          {t("oauth_autogenerate_paste_into_your")}{" "}
+          <CodeBlock darkerShade>{t("oauth_authorized_redirect_uri")}</CodeBlock> {t("oauth_field_for_client")}{" "}
           <a
             href="https://console.cloud.google.com/apis/credentials/oauthclient"
             target="_blank"
             className="text-accent-primary hover:underline"
             rel="noreferrer"
           >
-            here.
+            {t("here")}
           </a>
         </p>
       ),
@@ -157,8 +159,8 @@ export function InstanceGoogleConfigForm(props: Props) {
       const response = await updateInstanceConfigurations(payload);
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Done!",
-        message: "Your Google authentication is configured. You should test it now.",
+        title: t("done"),
+        message: t("google_auth_configured_test_now"),
       });
       reset({
         GOOGLE_CLIENT_ID: response.find((item) => item.key === "GOOGLE_CLIENT_ID")?.value,
@@ -187,7 +189,7 @@ export function InstanceGoogleConfigForm(props: Props) {
       <div className="flex flex-col gap-8">
         <div className="grid w-full grid-cols-2 gap-x-12 gap-y-8">
           <div className="col-span-2 flex flex-col gap-y-4 pt-1 md:col-span-1">
-            <div className="pt-2.5 text-18 font-medium">Google-provided details for Plane</div>
+            <div className="pt-2.5 text-18 font-medium">{t("google_provided_details_for_plane")}</div>
             {GOOGLE_FORM_FIELDS.map((field) => (
               <ControllerInput
                 key={field.key}
@@ -211,16 +213,16 @@ export function InstanceGoogleConfigForm(props: Props) {
                   loading={isSubmitting}
                   disabled={!isDirty}
                 >
-                  {isSubmitting ? "Saving" : "Save changes"}
+                  {isSubmitting ? t("saving") : t("save_changes")}
                 </Button>
                 <Link href="/authentication" className={getButtonStyling("secondary", "lg")} onClick={handleGoBack}>
-                  Go back
+                  {t("go_back")}
                 </Link>
               </div>
             </div>
           </div>
           <div className="col-span-2 flex flex-col gap-y-6 md:col-span-1">
-            <div className="pt-2 text-18 font-medium">Plane-provided details for Google</div>
+            <div className="pt-2 text-18 font-medium">{t("plane_provided_details_for_google")}</div>
 
             <div className="flex flex-col gap-y-4">
               {/* common service details */}
@@ -234,7 +236,7 @@ export function InstanceGoogleConfigForm(props: Props) {
               <div className="flex flex-col overflow-hidden rounded-lg">
                 <div className="flex items-center gap-x-3 bg-layer-3 px-6 py-3 text-11 font-medium text-secondary uppercase">
                   <Monitor className="h-3 w-3" />
-                  Web
+                  {t("web")}
                 </div>
                 <div className="flex flex-col gap-y-4 bg-layer-1 px-6 py-4">
                   {GOOGLE_SERVICE_DETAILS.map((field) => (

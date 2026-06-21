@@ -61,6 +61,15 @@ export const SubIssuesListItemProperties = observer(function SubIssuesListItemPr
     if (issue.project_id) {
       updateSubIssue(workspaceSlug, issue.project_id, parentIssueId, issueId, {
         target_date: date ? renderFormattedPayloadDate(date) : null,
+        ...(date ? {} : { target_time: null }),
+      });
+    }
+  };
+
+  const handleTargetTime = (time: string | null) => {
+    if (issue.project_id) {
+      updateSubIssue(workspaceSlug, issue.project_id, parentIssueId, issueId, {
+        target_time: time,
       });
     }
   };
@@ -80,6 +89,7 @@ export const SubIssuesListItemProperties = observer(function SubIssuesListItemPr
 
   const maxDate = getDate(issue.target_date);
   const minDate = getDate(issue.start_date);
+  const targetTimeLabel = issue.target_time ? ` ${issue.target_time.slice(0, 5)}` : "";
 
   return (
     <div className="relative flex items-center gap-2">
@@ -153,7 +163,12 @@ export const SubIssuesListItemProperties = observer(function SubIssuesListItemPr
             buttonClassName={shouldHighlight ? "text-danger-primary" : ""}
             disabled={!canEdit}
             showTooltip
-            customTooltipHeading="Date Range"
+            customTooltipHeading={t("common.date_range")}
+            endDateLabelSuffix={targetTimeLabel}
+            showTimeInput
+            timeInputLabel={t("common.due_time")}
+            timeValue={issue.target_time}
+            onTimeChange={handleTargetTime}
             renderPlaceholder={false}
             renderInPortal
           />
@@ -200,6 +215,11 @@ export const SubIssuesListItemProperties = observer(function SubIssuesListItemPr
             optionsClassName="z-30"
             disabled={!canEdit}
             showTooltip
+            selectedLabelSuffix={targetTimeLabel}
+            showTimeInput
+            timeInputLabel={t("common.due_time")}
+            timeValue={issue.target_time}
+            onTimeChange={handleTargetTime}
           />
         </div>
       </WithDisplayPropertiesHOC>

@@ -35,8 +35,12 @@ class SubIssuesEndpoint(BaseAPIView):
 
     @method_decorator(gzip_page)
     def get(self, request, slug, project_id, issue_id):
+        sub_issues = Issue.issue_objects.filter(parent_id=issue_id, workspace__slug=slug)
+        if request.GET.get("include_pipeline_items", "false").lower() != "true":
+            sub_issues = sub_issues.exclude(pipeline_metadata__hidden_from_board=True)
+
         sub_issues = (
-            Issue.issue_objects.filter(parent_id=issue_id, workspace__slug=slug)
+            sub_issues
             .annotate(
                 cycle_id=Subquery(
                     CycleIssue.objects.filter(issue=OuterRef("id"), deleted_at__isnull=True).values("cycle_id")[:1]
@@ -74,7 +78,7 @@ class SubIssuesEndpoint(BaseAPIView):
             .annotate(
                 sub_issues_count=Coalesce(
                     Subquery(
-                        Issue.issue_objects.filter(parent=OuterRef("id"))
+                        Issue.issue_objects.filter(parent=OuterRef("id")).exclude(pipeline_metadata__hidden_from_board=True)
                         .order_by()
                         .values("parent")
                         .annotate(count=Count("id"))

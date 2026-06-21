@@ -21,6 +21,7 @@ import {
   cn,
   getDate,
   renderFormattedPayloadDate,
+  renderFormattedDateWithTime,
   generateWorkItemLink,
   shouldHighlightIssueDueDate,
 } from "@plane/utils";
@@ -155,7 +156,14 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
 
   const handleTargetDate = async (date: Date | null) => {
     if (updateIssue)
-      await updateIssue(issue.project_id, issue.id, { target_date: date ? renderFormattedPayloadDate(date) : null });
+      await updateIssue(issue.project_id, issue.id, {
+        target_date: date ? renderFormattedPayloadDate(date) : null,
+        ...(date ? {} : { target_time: null }),
+      });
+  };
+
+  const handleTargetTime = async (time: string | null) => {
+    if (updateIssue) await updateIssue(issue.project_id, issue.id, { target_time: time });
   };
 
   const handleEstimate = async (value: string | undefined) => {
@@ -185,6 +193,7 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
 
   const minDate = getDate(issue.start_date);
   const maxDate = getDate(issue.target_date);
+  const targetTimeLabel = issue.target_time ? ` ${issue.target_time.slice(0, 5)}` : "";
 
   const handleEventPropagation = (e: SyntheticEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -254,7 +263,17 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
             renderByDefault={isMobile}
             showTooltip
             renderPlaceholder={false}
-            customTooltipHeading="Date Range"
+            customTooltipHeading={t("common.date_range")}
+            customTooltipContent={
+              issue.target_time && issue.target_date
+                ? `${issue.start_date ? `${renderFormattedDateWithTime(issue.start_date)} - ` : ""}${renderFormattedDateWithTime(issue.target_date, issue.target_time)}`
+                : undefined
+            }
+            endDateLabelSuffix={targetTimeLabel}
+            showTimeInput
+            timeInputLabel={t("common.due_time")}
+            timeValue={issue.target_time}
+            onTimeChange={handleTargetTime}
           />
         </div>
       </WithDisplayPropertiesHOC>

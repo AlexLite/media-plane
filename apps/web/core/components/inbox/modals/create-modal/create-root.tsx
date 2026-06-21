@@ -110,8 +110,8 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
     } else {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
-        message: "Editor is still processing changes. Please wait before proceeding.",
+        title: t("common.error.label"),
+        message: t("editor_still_processing"),
       });
       event.preventDefault(); // Prevent default action if editor is not ready to discard
     }
@@ -142,8 +142,8 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
     if (!descriptionEditorRef.current?.isEditorReadyToDiscard()) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
-        message: "Editor is still processing changes. Please wait before proceeding.",
+        title: t("common.error.label"),
+        message: t("editor_still_processing"),
       });
       return;
     }
@@ -177,7 +177,7 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
         setToast({
           type: TOAST_TYPE.SUCCESS,
           title: `Success!`,
-          message: "Work item created successfully.",
+          message: t("issue_created_successfully"),
         });
       })
       .catch((error) => {
@@ -185,7 +185,7 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
         setToast({
           type: TOAST_TYPE.ERROR,
           title: `Error!`,
-          message: "Some error occurred. Please try again.",
+          message: t("something_went_wrong_please_try_again"),
         });
       });
     setFormSubmitting(false);
@@ -253,8 +253,8 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
                   } else {
                     setToast({
                       type: TOAST_TYPE.ERROR,
-                      title: "Error!",
-                      message: "Editor is still processing changes. Please wait before proceeding.",
+                      title: t("common.error.label"),
+                      message: t("editor_still_processing"),
                     });
                   }
                 }}

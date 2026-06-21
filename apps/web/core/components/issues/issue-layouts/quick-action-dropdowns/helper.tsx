@@ -45,7 +45,7 @@ export function handleOptionalAction<T>(
   } else {
     setToast({
       type: TOAST_TYPE.ERROR,
-      title: "Action not available",
+      title: t("work_item_operations.action_not_available"),
       message: `${actionName} action is not implemented.`,
     });
   }
@@ -101,7 +101,7 @@ export const useIssueActionHandlers = (props: MenuItemFactoryProps) => {
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: "Link copied",
-        message: "Work item link copied to clipboard",
+        message: t("common.copied_to_clipboard"),
       })
     );
 
@@ -116,15 +116,15 @@ export const useIssueActionHandlers = (props: MenuItemFactoryProps) => {
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Restore success",
-          message: "Your work item can be found in project work items.",
+          title: t("work_item_operations.restore_success_title"),
+          message: t("work_item_operations.restored"),
         });
       })
       .catch(() => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
-          message: "Work item could not be restored. Please try again.",
+          title: t("common.error.label"),
+          message: t("work_item_operations.restore_failed"),
         });
       });
   };

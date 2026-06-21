@@ -8,12 +8,7 @@ import { observer } from "mobx-react";
 import { usePathname } from "next/navigation";
 import { useParams } from "react-router";
 // plane imports
-import {
-  EUserPermissionsLevel,
-  GROUPED_PROJECT_SETTINGS,
-  PROJECT_SETTINGS_CATEGORIES,
-  PROJECT_SETTINGS_CATEGORY_LABELS,
-} from "@plane/constants";
+import { EUserPermissionsLevel, GROUPED_PROJECT_SETTINGS, PROJECT_SETTINGS_CATEGORIES } from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 // components
 import { SettingsSidebarItem } from "@/components/settings/sidebar/item";
@@ -37,6 +32,12 @@ export const ProjectSettingsSidebarItemCategories = observer(function ProjectSet
   const { allowPermissions } = useUserPermissions();
   // translation
   const { t } = useTranslation();
+  const categoryLabelMap: Record<string, string> = {
+    general: "project_settings.categories.general",
+    features: "project_settings.categories.features",
+    "work-structure": "project_settings.categories.work_structure",
+    execution: "project_settings.categories.execution",
+  };
 
   return (
     <div className="mt-3 flex flex-col divide-y divide-subtle px-3">
@@ -51,7 +52,7 @@ export const ProjectSettingsSidebarItemCategories = observer(function ProjectSet
         return (
           <div key={category} className="shrink-0 py-3 first:pt-0 last:pb-0">
             <div className="p-2 text-caption-md-medium text-tertiary capitalize">
-              {t(PROJECT_SETTINGS_CATEGORY_LABELS[category])}
+              {t(categoryLabelMap[category] ?? category)}
             </div>
             <div className="flex flex-col">
               {accessibleItems.map((item) => {

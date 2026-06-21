@@ -24,6 +24,8 @@ interface IInputSearch {
 export function InputSearch(props: IInputSearch) {
   const { isOpen, query, updateQuery, inputIcon, inputContainerClassName, inputClassName, inputPlaceholder, isMobile } =
     props;
+  const normalizedPlaceholder =
+    !inputPlaceholder || inputPlaceholder.trim().toLowerCase() === "search" ? "Поиск" : inputPlaceholder;
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -58,7 +60,7 @@ export function InputSearch(props: IInputSearch) {
         )}
         value={query}
         onChange={(e) => updateQuery(e.target.value)}
-        placeholder={inputPlaceholder ?? "Search"}
+        placeholder={normalizedPlaceholder}
         onKeyDown={searchInputKeyDown}
       />
     </div>

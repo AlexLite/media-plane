@@ -47,72 +47,94 @@ export const BASE_NOTIFICATION_CONTENT_MAP: TNotificationContentMap = {
   duplicate: ({ verb }) => ({
     action:
       verb === "created"
-        ? "marked that this work item is a duplicate of"
-        : "marked that this work item is not a duplicate",
+        ? "отметил этот рабочий элемент как дубликат"
+        : "снял отметку дубликата с рабочего элемента",
     value: null,
     showConnector: false,
   }),
   assignees: ({ newValue, oldValue }) => ({
-    action: newValue !== "" ? "added assignee" : "removed assignee",
+    action: newValue !== "" ? "добавил ответственного" : "удалил ответственного",
     value: newValue !== "" ? newValue : oldValue,
     showConnector: false,
   }),
   start_date: ({ newValue }) => ({
-    action: newValue !== "" ? "set start date" : "removed the start date",
+    action: newValue !== "" ? "установил дату начала" : "удалил дату начала",
     value: renderFormattedDate(newValue),
     showConnector: false,
   }),
   target_date: ({ newValue }) => ({
-    action: newValue !== "" ? "set due date" : "removed the due date",
+    action: newValue !== "" ? "установил срок выполнения" : "удалил срок выполнения",
     value: renderFormattedDate(newValue),
     showConnector: false,
   }),
+  name: ({ newValue }) => ({
+    action: "изменил название на",
+    value: newValue,
+    showConnector: false,
+  }),
+  priority: ({ newValue }) => ({
+    action: newValue !== "" ? "изменил приоритет на" : "удалил приоритет",
+    value: newValue,
+    showConnector: false,
+  }),
+  state: ({ newValue }) => ({
+    action: "изменил статус на",
+    value: newValue,
+    showConnector: false,
+  }),
+  state_id: ({ newValue }) => ({
+    action: "изменил статус на",
+    value: newValue,
+    showConnector: false,
+  }),
   labels: ({ newValue, oldValue }) => ({
-    action: newValue !== "" ? "added label" : "removed label",
+    action: newValue !== "" ? "добавил метку" : "удалил метку",
     value: newValue !== "" ? newValue : oldValue,
     showConnector: false,
   }),
   parent: ({ newValue, oldValue }) => ({
-    action: newValue !== "" ? "added parent" : "removed parent",
+    action: newValue !== "" ? "добавил родительский элемент" : "удалил родительский элемент",
     value: newValue !== "" ? newValue : oldValue,
     showConnector: false,
   }),
   relates_to: () => ({
-    action: "marked that this work item is related to",
+    action: "связал этот рабочий элемент с",
     value: null,
     showConnector: true,
   }),
   comment: ({ newValue }, renderCommentBox?: boolean) => ({
-    action: "commented",
+    action: "прокомментировал",
     value: renderCommentBox ? null : sanitizeCommentForNotification(newValue),
     showConnector: false,
   }),
   archived_at: ({ newValue }) => ({
-    action: newValue === "restore" ? "restored the work item" : "archived the work item",
+    action: newValue === "restore" ? "восстановил рабочий элемент" : "архивировал рабочий элемент",
     value: null,
     showConnector: false,
   }),
   None: () => ({
     action: null,
-    value: "the work item and assigned it to you.",
+    value: "рабочий элемент и назначил вас ответственным.",
     showConnector: false,
   }),
   // Fields below only define value - action falls through to default handler
   attachment: () => ({
-    action: null,
-    value: "the work item",
-    showConnector: true,
+    action: "обновил вложения",
+    value: null,
+    showConnector: false,
   }),
   description: ({ newValue }) => ({
+    action: "изменил описание на",
     value: stripAndTruncateHTML(newValue || "", 55),
-    showConnector: true,
+    showConnector: false,
   }),
   estimate_time: ({ newValue, oldValue }) => ({
+    action: "изменил оценку на",
     value:
       newValue !== ""
         ? convertMinutesToHoursMinutesString(Number(newValue))
         : convertMinutesToHoursMinutesString(Number(oldValue)),
-    showConnector: true,
+    showConnector: false,
   }),
 };
 
@@ -209,7 +231,7 @@ export function NotificationContent({
       <span className="text-tertiary">{renderAction()} </span>
       {verb !== "deleted" && (
         <>
-          {showConnector && <span className="text-tertiary">to </span>}
+          {showConnector && <span className="text-tertiary">к </span>}
           <span className="font-medium text-primary">{renderValue()}</span>
           {notificationField === "comment" && renderCommentBox && (
             <div className="origin-left scale-75">

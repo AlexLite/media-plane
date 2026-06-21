@@ -6,6 +6,7 @@
 
 import { useState, useEffect } from "react";
 import { CloudOff, Dot } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 import { Tooltip } from "@plane/propel/tooltip";
 import { Badge } from "@plane/propel/badge";
 
@@ -32,19 +33,20 @@ export function PageSyncingBadge({ syncStatus }: Props) {
     }
   }, [syncStatus, prevSyncStatus]);
 
+  const { t } = useTranslation();
+
   if (!isVisible || syncStatus === "synced") return null;
 
   const badgeContent = {
     syncing: {
-      label: "Syncing...",
-      tooltipHeading: "Syncing...",
-      tooltipContent: "Your changes are being synced with the server. You can continue making changes.",
+      label: t("syncing_ellipsis"),
+      tooltipHeading: t("syncing_ellipsis"),
+      tooltipContent: t("page_sync.syncing_tooltip"),
     },
     error: {
-      label: "Connection lost",
-      tooltipHeading: "Connection lost",
-      tooltipContent:
-        "We're having trouble connecting to the websocket server. Your changes will be synced and saved every 10 seconds.",
+      label: t("connection_lost"),
+      tooltipHeading: t("connection_lost"),
+      tooltipContent: t("page_sync.connection_lost_tooltip"),
     },
   };
 

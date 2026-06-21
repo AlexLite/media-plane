@@ -34,6 +34,22 @@ from bs4 import BeautifulSoup
 # =========== Issue Description Html Parsing and notification Functions ======================
 
 
+def format_issue_comment_for_notification(issue_comment):
+    if issue_comment is None:
+        return ""
+
+    comment = issue_comment.comment_stripped or ""
+    pipeline_item = getattr(issue_comment, "pipeline_item", None)
+    if pipeline_item is None:
+        return comment
+
+    pipeline_item_name = pipeline_item.name or pipeline_item.state_name_snapshot
+    if not pipeline_item_name:
+        return comment
+
+    return f"{pipeline_item_name}: {comment}"
+
+
 def update_mentions_for_issue(issue, project, new_mentions, removed_mention):
     aggregated_issue_mentions = []
     for mention_id in new_mentions:
@@ -130,22 +146,6 @@ def extract_mentions(issue_instance):
 
 
 # =========== Comment Parsing and notification Functions ======================
-def format_issue_comment_for_notification(issue_comment):
-    if issue_comment is None:
-        return ""
-
-    comment = issue_comment.comment_stripped or ""
-    pipeline_item = getattr(issue_comment, "pipeline_item", None)
-    if pipeline_item is None:
-        return comment
-
-    pipeline_item_name = pipeline_item.name or pipeline_item.state_name_snapshot
-    if not pipeline_item_name:
-        return comment
-
-    return f"{pipeline_item_name}: {comment}"
-
-
 def extract_comment_mentions(comment_value):
     try:
         mentions = []
@@ -405,9 +405,7 @@ def notifications(
                                     "actor": str(issue_activity.get("actor_id")),
                                     "new_value": str(issue_activity.get("new_value")),
                                     "old_value": str(issue_activity.get("old_value")),
-                                    "issue_comment": str(
-                                        issue_comment.comment_stripped if issue_comment is not None else ""
-                                    ),
+                                    "issue_comment": str(format_issue_comment_for_notification(issue_comment)),
                                     "old_identifier": (
                                         str(issue_activity.get("old_identifier"))
                                         if issue_activity.get("old_identifier")
@@ -448,9 +446,7 @@ def notifications(
                                         "actor": str(issue_activity.get("actor_id")),
                                         "new_value": str(issue_activity.get("new_value")),
                                         "old_value": str(issue_activity.get("old_value")),
-                                        "issue_comment": str(
-                                            issue_comment.comment_stripped if issue_comment is not None else ""
-                                        ),
+                                        "issue_comment": str(format_issue_comment_for_notification(issue_comment)),
                                         "old_identifier": (
                                             str(issue_activity.get("old_identifier"))
                                             if issue_activity.get("old_identifier")

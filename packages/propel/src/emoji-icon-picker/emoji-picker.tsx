@@ -6,6 +6,7 @@
 
 import { useMemo, useCallback } from "react";
 import { Tabs } from "@base-ui-components/react";
+import { translate } from "@plane/i18n";
 import { Popover } from "../popover";
 import { cn } from "../utils/classname";
 import { convertPlacementToSideAndAlign } from "../utils/placement";
@@ -28,7 +29,8 @@ export function EmojiPicker(props: TCustomEmojiPicker) {
     onChange,
     placement = "bottom-start",
     searchDisabled = false,
-    searchPlaceholder = "Search",
+    searchPlaceholder = translate("search"),
+    showIconPicker = true,
     iconType = "lucide",
     side = "bottom",
     align = "start",
@@ -70,7 +72,8 @@ export function EmojiPicker(props: TCustomEmojiPicker) {
       [
         {
           key: "emoji",
-          label: "Emoji",
+          value: EmojiIconPickerTypes.EMOJI,
+          label: translate("emoji_picker.tabs.emoji"),
           content: (
             <EmojiRoot
               onChange={handleEmojiChange}
@@ -81,7 +84,8 @@ export function EmojiPicker(props: TCustomEmojiPicker) {
         },
         {
           key: "icon",
-          label: "Icon",
+          value: EmojiIconPickerTypes.ICON,
+          label: translate("emoji_picker.tabs.icon"),
           content: (
             <IconRoot
               defaultColor={defaultIconColor}
@@ -91,12 +95,15 @@ export function EmojiPicker(props: TCustomEmojiPicker) {
             />
           ),
         },
-      ].map((tab) => ({
-        key: tab.key,
-        label: tab.label,
-        content: tab.content,
-      })),
-    [defaultIconColor, searchDisabled, searchPlaceholder, iconType, handleEmojiChange, handleIconChange]
+      ]
+        .filter((tab) => showIconPicker || tab.value === EmojiIconPickerTypes.EMOJI)
+        .map((tab) => ({
+          key: tab.key,
+          value: tab.value,
+          label: tab.label,
+          content: tab.content,
+        })),
+    [defaultIconColor, searchDisabled, searchPlaceholder, showIconPicker, iconType, handleEmojiChange, handleIconChange]
   );
 
   return (
@@ -126,11 +133,11 @@ export function EmojiPicker(props: TCustomEmojiPicker) {
         }}
       >
         <Tabs.Root defaultValue={defaultOpen}>
-          <Tabs.List className="grid grid-cols-2 gap-1 px-3.5 pt-3">
+          <Tabs.List className={cn("grid gap-1 px-3.5 pt-3", showIconPicker ? "grid-cols-2" : "grid-cols-1")}>
             {tabs.map((tab) => (
               <Tabs.Tab
                 key={tab.key}
-                value={tab.key}
+                value={tab.value}
                 className={({ selected }) =>
                   cn("rounded-sm border border-subtle bg-layer-1 py-1 text-13", {
                     "bg-surface-1 text-primary": selected,
@@ -143,7 +150,7 @@ export function EmojiPicker(props: TCustomEmojiPicker) {
             ))}
           </Tabs.List>
           {tabs.map((tab) => (
-            <Tabs.Panel key={tab.key} value={tab.key} className="h-80 overflow-hidden overflow-y-auto">
+            <Tabs.Panel key={tab.key} value={tab.value} className="h-80 overflow-hidden overflow-y-auto">
               {tab.content}
             </Tabs.Panel>
           ))}

@@ -151,13 +151,6 @@ export type TIssuePublicComment = {
   is_member: boolean;
   issue: string;
   issue_detail: IssueDetail;
-  pipeline_item?: string | null;
-  pipeline_item_detail?: {
-    id: string;
-    name: string;
-    state_name_snapshot: string;
-    status: "pending" | "active" | "completed" | "skipped";
-  } | null;
   project: string;
   project_detail: ProjectDetail;
   updated_at: Date;

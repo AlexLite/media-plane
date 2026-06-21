@@ -65,7 +65,7 @@ const CreatedVsResolved = observer(function CreatedVsResolved() {
     () => [
       {
         key: "completed_issues",
-        label: "Resolved",
+        label: t("common.resolved"),
         fill: "#19803833",
         fillOpacity: 1,
         stackId: "bar-one",
@@ -76,7 +76,7 @@ const CreatedVsResolved = observer(function CreatedVsResolved() {
       },
       {
         key: "created_issues",
-        label: "Created",
+        label: t("common.created"),
         fill: "#1192E833",
         fillOpacity: 1,
         stackId: "bar-one",
@@ -86,7 +86,7 @@ const CreatedVsResolved = observer(function CreatedVsResolved() {
         strokeOpacity: 1,
       },
     ],
-    []
+    [t]
   );
 
   return (
@@ -104,11 +104,11 @@ const CreatedVsResolved = observer(function CreatedVsResolved() {
           areas={areas}
           xAxis={{
             key: "name",
-            label: t("date"),
+            label: "Дата",
           }}
           yAxis={{
             key: "count",
-            label: t("common.no_of", { entity: isEpic ? t("common.epics") : t("work_items") }),
+            label: t("common.no_of", { entity: isEpic ? t("epics") : t("work_items") }),
             offset: -60,
             dx: -24,
           }}

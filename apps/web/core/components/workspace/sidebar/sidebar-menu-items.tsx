@@ -114,7 +114,7 @@ export const SidebarMenuItems = observer(function SidebarMenuItems() {
                 : "aria_labels.app_sidebar.open_workspace_menu"
             )}
           >
-            <span className="text-13 font-semibold">{t("common.workspace")}</span>
+            <span className="text-13 font-semibold">{t("workspace")}</span>
           </Disclosure.Button>
           <div className="pointer-events-none flex items-center opacity-0 group-hover:pointer-events-auto group-hover:opacity-100">
             <Disclosure.Button
@@ -167,7 +167,7 @@ export const SidebarMenuItems = observer(function SidebarMenuItems() {
                     )}
                   >
                     <Ellipsis className="size-4 flex-shrink-0" />
-                    <span>{isExtendedSidebarOpened ? "Hide" : "More"}</span>
+                    <span>{isExtendedSidebarOpened ? t("show_less") : t("show_all")}</span>
                   </button>
                 </SidebarNavItem>
               </>

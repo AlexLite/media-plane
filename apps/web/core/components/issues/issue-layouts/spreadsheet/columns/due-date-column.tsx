@@ -6,6 +6,7 @@
 
 import React from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 import { DueDatePropertyIcon } from "@plane/propel/icons";
 // types
 import type { TIssue } from "@plane/types";
@@ -25,10 +26,12 @@ type Props = {
 
 export const SpreadsheetDueDateColumn = observer(function SpreadsheetDueDateColumn(props: Props) {
   const { issue, onChange, disabled, onClose } = props;
+  const { t } = useTranslation();
   // store hooks
   const { getStateById } = useProjectState();
   // derived values
   const stateDetails = getStateById(issue.state_id);
+  const targetTimeLabel = issue.target_time ? ` ${issue.target_time.slice(0, 5)}` : "";
 
   return (
     <div className="h-11 border-b-[0.5px] border-subtle">
@@ -39,15 +42,29 @@ export const SpreadsheetDueDateColumn = observer(function SpreadsheetDueDateColu
           const targetDate = data ? renderFormattedPayloadDate(data) : null;
           onChange(
             issue,
-            { target_date: targetDate },
+            { target_date: targetDate, ...(targetDate ? {} : { target_time: null }) },
             {
               changed_property: "target_date",
               change_details: targetDate,
             }
           );
         }}
+        showTimeInput
+        timeInputLabel={t("common.due_time")}
+        timeValue={issue.target_time}
+        onTimeChange={(time) => {
+          onChange(
+            issue,
+            { target_time: time },
+            {
+              changed_property: "target_time",
+              change_details: time,
+            }
+          );
+        }}
+        selectedLabelSuffix={targetTimeLabel}
         disabled={disabled}
-        placeholder="Due date"
+        placeholder={t("common.target_date")}
         icon={<DueDatePropertyIcon className="h-3 w-3 flex-shrink-0" />}
         buttonVariant="transparent-with-text"
         buttonContainerClassName="w-full"

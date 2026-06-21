@@ -80,8 +80,13 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
   );
   const parsedData = useMemo(
     () =>
-      priorityChartData && parseChartData(priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping),
-    [priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping]
+      priorityChartData &&
+      parseChartData(priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping, {
+        weekLabel: t("common.week"),
+        noneLabel: t("common.none"),
+        translate: (key: string) => t(key),
+      }),
+    [priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping, t]
   );
   const chart_model = props.group_by ? EChartModels.STACKED : EChartModels.BASIC;
 
@@ -95,7 +100,7 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
       parsedBars = [
         {
           key: "count",
-          label: "Count",
+          label: t("common.count"),
           stackId: "bar-one",
           fill: (payload) => generateBarColor(payload.key, { x_axis, y_axis, group_by }, baseColors, workspaceStates),
           textClassName: "",
@@ -140,12 +145,20 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
   }, [chart_model, group_by, parsedData, resolvedTheme, workspaceStates, x_axis, y_axis]);
 
   const yAxisLabel = useMemo(
-    () => ANALYTICS_Y_AXIS_VALUES.find((item) => item.value === props.y_axis)?.label ?? props.y_axis,
-    [props.y_axis]
+    () => {
+      const item = ANALYTICS_Y_AXIS_VALUES.find((item) => item.value === props.y_axis);
+      return item ? t(item.label) : props.y_axis;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.y_axis, t]
   );
   const xAxisLabel = useMemo(
-    () => ANALYTICS_X_AXIS_VALUES.find((item) => item.value === props.x_axis)?.label ?? props.x_axis,
-    [props.x_axis]
+    () => {
+      const item = ANALYTICS_X_AXIS_VALUES.find((item) => item.value === props.x_axis);
+      return item ? t(item.label) : props.x_axis;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.x_axis, t]
   );
 
   const defaultColumns: ColumnDef<TChartDatum>[] = useMemo(
@@ -163,18 +176,18 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
       },
       {
         accessorKey: "count",
-        header: () => <div className="text-right">Count</div>,
+        header: () => <div className="text-right">{t("common.count")}</div>,
         cell: ({ row }) => <div className="text-right">{row.original.count}</div>,
         meta: {
           export: {
             key: "Count",
             value: (row) => row.original.count,
-            label: "Count",
+            label: t("common.count"),
           },
         },
       },
     ],
-    [xAxisLabel]
+    [xAxisLabel, t]
   );
 
   const columns: ColumnDef<TChartDatum>[] = useMemo(

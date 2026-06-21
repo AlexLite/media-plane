@@ -16,8 +16,43 @@ import {
 } from "@plane/utils";
 //
 
-const getDateGroupingName = (date: string, dateGrouping: ChartXAxisDateGrouping): string => {
-  if (!date || ["none", "null"].includes(date.toLowerCase())) return "None";
+type TDateGroupingOptions = {
+  weekLabel?: string;
+  noneLabel?: string;
+  translate?: (key: string) => string;
+};
+
+const translateChartLabel = (label: string, options?: TDateGroupingOptions): string => {
+  const normalizedLabel = `${label}`.trim();
+  const lowerLabel = normalizedLabel.toLowerCase();
+
+  if (["", "none", "null"].includes(lowerLabel)) return options?.noneLabel ?? normalizedLabel;
+
+  const directLabels: Record<string, string> = {
+    backlog: "workspace_projects.state.backlog",
+    unstarted: "workspace_projects.state.unstarted",
+    started: "workspace_projects.state.started",
+    completed: "workspace_projects.state.completed",
+    cancelled: "workspace_projects.state.cancelled",
+    canceled: "workspace_projects.state.cancelled",
+    urgent: "urgent",
+    high: "high",
+    medium: "medium",
+    low: "low",
+  };
+
+  const i18nKey = directLabels[lowerLabel];
+  if (i18nKey && options?.translate) return options.translate(i18nKey);
+
+  return options?.translate ? options.translate(lowerLabel) : capitalizeFirstLetter(normalizedLabel);
+};
+
+const getDateGroupingName = (
+  date: string,
+  dateGrouping: ChartXAxisDateGrouping,
+  options?: TDateGroupingOptions
+): string => {
+  if (!date || ["none", "null"].includes(date.toLowerCase())) return "Нет";
 
   const formattedData = new Date(date);
   const isValidDate = isValid(formattedData);
@@ -38,7 +73,7 @@ const getDateGroupingName = (date: string, dateGrouping: ChartXAxisDateGrouping)
       break;
     case ChartXAxisDateGrouping.WEEK: {
       const month = renderFormattedDate(formattedData, "MMM");
-      parsedName = `${month}, Week ${getWeekOfMonth(formattedData)}`;
+      parsedName = `${month}, неделя ${getWeekOfMonth(formattedData)}`;
       break;
     }
     case ChartXAxisDateGrouping.MONTH:
@@ -59,7 +94,8 @@ export const parseChartData = (
   data: TChart | null | undefined,
   xAxisProperty: ChartXAxisProperty | null | undefined,
   groupByProperty: ChartXAxisProperty | null | undefined,
-  xAxisDateGrouping: ChartXAxisDateGrouping | null | undefined
+  xAxisDateGrouping: ChartXAxisDateGrouping | null | undefined,
+  options?: TDateGroupingOptions
 ): TChart => {
   if (!data) {
     return {
@@ -78,12 +114,12 @@ export const parseChartData = (
     if (xAxisProperty) {
       // capitalize first letter if xAxisProperty is in TO_CAPITALIZE_PROPERTIES and no groupByProperty is set
       if (TO_CAPITALIZE_PROPERTIES.includes(xAxisProperty)) {
-        datum.name = capitalizeFirstLetter(datum.name);
+        datum.name = translateChartLabel(datum.name, options);
       }
 
       // parse timestamp to visual date if xAxisProperty is in WIDGET_X_AXIS_DATE_PROPERTIES
       if (CHART_X_AXIS_DATE_PROPERTIES.includes(xAxisProperty)) {
-        datum.name = getDateGroupingName(datum.name, xAxisDateGrouping ?? ChartXAxisDateGrouping.DAY);
+        datum.name = getDateGroupingName(datum.name, xAxisDateGrouping ?? ChartXAxisDateGrouping.DAY, options);
       }
     }
 
@@ -98,13 +134,17 @@ export const parseChartData = (
   if (groupByProperty) {
     if (TO_CAPITALIZE_PROPERTIES.includes(groupByProperty)) {
       Object.keys(updatedSchema).forEach((key) => {
-        updatedSchema[key] = capitalizeFirstLetter(updatedSchema[key]);
+        updatedSchema[key] = translateChartLabel(updatedSchema[key], options);
       });
     }
 
     if (CHART_X_AXIS_DATE_PROPERTIES.includes(groupByProperty)) {
       Object.keys(updatedSchema).forEach((key) => {
-        updatedSchema[key] = getDateGroupingName(updatedSchema[key], xAxisDateGrouping ?? ChartXAxisDateGrouping.DAY);
+        updatedSchema[key] = getDateGroupingName(
+          updatedSchema[key],
+          xAxisDateGrouping ?? ChartXAxisDateGrouping.DAY,
+          options
+        );
       });
     }
   }

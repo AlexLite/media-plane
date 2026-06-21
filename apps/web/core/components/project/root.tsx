@@ -36,12 +36,11 @@ export const ProjectRoot = observer(function ProjectRoot() {
     updateFilters,
     updateDisplayFilters,
   } = useProjectFilter();
+  const isArchived = pathname.includes("/archives");
   // derived values
   const pageTitle = currentWorkspace?.name
-    ? `${currentWorkspace?.name} - ${t("workspace_projects.label", { count: 2 })}`
+    ? `${currentWorkspace?.name} - ${isArchived ? t("archives") : t("workspace_projects.label", { count: 2 })}`
     : undefined;
-
-  const isArchived = pathname.includes("/archives");
 
   const allowedDisplayFilters =
     currentWorkspaceAppliedDisplayFilters?.filter((filter) => filter !== "archived_projects") ?? [];

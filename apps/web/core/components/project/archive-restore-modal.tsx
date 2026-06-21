@@ -6,6 +6,7 @@
 
 import { useState } from "react";
 // ui
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { EModalPosition, EModalWidth, ModalCore } from "@plane/ui";
@@ -23,6 +24,7 @@ type Props = {
 };
 
 export function ArchiveRestoreProjectModal(props: Props) {
+  const { t } = useTranslation();
   const { workspaceSlug, projectId, isOpen, onClose, archive } = props;
   // router
   const router = useAppRouter();
@@ -45,7 +47,7 @@ export function ArchiveRestoreProjectModal(props: Props) {
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Archive success",
+          title: t("project_archive.archive_title"),
           message: `${projectDetails.name} has been archived successfully`,
         });
         onClose();
@@ -55,8 +57,8 @@ export function ArchiveRestoreProjectModal(props: Props) {
       .catch(() =>
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
-          message: "Project could not be archived. Please try again.",
+          title: t("common.error.label"),
+          message: t("project_archive.archive_failed"),
         })
       )
       .finally(() => setIsLoading(false));
@@ -68,7 +70,7 @@ export function ArchiveRestoreProjectModal(props: Props) {
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Restore success",
+          title: t("work_item_operations.restore_success_title"),
           message: `You can find ${projectDetails.name} in your projects.`,
         });
         onClose();
@@ -78,8 +80,8 @@ export function ArchiveRestoreProjectModal(props: Props) {
       .catch(() =>
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
-          message: "Project could not be restored. Please try again.",
+          title: t("common.error.label"),
+          message: t("project_archive.restore_failed"),
         })
       )
       .finally(() => setIsLoading(false));

@@ -56,6 +56,7 @@ export const CalendarIssueBlock = observer(
 
     const stateColor = getProjectStates(issue?.project_id)?.find((state) => state?.id == issue?.state_id)?.color || "";
     const projectIdentifier = getProjectIdentifierById(issue?.project_id);
+    const targetTimeLabel = issue.target_time ? issue.target_time.slice(0, 5) : "";
 
     // handlers
     const handleIssuePeekOverview = (issue: TIssue) => handleRedirection(workspaceSlug.toString(), issue, isMobile);
@@ -134,7 +135,12 @@ export const CalendarIssueBlock = observer(
                         displayProperties={issuesFilter?.issueFilters?.displayProperties}
                       />
                     )}
-                    <div className="truncate text-13 font-medium md:text-11 md:font-regular">{issue.name}</div>
+                    <div className="flex min-w-0 items-center gap-1 truncate">
+                      {targetTimeLabel && (
+                        <span className="shrink-0 text-11 font-medium text-secondary">{targetTimeLabel}</span>
+                      )}
+                      <div className="truncate text-13 font-medium md:text-11 md:font-regular">{issue.name}</div>
+                    </div>
                   </div>
                   <div
                     className={cn("size-5 flex-shrink-0", {

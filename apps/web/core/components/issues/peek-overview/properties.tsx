@@ -170,6 +170,7 @@ export const PeekOverviewProperties = observer(function PeekOverviewProperties(p
               onChange={(val) =>
                 issueOperations.update(workspaceSlug, projectId, issueId, {
                   target_date: val ? renderFormattedPayloadDate(val) : null,
+                  ...(val ? {} : { target_time: null }),
                 })
               }
               placeholder={t("issue.add.due_date")}
@@ -184,6 +185,15 @@ export const PeekOverviewProperties = observer(function PeekOverviewProperties(p
               })}
               hideIcon
               clearIconClassName="h-3 w-3 hidden group-hover:inline text-primary"
+              selectedLabelSuffix={issue.target_time ? ` ${issue.target_time.slice(0, 5)}` : ""}
+              showTimeInput
+              timeInputLabel={t("common.end_time")}
+              timeValue={issue.target_time}
+              onTimeChange={(time) =>
+                issueOperations.update(workspaceSlug, projectId, issueId, {
+                  target_time: time,
+                })
+              }
             />
             {issue.target_date && <DateAlert date={issue.target_date} workItem={issue} projectId={projectId} />}
           </div>
@@ -200,7 +210,7 @@ export const PeekOverviewProperties = observer(function PeekOverviewProperties(p
               className="group w-full grow"
               buttonContainerClassName="w-full text-left h-7.5"
               buttonClassName={`text-body-xs-medium ${issue?.estimate_point !== undefined ? "" : "text-placeholder"}`}
-              placeholder="None"
+              placeholder={t("common.none")}
               hideIcon
               dropdownArrow
               dropdownArrowClassName="h-3.5 w-3.5 hidden group-hover:inline"

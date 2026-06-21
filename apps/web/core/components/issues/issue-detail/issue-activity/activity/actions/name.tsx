@@ -6,6 +6,7 @@
 
 import { observer } from "mobx-react";
 import { Type } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 // hooks
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 // components
@@ -19,6 +20,7 @@ export const IssueNameActivity = observer(function IssueNameActivity(props: TIss
   const {
     activity: { getActivityById },
   } = useIssueDetail();
+  const { t } = useTranslation();
 
   const activity = getActivityById(activityId);
 
@@ -29,7 +31,7 @@ export const IssueNameActivity = observer(function IssueNameActivity(props: TIss
       activityId={activityId}
       ends={ends}
     >
-      <>set the name to {activity.new_value}.</>
+      <>{t("activity_feed.set_title_to")} {activity.new_value}.</>
     </IssueActivityBlockComponent>
   );
 });

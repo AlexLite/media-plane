@@ -4,6 +4,7 @@
 
 # Django imports
 from django.utils import timezone
+from django.utils.html import escape
 from lxml import html
 from django.db import IntegrityError
 
@@ -69,7 +70,7 @@ class IssueSerializer(BaseSerializer):
 
     class Meta:
         model = Issue
-        read_only_fields = ["id", "workspace", "project", "updated_by", "updated_at", "completed_at"]
+        read_only_fields = ["id", "workspace", "project", "updated_by", "updated_at"]
         exclude = ["description_json", "description_stripped"]
 
     def validate(self, data):
@@ -729,18 +730,6 @@ class IssueCommentSerializer(BaseSerializer):
     """
 
     is_member = serializers.BooleanField(read_only=True)
-    pipeline_item_detail = serializers.SerializerMethodField()
-
-    def get_pipeline_item_detail(self, obj):
-        if not obj.pipeline_item_id:
-            return None
-
-        return {
-            "id": str(obj.pipeline_item_id),
-            "name": obj.pipeline_item.name or obj.pipeline_item.state_name_snapshot,
-            "state_name_snapshot": obj.pipeline_item.state_name_snapshot,
-            "status": obj.pipeline_item.status,
-        }
 
     class Meta:
         model = IssueComment
@@ -755,6 +744,20 @@ class IssueCommentSerializer(BaseSerializer):
             "updated_at",
         ]
         exclude = ["comment_stripped", "comment_json"]
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if instance.pipeline_item_id:
+            pipeline_item_name = instance.pipeline_item.name or instance.pipeline_item.state_name_snapshot
+            if pipeline_item_name:
+                data["comment_html"] = f"<p><strong>{escape(pipeline_item_name)}:</strong></p>{data.get('comment_html') or ''}"
+                data["pipeline_item_detail"] = {
+                    "id": str(instance.pipeline_item_id),
+                    "name": pipeline_item_name,
+                    "state_name_snapshot": instance.pipeline_item.state_name_snapshot,
+                    "status": instance.pipeline_item.status,
+                }
+        return data
 
     def validate(self, data):
         try:
@@ -862,7 +865,6 @@ class IssueExpandSerializer(BaseSerializer):
             "updated_by",
             "created_at",
             "updated_at",
-            "completed_at",
         ]
 
 

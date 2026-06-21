@@ -5,6 +5,7 @@
  */
 
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 // components
 import { PageHead } from "@/components/core/page-title";
 import { ArchivedIssuesHeader } from "@/components/issues/archived-issues-header";
@@ -20,7 +21,8 @@ function ProjectArchivedIssuesPage({ params }: Route.ComponentProps) {
   const { getProjectById } = useProject();
   // derived values
   const project = getProjectById(projectId);
-  const pageTitle = project?.name && `${project?.name} - Archived work items`;
+  const { t } = useTranslation();
+  const pageTitle = project?.name && `${project?.name} - ${t("common.access.archived")} ${t("work_items")}`;
 
   return (
     <>

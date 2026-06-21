@@ -37,7 +37,7 @@ export interface IStateStore {
   getProjectDefaultStateId: (projectId: string | null | undefined) => string | undefined;
   // fetch actions
   fetchProjectStates: (workspaceSlug: string, projectId: string) => Promise<IState[]>;
-  fetchProjectIntakeState: (workspaceSlug: string, projectId: string) => Promise<IIntakeState>;
+  fetchProjectIntakeState: (workspaceSlug: string, projectId: string) => Promise<IIntakeState | null>;
   fetchWorkspaceStates: (workspaceSlug: string) => Promise<IState[]>;
   // crud actions
   createState: (workspaceSlug: string, projectId: string, data: Partial<IState>) => Promise<IState>;
@@ -218,6 +218,14 @@ export class StateStore implements IStateStore {
   fetchProjectStates = async (workspaceSlug: string, projectId: string) => {
     const statesResponse = await this.stateService.getStates(workspaceSlug, projectId);
     runInAction(() => {
+      // Remove states for this project that are no longer returned by the API
+      // (e.g. soft-deleted states) to keep stateMap in sync
+      const responseIds = new Set(statesResponse.map((s) => s.id));
+      Object.keys(this.stateMap).forEach((stateId) => {
+        if (this.stateMap[stateId]?.project_id === projectId && !responseIds.has(stateId)) {
+          delete this.stateMap[stateId];
+        }
+      });
       statesResponse.forEach((state) => {
         set(this.stateMap, [state.id], state);
       });
@@ -235,7 +243,9 @@ export class StateStore implements IStateStore {
   fetchProjectIntakeState = async (workspaceSlug: string, projectId: string) => {
     const intakeStateResponse = await this.stateService.getIntakeState(workspaceSlug, projectId);
     runInAction(() => {
-      set(this.intakeStateMap, [intakeStateResponse.id], intakeStateResponse);
+      if (intakeStateResponse?.id) {
+        set(this.intakeStateMap, [intakeStateResponse.id], intakeStateResponse);
+      }
       set(this.fetchedIntakeMap, projectId, true);
     });
     return intakeStateResponse;
@@ -249,6 +259,13 @@ export class StateStore implements IStateStore {
   fetchWorkspaceStates = async (workspaceSlug: string) => {
     const statesResponse = await this.stateService.getWorkspaceStates(workspaceSlug);
     runInAction(() => {
+      // Remove states that are no longer returned (soft-deleted) from workspace fetch
+      const responseIds = new Set(statesResponse.map((s) => s.id));
+      Object.keys(this.stateMap).forEach((stateId) => {
+        if (!responseIds.has(stateId)) {
+          delete this.stateMap[stateId];
+        }
+      });
       statesResponse.forEach((state) => {
         set(this.stateMap, [state.id], state);
       });

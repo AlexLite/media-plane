@@ -12,6 +12,7 @@ import { usePopper } from "react-popper";
 import { AlertCircle } from "lucide-react";
 import { Popover, Transition } from "@headlessui/react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import type { EditorRefApi } from "@plane/editor";
 import { Button } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -42,6 +43,7 @@ type FormData = {
 };
 
 export function GptAssistantPopover(props: Props) {
+  const { t } = useTranslation();
   const {
     isOpen,
     handleClose,
@@ -97,7 +99,7 @@ export function GptAssistantPopover(props: Props) {
 
     setToast({
       type: TOAST_TYPE.ERROR,
-      title: "Error!",
+      title: t("common.error.label"),
       message: errorMessage,
     });
 
@@ -123,8 +125,8 @@ export function GptAssistantPopover(props: Props) {
   const handleInvalidTask = () => {
     setToast({
       type: TOAST_TYPE.ERROR,
-      title: "Error!",
-      message: "Please enter some task to get AI assistance.",
+      title: t("common.error.label"),
+      message: t("gpt_enter_task"),
     });
   };
 

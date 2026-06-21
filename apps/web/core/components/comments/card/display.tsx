@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 // plane imports
 import type { EditorRefApi } from "@plane/editor";
 import { useHashScroll } from "@plane/hooks";
+import { useTranslation } from "@plane/i18n";
 import { GlobeIcon, LockIcon } from "@plane/propel/icons";
 import { EIssueCommentAccessSpecifier } from "@plane/types";
 import type { TCommentsOperations, TIssueComment } from "@plane/types";
@@ -61,6 +62,7 @@ export const CommentCardDisplay = observer(function CommentCardDisplay(props: TC
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   // store hooks
   const { getUserDetails } = useMember();
+  const { t } = useTranslation();
   // derived values
   const userDetails = getUserDetails(comment?.actor);
   const displayName = comment?.actor_detail?.is_bot
@@ -121,17 +123,22 @@ export const CommentCardDisplay = observer(function CommentCardDisplay(props: TC
         <div className="flex flex-1 flex-wrap items-center gap-1">
           <div className="text-caption-sm-medium">{displayName}</div>
           <div className="text-caption-sm-regular text-tertiary">
-            commented{" "}
+            {t("commented")}{" "}
             <Tooltip
-              tooltipContent={`${renderFormattedDate(comment.created_at)} at ${renderFormattedTime(comment.created_at)}`}
+              tooltipContent={`${renderFormattedDate(comment.created_at)} ${t("at")} ${renderFormattedTime(comment.created_at)}`}
               position="bottom"
             >
               <span className="text-tertiary">
                 {calculateTimeAgo(comment.created_at)}
-                {comment.edited_at && " (edited)"}
+                {comment.edited_at && ` (${t("edited")})`}
               </span>
             </Tooltip>
           </div>
+          {comment.pipeline_item_detail && (
+            <div className="rounded border border-green-500/30 bg-green-500/10 px-1.5 py-0.5 text-[11px] leading-3 text-green-700">
+              {comment.pipeline_item_detail.name}
+            </div>
+          )}
         </div>
         {!disabled && (
           <div className="flex shrink-0 items-center gap-1">
@@ -140,7 +147,9 @@ export const CommentCardDisplay = observer(function CommentCardDisplay(props: TC
               handleToggle={setIsPickerOpen}
               onChange={handleEmojiSelect}
               disabled={disabled}
-              label={<EmojiReactionButton onAddReaction={() => setIsPickerOpen(true)} tooltipContent="Add reaction" />}
+              label={
+                <EmojiReactionButton onAddReaction={() => setIsPickerOpen(true)} tooltipContent={t("add_reaction")} />
+              }
               placement="bottom-start"
             />
             {renderQuickActions ? renderQuickActions() : null}

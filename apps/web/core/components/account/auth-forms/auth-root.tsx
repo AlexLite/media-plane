@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import { useSearchParams } from "next/navigation";
 // plane imports
 import { OAuthOptions } from "@plane/ui";
+import { useTranslation } from "@plane/i18n";
 // helpers
 import type { TAuthErrorInfo } from "@/helpers/authentication.helper";
 import {
@@ -32,6 +33,7 @@ type TAuthRoot = {
 };
 
 export const AuthRoot = observer(function AuthRoot(props: TAuthRoot) {
+  const { t } = useTranslation();
   //router
   const searchParams = useSearchParams();
   // query params
@@ -49,7 +51,7 @@ export const AuthRoot = observer(function AuthRoot(props: TAuthRoot) {
   // store hooks
   const { config } = useInstance();
   // derived values
-  const oAuthActionText = authMode === EAuthModes.SIGN_UP ? "Sign up" : "Sign in";
+  const oAuthActionText = authMode === EAuthModes.SIGN_UP ? t("auth.common.sign_up_action") : t("auth.common.sign_in_action");
   const { isOAuthEnabled, oAuthOptions } = useOAuthConfig(oAuthActionText);
   const isEmailBasedAuthEnabled = config?.is_email_password_enabled || config?.is_magic_login_enabled;
   const noAuthMethodsAvailable = !isOAuthEnabled && !isEmailBasedAuthEnabled;
@@ -60,7 +62,7 @@ export const AuthRoot = observer(function AuthRoot(props: TAuthRoot) {
 
   useEffect(() => {
     if (error_code && authMode) {
-      const errorhandler = authErrorHandler(error_code?.toString() as EAuthenticationErrorCodes);
+      const errorhandler = authErrorHandler(error_code?.toString() as EAuthenticationErrorCodes, undefined, t);
       if (errorhandler) {
         // password error handler
         if ([EAuthenticationErrorCodes.AUTHENTICATION_FAILED_SIGN_UP].includes(errorhandler.code)) {
@@ -106,8 +108,8 @@ export const AuthRoot = observer(function AuthRoot(props: TAuthRoot) {
     return (
       <AuthContainer>
         <AuthHeaderBase
-          header="No authentication methods available"
-          subHeader="Please contact your administrator to enable authentication for your instance."
+          header={t("auth.common.no_auth_methods_available")}
+          subHeader={t("auth.common.no_auth_methods_available_description")}
         />
       </AuthContainer>
     );

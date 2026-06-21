@@ -5,6 +5,7 @@
  */
 
 import React, { useMemo, useCallback } from "react";
+import { translate } from "@plane/i18n";
 import { EmojiRoot } from "../emoji-icon-picker/emoji/emoji";
 import { emojiToString } from "../emoji-icon-picker/helper";
 import { Popover } from "../popover";
@@ -40,7 +41,7 @@ export function EmojiReactionPicker(props: EmojiReactionPickerProps) {
     onChange,
     placement = "bottom-start",
     searchDisabled = false,
-    searchPlaceholder = "Search",
+    searchPlaceholder = translate("search"),
     side = "bottom",
     align = "start",
   } = props;

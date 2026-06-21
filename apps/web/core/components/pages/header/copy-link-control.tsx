@@ -57,13 +57,13 @@ export const PageCopyLinkControl = observer(function PageCopyLinkControl({ page 
   }, [pageOperations]);
 
   return (
-    <Tooltip tooltipContent={isCopied ? "Copied!" : "Copy link"} position="bottom">
+    <Tooltip tooltipContent={isCopied ? "Ссылка скопирована" : "Копировать ссылку"} position="bottom">
       <IconButton
         variant="ghost"
         size="lg"
         icon={isCopied ? CheckIcon : LinkIcon}
         onClick={handleCopy}
-        aria-label={isCopied ? "Copied link" : "Copy link"}
+        aria-label={isCopied ? "Ссылка скопирована" : "Копировать ссылку"}
         className={cn(isCopied && "text-success-primary")}
       />
     </Tooltip>

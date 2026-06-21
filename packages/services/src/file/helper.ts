@@ -87,6 +87,22 @@ const detectMimeTypeFromSignature = async (file: File): Promise<string> => {
  * @param {File} file
  * @returns {Promise<string>} validated and detected MIME type
  */
+const GENERIC_SIGNATURE_MIME_TYPES = new Set(["application/zip", "application/x-zip-compressed", "application/octet-stream"]);
+
+const EXTENSION_MIME_TYPES: Record<string, string> = {
+  doc: "application/msword",
+  docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ppt: "application/vnd.ms-powerpoint",
+  pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  xls: "application/vnd.ms-excel",
+  xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+};
+
+const getMimeTypeFromExtension = (filename: string): string => {
+  const extension = filename.split(".").pop()?.toLowerCase();
+  return extension ? (EXTENSION_MIME_TYPES[extension] ?? "") : "";
+};
+
 const validateAndDetectFileType = async (file: File): Promise<string> => {
   // Basic filename validation
   const filenameError = validateFilename(file.name);
@@ -96,15 +112,19 @@ const validateAndDetectFileType = async (file: File): Promise<string> => {
 
   try {
     const signatureType = await detectMimeTypeFromSignature(file);
-    if (signatureType) {
+    if (signatureType && !GENERIC_SIGNATURE_MIME_TYPES.has(signatureType)) {
       return signatureType;
     }
+
+    // Office documents and some browser-provided files are ZIP containers internally.
+    // Prefer specific metadata before keeping the detected generic type as a last resort.
+    return file.type || getMimeTypeFromExtension(file.name) || signatureType || "";
   } catch (_error) {
     console.warn("Error detecting file type from signature:", _error);
   }
 
   // fallback for unknown files
-  return "";
+  return file.type || getMimeTypeFromExtension(file.name) || "";
 };
 
 /**

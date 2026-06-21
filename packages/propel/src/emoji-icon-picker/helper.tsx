@@ -39,6 +39,7 @@ export type TCustomEmojiPicker = {
   label: React.ReactNode;
   onChange: (value: TChangeHandlerProps) => void;
   placement?: TPlacement;
+  showIconPicker?: boolean;
   searchDisabled?: boolean;
   searchPlaceholder?: string;
   iconType?: "material" | "lucide";

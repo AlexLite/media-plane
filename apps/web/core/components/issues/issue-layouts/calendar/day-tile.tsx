@@ -9,6 +9,7 @@ import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
 import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { differenceInCalendarDays } from "date-fns/differenceInCalendarDays";
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TGroupedIssues, TIssue, TIssueMap, TPaginationData, ICalendarDate } from "@plane/types";
 // types
@@ -54,6 +55,7 @@ type Props = {
 };
 
 export const CalendarDayTile = observer(function CalendarDayTile(props: Props) {
+  const { t } = useTranslation();
   const {
     issuesFilterStore,
     date,
@@ -112,8 +114,8 @@ export const CalendarDayTile = observer(function CalendarDayTile(props: Props) {
             if (diffInDays < 0) {
               setToast({
                 type: TOAST_TYPE.ERROR,
-                title: "Error!",
-                message: "Due date cannot be before the start date of the work item.",
+                title: t("common.error.label"),
+                message: t("work_item_operations.due_date_before_start"),
               });
               return;
             }

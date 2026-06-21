@@ -7,7 +7,6 @@
 import { observer } from "mobx-react";
 import { EStartOfTheWeek } from "@plane/types";
 import { getOrderedDays } from "@plane/utils";
-import { DAYS_LIST } from "@/constants/calendar";
 // helpers
 // hooks
 import { useUserProfile } from "@/hooks/store/user";
@@ -23,8 +22,28 @@ export const CalendarWeekHeader = observer(function CalendarWeekHeader(props: Pr
   const { data } = useUserProfile();
   const startOfWeek = data?.start_of_the_week;
 
+  const locale = "ru-RU";
+  const getDayShortTitle = (value: EStartOfTheWeek) => {
+    const startOfFirstWeek = new Date(Date.UTC(2026, 0, 4)); // Sunday
+    const date = new Date(startOfFirstWeek);
+    date.setUTCDate(startOfFirstWeek.getUTCDate() + Number(value));
+    return new Intl.DateTimeFormat(locale, { weekday: "short" }).format(date);
+  };
+  const daysList = [
+    EStartOfTheWeek.SUNDAY,
+    EStartOfTheWeek.MONDAY,
+    EStartOfTheWeek.TUESDAY,
+    EStartOfTheWeek.WEDNESDAY,
+    EStartOfTheWeek.THURSDAY,
+    EStartOfTheWeek.FRIDAY,
+    EStartOfTheWeek.SATURDAY,
+  ].map((value) => ({
+    value,
+    shortTitle: getDayShortTitle(value),
+  }));
+
   // derived
-  const orderedDays = getOrderedDays(Object.values(DAYS_LIST), (item) => item.value, startOfWeek);
+  const orderedDays = getOrderedDays(daysList, (item) => item.value, startOfWeek);
 
   return (
     <div

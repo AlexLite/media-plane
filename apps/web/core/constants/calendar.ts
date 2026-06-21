@@ -14,52 +14,52 @@ export const MONTHS_LIST: {
   };
 } = {
   1: {
-    shortTitle: "Jan",
-    title: "January",
+    shortTitle: "Янв",
+    title: "Январь",
   },
   2: {
-    shortTitle: "Feb",
-    title: "February",
+    shortTitle: "Фев",
+    title: "Февраль",
   },
   3: {
-    shortTitle: "Mar",
-    title: "March",
+    shortTitle: "Мар",
+    title: "Март",
   },
   4: {
-    shortTitle: "Apr",
-    title: "April",
+    shortTitle: "Апр",
+    title: "Апрель",
   },
   5: {
-    shortTitle: "May",
-    title: "May",
+    shortTitle: "Май",
+    title: "Май",
   },
   6: {
-    shortTitle: "Jun",
-    title: "June",
+    shortTitle: "Июн",
+    title: "Июнь",
   },
   7: {
-    shortTitle: "Jul",
-    title: "July",
+    shortTitle: "Июл",
+    title: "Июль",
   },
   8: {
-    shortTitle: "Aug",
-    title: "August",
+    shortTitle: "Авг",
+    title: "Август",
   },
   9: {
-    shortTitle: "Sep",
-    title: "September",
+    shortTitle: "Сен",
+    title: "Сентябрь",
   },
   10: {
-    shortTitle: "Oct",
-    title: "October",
+    shortTitle: "Окт",
+    title: "Октябрь",
   },
   11: {
-    shortTitle: "Nov",
-    title: "November",
+    shortTitle: "Ноя",
+    title: "Ноябрь",
   },
   12: {
-    shortTitle: "Dec",
-    title: "December",
+    shortTitle: "Дек",
+    title: "Декабрь",
   },
 };
 
@@ -71,38 +71,38 @@ export const DAYS_LIST: {
   };
 } = {
   1: {
-    shortTitle: "Sun",
-    title: "Sunday",
+    shortTitle: "Вс",
+    title: "Воскресенье",
     value: EStartOfTheWeek.SUNDAY,
   },
   2: {
-    shortTitle: "Mon",
-    title: "Monday",
+    shortTitle: "Пн",
+    title: "Понедельник",
     value: EStartOfTheWeek.MONDAY,
   },
   3: {
-    shortTitle: "Tue",
-    title: "Tuesday",
+    shortTitle: "Вт",
+    title: "Вторник",
     value: EStartOfTheWeek.TUESDAY,
   },
   4: {
-    shortTitle: "Wed",
-    title: "Wednesday",
+    shortTitle: "Ср",
+    title: "Среда",
     value: EStartOfTheWeek.WEDNESDAY,
   },
   5: {
-    shortTitle: "Thu",
-    title: "Thursday",
+    shortTitle: "Чт",
+    title: "Четверг",
     value: EStartOfTheWeek.THURSDAY,
   },
   6: {
-    shortTitle: "Fri",
-    title: "Friday",
+    shortTitle: "Пт",
+    title: "Пятница",
     value: EStartOfTheWeek.FRIDAY,
   },
   7: {
-    shortTitle: "Sat",
-    title: "Saturday",
+    shortTitle: "Сб",
+    title: "Суббота",
     value: EStartOfTheWeek.SATURDAY,
   },
 };
@@ -113,6 +113,10 @@ export const CALENDAR_LAYOUTS: {
     title: string;
   };
 } = {
+  day: {
+    key: "day",
+    title: "Day layout",
+  },
   month: {
     key: "month",
     title: "Month layout",

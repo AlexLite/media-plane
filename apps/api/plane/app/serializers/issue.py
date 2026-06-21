@@ -37,6 +37,7 @@ from plane.db.models import (
     CommentReaction,
     IssueVote,
     IssueRelation,
+    IssuePipelineItem,
     State,
     IssueVersion,
     IssueDescriptionVersion,
@@ -62,6 +63,7 @@ class IssueFlatSerializer(BaseSerializer):
             "priority",
             "start_date",
             "target_date",
+            "target_time",
             "sequence_id",
             "sort_order",
             "is_draft",
@@ -110,7 +112,6 @@ class IssueCreateSerializer(BaseSerializer):
             "updated_by",
             "created_at",
             "updated_at",
-            "completed_at",
         ]
 
     def to_representation(self, instance):
@@ -193,6 +194,52 @@ class IssueCreateSerializer(BaseSerializer):
             ).exists()
         ):
             raise serializers.ValidationError("Estimate point is not valid please pass a valid estimate_point_id")
+
+        target_date = attrs.get("target_date")
+        instance = getattr(self, "instance", None)
+        if instance is not None and target_date is not None:
+            pipeline_item = IssuePipelineItem.objects.filter(child_issue=instance).select_related("parent_issue").first()
+            if pipeline_item:
+                parent_target_date = pipeline_item.parent_issue.target_date
+                if parent_target_date and target_date > parent_target_date:
+                    raise serializers.ValidationError(
+                        {"target_date": "Pipeline step due date cannot be later than parent issue due date"}
+                    )
+
+                previous_item = (
+                    IssuePipelineItem.objects.filter(
+                        parent_issue=pipeline_item.parent_issue,
+                        sort_order__lt=pipeline_item.sort_order,
+                        child_issue__target_date__isnull=False,
+                    )
+                    .select_related("child_issue")
+                    .order_by("-sort_order")
+                    .first()
+                )
+                if previous_item and target_date < previous_item.child_issue.target_date:
+                    raise serializers.ValidationError(
+                        {"target_date": "Pipeline step due date cannot be earlier than previous pipeline step due date"}
+                    )
+
+                next_item = (
+                    IssuePipelineItem.objects.filter(
+                        parent_issue=pipeline_item.parent_issue,
+                        sort_order__gt=pipeline_item.sort_order,
+                        child_issue__target_date__isnull=False,
+                    )
+                    .select_related("child_issue")
+                    .order_by("sort_order")
+                    .first()
+                )
+                if next_item and target_date > next_item.child_issue.target_date:
+                    raise serializers.ValidationError(
+                        {"target_date": "Pipeline step due date cannot be later than next pipeline step due date"}
+                    )
+
+            if IssuePipelineItem.objects.filter(parent_issue=instance, child_issue__target_date__gt=target_date).exists():
+                raise serializers.ValidationError(
+                    {"target_date": "Parent issue due date cannot be earlier than existing pipeline step due dates"}
+                )
 
         return attrs
 
@@ -796,6 +843,7 @@ class IssueSerializer(DynamicBaseSerializer):
             "priority",
             "start_date",
             "target_date",
+            "target_time",
             "sequence_id",
             "project_id",
             "parent_id",
@@ -841,7 +889,30 @@ class IssueListDetailSerializer(serializers.Serializer):
     def get_assignee_ids(self, obj):
         return [assignee.assignee_id for assignee in obj.issue_assignee.all()]
 
+    def get_pipeline_overdue_flags(self, obj):
+        today = timezone.localdate()
+        pipeline_items = list(
+            IssuePipelineItem.objects.filter(parent_issue=obj)
+            .exclude(status=IssuePipelineItem.StatusChoices.COMPLETED)
+            .order_by("sort_order", "created_at")
+        )
+        has_overdue = any(item.target_date and item.target_date < today for item in pipeline_items)
+        final_item = (
+            IssuePipelineItem.objects.filter(parent_issue=obj)
+            .order_by("-sort_order", "-created_at")
+            .first()
+        )
+        has_overdue_issue_deadline = bool(obj.target_date and obj.target_date < today)
+        has_overdue_final = has_overdue_issue_deadline or bool(
+            final_item
+            and final_item.status != IssuePipelineItem.StatusChoices.COMPLETED
+            and final_item.target_date
+            and final_item.target_date < today
+        )
+        return has_overdue, has_overdue_final
+
     def to_representation(self, instance):
+        has_overdue_pipeline_items, has_overdue_final_pipeline_item = self.get_pipeline_overdue_flags(instance)
         data = {
             # Basic fields
             "id": instance.id,
@@ -853,6 +924,7 @@ class IssueListDetailSerializer(serializers.Serializer):
             "priority": instance.priority,
             "start_date": instance.start_date,
             "target_date": instance.target_date,
+            "target_time": instance.target_time,
             "sequence_id": instance.sequence_id,
             "project_id": instance.project_id,
             "parent_id": instance.parent_id,
@@ -870,6 +942,8 @@ class IssueListDetailSerializer(serializers.Serializer):
             "sub_issues_count": instance.sub_issues_count,
             "attachment_count": instance.attachment_count,
             "link_count": instance.link_count,
+            "has_overdue_pipeline_items": has_overdue_pipeline_items,
+            "has_overdue_final_pipeline_item": has_overdue_final_pipeline_item,
         }
 
         # Handle expanded fields only when requested - using direct field access
@@ -927,6 +1001,73 @@ class IssueListDetailSerializer(serializers.Serializer):
         return data
 
 
+class IssuePipelineItemSerializer(BaseSerializer):
+    child_issue_detail = serializers.SerializerMethodField()
+
+    def get_child_issue_detail(self, obj):
+        child_issue = obj.child_issue
+        if not child_issue:
+            return {
+                "id": obj.id,
+                "name": obj.name or obj.state_name_snapshot,
+                "state_id": obj.pipeline_state_id,
+                "sort_order": obj.sort_order,
+                "priority": "none",
+                "start_date": obj.start_date,
+                "target_date": obj.target_date,
+                "target_time": obj.target_time,
+                "sequence_id": None,
+                "project_id": obj.project_id,
+                "parent_id": obj.parent_issue_id,
+                "assignee_ids": obj.assignee_ids,
+            }
+        return {
+            "id": obj.id,
+            "name": obj.name or child_issue.name,
+            "state_id": obj.pipeline_state_id or child_issue.state_id,
+            "sort_order": obj.sort_order,
+            "priority": child_issue.priority,
+            "start_date": obj.start_date,
+            "target_date": obj.target_date,
+            "target_time": obj.target_time,
+            "sequence_id": None,
+            "project_id": obj.project_id,
+            "parent_id": obj.parent_issue_id,
+            "assignee_ids": list(
+                child_issue.issue_assignee.filter(deleted_at__isnull=True).values_list("assignee_id", flat=True)
+            )
+            if not obj.assignee_ids
+            else obj.assignee_ids,
+        }
+
+    class Meta:
+        model = IssuePipelineItem
+        fields = [
+            "id",
+            "workspace_id",
+            "project_id",
+            "parent_issue_id",
+            "child_issue_id",
+            "pipeline_state_id",
+            "state_name_snapshot",
+            "name",
+            "start_date",
+            "target_date",
+            "target_time",
+            "assignee_ids",
+            "sort_order",
+            "status",
+            "hidden_from_board",
+            "auto_completed",
+            "completed_by",
+            "completed_at",
+            "created_at",
+            "updated_at",
+            "child_issue_detail",
+        ]
+        read_only_fields = fields
+
+
 class IssueLiteSerializer(DynamicBaseSerializer):
     class Meta:
         model = Issue
@@ -968,6 +1109,7 @@ class IssuePublicSerializer(BaseSerializer):
             "workspace",
             "priority",
             "target_date",
+            "target_time",
             "reactions",
             "votes",
         ]

@@ -29,7 +29,7 @@ def workspace_invitation(email, workspace_id, token, current_site, inviter):
 
         # Relative link
         relative_link = (
-            f"/workspace-invitations/?invitation_id={workspace_member_invite.id}&slug={workspace.slug}&token={token}"  # noqa: E501
+            f"/workspace-invitations/?invitation_id={workspace_member_invite.id}&email={email}&slug={workspace.slug}"  # noqa: E501
         )
 
         # The complete url including the domain
@@ -46,7 +46,7 @@ def workspace_invitation(email, workspace_id, token, current_site, inviter):
         ) = get_email_configuration()
 
         # Subject of the email
-        subject = f"{user.first_name or user.display_name or user.email} has invited you to join them in {workspace.name} on Plane"  # noqa: E501
+        subject = f"{user.first_name or user.display_name or user.email} приглашает вас в {workspace.name} в Plane"  # noqa: E501
 
         context = {
             "email": email,

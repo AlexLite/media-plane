@@ -7,6 +7,7 @@
 import * as React from "react";
 import { Toast as BaseToast } from "@base-ui-components/react/toast";
 import { AlertTriangle, CheckIcon, InfoIcon, XIcon } from "lucide-react";
+import { translate } from "@plane/i18n";
 import { CloseIcon } from "../icons/actions/close-icon";
 // spinner
 import { CircularBarSpinner } from "../spinners/circular-bar-spinner";
@@ -51,6 +52,22 @@ type PromiseToastOptions<ToastData> = {
 
 export type ToastProps = {
   theme: "light" | "dark" | "system";
+};
+
+
+const getToastTranslationKey = (value: string): string =>
+  value
+    .trim()
+    .toLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+
+const translateToastText = (value?: string): string | undefined => {
+  if (!value) return value;
+  const key = `toast_messages.${getToastTranslationKey(value)}`;
+  const translated = translate(key);
+  return translated === key ? value : translated;
 };
 
 const toastManager = BaseToast.createToastManager();
@@ -254,8 +271,8 @@ export const setToast = (props: SetToastProps) => {
     toastId = toastManager.add({
       data: {
         type: props.type,
-        title: props.title,
-        message: props.message,
+        title: translateToastText(props.title) ?? props.title,
+        message: translateToastText(props.message),
         actionItems: props.actionItems,
       },
     });
@@ -263,7 +280,7 @@ export const setToast = (props: SetToastProps) => {
     toastId = toastManager.add({
       data: {
         type: props.type,
-        title: props.title,
+        title: translateToastText(props.title) ?? props.title,
       },
     });
   }
@@ -276,12 +293,12 @@ export const updateToast = (id: string, props: SetToastProps) => {
       props.type === TOAST_TYPE.LOADING
         ? {
             type: TOAST_TYPE.LOADING,
-            title: props.title,
+            title: translateToastText(props.title) ?? props.title,
           }
         : {
             type: props.type,
-            title: props.title,
-            message: props.message,
+            title: translateToastText(props.title) ?? props.title,
+            message: translateToastText(props.message),
             actionItems: props.actionItems,
           },
   });
@@ -294,7 +311,7 @@ export const setPromiseToast = <ToastData,>(
   toastManager.promise(promise, {
     loading: {
       data: {
-        title: options.loading ?? "Loading...",
+        title: translateToastText(options.loading ?? "Loading...") ?? "Loading...",
         type: TOAST_TYPE.LOADING,
         message: undefined,
         actionItems: undefined,
@@ -303,16 +320,16 @@ export const setPromiseToast = <ToastData,>(
     success: (data) => ({
       data: {
         type: TOAST_TYPE.SUCCESS,
-        title: options.success.title,
-        message: options.success.message?.(data),
+        title: translateToastText(options.success.title) ?? options.success.title,
+        message: translateToastText(options.success.message?.(data)),
         actionItems: options.success.actionItems?.(data),
       },
     }),
     error: (data) => ({
       data: {
         type: TOAST_TYPE.ERROR,
-        title: options.error.title,
-        message: options.error.message?.(data),
+        title: translateToastText(options.error.title) ?? options.error.title,
+        message: translateToastText(options.error.message?.(data)),
         actionItems: options.error.actionItems?.(data),
       },
     }),

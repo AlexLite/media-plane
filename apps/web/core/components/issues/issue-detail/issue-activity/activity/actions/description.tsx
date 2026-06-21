@@ -6,6 +6,7 @@
 
 import { observer } from "mobx-react";
 import { AlignLeft } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 // hooks
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 // components
@@ -19,6 +20,7 @@ export const IssueDescriptionActivity = observer(function IssueDescriptionActivi
   const {
     activity: { getActivityById },
   } = useIssueDetail();
+  const { t } = useTranslation();
 
   const activity = getActivityById(activityId);
 
@@ -30,8 +32,8 @@ export const IssueDescriptionActivity = observer(function IssueDescriptionActivi
       ends={ends}
     >
       <>
-        updated the description
-        {showIssue ? ` of ` : ``}
+        {t("activity_feed.updated_description")}
+        {showIssue ? ` ${t("activity_feed.of")} ` : ``}
         {showIssue && <IssueLink activityId={activityId} />}.
       </>
     </IssueActivityBlockComponent>

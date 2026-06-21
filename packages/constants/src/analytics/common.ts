@@ -104,19 +104,19 @@ export const ANALYTICS_INSIGHTS_FIELDS: Record<TAnalyticsTabsBase, IInsightField
 
 export const ANALYTICS_DURATION_FILTER_OPTIONS = [
   {
-    name: "Yesterday",
+    name: "Вчера",
     value: "yesterday",
   },
   {
-    name: "Last 7 days",
+    name: "Последние 7 дней",
     value: "last_7_days",
   },
   {
-    name: "Last 30 days",
+    name: "Последние 30 дней",
     value: "last_30_days",
   },
   {
-    name: "Last 3 months",
+    name: "Последние 3 месяца",
     value: "last_3_months",
   },
 ];
@@ -124,66 +124,66 @@ export const ANALYTICS_DURATION_FILTER_OPTIONS = [
 export const ANALYTICS_X_AXIS_VALUES: { value: ChartXAxisProperty; label: string }[] = [
   {
     value: ChartXAxisProperty.STATES,
-    label: "State name",
+    label: "workspace_analytics.x_axis.state_name",
   },
   {
     value: ChartXAxisProperty.STATE_GROUPS,
-    label: "State group",
+    label: "common.state_group",
   },
   {
     value: ChartXAxisProperty.PRIORITY,
-    label: "Priority",
+    label: "common.priority",
   },
   {
     value: ChartXAxisProperty.LABELS,
-    label: "Label",
+    label: "common.label",
   },
   {
     value: ChartXAxisProperty.ASSIGNEES,
-    label: "Assignee",
+    label: "common.assignee",
   },
   {
     value: ChartXAxisProperty.ESTIMATE_POINTS,
-    label: "Estimate point",
+    label: "workspace_analytics.x_axis.estimate_point",
   },
   {
     value: ChartXAxisProperty.CYCLES,
-    label: "Cycle",
+    label: "common.cycle",
   },
   {
     value: ChartXAxisProperty.MODULES,
-    label: "Module",
+    label: "common.module",
   },
   {
     value: ChartXAxisProperty.COMPLETED_AT,
-    label: "Completed date",
+    label: "common.completed_at",
   },
   {
     value: ChartXAxisProperty.TARGET_DATE,
-    label: "Due date",
+    label: "common.target_date",
   },
   {
     value: ChartXAxisProperty.START_DATE,
-    label: "Start date",
+    label: "common.start_date",
   },
   {
     value: ChartXAxisProperty.CREATED_AT,
-    label: "Created date",
+    label: "common.created_at",
   },
 ];
 
 export const ANALYTICS_Y_AXIS_VALUES: { value: ChartYAxisMetric; label: string }[] = [
   {
     value: ChartYAxisMetric.WORK_ITEM_COUNT,
-    label: "Work item",
+    label: "common.work_item",
   },
   {
     value: ChartYAxisMetric.ESTIMATE_POINT_COUNT,
-    label: "Estimate",
+    label: "common.estimate",
   },
   {
     value: ChartYAxisMetric.EPIC_WORK_ITEM_COUNT,
-    label: "Epic",
+    label: "common.epic",
   },
 ];
 

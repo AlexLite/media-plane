@@ -57,27 +57,27 @@ export type PasswordCriteria = {
 export const getPasswordCriteria = (password: string): PasswordCriteria[] => [
   {
     key: "length",
-    label: "Min 8 characters",
+    label: "Минимум 8 символов",
     isValid: password.length >= 8,
   },
   {
     key: "uppercase",
-    label: "Min 1 upper-case letter",
+    label: "Минимум 1 заглавная буква",
     isValid: /[A-Z]/.test(password),
   },
   {
     key: "lowercase",
-    label: "Min 1 lower-case letter",
+    label: "Минимум 1 строчная буква",
     isValid: /[a-z]/.test(password),
   },
   {
     key: "number",
-    label: "Min 1 number",
+    label: "Минимум 1 цифра",
     isValid: /[0-9]/.test(password),
   },
   {
     key: "special",
-    label: "Min 1 special character",
+    label: "Минимум 1 специальный символ",
     isValid: /[!@#$%^&*()\-_+=\[\]{}|;:'",.<>?/]/.test(password),
   },
 ];

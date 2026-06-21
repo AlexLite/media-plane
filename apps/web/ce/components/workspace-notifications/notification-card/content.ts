@@ -7,13 +7,35 @@
 import { replaceUnderscoreIfSnakeCase } from "@plane/utils";
 import type { TNotificationContentMap } from "@/components/workspace-notifications/sidebar/notification-card/content";
 
+const FIELD_LABELS: Record<string, string> = {
+  name: "название",
+  priority: "приоритет",
+  state: "статус",
+  state_id: "статус",
+  description: "описание",
+  attachment: "вложения",
+  estimate_time: "оценку",
+  start_date: "дату начала",
+  target_date: "срок выполнения",
+};
+
+const VERB_LABELS: Record<string, string> = {
+  created: "добавил",
+  updated: "изменил",
+  deleted: "удалил",
+};
+
 // Additional notification content map for CE (empty - EE extends this)
 export const ADDITIONAL_NOTIFICATION_CONTENT_MAP: TNotificationContentMap = {};
 
 // Fallback action renderer for fields not in the map
 export const renderAdditionalAction = (notificationField: string, verb: string | undefined) => {
-  const baseAction = !["comment", "archived_at"].includes(notificationField) ? verb : "";
-  return `${baseAction} ${replaceUnderscoreIfSnakeCase(notificationField)}`;
+  const baseAction = !["comment", "archived_at"].includes(notificationField)
+    ? verb
+      ? VERB_LABELS[verb] || verb
+      : ""
+    : "";
+  return `${baseAction} ${FIELD_LABELS[notificationField] || replaceUnderscoreIfSnakeCase(notificationField)}`;
 };
 
 // Fallback value renderer for fields not in the map

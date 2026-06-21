@@ -19,8 +19,8 @@ import { useTimeLineChartStore } from "@/hooks/use-timeline-chart";
 //
 import { SIDEBAR_WIDTH } from "../constants";
 import { currentViewDataWithView } from "../data";
-import type { IMonthBlock, IMonthView, IWeekBlock } from "../views";
-import { getNumberOfDaysBetweenTwoDates, monthView, quarterView, weekView } from "../views";
+import type { IDayHourBlock, IMonthBlock, IMonthView, IWeekBlock } from "../views";
+import { dayView, getNumberOfDaysBetweenTwoDates, monthView, quarterView, weekView } from "../views";
 
 type ChartViewRootProps = {
   border: boolean;
@@ -48,6 +48,7 @@ type ChartViewRootProps = {
 };
 
 const timelineViewHelpers = {
+  day: dayView,
   week: weekView,
   month: monthView,
   quarter: quarterView,
@@ -106,9 +107,9 @@ export const ChartViewRoot = observer(function ChartViewRoot(props: ChartViewRoo
     const currentViewHelpers = timelineViewHelpers[selectedCurrentView];
     const currentRender = currentViewHelpers.generateChart(selectedCurrentViewData, side, targetDate, startOfWeek);
     const mergeRenderPayloads = currentViewHelpers.mergeRenderPayloads as (
-      a: IWeekBlock[] | IMonthView | IMonthBlock[],
-      b: IWeekBlock[] | IMonthView | IMonthBlock[]
-    ) => IWeekBlock[] | IMonthView | IMonthBlock[];
+      a: IDayHourBlock[] | IWeekBlock[] | IMonthView | IMonthBlock[],
+      b: IDayHourBlock[] | IWeekBlock[] | IMonthView | IMonthBlock[]
+    ) => IDayHourBlock[] | IWeekBlock[] | IMonthView | IMonthBlock[];
 
     // updating the prevData, currentData and nextData
     if (currentRender.payload) {
@@ -138,11 +139,11 @@ export const ChartViewRoot = observer(function ChartViewRoot(props: ChartViewRoo
     return currentRender.state;
   };
 
-  const handleToday = () => updateCurrentViewRenderPayload(null, currentView);
+  const handleToday = () => updateCurrentViewRenderPayload(null, "day", new Date());
 
   // handling the scroll positioning from left and right
   useEffect(() => {
-    handleToday();
+    updateCurrentViewRenderPayload(null, currentView);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

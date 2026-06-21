@@ -1,1 +1,1 @@
-export const ISSUE_PIPELINE_UPDATED = "issue-pipeline-updated";
+export const ISSUE_PIPELINE_UPDATED = "plane:issue-pipeline-updated";

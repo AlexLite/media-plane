@@ -51,12 +51,13 @@ type NoLabelProps = {
 
 const NoLabel = observer(function NoLabel({ isMobile, noLabelBorder, fullWidth, placeholderText }: NoLabelProps) {
   const { t } = useTranslation();
+  const labelPlaceholder = placeholderText || "Выбрать метки";
 
   return (
     <Tooltip
       position="top"
       tooltipHeading={t("common.labels")}
-      tooltipContent="None"
+      tooltipContent="Нет меток"
       isMobile={isMobile}
       renderByDefault={false}
     >
@@ -68,7 +69,7 @@ const NoLabel = observer(function NoLabel({ isMobile, noLabelBorder, fullWidth, 
         )}
       >
         <LabelPropertyIcon className="h-3.5 w-3.5" />
-        {placeholderText}
+        {labelPlaceholder}
       </div>
     </Tooltip>
   );
@@ -85,6 +86,13 @@ type LabelSummaryProps = {
 
 function LabelSummary({ isMobile, fullWidth, noLabelBorder, disabled, projectLabels, value }: LabelSummaryProps) {
   const { t } = useTranslation();
+  const labelText =
+    value.length % 10 === 1 && value.length % 100 !== 11
+      ? "метка"
+      : value.length % 10 >= 2 && value.length % 10 <= 4 && (value.length % 100 < 12 || value.length % 100 > 14)
+        ? "метки"
+        : "меток";
+
   return (
     <div
       className={cn(
@@ -106,7 +114,7 @@ function LabelSummary({ isMobile, fullWidth, noLabelBorder, disabled, projectLab
       >
         <div className="flex h-full items-center gap-1.5 text-secondary">
           <span className="h-2 w-2 flex-shrink-0 rounded-full bg-accent-primary" />
-          {`${value.length} Labels`}
+          {`${value.length} ${labelText}`}
         </div>
       </Tooltip>
     </div>

@@ -72,11 +72,11 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
     setPromiseToast(addToFavoritePromise, {
       loading: "Adding module to favorites...",
       success: {
-        title: "Success!",
+        title: t("common.success"),
         message: () => "Module added to favorites.",
       },
       error: {
-        title: "Error!",
+        title: t("common.error.label"),
         message: () => "Couldn't add the module to favorites. Please try again.",
       },
     });
@@ -96,11 +96,11 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
     setPromiseToast(removeFromFavoritePromise, {
       loading: "Removing module from favorites...",
       success: {
-        title: "Success!",
+        title: t("common.success"),
         message: () => "Module removed from favorites.",
       },
       error: {
-        title: "Error!",
+        title: t("common.error.label"),
         message: () => "Couldn't remove the module from favorites. Please try again.",
       },
     });
@@ -113,14 +113,14 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success!",
-          message: "Module updated successfully.",
+          title: t("common.success"),
+          message: t("module_updated_successfully"),
         });
       })
       .catch((err) => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: err?.detail ?? "Module could not be updated. Please try again.",
         });
       });
@@ -142,8 +142,17 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
           handleModuleDetailsChange({
             start_date: val?.from ? renderFormattedPayloadDate(val.from) : null,
             target_date: val?.to ? renderFormattedPayloadDate(val.to) : null,
+            ...(val?.from ? {} : { start_time: null }),
+            ...(val?.to ? {} : { target_time: null }),
           });
         }}
+        showTimeInput
+        timeInputLabel="Время окончания"
+        timeValue={moduleDetails.target_time}
+        onTimeChange={(time) => {
+          handleModuleDetailsChange({ target_time: time });
+        }}
+        endDateLabelSuffix={moduleDetails.target_time ? ` ${moduleDetails.target_time.slice(0, 5)}` : ""}
         mergeDates
         placeholder={{
           from: t("start_date"),
@@ -166,7 +175,7 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
           <ButtonAvatars showTooltip={false} userIds={moduleLeadDetails?.id} />
         </span>
       ) : (
-        <Tooltip tooltipContent="No lead">
+        <Tooltip tooltipContent={t("no_lead")}>
           <SquareUser className="h-4 w-4 text-tertiary" />
         </Tooltip>
       )}

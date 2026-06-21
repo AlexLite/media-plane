@@ -4,6 +4,7 @@
 
 # Python imports
 import json
+from datetime import date, datetime, time
 
 
 # Third Party imports
@@ -11,6 +12,7 @@ from celery import shared_task
 
 # Django imports
 from django.core.serializers.json import DjangoJSONEncoder
+from django.utils.html import escape
 from django.utils import timezone
 
 
@@ -36,6 +38,41 @@ from plane.settings.redis import redis_instance
 from plane.utils.exception_logger import log_exception
 from plane.utils.issue_relation_mapper import get_inverse_relation
 from plane.utils.uuid import is_valid_uuid
+
+
+def normalize_time_value(value):
+    if value in [None, ""]:
+        return time(0, 0)
+    if isinstance(value, time):
+        return value
+    value = str(value)
+    try:
+        return datetime.strptime(value[:5], "%H:%M").time()
+    except ValueError:
+        return time(0, 0)
+
+
+def normalize_date_value(value):
+    if value in [None, ""]:
+        return None
+    if isinstance(value, datetime):
+        return value.date()
+    if isinstance(value, date):
+        return value
+    try:
+        return datetime.fromisoformat(str(value)[:10]).date()
+    except ValueError:
+        return None
+
+
+def format_activity_datetime(date_value, time_value=None):
+    normalized_date = normalize_date_value(date_value)
+    if normalized_date is None:
+        return ""
+    normalized_time = normalize_time_value(time_value)
+    if normalized_date.year == timezone.localdate().year:
+        return f"{normalized_date:%d %m} {normalized_time:%H:%M}"
+    return f"{normalized_date:%d %m %Y} {normalized_time:%H:%M}"
 
 
 def extract_ids(data: dict | None, primary_key: str, fallback_key: str) -> set[str]:
@@ -246,15 +283,48 @@ def track_target_date(
     epoch,
 ):
     if current_instance.get("target_date") != requested_data.get("target_date"):
+        current_time = current_instance.get("target_time")
+        requested_time = requested_data.get("target_time", current_time)
         issue_activities.append(
             IssueActivity(
                 issue_id=issue_id,
                 actor_id=actor_id,
                 verb="updated",
-                old_value=(
-                    current_instance.get("target_date") if current_instance.get("target_date") is not None else ""
-                ),
-                new_value=(requested_data.get("target_date") if requested_data.get("target_date") is not None else ""),
+                old_value=format_activity_datetime(current_instance.get("target_date"), current_time),
+                new_value=format_activity_datetime(requested_data.get("target_date"), requested_time),
+                field="target_date",
+                project_id=project_id,
+                workspace_id=workspace_id,
+                comment="updated the target date to",
+                epoch=epoch,
+            )
+        )
+
+
+def track_target_time(
+    requested_data,
+    current_instance,
+    issue_id,
+    project_id,
+    workspace_id,
+    actor_id,
+    issue_activities,
+    epoch,
+):
+    current_time = current_instance.get("target_time")
+    requested_time = requested_data.get("target_time")
+    if current_time != requested_time:
+        issue = Issue.objects.filter(pk=issue_id).only("target_date").first()
+        target_date = requested_data.get("target_date") or current_instance.get("target_date")
+        if target_date in [None, ""] and issue:
+            target_date = issue.target_date
+        issue_activities.append(
+            IssueActivity(
+                issue_id=issue_id,
+                actor_id=actor_id,
+                verb="updated",
+                old_value=format_activity_datetime(target_date, current_time),
+                new_value=format_activity_datetime(target_date, requested_time),
                 field="target_date",
                 project_id=project_id,
                 workspace_id=workspace_id,
@@ -616,6 +686,7 @@ def update_issue_activity(
         "state_id": track_state,
         "description_html": track_description,
         "target_date": track_target_date,
+        "target_time": track_target_time,
         "start_date": track_start_date,
         "label_ids": track_labels,
         "assignee_ids": track_assignees,

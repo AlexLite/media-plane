@@ -13,7 +13,7 @@ RUN corepack enable pnpm
 
 FROM base AS builder
 
-RUN pnpm add -g turbo@2.9.14
+RUN pnpm add -g turbo@2.9.4
 
 COPY . .
 
@@ -53,6 +53,9 @@ ENV VITE_WEB_BASE_URL=$VITE_WEB_BASE_URL
 ARG VITE_WEB_BASE_PATH=""
 ENV VITE_WEB_BASE_PATH=$VITE_WEB_BASE_PATH
 
+ARG VITE_DEFAULT_LANGUAGE="en"
+ENV VITE_DEFAULT_LANGUAGE=$VITE_DEFAULT_LANGUAGE
+
 ARG VITE_WEBSITE_URL="https://plane.so"
 ENV VITE_WEBSITE_URL=$VITE_WEBSITE_URL
 ARG VITE_SUPPORT_EMAIL="support@plane.so"
@@ -76,8 +79,6 @@ RUN pnpm turbo run build --filter=admin
 # =========================================================================== #
 
 FROM nginx:1.29-alpine AS production
-
-RUN apk update && apk upgrade --no-cache && rm -rf /var/cache/apk/*
 
 COPY apps/admin/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --from=installer /app/apps/admin/build/client /usr/share/nginx/html/god-mode

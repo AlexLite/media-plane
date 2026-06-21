@@ -8,6 +8,7 @@ import { useMemo, useState } from "react";
 import { observer } from "mobx-react";
 import { ArrowUpToLine, Clipboard, History } from "lucide-react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { ToggleSwitch } from "@plane/ui";
 // hooks
@@ -30,6 +31,7 @@ type Props = {
 };
 
 export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: Props) {
+  const { t } = useTranslation();
   const { page, storeType } = props;
   // states
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
@@ -54,7 +56,7 @@ export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: 
           action: () => handleFullWidth(!isFullWidth),
           customContent: (
             <>
-              Full width
+              На всю ширину
               <ToggleSwitch value={isFullWidth} onChange={() => {}} />
             </>
           ),
@@ -65,7 +67,7 @@ export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: 
           action: () => handleStickyToolbar(!isStickyToolbarEnabled),
           customContent: (
             <>
-              Sticky toolbar
+              Закрепить панель
               <ToggleSwitch value={isStickyToolbarEnabled} onChange={() => {}} />
             </>
           ),
@@ -79,11 +81,11 @@ export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: 
             editorRef.copyMarkdownToClipboard();
             setToast({
               type: TOAST_TYPE.SUCCESS,
-              title: "Success!",
-              message: "Markdown copied to clipboard.",
+              title: t("common.success"),
+              message: t("markdown_copied"),
             });
           },
-          title: "Copy markdown",
+          title: "Копировать Markdown",
           icon: Clipboard,
           shouldRender: true,
         },
@@ -98,14 +100,14 @@ export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: 
             });
             router.push(updatedRoute);
           },
-          title: "Version history",
+          title: "История версий",
           icon: History,
           shouldRender: true,
         },
         {
           key: "export",
           action: () => setIsExportModalOpen(true),
-          title: "Export",
+          title: "Экспорт",
           icon: ArrowUpToLine,
           shouldRender: true,
         },

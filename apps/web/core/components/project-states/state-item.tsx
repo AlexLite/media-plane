@@ -149,6 +149,7 @@ export const StateItem = observer(function StateItem(props: TStateItem) {
             disabled={false}
             stateOperationsCallbacks={{
               markStateAsDefault: stateOperationsCallbacks.markStateAsDefault,
+              updateState: stateOperationsCallbacks.updateState,
               deleteState: stateOperationsCallbacks.deleteState,
             }}
             shouldTrackEvents={shouldTrackEvents}

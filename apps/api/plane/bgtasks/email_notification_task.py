@@ -4,7 +4,7 @@
 
 import logging
 import re
-from datetime import datetime
+from datetime import date, datetime, time
 
 from bs4 import BeautifulSoup
 
@@ -41,6 +41,50 @@ def release_lock(lock_id):
     """Release a lock."""
     redis_client = redis_instance()
     redis_client.delete(lock_id)
+
+
+def normalize_time_value(value):
+    if value in [None, ""]:
+        return time(0, 0)
+    if isinstance(value, time):
+        return value
+    try:
+        return datetime.strptime(str(value)[:5], "%H:%M").time()
+    except ValueError:
+        return time(0, 0)
+
+
+def normalize_date_value(value):
+    if value in [None, ""]:
+        return None
+    if isinstance(value, datetime):
+        return value.date()
+    if isinstance(value, date):
+        return value
+    try:
+        return datetime.fromisoformat(str(value)[:10]).date()
+    except ValueError:
+        return None
+
+
+def format_notification_datetime(value):
+    if value in [None, ""]:
+        return ""
+    normalized_date = normalize_date_value(value)
+    if normalized_date is None:
+        return str(value)
+    normalized_time = normalize_time_value(None)
+    if normalized_date.year == timezone.localdate().year:
+        return f"{normalized_date:%d %m} {normalized_time:%H:%M}"
+    return f"{normalized_date:%d %m %Y} {normalized_time:%H:%M}"
+
+
+def format_notification_value(field, value):
+    if value in [None, ""]:
+        return ""
+    if field in {"target_date", "start_date"}:
+        return format_notification_datetime(value)
+    return str(value)
 
 
 @shared_task
@@ -92,8 +136,8 @@ def create_payload(notification_data):
             issue_activity = change.get("issue_activity")
             if issue_activity:  # Ensure issue_activity is not None
                 field = issue_activity.get("field")
-                old_value = str(issue_activity.get("old_value"))
-                new_value = str(issue_activity.get("new_value"))
+                old_value = format_notification_value(field, issue_activity.get("old_value"))
+                new_value = format_notification_value(field, issue_activity.get("new_value"))
 
                 # Append old_value if it's not empty and not already in the list
                 if old_value:
@@ -237,10 +281,10 @@ def send_email_notification(issue_id, notification_data, receiver_id, email_noti
                         }
                     )
 
-            summary = "Updates were made to the issue by"
+            summary = "Изменения в задаче внес"
 
             # Send the mail
-            subject = f"{issue.project.identifier}-{issue.sequence_id} {remove_unwanted_characters(issue.name)}"
+            subject = f"Обновления {issue.project.identifier}-{issue.sequence_id}: {remove_unwanted_characters(issue.name)}"
             context = {
                 "data": template_data,
                 "summary": summary,
@@ -257,7 +301,7 @@ def send_email_notification(issue_id, notification_data, receiver_id, email_noti
                 "project": str(issue.project.name),
                 "user_preference": f"{base_api}/{str(issue.project.workspace.slug)}/settings/account/notifications/",
                 "comments": comments,
-                "entity_type": "issue",
+                "entity_type": "задачу",
             }
             html_content = render_to_string("emails/notifications/issue-updates.html", context)
             text_content = generate_plain_text_from_html(html_content)

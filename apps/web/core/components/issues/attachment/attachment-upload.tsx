@@ -7,6 +7,7 @@
 import { useCallback, useState } from "react";
 import { observer } from "mobx-react";
 import { useDropzone } from "react-dropzone";
+import { useTranslation } from "@plane/i18n";
 // plane web hooks
 import { useFileSize } from "@/plane-web/hooks/use-file-size";
 // types
@@ -22,6 +23,7 @@ type Props = {
 
 export const IssueAttachmentUpload = observer(function IssueAttachmentUpload(props: Props) {
   const { workspaceSlug, disabled = false, attachmentOperations } = props;
+  const { t } = useTranslation();
   // states
   const [isLoading, setIsLoading] = useState(false);
   // file size
@@ -58,13 +60,13 @@ export const IssueAttachmentUpload = observer(function IssueAttachmentUpload(pro
       <input {...getInputProps()} />
       <span className="flex items-center gap-2">
         {isDragActive ? (
-          <p>Drop here...</p>
+          <p>{t("common.drop_here")}</p>
         ) : fileError ? (
           <p className="text-center text-danger-primary">{fileError}</p>
         ) : isLoading ? (
-          <p className="text-center">Uploading...</p>
+          <p className="text-center">{t("common.uploading")}</p>
         ) : (
-          <p className="text-center">Click or drag a file here</p>
+          <p className="text-center">{t("common.click_or_drag_file")}</p>
         )}
       </span>
     </div>

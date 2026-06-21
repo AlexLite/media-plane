@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 
 // types
+import { useTranslation } from "@plane/i18n";
 import { SPACE_BASE_PATH, SPACE_BASE_URL } from "@plane/constants";
 import { Button } from "@plane/propel/button";
 import { GlobeIcon, NewTabIcon, CheckIcon } from "@plane/propel/icons";
@@ -48,6 +49,7 @@ const VIEW_OPTIONS: {
 ];
 
 export const PublishProjectModal = observer(function PublishProjectModal(props: Props) {
+  const { t } = useTranslation();
   const { isOpen, onClose, projectId } = props;
   // states
   const [isUnPublishing, setIsUnPublishing] = useState(false);
@@ -100,8 +102,8 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
     await updatePublishSettings(workspaceSlug.toString(), projectId, payload.id, payload).then((res) => {
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Success!",
-        message: "Publish settings updated successfully!",
+        title: t("common.success"),
+        message: t("project_archive.publish_updated"),
       });
 
       handleClose();
@@ -118,8 +120,8 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
       .catch(() =>
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
-          message: "Something went wrong while unpublishing the project.",
+          title: t("common.error.label"),
+          message: t("project_archive.unpublish_failed"),
         })
       )
       .finally(() => setIsUnPublishing(false));
@@ -136,8 +138,8 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
     if (!selectedLayouts || selectedLayouts.length === 0) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
-        message: "Please select at least one view layout to publish the project.",
+        title: t("common.error.label"),
+        message: t("project_archive.select_layout"),
       });
       return;
     }
@@ -172,7 +174,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: "",
-        message: "Published page link copied successfully.",
+        message: t("project_archive.published_link_copied"),
       })
     );
 
@@ -243,7 +245,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
             )}
             <div className="space-y-4">
               <div className="relative flex items-center justify-between gap-2">
-                <div className="text-13">Views</div>
+                <div className="text-13">Представления</div>
                 <Controller
                   control={control}
                   name="view_props"
