@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 set -eu
 
-VERSION="${VERSION:-$(git describe --tags --abbrev=0 2>/dev/null || echo "dev")}"
+RELEASE_VERSION="${RELEASE_VERSION:-$(cat RELEASE_VERSION 2>/dev/null || git describe --tags --abbrev=0 2>/dev/null || echo "dev")}"
 REGISTRY="${REGISTRY:-ghcr.io/alexlite}"
-FRONTEND_IMAGE_TAG="${FRONTEND_IMAGE_TAG:-${REGISTRY}/plane-frontend-ru:${VERSION}}"
+FRONTEND_IMAGE_TAG="${FRONTEND_IMAGE_TAG:-${REGISTRY}/plane-frontend-ru:${RELEASE_VERSION}}"
 REGISTRY_HOST="${REGISTRY_HOST:-registry.npmjs.org}"
 VITE_WEB_BASE_URL_VALUE="${VITE_WEB_BASE_URL:-${WEB_URL:-}}"
 REGISTRY_IP="$(getent ahostsv4 "$REGISTRY_HOST" | awk 'NR == 1 { print $1 }')"

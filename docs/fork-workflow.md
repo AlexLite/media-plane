@@ -13,6 +13,7 @@ localization and a small set of fork-specific patches.
 
 - Use `v{upstream_version}-ru.{patch_number}` for fork releases.
 - Track the upstream base version in [`UPSTREAM_VERSION`](../UPSTREAM_VERSION).
+- Track the current fork release tag in [`RELEASE_VERSION`](../RELEASE_VERSION).
 - Record user-visible changes in [`CHANGELOG.md`](../CHANGELOG.md).
 
 ## Development Loop
@@ -29,6 +30,8 @@ localization and a small set of fork-specific patches.
 
 - Use `build-web-ipv4.sh` for the frontend image when an explicit release tag is
   needed.
+- Set `RELEASE_VERSION` or update [`RELEASE_VERSION`](../RELEASE_VERSION) before
+  building release images.
 - Use the compose files in the repo as the source of truth for local, test, and
   self-host environments.
 - Keep deployment tags aligned with the GitHub commit that produced them.

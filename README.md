@@ -14,6 +14,7 @@ deploy-specific patches for the `preview` branch.
 
 See [CHANGELOG.md](./CHANGELOG.md) for the current fork version and the changes
 included in each release snapshot.
+The current release tag is tracked in [RELEASE_VERSION](./RELEASE_VERSION).
 
 ### Workflow
 
