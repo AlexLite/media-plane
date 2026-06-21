@@ -46,6 +46,14 @@ def extract_ids(data: dict | None, primary_key: str, fallback_key: str) -> set[s
     return {str(x) for x in data.get(fallback_key, [])}
 
 
+def prefix_pipeline_comment_html(comment_html, issue_comment_data):
+    pipeline_item = (issue_comment_data or {}).get("pipeline_item_detail") or {}
+    pipeline_item_name = pipeline_item.get("name") or pipeline_item.get("state_name_snapshot")
+    if not pipeline_item_name:
+        return comment_html or ""
+    return f"<p><strong>{escape(pipeline_item_name)}:</strong></p>{comment_html or ''}"
+
+
 # Track Changes in name
 def track_name(
     requested_data,
@@ -685,7 +693,7 @@ def create_comment_activity(
             verb="created",
             actor_id=actor_id,
             field="comment",
-            new_value=requested_data.get("comment_html", ""),
+            new_value=prefix_pipeline_comment_html(requested_data.get("comment_html", ""), requested_data),
             new_identifier=requested_data.get("id", None),
             issue_comment_id=requested_data.get("id", None),
             epoch=epoch,
@@ -716,9 +724,9 @@ def update_comment_activity(
                 verb="updated",
                 actor_id=actor_id,
                 field="comment",
-                old_value=current_instance.get("comment_html", ""),
+                old_value=prefix_pipeline_comment_html(current_instance.get("comment_html", ""), current_instance),
                 old_identifier=current_instance.get("id"),
-                new_value=requested_data.get("comment_html", ""),
+                new_value=prefix_pipeline_comment_html(requested_data.get("comment_html", ""), requested_data),
                 new_identifier=current_instance.get("id", None),
                 issue_comment_id=current_instance.get("id", None),
                 epoch=epoch,

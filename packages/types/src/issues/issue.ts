@@ -12,6 +12,18 @@ import type { TIssueLink } from "./issue_link";
 import type { TIssueReaction, IIssuePublicReaction, IPublicVote } from "./issue_reaction";
 import type { TIssueRelationTypes } from "./issue_relation";
 
+export type TIssuePipelineItem = {
+  id: string;
+  name?: string;
+  state_name_snapshot: string;
+  status: "pending" | "active" | "completed" | "skipped";
+  auto_completed: boolean;
+  start_date?: string | null;
+  target_date?: string | null;
+  target_time?: string | null;
+  assignee_ids?: string[];
+};
+
 export enum EIssueLayoutTypes {
   LIST = "list",
   KANBAN = "kanban",
@@ -96,6 +108,7 @@ export type TIssue = TBaseIssue & {
   issue_link?: TIssueLink[];
   issue_relation?: IssueRelation[];
   issue_related?: IssueRelation[];
+  pipeline_items?: TIssuePipelineItem[];
   // tempId is used for optimistic updates. It is not a part of the API response.
   tempId?: string;
   // sourceIssueId is used to store the original issue id when creating a copy of an issue. Used in cloning property values. It is not a part of the API response.
@@ -155,7 +168,7 @@ export type TBulkOperationsPayload = {
   properties: Partial<TBulkIssueProperties>;
 };
 
-export type TWorkItemWidgets = "sub-work-items" | "relations" | "links" | "attachments";
+export type TWorkItemWidgets = "sub-work-items" | "relations" | "links" | "attachments" | "pipeline";
 
 export type TIssueServiceType = EIssueServiceType.ISSUES | EIssueServiceType.EPICS | EIssueServiceType.WORK_ITEMS;
 

@@ -140,7 +140,7 @@ export const CommentCardDisplay = observer(function CommentCardDisplay(props: TC
               handleToggle={setIsPickerOpen}
               onChange={handleEmojiSelect}
               disabled={disabled}
-              label={<EmojiReactionButton onAddReaction={() => setIsPickerOpen(true)} />}
+              label={<EmojiReactionButton onAddReaction={() => setIsPickerOpen(true)} tooltipContent="Add reaction" />}
               placement="bottom-start"
             />
             {renderQuickActions ? renderQuickActions() : null}

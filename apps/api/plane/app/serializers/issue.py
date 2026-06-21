@@ -701,6 +701,18 @@ class IssueCommentSerializer(BaseSerializer):
     workspace_detail = WorkspaceLiteSerializer(read_only=True, source="workspace")
     comment_reactions = CommentReactionSerializer(read_only=True, many=True)
     is_member = serializers.BooleanField(read_only=True)
+    pipeline_item_detail = serializers.SerializerMethodField()
+
+    def get_pipeline_item_detail(self, obj):
+        if not obj.pipeline_item_id:
+            return None
+
+        return {
+            "id": str(obj.pipeline_item_id),
+            "name": obj.pipeline_item.name or obj.pipeline_item.state_name_snapshot,
+            "state_name_snapshot": obj.pipeline_item.state_name_snapshot,
+            "status": obj.pipeline_item.status,
+        }
 
     class Meta:
         model = IssueComment

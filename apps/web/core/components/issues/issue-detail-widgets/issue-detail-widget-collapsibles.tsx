@@ -16,6 +16,7 @@ import { useTimeLineRelationOptions } from "@/plane-web/components/relations";
 // local imports
 import { AttachmentsCollapsible } from "./attachments";
 import { LinksCollapsible } from "./links";
+import { PipelineCollapsible } from "./pipeline/root";
 import { RelationsCollapsible } from "./relations";
 import { SubIssuesCollapsible } from "./sub-issues";
 
@@ -46,6 +47,7 @@ export const IssueDetailWidgetCollapsibles = observer(function IssueDetailWidget
   const shouldRenderSubIssues = !!subIssues && subIssues.length > 0 && !hideWidgets?.includes("sub-work-items");
   const shouldRenderRelations = issueRelationsCount > 0 && !hideWidgets?.includes("relations");
   const shouldRenderLinks = !!issue?.link_count && issue?.link_count > 0 && !hideWidgets?.includes("links");
+  const shouldRenderPipeline = !!issue?.pipeline_items?.length && !hideWidgets?.includes("pipeline");
   const attachmentUploads = getAttachmentsUploadStatusByIssueId(issueId);
   const attachmentsCount = getAttachmentsCountByIssueId(issueId);
   const shouldRenderAttachments =
@@ -87,6 +89,16 @@ export const IssueDetailWidgetCollapsibles = observer(function IssueDetailWidget
           issueId={issueId}
           disabled={disabled}
           issueServiceType={issueServiceType}
+        />
+      )}
+      {shouldRenderPipeline && (
+        <PipelineCollapsible
+          workspaceSlug={workspaceSlug}
+          projectId={projectId}
+          issueId={issueId}
+          disabled={disabled}
+          items={issue?.pipeline_items ?? []}
+          parentIssue={issue}
         />
       )}
       <WorkItemAdditionalWidgetCollapsibles

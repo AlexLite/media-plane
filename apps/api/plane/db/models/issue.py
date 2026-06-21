@@ -146,6 +146,7 @@ class Issue(ChangeTrackerMixin, ProjectBaseModel):
     )
     start_date = models.DateField(null=True, blank=True)
     target_date = models.DateField(null=True, blank=True)
+    target_time = models.TimeField(null=True, blank=True)
     assignees = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         blank=True,
@@ -178,10 +179,9 @@ class Issue(ChangeTrackerMixin, ProjectBaseModel):
         ordering = ("-created_at",)
 
     def save(self, *args, **kwargs):
-        self._ensure_default_state()
-        kwargs = self._sync_completed_at(kwargs)
-
         if self._state.adding:
+            self._ensure_default_state()
+            kwargs = self._sync_completed_at(kwargs)
             with transaction.atomic():
                 # Create a lock for this specific project using a transaction-level advisory lock
                 # This ensures only one transaction per project can execute this code at a time
@@ -213,6 +213,8 @@ class Issue(ChangeTrackerMixin, ProjectBaseModel):
 
                 IssueSequence.objects.create(issue=self, sequence=self.sequence_id, project=self.project)
         else:
+            self._ensure_default_state()
+            kwargs = self._sync_completed_at(kwargs)
             # Strip the html tags using html parser
             self.description_stripped = (
                 None
@@ -224,6 +226,98 @@ class Issue(ChangeTrackerMixin, ProjectBaseModel):
     def __str__(self):
         """Return name of the issue"""
         return f"{self.name} <{self.project.name}>"
+
+    def _ensure_default_state(self):
+        """Assign a default state when none is set."""
+        if self.state is not None:
+            return
+        try:
+            from plane.db.models import State
+
+            default_state = State.objects.filter(~models.Q(is_triage=True), project=self.project, default=True).first()
+            self.state = default_state or State.objects.filter(~models.Q(is_triage=True), project=self.project).first()
+        except ImportError as e:
+            log_exception(e)
+
+    def _sync_completed_at(self, kwargs):
+        """Update completed_at when state changes. Returns kwargs."""
+        if not self.state:
+            return kwargs
+        if not self._state.adding and not self.has_changed("state_id"):
+            return kwargs
+
+        if self.state.group == StateGroup.COMPLETED.value:
+            self.completed_at = timezone.now()
+        else:
+            self.completed_at = None
+
+        update_fields = kwargs.get("update_fields")
+        if update_fields is not None:
+            kwargs["update_fields"] = list(set(update_fields) | {"completed_at"})
+        return kwargs
+
+
+class IssuePipelineItem(ProjectBaseModel):
+    class StatusChoices(models.TextChoices):
+        PENDING = "pending", "Pending"
+        ACTIVE = "active", "Active"
+        COMPLETED = "completed", "Completed"
+        SKIPPED = "skipped", "Skipped"
+
+    parent_issue = models.ForeignKey(
+        "db.Issue",
+        on_delete=models.CASCADE,
+        related_name="pipeline_items",
+    )
+    child_issue = models.OneToOneField(
+        "db.Issue",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="pipeline_metadata",
+    )
+    pipeline_state = models.ForeignKey(
+        "db.State",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="pipeline_items",
+    )
+    state_name_snapshot = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, blank=True)
+    start_date = models.DateField(null=True, blank=True)
+    target_date = models.DateField(null=True, blank=True)
+    target_time = models.TimeField(null=True, blank=True)
+    assignee_ids = ArrayField(models.UUIDField(), blank=True, default=list)
+    sort_order = models.FloatField(default=65535)
+    status = models.CharField(
+        max_length=20,
+        choices=StatusChoices.choices,
+        default=StatusChoices.PENDING,
+    )
+    hidden_from_board = models.BooleanField(default=True)
+    auto_completed = models.BooleanField(default=False)
+    completed_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="completed_pipeline_items",
+    )
+    completed_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Issue Pipeline Item"
+        verbose_name_plural = "Issue Pipeline Items"
+        db_table = "issue_pipeline_items"
+        ordering = ("sort_order", "created_at")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["parent_issue", "pipeline_state"],
+                condition=Q(pipeline_state__isnull=False, deleted_at__isnull=True),
+                name="issue_pipeline_unique_parent_state_when_active",
+            )
+        ]
 
     def _ensure_default_state(self):
         """Assign a default state when none is set."""
@@ -457,6 +551,13 @@ class IssueComment(ChangeTrackerMixin, ProjectBaseModel):
     )
     attachments = ArrayField(models.URLField(), size=10, blank=True, default=list)
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name="issue_comments")
+    pipeline_item = models.ForeignKey(
+        "db.IssuePipelineItem",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="comments",
+    )
     # System can also create comment
     actor = models.ForeignKey(
         settings.AUTH_USER_MODEL,
