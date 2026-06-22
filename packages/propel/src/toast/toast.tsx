@@ -54,14 +54,40 @@ export type ToastProps = {
   theme: "light" | "dark" | "system";
 };
 
-
 const getToastTranslationKey = (value: string): string =>
-  value
-    .trim()
-    .toLowerCase()
-    .replace(/&/g, " and ")
-    .replace(/[^a-z0-9]+/g, "_")
-    .replace(/^_+|_+$/g, "");
+  (() => {
+    const tokens: string[] = [];
+    let current = "";
+
+    const flush = () => {
+      if (current) {
+        tokens.push(current);
+        current = "";
+      }
+    };
+
+    for (const char of value.trim().toLowerCase()) {
+      const code = char.charCodeAt(0);
+      const isLetter = code >= 97 && code <= 122;
+      const isNumber = code >= 48 && code <= 57;
+
+      if (char === "&") {
+        flush();
+        tokens.push("and");
+        continue;
+      }
+
+      if (isLetter || isNumber) {
+        current += char;
+        continue;
+      }
+
+      flush();
+    }
+
+    flush();
+    return tokens.join("_");
+  })();
 
 const translateToastText = (value?: string): string | undefined => {
   if (!value) return value;

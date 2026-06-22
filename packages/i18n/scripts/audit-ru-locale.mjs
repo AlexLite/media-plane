@@ -49,12 +49,79 @@ const decodeEscapes = (s) => {
   }
 };
 
+const isAsciiWord = (text) => {
+  if (!text) return false;
+  let hasUnderscore = false;
+  for (const char of text) {
+    const code = char.charCodeAt(0);
+    const isLetter = code >= 65 && code <= 90;
+    const isLower = code >= 97 && code <= 122;
+    const isNumber = code >= 48 && code <= 57;
+    const isPunctuation = char === "." || char === "-" || char === "_";
+    if (char === "_") hasUnderscore = true;
+    if (!(isLetter || isLower || isNumber || isPunctuation)) return false;
+  }
+  return hasUnderscore;
+};
+
+const extractQuotedStrings = (line) => {
+  const matches = [];
+  let inString = false;
+  let escaped = false;
+  let current = "";
+
+  for (const char of line) {
+    if (!inString) {
+      if (char === '"') {
+        inString = true;
+        current = "";
+        escaped = false;
+      }
+      continue;
+    }
+
+    if (escaped) {
+      current += char;
+      escaped = false;
+      continue;
+    }
+
+    if (char === "\\") {
+      current += char;
+      escaped = true;
+      continue;
+    }
+
+    if (char === '"') {
+      matches.push(current);
+      inString = false;
+      continue;
+    }
+
+    current += char;
+  }
+
+  return matches;
+};
+
+const extractOverridePairs = (content) => {
+  const pairs = [];
+  const lines = content.split("\n");
+  for (const line of lines) {
+    const quoted = extractQuotedStrings(line);
+    if (quoted.length >= 2) {
+      pairs.push([quoted[0], quoted[1]]);
+    }
+  }
+  return pairs;
+};
+
 const shouldIgnoreText = (text) => {
   if (!text) return true;
   if (!latinRe.test(text)) return true;
   if (cyrillicRe.test(text)) return true;
   if (text.length <= 1) return true;
-  if (/^[a-z0-9_.-]+$/i.test(text) && text.includes("_")) return true;
+  if (isAsciiWord(text)) return true;
   return ignoredLineSubstrings.some((x) => text.includes(x));
 };
 
@@ -63,11 +130,11 @@ const collectRuCandidates = () => {
   for (const file of ruFiles) {
     const filePath = path.join(ruDir, file);
     const content = fs.readFileSync(filePath, "utf8");
-    const lines = content.split(/\r?\n/);
+    const lines = content.replace(/\r/g, "").split("\n");
     lines.forEach((line, i) => {
-      const matches = [...line.matchAll(/"((?:\\.|[^"])*)"/g)];
-      for (const m of matches) {
-        const value = decodeEscapes(m[1]);
+      const matches = extractQuotedStrings(line);
+      for (const match of matches) {
+        const value = decodeEscapes(match);
         if (!shouldIgnoreText(value)) {
           results.push({ file, line: i + 1, value });
         }
@@ -79,10 +146,9 @@ const collectRuCandidates = () => {
 
 const parseOverrideMap = (content) => {
   const pairs = [];
-  const mapMatches = [...content.matchAll(/\[\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*\]/g)];
-  for (const m of mapMatches) {
-    const en = decodeEscapes(m[1]);
-    const ru = decodeEscapes(m[2]);
+  for (const [enRaw, ruRaw] of extractOverridePairs(content)) {
+    const en = decodeEscapes(enRaw);
+    const ru = decodeEscapes(ruRaw);
     pairs.push({ en, ru });
   }
   return pairs;
