@@ -71,7 +71,7 @@ export function PageOrderByDropdown(props: Props) {
             });
         }}
       >
-        {t("sort.asc")}
+        {t("common.sort.asc")}
         {!isDescending && <CheckIcon className="h-3 w-3" />}
       </CustomMenu.MenuItem>
       <CustomMenu.MenuItem
@@ -83,7 +83,7 @@ export function PageOrderByDropdown(props: Props) {
             });
         }}
       >
-        {t("sort.desc")}
+        {t("common.sort.desc")}
         {isDescending && <CheckIcon className="h-3 w-3" />}
       </CustomMenu.MenuItem>
     </CustomMenu>

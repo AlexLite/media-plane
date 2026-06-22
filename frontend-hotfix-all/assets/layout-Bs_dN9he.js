@@ -1,0 +1,1 @@
+import{w as t,O as o}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{j as n}from"./jsx-runtime-BrgLAWQM.js";const r=()=>[{title:"Регистрация - Plane"},{name:"robots",content:"index, nofollow"}],i=t(function(){return n.jsx(o,{})});export{i as default,r as meta};

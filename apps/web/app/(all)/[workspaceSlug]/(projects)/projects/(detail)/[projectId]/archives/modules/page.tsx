@@ -21,7 +21,7 @@ function ProjectArchivedModulesPage({ params }: Route.ComponentProps) {
   // derived values
   const project = getProjectById(projectId);
   const { t } = useTranslation();
-  const pageTitle = project?.name && `${project?.name} - ${t("access.archived")} ${t("modules")}`;
+  const pageTitle = project?.name && `${project?.name} - ${t("common.access.archived")} ${t("modules")}`;
 
   return (
     <>

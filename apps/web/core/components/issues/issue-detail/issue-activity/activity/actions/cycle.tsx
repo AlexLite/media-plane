@@ -6,7 +6,6 @@
 
 import { observer } from "mobx-react";
 // hooks
-import { useTranslation } from "@plane/i18n";
 import { CycleIcon } from "@plane/propel/icons";
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 // components
@@ -21,7 +20,6 @@ export const IssueCycleActivity = observer(function IssueCycleActivity(props: TI
   const {
     activity: { getActivityById },
   } = useIssueDetail();
-  const { t } = useTranslation();
 
   const activity = getActivityById(activityId);
 
@@ -35,7 +33,7 @@ export const IssueCycleActivity = observer(function IssueCycleActivity(props: TI
       <>
         {activity.verb === "created" ? (
           <>
-            <span>{t("activity_feed.added")} {t("activity_feed.this_work_item")} {t("activity_feed.to_cycle")} </span>
+            <span>added this work item to the cycle </span>
             <a
               href={`/${activity.workspace_detail?.slug}/projects/${activity.project}/cycles/${activity.new_identifier}`}
               target="_blank"
@@ -47,7 +45,7 @@ export const IssueCycleActivity = observer(function IssueCycleActivity(props: TI
           </>
         ) : activity.verb === "updated" ? (
           <>
-            <span>{t("activity_feed.set_cycle_to")} </span>
+            <span>set the cycle to </span>
             <a
               href={`/${activity.workspace_detail?.slug}/projects/${activity.project}/cycles/${activity.new_identifier}`}
               target="_blank"
@@ -59,7 +57,7 @@ export const IssueCycleActivity = observer(function IssueCycleActivity(props: TI
           </>
         ) : (
           <>
-            <span>{t("activity_feed.removed")} {t("activity_feed.this_work_item")} {t("activity_feed.from_cycle")} </span>
+            <span>removed the work item from the cycle </span>
             <a
               href={`/${activity.workspace_detail?.slug}/projects/${activity.project}/cycles/${activity.old_identifier}`}
               target="_blank"

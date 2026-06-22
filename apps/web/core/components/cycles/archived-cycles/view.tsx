@@ -5,7 +5,6 @@
  */
 
 import { observer } from "mobx-react";
-import { useTranslation } from "@plane/i18n";
 // assets
 import AllFiltersImage from "@/app/assets/empty-state/cycle/all-filters.svg?url";
 import NameFilterImage from "@/app/assets/empty-state/cycle/name-filter.svg?url";
@@ -25,7 +24,6 @@ export interface IArchivedCyclesView {
 export const ArchivedCyclesView = observer(function ArchivedCyclesView(props: IArchivedCyclesView) {
   const { workspaceSlug, projectId } = props;
   // store hooks
-  const { t } = useTranslation();
   const { getFilteredArchivedCycleIds, loader } = useCycle();
   const { archivedCyclesSearchQuery } = useCycleFilter();
   // derived values
@@ -40,13 +38,13 @@ export const ArchivedCyclesView = observer(function ArchivedCyclesView(props: IA
           <img
             src={archivedCyclesSearchQuery.trim() === "" ? AllFiltersImage : NameFilterImage}
             className="mx-auto h-36 w-36 sm:h-48 sm:w-48"
-            alt="No matching cycles"
+            alt="Нет подходящих циклов"
           />
-          <h5 className="mt-7 mb-1 text-18 font-medium">{t("project_cycles.no_matching_cycles")}</h5>
+          <h5 className="mt-7 mb-1 text-18 font-medium">Нет подходящих циклов</h5>
           <p className="text-14 text-placeholder">
             {archivedCyclesSearchQuery.trim() === ""
-              ? t("project_cycles.remove_filters_to_see_all_cycles")
-              : t("project_cycles.remove_search_criteria_to_see_all_cycles")}
+              ? "Уберите фильтры, чтобы увидеть все циклы"
+              : "Измените или очистите поиск, чтобы увидеть все циклы"}
           </p>
         </div>
       </div>

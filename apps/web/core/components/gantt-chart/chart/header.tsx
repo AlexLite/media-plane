@@ -31,8 +31,7 @@ type Props = {
 
 export const GanttChartHeader = observer(function GanttChartHeader(props: Props) {
   const { t } = useTranslation();
-  const { blockIds, fullScreenMode, handleChartView, handleToday, loaderTitle, toggleFullScreenMode, showToday } =
-    props;
+  const { blockIds, fullScreenMode, handleChartView, loaderTitle, toggleFullScreenMode } = props;
   // chart hook
   const { currentView } = useTimeLineChartStore();
 
@@ -63,16 +62,6 @@ export const GanttChartHeader = observer(function GanttChartHeader(props: Props)
           </div>
         ))}
       </div>
-
-      {showToday && (
-        <button
-          type="button"
-          className="rounded-md bg-layer-transparent p-1 px-2 text-11 hover:bg-layer-transparent-hover"
-          onClick={handleToday}
-        >
-          {t("common.today")}
-        </button>
-      )}
 
       <button
         type="button"

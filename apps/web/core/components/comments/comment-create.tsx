@@ -25,6 +25,7 @@ type TCommentCreate = {
   activityOperations: TCommentsOperations;
   showToolbarInitially?: boolean;
   projectId?: string;
+  extraData?: Partial<TIssueComment>;
   onSubmitCallback?: (elementId: string) => void;
 };
 
@@ -38,6 +39,7 @@ export const CommentCreate = observer(function CommentCreate(props: TCommentCrea
     activityOperations,
     showToolbarInitially = false,
     projectId,
+    extraData,
     onSubmitCallback,
   } = props;
   // states
@@ -63,7 +65,10 @@ export const CommentCreate = observer(function CommentCreate(props: TCommentCrea
 
   const onSubmit = async (formData: Partial<TIssueComment>) => {
     try {
-      const comment = await activityOperations.createComment(formData);
+      const comment = await activityOperations.createComment({
+        ...formData,
+        ...extraData,
+      });
       if (comment?.id) onSubmitCallback?.(comment.id);
       if (uploadedAssetIds.length > 0) {
         if (projectId) {

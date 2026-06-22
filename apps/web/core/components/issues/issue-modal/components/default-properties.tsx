@@ -200,6 +200,23 @@ export const IssueDefaultProperties = observer(function IssueDefaultProperties(p
           </div>
         )}
       />
+      <Controller
+        control={control}
+        name="target_time"
+        render={({ field: { value, onChange } }) => (
+          <input
+            type="time"
+            value={value?.slice(0, 5) ?? ""}
+            onChange={(event) => {
+              onChange(event.target.value || null);
+              handleFormChange();
+            }}
+            disabled={!targetDate}
+            aria-label={t("common.due_time")}
+            className="h-7 w-20 rounded-sm border border-subtle bg-transparent px-2 text-12 text-primary outline-none disabled:cursor-not-allowed disabled:text-placeholder"
+          />
+        )}
+      />
       {projectDetails?.cycle_view && (
         <Controller
           control={control}

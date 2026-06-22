@@ -44,6 +44,7 @@ from .project import (
     ProjectMemberPreferenceSerializer,
 )
 from .state import StateSerializer, StateLiteSerializer
+from .workspace_group import WorkspaceGroupMemberCreateSerializer, WorkspaceGroupMemberSerializer, WorkspaceGroupSerializer
 from .view import IssueViewSerializer, ViewIssueListSerializer
 from .cycle import (
     CycleSerializer,
@@ -60,6 +61,7 @@ from .issue import (
     IssueAssigneeSerializer,
     LabelSerializer,
     IssueSerializer,
+    IssuePipelineItemSerializer,
     IssueFlatSerializer,
     IssueStateSerializer,
     IssueLinkSerializer,

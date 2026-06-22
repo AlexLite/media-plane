@@ -114,8 +114,8 @@ class EmailCredentialCheckEndpoint(BaseAPIView):
             use_ssl=EMAIL_USE_SSL == "1",
         )
         # Prepare email details
-        subject = "Email Notification from Plane"
-        message = "This is a sample email notification sent from Plane application."
+        subject = "Тестовое email-уведомление Plane"
+        message = "Это тестовое email-уведомление, отправленное из Plane."
         # Send the email
         try:
             msg = EmailMultiAlternatives(
@@ -126,9 +126,9 @@ class EmailCredentialCheckEndpoint(BaseAPIView):
                 connection=connection,
             )
             msg.send(fail_silently=False)
-            return Response({"message": "Email successfully sent."}, status=status.HTTP_200_OK)
+            return Response({"message": "Письмо успешно отправлено."}, status=status.HTTP_200_OK)
         except BadHeaderError:
-            return Response({"error": "Invalid email header."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Некорректный email-заголовок."}, status=status.HTTP_400_BAD_REQUEST)
         except SMTPAuthenticationError:
             return Response(
                 {"error": "Invalid credentials provided"},

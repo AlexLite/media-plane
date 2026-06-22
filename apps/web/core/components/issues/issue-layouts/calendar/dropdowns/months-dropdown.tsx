@@ -47,7 +47,7 @@ export const CalendarMonthsDropdown = observer(function CalendarMonthsDropdown(p
     ],
   });
 
-  const { activeMonthDate } = issueCalendarView.calendarFilters;
+  const { activeMonthDate, activeWeekDate } = issueCalendarView.calendarFilters;
   const locale = "ru-RU";
   const monthTitle = (date: Date) => new Intl.DateTimeFormat(locale, { month: "long" }).format(date);
   const monthShortTitle = (date: Date) => new Intl.DateTimeFormat(locale, { month: "short" }).format(date);
@@ -90,11 +90,13 @@ export const CalendarMonthsDropdown = observer(function CalendarMonthsDropdown(p
           type="button"
           ref={setReferenceElement}
           className="text-18 font-semibold outline-none"
-          disabled={calendarLayout === "week"}
+          disabled={calendarLayout === "week" || calendarLayout === "day"}
         >
           {calendarLayout === "month"
             ? `${monthTitle(activeMonthDate)} ${activeMonthDate.getFullYear()}`
-            : getWeekLayoutHeader()}
+            : calendarLayout === "day"
+              ? activeWeekDate.toLocaleDateString("ru-RU", { day: "2-digit", month: "short" })
+              : getWeekLayoutHeader()}
         </button>
       </Popover.Button>
       <Transition

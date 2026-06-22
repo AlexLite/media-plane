@@ -142,7 +142,7 @@ export const CycleIssuesHeader = observer(function CycleIssuesHeader() {
               <Breadcrumbs.Item
                 component={
                   <BreadcrumbLink
-                    label={t("sidebar.cycles")}
+                    label="Циклы"
                     href={`/${workspaceSlug}/projects/${projectId}/cycles/`}
                     icon={<CycleIcon className="h-4 w-4 text-tertiary" />}
                   />
@@ -171,7 +171,15 @@ export const CycleIssuesHeader = observer(function CycleIssuesHeader() {
             {workItemsCount && workItemsCount > 0 ? (
               <Tooltip
                 isMobile={isMobile}
-                tooltipContent={t("common.work_items_in_cycle", { count: workItemsCount })}
+                tooltipContent={`В этом цикле ${workItemsCount} ${
+                  workItemsCount % 10 === 1 && workItemsCount % 100 !== 11
+                    ? "рабочий элемент"
+                    : workItemsCount % 10 >= 2 &&
+                        workItemsCount % 10 <= 4 &&
+                        (workItemsCount % 100 < 12 || workItemsCount % 100 > 14)
+                      ? "рабочих элемента"
+                      : "рабочих элементов"
+                }`}
                 position="bottom"
               >
                 <span className="flex flex-shrink-0 cursor-default items-center justify-center rounded-xl bg-accent-primary/20 px-2 text-center text-11 font-semibold text-accent-primary">
@@ -232,7 +240,7 @@ export const CycleIssuesHeader = observer(function CycleIssuesHeader() {
             {canUserCreateIssue && (
               <>
                 <Button onClick={() => setAnalyticsModal(true)} variant="secondary" size="lg">
-                  <span className="hidden @4xl:flex">{t("common.analytics")}</span>
+                  <span className="hidden @4xl:flex">Analytics</span>
                   <span className="@4xl:hidden">
                     <ChartNoAxesColumn className="size-3.5" />
                   </span>

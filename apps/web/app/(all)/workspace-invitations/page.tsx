@@ -49,19 +49,21 @@ function WorkspaceInvitationPage() {
       : null
   );
 
+  const invitationEmail = (emailFromUrl || invitationDetail?.email || "").trim().toLowerCase();
+  const invitationToken = token || invitationDetail?.token;
   const isAuthenticatedUser = !!currentUser;
-  const emailMatchesCurrentUser = currentUser?.email === invitationDetail?.email;
+  const emailMatchesCurrentUser = currentUser?.email?.trim().toLowerCase() === invitationEmail;
   const canActWithoutToken = isAuthenticatedUser && emailMatchesCurrentUser;
 
   const handleAccept = () => {
     if (!invitationDetail) return;
-    // If user is authenticated and email matches, use session-based endpoint (no token required)
+    // Prefer the session endpoint only when the signed-in account exactly matches the invited email.
     const acceptPromise = canActWithoutToken
       ? workspaceService.joinWorkspaces({ invitations: [invitationDetail.id] })
       : workspaceService.joinWorkspace(invitationDetail.workspace.slug, invitationDetail.id, {
           accepted: true,
-          email: invitationDetail.email || emailFromUrl,
-          token: token,
+          email: invitationEmail,
+          token: invitationToken,
         });
     void acceptPromise
       .then(() => {
@@ -76,8 +78,8 @@ function WorkspaceInvitationPage() {
     void workspaceService
       .joinWorkspace(invitationDetail.workspace.slug, invitationDetail.id, {
         accepted: false,
-        email: invitationDetail.email || emailFromUrl,
-        token: token,
+        email: invitationEmail,
+        token: invitationToken,
       })
       .then(() => {
         router.push("/");

@@ -304,3 +304,8 @@ export class TranslationStore {
     return SUPPORTED_LANGUAGES;
   }
 }
+
+
+export const translationStore = new TranslationStore();
+
+export const translate = (key: string, params?: Record<string, unknown>): string => translationStore.t(key, params);

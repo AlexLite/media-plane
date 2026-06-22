@@ -11,6 +11,7 @@ import { createPortal } from "react-dom";
 import { usePopper } from "react-popper";
 import { ArrowRight, CalendarDays } from "lucide-react";
 import { Combobox } from "@headlessui/react";
+import { ru } from "date-fns/locale";
 // plane imports
 import { useTranslation } from "@plane/i18n";
 // ui
@@ -18,7 +19,7 @@ import type { DateRange, Matcher } from "@plane/propel/calendar";
 import { Calendar } from "@plane/propel/calendar";
 import { CloseIcon, DueDatePropertyIcon } from "@plane/propel/icons";
 import { ComboDropDown } from "@plane/ui";
-import { cn, renderFormattedDate } from "@plane/utils";
+import { cn, renderFormattedDate, renderFormattedDateWithTime } from "@plane/utils";
 // helpers
 // hooks
 import { useUserProfile } from "@/hooks/store/user";
@@ -67,6 +68,11 @@ type Props = {
   customTooltipContent?: React.ReactNode;
   customTooltipHeading?: string;
   defaultOpen?: boolean;
+  endDateLabelSuffix?: string;
+  showTimeInput?: boolean;
+  timeInputLabel?: string;
+  timeValue?: string | null;
+  onTimeChange?: (val: string | null) => void;
   renderInPortal?: boolean;
 };
 
@@ -103,6 +109,11 @@ export const DateRangeDropdown = observer(function DateRangeDropdown(props: Prop
     customTooltipContent,
     customTooltipHeading,
     defaultOpen = false,
+    endDateLabelSuffix = "",
+    showTimeInput = false,
+    timeInputLabel = "Время",
+    timeValue,
+    onTimeChange,
     renderInPortal = false,
   } = props;
   // states
@@ -179,9 +190,17 @@ export const DateRangeDropdown = observer(function DateRangeDropdown(props: Prop
           <>
             {customTooltipContent ?? (
               <>
-                {dateRange.from ? renderFormattedDate(dateRange.from) : ""}
+                {dateRange.from
+                  ? timeValue !== undefined
+                    ? renderFormattedDateWithTime(dateRange.from)
+                    : renderFormattedDate(dateRange.from)
+                  : ""}
                 {dateRange.from && dateRange.to ? " - " : ""}
-                {dateRange.to ? renderFormattedDate(dateRange.to) : ""}
+                {dateRange.to
+                  ? timeValue !== undefined
+                    ? renderFormattedDateWithTime(dateRange.to, timeValue)
+                    : renderFormattedDate(dateRange.to)
+                  : ""}
               </>
             )}
           </>
@@ -199,6 +218,8 @@ export const DateRangeDropdown = observer(function DateRangeDropdown(props: Prop
                 startDate={dateRange.from}
                 endDate={dateRange.to}
                 className="flex-grow truncate text-11"
+                endDateLabelSuffix={endDateLabelSuffix}
+                endDateTime={timeValue}
               />
             ) : (
               renderPlaceholder && (
@@ -277,11 +298,25 @@ export const DateRangeDropdown = observer(function DateRangeDropdown(props: Prop
           }}
           mode="range"
           disabled={disabledDays}
+          locale={ru}
           showOutsideDays
           fixedWeeks
           weekStartsOn={startOfWeek}
           initialFocus
         />
+        {showTimeInput && (
+          <div className="flex items-center justify-between gap-3 border-t border-subtle px-3 py-2">
+            <span className="text-12 text-secondary">{timeInputLabel}</span>
+            <input
+              type="time"
+              value={timeValue?.slice(0, 5) ?? ""}
+              onClick={(e) => e.stopPropagation()}
+              onChange={(e) => onTimeChange?.(e.target.value || null)}
+              disabled={disabled || !dateRange.to}
+              className="h-7 w-24 rounded-sm border border-subtle bg-transparent px-2 text-12 text-primary outline-none disabled:cursor-not-allowed disabled:text-placeholder"
+            />
+          </div>
+        )}
       </div>
     </Combobox.Options>
   );

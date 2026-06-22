@@ -89,9 +89,17 @@ class S3Storage(S3Boto3Storage):
             expiration = self.signed_url_expiration
         fields = {"Content-Type": file_type}
 
+        max_file_size = max(int(file_size or 0), 1)
+        global_file_size_limit = max(int(os.environ.get("FILE_SIZE_LIMIT", max_file_size)), max_file_size)
+        # S3 POST policies validate the full multipart request size, not just the
+        # uploaded file part. Allow a small metadata overhead while preserving the
+        # configured global upload limit.
+        multipart_overhead = 64 * 1024
+        post_size_limit = min(max_file_size + multipart_overhead, global_file_size_limit + multipart_overhead)
+
         conditions = [
             {"bucket": self.aws_storage_bucket_name},
-            ["content-length-range", 1, file_size],
+            ["content-length-range", 0, post_size_limit],
             {"Content-Type": file_type},
         ]
 

@@ -4,6 +4,7 @@
 
 # Python imports
 import json
+import mimetypes
 import uuid
 
 # Django imports
@@ -27,6 +28,19 @@ from plane.settings.storage import S3Storage
 from plane.utils.path_validator import sanitize_filename
 from plane.bgtasks.storage_metadata_task import get_asset_object_metadata
 from plane.utils.host import base_host
+
+
+OFFICE_MIME_TYPES = {
+    ".doc": "application/msword",
+    ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ".ppt": "application/vnd.ms-powerpoint",
+    ".pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    ".xls": "application/vnd.ms-excel",
+    ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+}
+
+for extension, mime_type in OFFICE_MIME_TYPES.items():
+    mimetypes.add_type(mime_type, extension, strict=True)
 
 
 class IssueAttachmentEndpoint(BaseAPIView):
@@ -99,8 +113,18 @@ class IssueAttachmentV2Endpoint(BaseAPIView):
     @allow_permission([ROLE.ADMIN, ROLE.MEMBER, ROLE.GUEST])
     def post(self, request, slug, project_id, issue_id):
         name = sanitize_filename(request.data.get("name")) or "unnamed"
-        type = request.data.get("type", False)
-        size = int(request.data.get("size", settings.FILE_SIZE_LIMIT))
+        requested_type = request.data.get("type") or ""
+        guessed_type = mimetypes.guess_type(name)[0]
+        type = requested_type
+        if type not in settings.ATTACHMENT_MIME_TYPES:
+            type = guessed_type if guessed_type in settings.ATTACHMENT_MIME_TYPES else requested_type
+        if not type and "application/octet-stream" in settings.ATTACHMENT_MIME_TYPES:
+            type = "application/octet-stream"
+
+        try:
+            size = int(request.data.get("size", settings.FILE_SIZE_LIMIT))
+        except (TypeError, ValueError):
+            size = settings.FILE_SIZE_LIMIT
 
         if not type or type not in settings.ATTACHMENT_MIME_TYPES:
             return Response(

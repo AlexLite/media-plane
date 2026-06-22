@@ -1,0 +1,1 @@
+import{r as e}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{S as o}from"./store-context-sMAwZF-T.js";const i=()=>{const r=e.useContext(o);if(r===void 0)throw new Error("useUserProfile must be used within StoreProvider");return r.user.userProfile};export{i as u};

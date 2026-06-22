@@ -123,7 +123,14 @@ export const BaseGanttSidebar = observer(function BaseGanttSidebar<T extends IBa
                             {duration && (
                               <div className="flex-shrink-0 text-13 text-secondary">
                                 <span>
-                                  {duration} day{duration > 1 ? "s" : ""}
+                                  {duration}{" "}
+                                  {duration % 10 === 1 && duration % 100 !== 11
+                                    ? "день"
+                                    : duration % 10 >= 2 &&
+                                        duration % 10 <= 4 &&
+                                        (duration % 100 < 12 || duration % 100 > 14)
+                                      ? "дня"
+                                      : "дней"}
                                 </span>
                               </div>
                             )}

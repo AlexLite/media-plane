@@ -32,7 +32,7 @@ type TEmailSecurityKeys = "EMAIL_USE_TLS" | "EMAIL_USE_SSL" | "NONE";
 const EMAIL_SECURITY_OPTIONS: { [key in TEmailSecurityKeys]: string } = {
   EMAIL_USE_TLS: "TLS",
   EMAIL_USE_SSL: "SSL",
-  NONE: "Без защиты email",
+  NONE: "NONE",
 };
 
 export function InstanceEmailForm(props: IInstanceEmailForm) {

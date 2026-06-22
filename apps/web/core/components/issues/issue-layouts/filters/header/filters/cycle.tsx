@@ -8,13 +8,13 @@ import React, { useMemo, useState } from "react";
 import { sortBy } from "lodash-es";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
+import { useTranslation } from "@plane/i18n";
 import { CycleGroupIcon } from "@plane/propel/icons";
 import type { TCycleGroups } from "@plane/types";
 // components
 import { Loader } from "@plane/ui";
 import { FilterHeader, FilterOption } from "@/components/issues/issue-layouts/filters";
 import { useCycle } from "@/hooks/store/use-cycle";
-import { useTranslation } from "@plane/i18n";
 // ui
 // types
 
@@ -26,11 +26,11 @@ type Props = {
 
 export const FilterCycle = observer(function FilterCycle(props: Props) {
   const { appliedFilters, handleUpdate, searchQuery } = props;
-  const { t } = useTranslation();
 
   // hooks
   const { projectId } = useParams();
   const { getCycleById, getProjectCycleIds } = useCycle();
+  const { t } = useTranslation();
 
   // states
   const [itemsToRender, setItemsToRender] = useState(5);
@@ -65,7 +65,7 @@ export const FilterCycle = observer(function FilterCycle(props: Props) {
   return (
     <>
       <FilterHeader
-        title={`${t("common.cycle")}${appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : ""}`}
+        title={t("project_cycles.cycle") + (appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : "")}
         isPreviewEnabled={previewEnabled}
         handleIsPreviewEnabled={() => setPreviewEnabled(!previewEnabled)}
       />
@@ -97,7 +97,7 @@ export const FilterCycle = observer(function FilterCycle(props: Props) {
                 )}
               </>
             ) : (
-              <p className="text-11 text-placeholder italic">{t("issues.search.no_matches_found")}</p>
+              <p className="text-11 text-placeholder italic">{t("no_matches_found")}</p>
             )
           ) : (
             <Loader className="space-y-2">

@@ -10,13 +10,14 @@ import { createPortal } from "react-dom";
 import { usePopper } from "react-popper";
 import { CalendarDays } from "lucide-react";
 import { Combobox } from "@headlessui/react";
+import { ru } from "date-fns/locale";
 // ui
 import type { Matcher } from "@plane/propel/calendar";
 import { Calendar } from "@plane/propel/calendar";
 import { CloseIcon } from "@plane/propel/icons";
 import { useTranslation } from "@plane/i18n";
 import { ComboDropDown } from "@plane/ui";
-import { cn, renderFormattedDate, getDate } from "@plane/utils";
+import { cn, renderFormattedDate, renderFormattedDateWithTime, getDate } from "@plane/utils";
 // helpers
 // hooks
 import { useUserProfile } from "@/hooks/store/user";
@@ -43,6 +44,11 @@ type Props = TDropdownProps & {
   formatToken?: string;
   renderByDefault?: boolean;
   labelClassName?: string;
+  selectedLabelSuffix?: string;
+  showTimeInput?: boolean;
+  timeInputLabel?: string;
+  timeValue?: string | null;
+  onTimeChange?: (val: string | null) => void;
 };
 
 export const DateDropdown = observer(function DateDropdown(props: Props) {
@@ -71,6 +77,11 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
     formatToken,
     renderByDefault = true,
     labelClassName = "",
+    selectedLabelSuffix = "",
+    showTimeInput = false,
+    timeInputLabel = "Время",
+    timeValue,
+    onTimeChange,
   } = props;
   const { t } = useTranslation();
   const displayPlaceholder = placeholder ?? t("common.date");
@@ -98,6 +109,11 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
   });
 
   const isDateSelected = value && value.toString().trim() !== "";
+  const selectedLabel = value
+    ? showTimeInput
+      ? renderFormattedDateWithTime(value, timeValue)
+      : `${renderFormattedDate(value, formatToken)}${selectedLabelSuffix}`
+    : null;
 
   const onOpen = () => {
     if (referenceElement) referenceElement.focus();
@@ -142,7 +158,7 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
         className={buttonClassName}
         isActive={isOpen}
         tooltipHeading={displayPlaceholder}
-        tooltipContent={value ? renderFormattedDate(value, formatToken) : t("common.none")}
+        tooltipContent={selectedLabel ?? t("common.none")}
         showTooltip={showTooltip}
         variant={buttonVariant}
         renderToolTipByDefault={renderByDefault}
@@ -150,7 +166,7 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
         {!hideIcon && icon}
         {BUTTON_VARIANTS_WITH_TEXT.includes(buttonVariant) && (
           <span className={cn("flex-grow truncate text-left text-body-xs-medium", labelClassName)}>
-            {value ? renderFormattedDate(value, formatToken) : displayPlaceholder}
+            {selectedLabel ?? displayPlaceholder}
           </span>
         )}
         {isClearable && !disabled && isDateSelected && (
@@ -205,10 +221,24 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
                 showOutsideDays
                 initialFocus
                 disabled={disabledDays}
+                locale={ru}
                 mode="single"
                 fixedWeeks
                 weekStartsOn={startOfWeek}
               />
+              {showTimeInput && (
+                <div className="flex items-center justify-between gap-3 border-t border-subtle px-3 py-2">
+                  <span className="text-12 text-secondary">{timeInputLabel}</span>
+                  <input
+                    type="time"
+                    value={timeValue?.slice(0, 5) ?? ""}
+                    onClick={(e) => e.stopPropagation()}
+                    onChange={(e) => onTimeChange?.(e.target.value || null)}
+                    disabled={disabled || !value}
+                    className="h-7 w-24 rounded-sm border border-subtle bg-transparent px-2 text-12 text-primary outline-none disabled:cursor-not-allowed disabled:text-placeholder"
+                  />
+                </div>
+              )}
             </div>
           </Combobox.Options>,
           document.body

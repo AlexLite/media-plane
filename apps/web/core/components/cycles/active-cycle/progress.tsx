@@ -46,12 +46,6 @@ export const ActiveCycleProgress = observer(function ActiveCycleProgress(props: 
         backlog: cycle?.backlog_issues,
       }
     : {};
-  const stateGroupLabelMap: Record<string, string> = {
-    completed: t("workspace_projects.state.completed"),
-    started: t("workspace_projects.state.started"),
-    unstarted: t("workspace_projects.state.unstarted"),
-    backlog: t("workspace_projects.state.backlog"),
-  };
   const resolvedPath = resolvedTheme === "light" ? lightProgressAsset : darkProgressAsset;
 
   return cycle && cycle.hasOwnProperty("started_issues") ? (
@@ -62,8 +56,8 @@ export const ActiveCycleProgress = observer(function ActiveCycleProgress(props: 
           {cycle.total_issues > 0 && (
             <span className="flex gap-1 rounded-xs px-3 py-1 text-13 font-medium whitespace-nowrap text-placeholder">
               {`${cycle.completed_issues + cycle.cancelled_issues}/${cycle.total_issues - cycle.cancelled_issues} ${
-                cycle.completed_issues + cycle.cancelled_issues > 1 ? "рабочих элементов" : "рабочий элемент"
-              } закрыто`}
+                cycle.completed_issues + cycle.cancelled_issues > 1 ? "Work items" : "Work item"
+              } closed`}
             </span>
           )}
         </div>
@@ -89,10 +83,10 @@ export const ActiveCycleProgress = observer(function ActiveCycleProgress(props: 
                           backgroundColor: PROGRESS_STATE_GROUPS_DETAILS[index].color,
                         }}
                       />
-                      <span className="w-16 font-medium text-tertiary capitalize">{stateGroupLabelMap[group] ?? group}</span>
+                      <span className="w-16 font-medium text-tertiary capitalize">{group}</span>
                     </div>
                     <span className="text-tertiary">{`${groupedIssues[group]} ${
-                      groupedIssues[group] > 1 ? "рабочих элементов" : "рабочий элемент"
+                      groupedIssues[group] > 1 ? "Work items" : "Work item"
                     }`}</span>
                   </div>
                 </div>
@@ -102,9 +96,9 @@ export const ActiveCycleProgress = observer(function ActiveCycleProgress(props: 
           {cycle.cancelled_issues > 0 && (
             <span className="flex items-center gap-2 text-13 text-tertiary">
               <span>
-                {`${cycle.cancelled_issues} отменено ${
-                  cycle.cancelled_issues > 1 ? "рабочих элементов" : "рабочий элемент"
-                } не учитываются в этом отчете.`}{" "}
+                {`${cycle.cancelled_issues} cancelled ${
+                  cycle.cancelled_issues > 1 ? "work items are" : "work item is"
+                } excluded from this report.`}{" "}
               </span>
             </span>
           )}

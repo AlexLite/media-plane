@@ -9,6 +9,8 @@ import type { TTimezoneObject } from "@plane/types";
 // services
 import timezoneService from "@/services/timezone.service";
 
+const hasCyrillic = (label: string) => /[А-Яа-яЁё]/.test(label);
+
 // group timezones by value
 const groupTimezones = (timezones: TTimezoneObject[]): TTimezoneObject[] => {
   const groupedMap = timezones.reduce((acc, timezone: TTimezoneObject) => {
@@ -23,7 +25,11 @@ const groupTimezones = (timezones: TTimezoneObject[]): TTimezoneObject[] => {
       });
     } else {
       const existing = acc.get(key);
-      existing.label = `${existing.label}, ${timezone.label}`;
+      const labels = `${existing.label}, ${timezone.label}`
+        .split(", ")
+        .filter(Boolean)
+        .sort((a, b) => Number(hasCyrillic(b)) - Number(hasCyrillic(a)) || a.localeCompare(b, "ru"));
+      existing.label = Array.from(new Set(labels)).join(", ");
     }
 
     return acc;
@@ -54,8 +60,10 @@ const useTimezone = () => {
       </div>
     );
   };
+  const groupedTimezones = groupTimezones(timezones?.timezones || []).filter((timezone) => hasCyrillic(timezone.label));
+
   const options = [
-    ...groupTimezones(timezones?.timezones || [])?.map((timezone) => ({
+    ...groupedTimezones?.map((timezone) => ({
       value: timezone.value,
       query: `${timezone.value} ${timezone.label}, ${timezone.gmt_offset}, ${timezone.utc_offset}`,
       content: getTimeZoneLabel(timezone),

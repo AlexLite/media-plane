@@ -22,7 +22,7 @@ function ProjectArchivedIssuesPage({ params }: Route.ComponentProps) {
   // derived values
   const project = getProjectById(projectId);
   const { t } = useTranslation();
-  const pageTitle = project?.name && `${project?.name} - ${t("access.archived")} ${t("work_items")}`;
+  const pageTitle = project?.name && `${project?.name} - ${t("common.access.archived")} ${t("work_items")}`;
 
   return (
     <>

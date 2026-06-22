@@ -38,6 +38,8 @@ const defaultValues: Partial<IModule> = {
   status: "backlog",
   lead_id: null,
   member_ids: [],
+  start_time: null,
+  target_time: null,
 };
 
 export function ModuleForm(props: Props) {
@@ -58,6 +60,8 @@ export function ModuleForm(props: Props) {
       status: data?.status || "backlog",
       lead_id: data?.lead_id || null,
       member_ids: data?.member_ids || [],
+      start_time: data?.start_time || null,
+      target_time: data?.target_time || null,
     },
   });
 
@@ -167,25 +171,37 @@ export function ModuleForm(props: Props) {
                   control={control}
                   name="target_date"
                   render={({ field: { value: endDateValue, onChange: onChangeEndDate } }) => (
-                    <DateRangeDropdown
-                      buttonVariant="border-with-text"
-                      className="h-7"
-                      value={{
-                        from: getDate(startDateValue),
-                        to: getDate(endDateValue),
-                      }}
-                      onSelect={(val) => {
-                        onChangeStartDate(val?.from ? renderFormattedPayloadDate(val.from) : null);
-                        onChangeEndDate(val?.to ? renderFormattedPayloadDate(val.to) : null);
-                      }}
-                      placeholder={{
-                        from: t("start_date"),
-                        to: t("end_date"),
-                      }}
-                      hideIcon={{
-                        to: true,
-                      }}
-                      tabIndex={getIndex("date_range")}
+                    <Controller
+                      control={control}
+                      name="target_time"
+                      render={({ field: { value: targetTimeValue, onChange: onChangeTargetTime } }) => (
+                        <DateRangeDropdown
+                          buttonVariant="border-with-text"
+                          className="h-7"
+                          value={{
+                            from: getDate(startDateValue),
+                            to: getDate(endDateValue),
+                          }}
+                          onSelect={(val) => {
+                            onChangeStartDate(val?.from ? renderFormattedPayloadDate(val.from) : null);
+                            onChangeEndDate(val?.to ? renderFormattedPayloadDate(val.to) : null);
+                            if (!val?.to) onChangeTargetTime(null);
+                          }}
+                          showTimeInput
+                          timeInputLabel="Время окончания"
+                          timeValue={targetTimeValue}
+                          onTimeChange={onChangeTargetTime}
+                          endDateLabelSuffix={targetTimeValue ? ` ${targetTimeValue.slice(0, 5)}` : ""}
+                          placeholder={{
+                            from: t("start_date"),
+                            to: t("end_date"),
+                          }}
+                          hideIcon={{
+                            to: true,
+                          }}
+                          tabIndex={getIndex("date_range")}
+                        />
+                      )}
                     />
                   )}
                 />

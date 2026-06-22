@@ -142,8 +142,17 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
           handleModuleDetailsChange({
             start_date: val?.from ? renderFormattedPayloadDate(val.from) : null,
             target_date: val?.to ? renderFormattedPayloadDate(val.to) : null,
+            ...(val?.from ? {} : { start_time: null }),
+            ...(val?.to ? {} : { target_time: null }),
           });
         }}
+        showTimeInput
+        timeInputLabel="Время окончания"
+        timeValue={moduleDetails.target_time}
+        onTimeChange={(time) => {
+          handleModuleDetailsChange({ target_time: time });
+        }}
+        endDateLabelSuffix={moduleDetails.target_time ? ` ${moduleDetails.target_time.slice(0, 5)}` : ""}
         mergeDates
         placeholder={{
           from: t("start_date"),
@@ -166,7 +175,7 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
           <ButtonAvatars showTooltip={false} userIds={moduleLeadDetails?.id} />
         </span>
       ) : (
-        <Tooltip tooltipContent="No lead">
+        <Tooltip tooltipContent={t("no_lead")}>
           <SquareUser className="h-4 w-4 text-tertiary" />
         </Tooltip>
       )}

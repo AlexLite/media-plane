@@ -17,8 +17,50 @@ const translations: Record<TLocale, Record<string, string>> = {
     sign_in_email_label: "Email",
     sign_in_email_placeholder: "name@company.com",
     sign_in_password_label: "Password",
+    password: "Password",
     sign_in_password_placeholder: "Enter your password",
     sign_in_button: "Sign in",
+    sign_in_link: "Sign in",
+    setup_heading: "Setup your Plane Instance",
+    setup_subheading: "Post setup you will be able to manage this Plane instance.",
+    setup_first_name_label: "First name",
+    setup_first_name_placeholder: "Wilber",
+    setup_last_name_label: "Last name",
+    setup_last_name_placeholder: "Wright",
+    setup_company_name_label: "Company name",
+    setup_company_name_placeholder: "Company name",
+    setup_set_password_label: "Set a password",
+    setup_set_password_placeholder: "New password",
+    setup_confirm_password_label: "Confirm password",
+    setup_confirm_password_placeholder: "Confirm password",
+    setup_passwords_dont_match: "Passwords don't match",
+    setup_telemetry_allow_collect: "Allow Plane to anonymously collect usage events.",
+    setup_telemetry_see_more: "See More",
+    continue: "Continue",
+    instance_failure_image_alt: "Instance failure illustration",
+    instance_failure_title: "Unable to fetch instance details.",
+    instance_failure_description: "We were unable to fetch the details of the instance. Fret not, it might just be a connectivity issue.",
+    retry: "Retry",
+    instance_not_ready_image_alt: "Plane logo",
+    instance_not_ready_welcome_heading: "Welcome aboard Plane!",
+    instance_not_ready_welcome_description: "Get started by setting up your instance and workspace",
+    get_started: "Get started",
+    unsaved_changes_title: "You have unsaved changes",
+    unsaved_changes_description: "Changes you made will be lost if you go back. Do you wish to go back?",
+    keep_editing: "Keep editing",
+    new_user_popup_title: "Create workspace",
+    new_user_popup_description: "Instance setup done! Welcome to Plane instance portal. Start your journey by creating your first workspace.",
+    new_user_popup_image_alt: "Plane icon",
+    copied_to_clipboard: "Copied to clipboard",
+    copied_to_clipboard_message: "The {label} has been successfully copied to your clipboard",
+    help_documentation: "Documentation",
+    help_join_forum: "Join our Forum",
+    help_report_bug: "Report a bug",
+    redirect_to_plane: "Redirect to Plane",
+    help: "Help",
+    toggle_sidebar: "Toggle sidebar",
+    version: "Version: v{version}",
+    settings: "Settings",
     auth_error_admin_already_exists_title: "Admin already exists",
     auth_error_admin_already_exists_message: "Admin already exists. Please try again.",
     auth_error_admin_required_email_password_first_name_title: "Email, password and first name required",
@@ -35,6 +77,10 @@ const translations: Record<TLocale, Record<string, string>> = {
     auth_error_user_account_deactivated_title: "User account deactivated",
     auth_error_user_account_deactivated_message:
       "User account deactivated. Please contact administrator.",
+    auth_error_admin_user_already_exists_title: "Admin user already exists",
+    auth_error_admin_user_already_exists_message: "Admin user already exists.",
+    auth_error_admin_user_does_not_exist_title: "Admin user does not exist",
+    auth_error_admin_user_does_not_exist_message: "Admin user does not exist.",
     openai: "OpenAI",
     host: "Host",
     port: "Port",
@@ -277,8 +323,10 @@ const translations: Record<TLocale, Record<string, string>> = {
     sign_in_email_label: "Электронная почта",
     sign_in_email_placeholder: "name@company.com",
     sign_in_password_label: "Пароль",
+    password: "Пароль",
     sign_in_password_placeholder: "Введите пароль",
     sign_in_button: "Войти",
+    sign_in_link: "Войти",
     auth_error_admin_already_exists_title: "Администратор уже существует",
     auth_error_admin_already_exists_message: "Администратор уже существует. Попробуйте снова.",
     auth_error_admin_required_email_password_first_name_title: "Требуются email, пароль и имя",
@@ -295,6 +343,10 @@ const translations: Record<TLocale, Record<string, string>> = {
     auth_error_user_account_deactivated_title: "Учетная запись деактивирована",
     auth_error_user_account_deactivated_message:
       "Учетная запись деактивирована. Свяжитесь с администратором.",
+    auth_error_admin_user_already_exists_title: "Администратор уже существует",
+    auth_error_admin_user_already_exists_message: "Администратор уже существует.",
+    auth_error_admin_user_does_not_exist_title: "Администратор не существует",
+    auth_error_admin_user_does_not_exist_message: "Администратор не существует.",
     openai: "OpenAI",
     host: "Хост",
     port: "Порт",
@@ -542,16 +594,32 @@ const detectLocale = (): TLocale => {
   return "ru";
 };
 
-export const getAdminTranslation = (key: string, fallback?: string, locale?: TLocale) => {
+const interpolate = (value: string, params?: Record<string, string | number>) => {
+  if (!params) return value;
+
+  return Object.entries(params).reduce(
+    (result, [key, replacement]) => result.split(`{${key}}`).join(String(replacement)),
+    value
+  );
+};
+
+export const getAdminTranslation = (
+  key: string,
+  fallback?: string,
+  locale?: TLocale,
+  params?: Record<string, string | number>
+) => {
   const effectiveLocale = locale || detectLocale();
-  return translations[effectiveLocale][key] ?? translations.en[key] ?? fallback ?? key;
+  const value = translations[effectiveLocale][key] ?? translations.en[key] ?? fallback ?? key;
+  return interpolate(value, params);
 };
 
 export const useAdminTranslation = () => {
   const locale = useMemo(detectLocale, []);
 
   const t = useCallback(
-    (key: string, fallback?: string) => getAdminTranslation(key, fallback, locale),
+    (key: string, fallback?: string, params?: Record<string, string | number>) =>
+      getAdminTranslation(key, fallback, locale, params),
     [locale]
   );
 

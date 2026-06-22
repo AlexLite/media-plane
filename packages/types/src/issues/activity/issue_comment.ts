@@ -30,6 +30,13 @@ export type TIssueComment = {
   project_detail: TIssueActivityProjectDetail;
   issue: string;
   issue_detail: TIssueActivityIssueDetail;
+  pipeline_item?: string | null;
+  pipeline_item_detail?: {
+    id: string;
+    name: string;
+    state_name_snapshot: string;
+    status: "pending" | "active" | "completed" | "skipped";
+  } | null;
   actor: string;
   actor_detail: TIssueActivityUserDetail;
   created_at: string;

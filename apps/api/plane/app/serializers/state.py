@@ -21,6 +21,7 @@ class StateSerializer(BaseSerializer):
             "name",
             "color",
             "group",
+            "is_pipeline_enabled",
             "default",
             "description",
             "sequence",

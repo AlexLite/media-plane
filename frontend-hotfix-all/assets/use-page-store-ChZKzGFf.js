@@ -1,0 +1,1 @@
+import{r as e}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{S as o}from"./store-context-sMAwZF-T.js";var s=(r=>(r.PROJECT="PROJECT_PAGE",r))(s||{});const i=r=>{const t=e.useContext(o);if(t===void 0)throw new Error("usePageStore must be used within StoreProvider");if(r==="PROJECT_PAGE")return t.projectPages;throw new Error(`Invalid store type: ${r}`)};export{s as E,i as u};

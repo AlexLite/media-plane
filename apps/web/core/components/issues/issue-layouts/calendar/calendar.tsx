@@ -47,7 +47,7 @@ type Props = {
   issuesFilterStore: IProjectIssuesFilter | IModuleIssuesFilter | ICycleIssuesFilter | IProjectViewIssuesFilter;
   issues: TIssueMap | undefined;
   groupedIssueIds: TGroupedIssues;
-  layout: "month" | "week" | undefined;
+  layout: "day" | "month" | "week" | undefined;
   showWeekends: boolean;
   issueCalendarView: ICalendarStore;
   loadMoreIssues: (dateString: string) => void;
@@ -132,6 +132,13 @@ export const CalendarChart = observer(function CalendarChart(props: Props) {
     );
 
   const issueIdList = groupedIssueIds ? groupedIssueIds[formattedDatePayload] : [];
+  const dayIssueIds = groupedIssueIds?.[formattedDatePayload] ?? [];
+  const dayHours = Array.from({ length: 24 }, (_, hour) => hour);
+  const getIssueHour = (issueId: string) => {
+    const time = issues?.[issueId]?.target_time ?? "00:00";
+    const hour = Number.parseInt(time.slice(0, 2), 10);
+    return Number.isFinite(hour) ? hour : 0;
+  };
 
   return (
     <>
@@ -149,8 +156,52 @@ export const CalendarChart = observer(function CalendarChart(props: Props) {
             })}
             ref={scrollableContainerRef}
           >
-            <CalendarWeekHeader isLoading={!issues} showWeekends={showWeekends} />
+            {layout !== "day" && <CalendarWeekHeader isLoading={!issues} showWeekends={showWeekends} />}
             <div className="h-full w-full">
+              {layout === "day" && (
+                <div className="h-full overflow-y-auto border-t border-subtle">
+                  <div className="sticky top-0 z-[1] flex items-center justify-between border-b border-subtle bg-surface-1 px-4 py-2 text-12 font-medium text-secondary">
+                    <span>
+                      {selectedDate.toLocaleDateString("ru-RU", {
+                        day: "2-digit",
+                        month: "short",
+                      })}
+                    </span>
+                    <span>Почасовая шкала</span>
+                  </div>
+                  <div className="divide-y divide-subtle">
+                    {dayHours.map((hour) => {
+                      const hourIssueIds = dayIssueIds.filter((issueId) => getIssueHour(issueId) === hour);
+
+                      return (
+                        <div key={hour} className="grid min-h-16 grid-cols-[4.5rem_1fr] bg-layer-transparent">
+                          <div className="border-r border-subtle px-3 py-2 text-11 font-medium text-tertiary">
+                            {String(hour).padStart(2, "0")}:00
+                          </div>
+                          <div className="py-1">
+                            <CalendarIssueBlocks
+                              date={selectedDate}
+                              issueIdList={hourIssueIds}
+                              quickActions={quickActions}
+                              loadMoreIssues={loadMoreIssues}
+                              getPaginationData={getPaginationData}
+                              getGroupIssueCount={getGroupIssueCount}
+                              isDragDisabled
+                              addIssuesToView={addIssuesToView}
+                              disableIssueCreation={disableIssueCreation}
+                              enableQuickIssueCreate={hour === 0 ? enableQuickAdd : false}
+                              quickAddCallback={quickAddCallback}
+                              readOnly={readOnly}
+                              canEditProperties={canEditProperties}
+                              isEpic={isEpic}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
               {layout === "month" && (
                 <div className="grid h-full w-full grid-cols-1 divide-y-[0.5px] divide-subtle-1">
                   {allWeeksOfActiveMonth &&

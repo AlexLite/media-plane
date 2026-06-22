@@ -68,6 +68,7 @@ export type TBaseIssue = {
   updated_at: string;
   start_date: string | null;
   target_date: string | null;
+  target_time: string | null;
   completed_at: string | null;
   archived_at: string | null;
 
@@ -77,6 +78,8 @@ export type TBaseIssue = {
   is_draft: boolean;
   is_epic?: boolean;
   is_intake?: boolean;
+  has_overdue_pipeline_items?: boolean;
+  has_overdue_final_pipeline_item?: boolean;
 };
 
 type IssueRelation = {

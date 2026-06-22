@@ -104,7 +104,7 @@ const CreatedVsResolved = observer(function CreatedVsResolved() {
           areas={areas}
           xAxis={{
             key: "name",
-            label: t("date"),
+            label: "Дата",
           }}
           yAxis={{
             key: "count",

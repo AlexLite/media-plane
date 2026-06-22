@@ -63,6 +63,8 @@ export const GanttChartBlock = observer(function GanttChartBlock(props: Props) {
 
   if (!block.data) return null;
 
+  if (currentView === "day" && (!block.position || block.position.width <= 0)) return null;
+
   return (
     <div
       className={cn("relative z-[5]", {
@@ -96,9 +98,9 @@ export const GanttChartBlock = observer(function GanttChartBlock(props: Props) {
               block={block}
               blockToRender={blockToRender}
               handleBlockDrag={handleBlockDrag}
-              enableBlockLeftResize={enableBlockLeftResize}
-              enableBlockRightResize={enableBlockRightResize}
-              enableBlockMove={enableBlockMove && !!isBlockComplete}
+              enableBlockLeftResize={currentView !== "day" && enableBlockLeftResize}
+              enableBlockRightResize={currentView !== "day" && enableBlockRightResize}
+              enableBlockMove={currentView !== "day" && enableBlockMove && !!isBlockComplete}
               enableDependency={enableDependency}
               isMoving={isMoving}
               ganttContainerRef={ganttContainerRef}

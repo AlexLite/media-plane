@@ -70,7 +70,9 @@ class Module(ProjectBaseModel):
     description_text = models.JSONField(verbose_name="Module Description RT", blank=True, null=True)
     description_html = models.JSONField(verbose_name="Module Description HTML", blank=True, null=True)
     start_date = models.DateField(null=True)
+    start_time = models.TimeField(null=True, blank=True)
     target_date = models.DateField(null=True)
+    target_time = models.TimeField(null=True, blank=True)
     status = models.CharField(
         choices=(
             ("backlog", "Backlog"),

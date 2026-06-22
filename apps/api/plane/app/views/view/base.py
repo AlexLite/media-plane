@@ -184,7 +184,7 @@ class WorkspaceViewIssuesViewSet(BaseViewSet):
                 .values("count")
             )
             .annotate(
-                sub_issues_count=Issue.issue_objects.filter(parent=OuterRef("id"))
+                sub_issues_count=Issue.issue_objects.filter(parent=OuterRef("id")).exclude(pipeline_metadata__hidden_from_board=True)
                 .order_by()
                 .annotate(count=Func(F("id"), function="Count"))
                 .values("count")
@@ -216,6 +216,8 @@ class WorkspaceViewIssuesViewSet(BaseViewSet):
     @allow_permission(allowed_roles=[ROLE.ADMIN, ROLE.MEMBER, ROLE.GUEST], level="WORKSPACE")
     def list(self, request, slug):
         issue_queryset = self.get_queryset()
+        if request.GET.get("include_pipeline_items", "false").lower() != "true":
+            issue_queryset = issue_queryset.exclude(pipeline_metadata__hidden_from_board=True)
 
         # Apply filtering from filterset
         issue_queryset = self.filter_queryset(issue_queryset)

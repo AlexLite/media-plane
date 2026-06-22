@@ -4,6 +4,7 @@
 
 # Python imports
 import json
+import mimetypes
 import uuid
 import re
 
@@ -83,6 +84,19 @@ from plane.utils.path_validator import sanitize_filename
 from plane.bgtasks.storage_metadata_task import get_asset_object_metadata
 from .base import BaseAPIView
 from plane.utils.host import base_host
+
+
+OFFICE_MIME_TYPES = {
+    ".doc": "application/msword",
+    ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ".ppt": "application/vnd.ms-powerpoint",
+    ".pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    ".xls": "application/vnd.ms-excel",
+    ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+}
+
+for extension, mime_type in OFFICE_MIME_TYPES.items():
+    mimetypes.add_type(mime_type, extension, strict=True)
 from plane.utils.issue_relation_mapper import get_actual_relation
 from plane.bgtasks.webhook_task import model_activity
 from plane.app.permissions import ROLE
@@ -1860,13 +1874,27 @@ class IssueAttachmentListCreateAPIEndpoint(BaseAPIView):
             )
 
         name = sanitize_filename(request.data.get("name"))
-        type = request.data.get("type", False)
-        size = request.data.get("size")
+        requested_type = request.data.get("type") or ""
+        guessed_type = mimetypes.guess_type(name or "")[0]
+        type = requested_type
+        if type not in settings.ATTACHMENT_MIME_TYPES:
+            type = guessed_type if guessed_type in settings.ATTACHMENT_MIME_TYPES else requested_type
+        if not type and "application/octet-stream" in settings.ATTACHMENT_MIME_TYPES:
+            type = "application/octet-stream"
+        raw_size = request.data.get("size")
         external_id = request.data.get("external_id")
         external_source = request.data.get("external_source")
 
         # Check if the request is valid
-        if not name or not size:
+        if not name or raw_size in (None, ""):
+            return Response(
+                {"error": "Invalid request.", "status": False},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            size = int(raw_size)
+        except (TypeError, ValueError):
             return Response(
                 {"error": "Invalid request.", "status": False},
                 status=status.HTTP_400_BAD_REQUEST,

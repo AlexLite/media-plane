@@ -102,6 +102,8 @@ class GlobalSearchEndpoint(BaseAPIView):
 
         if workspace_search == "false" and project_id:
             issues = issues.filter(project_id=project_id)
+        if self.request.GET.get("include_pipeline_items", "false").lower() != "true":
+            issues = issues.exclude(pipeline_metadata__hidden_from_board=True)
 
         return issues.distinct().values(
             "name",

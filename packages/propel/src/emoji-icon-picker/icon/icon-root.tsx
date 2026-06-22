@@ -6,6 +6,7 @@
 
 import React, { useEffect, useState } from "react";
 import { InfoIcon } from "lucide-react";
+import { translate } from "@plane/i18n";
 import { SearchIcon } from "../../icons";
 import { cn } from "../../utils/classname";
 import { adjustColorForContrast, DEFAULT_COLORS } from "../helper";
@@ -52,7 +53,7 @@ export function IconRoot(props: IconRootProps) {
               <SearchIcon className="absolute bottom-3 left-2.5 h-3.5 w-3.5 text-placeholder" />
 
               <input
-                placeholder="Search"
+                placeholder={translate("search")}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 className="block h-full w-full rounded-md border-[0.5px] border-none border-subtle bg-transparent p-0 px-3 py-2 text-16 placeholder-(--text-color-placeholder) focus:outline-none"

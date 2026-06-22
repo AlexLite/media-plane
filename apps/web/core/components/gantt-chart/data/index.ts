@@ -62,6 +62,8 @@ export const timePreview = (date: Date) => {
   return `${bindZero(hours)}:${minutes} ${amPm}`;
 };
 
+export const hourPreview = (hour: number) => `${bindZero(hour)}:00`;
+
 export const datePreview = (date: Date, includeTime: boolean = false) => {
   const day = date.getDate();
   let month: number | WeekMonthDataType = date.getMonth();
@@ -73,6 +75,17 @@ export const datePreview = (date: Date, includeTime: boolean = false) => {
 
 // context data
 export const VIEWS_LIST: ChartDataType[] = [
+  {
+    key: "day",
+    i18n_title: "common.today",
+    data: {
+      startDate: new Date(),
+      currentDate: new Date(),
+      endDate: new Date(),
+      approxFilterRange: 1,
+      dayWidth: 72,
+    },
+  },
   {
     key: "week",
     i18n_title: "common.week",

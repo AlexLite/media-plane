@@ -4,6 +4,7 @@
 
 # Django imports
 from django.utils import timezone
+from django.utils.html import escape
 from lxml import html
 from django.db import IntegrityError
 
@@ -743,6 +744,20 @@ class IssueCommentSerializer(BaseSerializer):
             "updated_at",
         ]
         exclude = ["comment_stripped", "comment_json"]
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if instance.pipeline_item_id:
+            pipeline_item_name = instance.pipeline_item.name or instance.pipeline_item.state_name_snapshot
+            if pipeline_item_name:
+                data["comment_html"] = f"<p><strong>{escape(pipeline_item_name)}:</strong></p>{data.get('comment_html') or ''}"
+                data["pipeline_item_detail"] = {
+                    "id": str(instance.pipeline_item_id),
+                    "name": pipeline_item_name,
+                    "state_name_snapshot": instance.pipeline_item.state_name_snapshot,
+                    "status": instance.pipeline_item.status,
+                }
+        return data
 
     def validate(self, data):
         try:

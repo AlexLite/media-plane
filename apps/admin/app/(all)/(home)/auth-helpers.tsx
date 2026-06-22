@@ -17,7 +17,7 @@ export enum EErrorAlertType {
   INLINE_EMAIL_CODE = "INLINE_EMAIL_CODE",
 }
 
-type TTranslateFn = (key: string) => string;
+type TTranslateFn = (key: string, fallback?: string) => string;
 
 const errorCodeMessages: {
   [key in EAdminAuthErrorCodes]: { title: string; message: (email?: string) => React.ReactNode };
@@ -48,28 +48,12 @@ const errorCodeMessages: {
     message: () => `Authentication failed. Please try again.`,
   },
   [EAdminAuthErrorCodes.ADMIN_USER_ALREADY_EXIST]: {
-    title: `Admin user already exists`,
-    message: () => (
-      <div>
-        Admin user already exists.&nbsp;
-        <Link className="font-medium underline underline-offset-4 transition-all hover:font-bold" href={`/admin`}>
-          Sign In
-        </Link>
-        &nbsp;now.
-      </div>
-    ),
+    title: `Authentication failed`,
+    message: () => `Authentication failed. Please try again.`,
   },
   [EAdminAuthErrorCodes.ADMIN_USER_DOES_NOT_EXIST]: {
-    title: `Admin user does not exist`,
-    message: () => (
-      <div>
-        Admin user does not exist.&nbsp;
-        <Link className="font-medium underline underline-offset-4 transition-all hover:font-bold" href={`/admin`}>
-          Sign In
-        </Link>
-        &nbsp;now.
-      </div>
-    ),
+    title: `Authentication failed`,
+    message: () => `Authentication failed. Please try again.`,
   },
   [EAdminAuthErrorCodes.ADMIN_USER_DEACTIVATED]: {
     title: `User account deactivated`,
@@ -101,6 +85,14 @@ const AUTH_ERROR_I18N_KEYS: Partial<Record<EAdminAuthErrorCodes, { title: string
   [EAdminAuthErrorCodes.ADMIN_AUTHENTICATION_FAILED]: {
     title: "auth_error_authentication_failed_title",
     message: "auth_error_authentication_failed_message",
+  },
+  [EAdminAuthErrorCodes.ADMIN_USER_ALREADY_EXIST]: {
+    title: "auth_error_admin_user_already_exists_title",
+    message: "auth_error_admin_user_already_exists_message",
+  },
+  [EAdminAuthErrorCodes.ADMIN_USER_DOES_NOT_EXIST]: {
+    title: "auth_error_admin_user_does_not_exist_title",
+    message: "auth_error_admin_user_does_not_exist_message",
   },
   [EAdminAuthErrorCodes.ADMIN_USER_DEACTIVATED]: {
     title: "auth_error_user_account_deactivated_title",
@@ -138,11 +130,34 @@ export const authErrorHandler = (
       typeof fallbackMessageNode === "string" ? fallbackMessageNode : "Something went wrong. Please try again.";
     const i18nKeys = AUTH_ERROR_I18N_KEYS[errorCode];
 
+    const translatedTitle = i18nKeys ? tt(i18nKeys.title, fallbackTitle) : fallbackTitle;
+    const translatedMessage = i18nKeys ? tt(i18nKeys.message, fallbackMessage) : fallbackMessage;
+
+    if (
+      [EAdminAuthErrorCodes.ADMIN_USER_ALREADY_EXIST, EAdminAuthErrorCodes.ADMIN_USER_DOES_NOT_EXIST].includes(
+        errorCode
+      )
+    ) {
+      return {
+        type: EErrorAlertType.BANNER_ALERT,
+        code: errorCode,
+        title: translatedTitle,
+        message: (
+          <div>
+            {translatedMessage}&nbsp;
+            <Link className="font-medium underline underline-offset-4 transition-all hover:font-bold" href={`/admin`}>
+              {tt("sign_in_link", "")}
+            </Link>
+          </div>
+        ),
+      };
+    }
+
     return {
       type: EErrorAlertType.BANNER_ALERT,
       code: errorCode,
-      title: i18nKeys ? tt(i18nKeys.title, fallbackTitle) : fallbackTitle,
-      message: i18nKeys ? tt(i18nKeys.message, fallbackMessage) : fallbackMessageNode,
+      title: translatedTitle,
+      message: i18nKeys ? translatedMessage : fallbackMessageNode,
     };
   }
 

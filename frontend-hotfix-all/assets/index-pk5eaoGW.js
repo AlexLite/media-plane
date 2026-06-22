@@ -1,0 +1,1 @@
+import{j as o}from"./jsx-runtime-BrgLAWQM.js";import{c as a}from"./store-context-sMAwZF-T.js";function n({children:e,gradient:r=!1,className:s}){return o.jsx("div",{className:a(`h-screen w-full overflow-hidden ${r?"":"bg-surface-1"}`,s),children:e})}export{n as D};

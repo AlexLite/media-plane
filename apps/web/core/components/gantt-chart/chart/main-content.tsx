@@ -18,7 +18,7 @@ import type {
 import { cn, getDate } from "@plane/utils";
 // components
 import { MultipleSelectGroup } from "@/components/core/multiple-select";
-import { GanttChartSidebar, MonthChartView, QuarterChartView, WeekChartView } from "@/components/gantt-chart";
+import { DayChartView, GanttChartSidebar, MonthChartView, QuarterChartView, WeekChartView } from "@/components/gantt-chart";
 // helpers
 // hooks
 import { useTimeLineChartStore } from "@/hooks/use-timeline-chart";
@@ -153,6 +153,7 @@ export const GanttChartMainContent = observer(function GanttChartMainContent(pro
   const CHART_VIEW_COMPONENTS: {
     [key in TGanttViews]: React.FC;
   } = {
+    day: DayChartView,
     week: WeekChartView,
     month: MonthChartView,
     quarter: QuarterChartView,

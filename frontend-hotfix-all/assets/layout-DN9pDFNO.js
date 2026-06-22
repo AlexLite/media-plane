@@ -1,0 +1,1 @@
+import{w as t,O as o}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{j as n}from"./jsx-runtime-BrgLAWQM.js";const e=t(function(){return n.jsx(o,{})}),i=()=>[{title:"Первичная настройка"}];export{e as default,i as meta};

@@ -113,6 +113,10 @@ export const CALENDAR_LAYOUTS: {
     title: string;
   };
 } = {
+  day: {
+    key: "day",
+    title: "Day layout",
+  },
   month: {
     key: "month",
     title: "Month layout",

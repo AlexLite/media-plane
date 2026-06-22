@@ -16,10 +16,17 @@ type Props = {
 
 export const SpreadsheetAttachmentColumn = observer(function SpreadsheetAttachmentColumn(props: Props) {
   const { issue } = props;
+  const attachmentCount = issue?.attachment_count ?? 0;
+  const attachmentLabel =
+    attachmentCount % 10 === 1 && attachmentCount % 100 !== 11
+      ? "вложение"
+      : attachmentCount % 10 >= 2 && attachmentCount % 10 <= 4 && (attachmentCount % 100 < 12 || attachmentCount % 100 > 14)
+        ? "вложения"
+        : "вложений";
 
   return (
     <Row className="flex h-11 w-full items-center border-b-[0.5px] border-subtle py-1 text-11 group-[.selected-issue-row]:bg-accent-primary/5 hover:bg-layer-1 group-[.selected-issue-row]:hover:bg-accent-primary/10">
-      {issue?.attachment_count ?? 0} {issue?.attachment_count === 1 ? "attachment" : "attachments"}
+      {attachmentCount} {attachmentLabel}
     </Row>
   );
 });

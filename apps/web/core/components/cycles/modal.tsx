@@ -7,7 +7,6 @@
 import { useEffect, useState } from "react";
 import { mutate } from "swr";
 // types
-import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { CycleDateCheckData, ICycle, TCycleTabOptions } from "@plane/types";
 // ui
@@ -36,7 +35,6 @@ type CycleModalProps = {
 const cycleService = new CycleService();
 
 export function CycleCreateUpdateModal(props: CycleModalProps) {
-  const { t } = useTranslation();
   const { isOpen, handleClose, data, workspaceSlug, projectId } = props;
   // states
   const [activeProject, setActiveProject] = useState<string | null>(null);
@@ -65,14 +63,14 @@ export function CycleCreateUpdateModal(props: CycleModalProps) {
 
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: t("common.success"),
-          message: t("cycle_operations.created"),
+          title: "Success!",
+          message: "Cycle created successfully.",
         });
       })
       .catch((err) => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: t("common.error.label"),
+          title: "Error!",
           message: err?.detail ?? "Error in creating cycle. Please try again.",
         });
       });
@@ -86,14 +84,14 @@ export function CycleCreateUpdateModal(props: CycleModalProps) {
       .then((_res) => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: t("common.success"),
-          message: t("cycle_operations.updated"),
+          title: "Success!",
+          message: "Cycle updated successfully.",
         });
       })
       .catch((err) => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: t("common.error.label"),
+          title: "Error!",
           message: err?.detail ?? "Error in updating cycle. Please try again.",
         });
       });
@@ -154,8 +152,8 @@ export function CycleCreateUpdateModal(props: CycleModalProps) {
     } else
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: t("common.error.label"),
-        message: t("cycle_operations.date_conflict"),
+        title: "Error!",
+        message: "You already have a cycle on the given dates, if you want to create a draft cycle, remove the dates.",
       });
   };
 

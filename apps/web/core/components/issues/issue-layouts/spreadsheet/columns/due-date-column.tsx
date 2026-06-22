@@ -31,6 +31,7 @@ export const SpreadsheetDueDateColumn = observer(function SpreadsheetDueDateColu
   const { getStateById } = useProjectState();
   // derived values
   const stateDetails = getStateById(issue.state_id);
+  const targetTimeLabel = issue.target_time ? ` ${issue.target_time.slice(0, 5)}` : "";
 
   return (
     <div className="h-11 border-b-[0.5px] border-subtle">
@@ -41,13 +42,27 @@ export const SpreadsheetDueDateColumn = observer(function SpreadsheetDueDateColu
           const targetDate = data ? renderFormattedPayloadDate(data) : null;
           onChange(
             issue,
-            { target_date: targetDate },
+            { target_date: targetDate, ...(targetDate ? {} : { target_time: null }) },
             {
               changed_property: "target_date",
               change_details: targetDate,
             }
           );
         }}
+        showTimeInput
+        timeInputLabel={t("common.due_time")}
+        timeValue={issue.target_time}
+        onTimeChange={(time) => {
+          onChange(
+            issue,
+            { target_time: time },
+            {
+              changed_property: "target_time",
+              change_details: time,
+            }
+          );
+        }}
+        selectedLabelSuffix={targetTimeLabel}
         disabled={disabled}
         placeholder={t("common.target_date")}
         icon={<DueDatePropertyIcon className="h-3 w-3 flex-shrink-0" />}

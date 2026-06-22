@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Dialog, Transition } from "@headlessui/react";
 // ui
 import { Button, getButtonStyling } from "@plane/propel/button";
+import { useAdminTranslation } from "@/helpers/i18n";
 
 type Props = {
   isOpen: boolean;
@@ -19,6 +20,7 @@ type Props = {
 
 export function ConfirmDiscardModal(props: Props) {
   const { isOpen, handleClose, onDiscardHref } = props;
+  const { t } = useAdminTranslation();
 
   return (
     <Transition.Root show={isOpen} as={React.Fragment}>
@@ -50,11 +52,11 @@ export function ConfirmDiscardModal(props: Props) {
                   <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:text-left">
                       <Dialog.Title as="h3" className="text-16 leading-6 font-medium text-tertiary">
-                        You have unsaved changes
+                        {t("unsaved_changes_title")}
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-13 text-placeholder">
-                          Changes you made will be lost if you go back. Do you wish to go back?
+                          {t("unsaved_changes_description")}
                         </p>
                       </div>
                     </div>
@@ -62,10 +64,10 @@ export function ConfirmDiscardModal(props: Props) {
                 </div>
                 <div className="flex items-center justify-end gap-2 p-4 sm:px-6">
                   <Button variant="secondary" size="lg" onClick={handleClose}>
-                    Keep editing
+                    {t("keep_editing")}
                   </Button>
                   <Link href={onDiscardHref} className={getButtonStyling("primary", "base")}>
-                    Go back
+                    {t("go_back")}
                   </Link>
                 </div>
               </Dialog.Panel>

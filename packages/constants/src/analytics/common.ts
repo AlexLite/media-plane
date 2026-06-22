@@ -104,19 +104,19 @@ export const ANALYTICS_INSIGHTS_FIELDS: Record<TAnalyticsTabsBase, IInsightField
 
 export const ANALYTICS_DURATION_FILTER_OPTIONS = [
   {
-    name: "Yesterday",
+    name: "Вчера",
     value: "yesterday",
   },
   {
-    name: "Last 7 days",
+    name: "Последние 7 дней",
     value: "last_7_days",
   },
   {
-    name: "Last 30 days",
+    name: "Последние 30 дней",
     value: "last_30_days",
   },
   {
-    name: "Last 3 months",
+    name: "Последние 3 месяца",
     value: "last_3_months",
   },
 ];

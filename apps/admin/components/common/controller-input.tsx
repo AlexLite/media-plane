@@ -12,6 +12,7 @@ import { Eye, EyeOff } from "lucide-react";
 // plane internal packages
 import { Input } from "@plane/ui";
 import { cn } from "@plane/utils";
+import { useAdminTranslation } from "@/helpers/i18n";
 
 type Props = {
   control: Control<any>;
@@ -22,6 +23,7 @@ type Props = {
   placeholder: string;
   error: boolean;
   required: boolean;
+  requiredMessage?: string;
 };
 
 export type TControllerInputFormField = {
@@ -32,10 +34,12 @@ export type TControllerInputFormField = {
   placeholder: string;
   error: boolean;
   required: boolean;
+  requiredMessage?: string;
 };
 
 export function ControllerInput(props: Props) {
-  const { name, control, type, label, description, placeholder, error, required } = props;
+  const { name, control, type, label, description, placeholder, error, required, requiredMessage } = props;
+  const { t } = useAdminTranslation();
   // states
   const [showPassword, setShowPassword] = useState(false);
 
@@ -46,7 +50,7 @@ export function ControllerInput(props: Props) {
         <Controller
           control={control}
           name={name}
-          rules={{ required: required ? `${label} is required.` : false }}
+          rules={{ required: required ? requiredMessage ?? t("field_required") : false }}
           render={({ field: { value, onChange, ref } }) => (
             <Input
               id={name}

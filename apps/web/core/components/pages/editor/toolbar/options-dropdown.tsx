@@ -56,7 +56,7 @@ export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: 
           action: () => handleFullWidth(!isFullWidth),
           customContent: (
             <>
-              Full width
+              На всю ширину
               <ToggleSwitch value={isFullWidth} onChange={() => {}} />
             </>
           ),
@@ -67,7 +67,7 @@ export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: 
           action: () => handleStickyToolbar(!isStickyToolbarEnabled),
           customContent: (
             <>
-              Sticky toolbar
+              Закрепить панель
               <ToggleSwitch value={isStickyToolbarEnabled} onChange={() => {}} />
             </>
           ),
@@ -85,7 +85,7 @@ export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: 
               message: t("markdown_copied"),
             });
           },
-          title: "Copy markdown",
+          title: "Копировать Markdown",
           icon: Clipboard,
           shouldRender: true,
         },
@@ -100,14 +100,14 @@ export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: 
             });
             router.push(updatedRoute);
           },
-          title: "Version history",
+          title: "История версий",
           icon: History,
           shouldRender: true,
         },
         {
           key: "export",
           action: () => setIsExportModalOpen(true),
-          title: "Export",
+          title: "Экспорт",
           icon: ArrowUpToLine,
           shouldRender: true,
         },

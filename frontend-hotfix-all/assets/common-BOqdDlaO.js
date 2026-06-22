@@ -1,0 +1,1 @@
+import{j as n}from"./jsx-runtime-BrgLAWQM.js";import{u as s}from"./use-navigation-preferences-CP-GwoRM.js";import{P as c}from"./project-DTDqC-P_.js";function u(r){const{workspaceSlug:e,projectId:o}=r,{preferences:t}=s();return t.navigationMode==="TABBED"?null:n.jsx(c,{workspaceSlug:e,projectId:o})}export{u as C};

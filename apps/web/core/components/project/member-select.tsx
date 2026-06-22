@@ -72,7 +72,7 @@ export const MemberSelect = observer(function MemberSelect(props: Props) {
           ) : (
             <div className="flex items-center gap-2">
               <Ban className="h-3.5 w-3.5 rotate-90 text-placeholder" />
-              <span className="text-13 text-placeholder">None</span>
+              <span className="text-13 text-placeholder">Не выбрано</span>
             </div>
           )}
         </div>
@@ -84,11 +84,11 @@ export const MemberSelect = observer(function MemberSelect(props: Props) {
           ...options,
           {
             value: "none",
-            query: "none",
+            query: "none не выбрано",
             content: (
               <div className="flex items-center gap-2">
                 <Ban className="h-3.5 w-3.5 rotate-90 text-placeholder" />
-                <span className="py-0.5 text-13 text-placeholder">None</span>
+                <span className="py-0.5 text-13 text-placeholder">Не выбрано</span>
               </div>
             ),
           },

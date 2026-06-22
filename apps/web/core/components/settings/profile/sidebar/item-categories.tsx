@@ -40,6 +40,10 @@ export const ProfileSettingsSidebarItemCategories = observer(function ProfileSet
   const { profileTabId } = useParams();
   // translation
   const { t } = useTranslation();
+  const categoryLabelMap: Record<string, string> = {
+    "your profile": "profile_setting_categories.your_profile",
+    developer: "profile_setting_categories.developer",
+  };
 
   return (
     <div className="mt-4 flex flex-col gap-y-4">
@@ -50,7 +54,9 @@ export const ProfileSettingsSidebarItemCategories = observer(function ProfileSet
 
         return (
           <div key={category} className="shrink-0">
-            <div className="p-2 text-caption-md-medium text-tertiary capitalize">{t(category)}</div>
+            <div className="p-2 text-caption-md-medium text-tertiary capitalize">
+              {t(categoryLabelMap[category] ?? category)}
+            </div>
             <div className="flex flex-col">
               {categoryItems.map((item) => (
                 <SettingsSidebarItem

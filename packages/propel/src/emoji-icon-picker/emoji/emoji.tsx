@@ -6,6 +6,7 @@
 
 import { useEffect, useRef } from "react";
 import { EmojiPicker } from "frimousse";
+import { translate } from "@plane/i18n";
 import { cn } from "../../utils";
 
 type EmojiRootProps = {
@@ -14,8 +15,25 @@ type EmojiRootProps = {
   searchDisabled?: boolean;
 };
 
+const EMOJI_CATEGORY_TRANSLATION_KEYS: Record<string, string> = {
+  "smileys & emotion": "emoji_picker.categories.smileys_and_emotion",
+  "people & body": "emoji_picker.categories.people_and_body",
+  "animals & nature": "emoji_picker.categories.animals_and_nature",
+  "food & drink": "emoji_picker.categories.food_and_drink",
+  "travel & places": "emoji_picker.categories.travel_and_places",
+  activities: "emoji_picker.categories.activities",
+  objects: "emoji_picker.categories.objects",
+  symbols: "emoji_picker.categories.symbols",
+  flags: "emoji_picker.categories.flags",
+};
+
+const translateEmojiCategory = (label: string): string => {
+  const key = EMOJI_CATEGORY_TRANSLATION_KEYS[label.toLowerCase()];
+  return key ? translate(key) : label;
+};
+
 export function EmojiRoot(props: EmojiRootProps) {
-  const { onChange, searchPlaceholder = "Search", searchDisabled = false } = props;
+  const { onChange, searchPlaceholder = translate("search"), searchDisabled = false } = props;
   const searchWrapperRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const focusInput = () => {
@@ -61,7 +79,7 @@ export function EmojiRoot(props: EmojiRootProps) {
                 className="bg-surface-1 px-3 pb-1.5 text-11 font-medium text-tertiary"
                 {...props}
               >
-                {category.label}
+                {translateEmojiCategory(category.label)}
               </div>
             ),
             Row: ({ children, ...props }) => (

@@ -11,12 +11,14 @@ import { PieChart } from "@plane/propel/charts/pie-chart";
 import { EmptyStateCompact } from "@plane/propel/empty-state";
 import type { IUserProfileData, IUserStateDistribution } from "@plane/types";
 import { Card } from "@plane/ui";
-import { capitalizeFirstLetter } from "@plane/utils";
 
 type Props = {
   stateDistribution: IUserStateDistribution[];
   userProfile: IUserProfileData | undefined;
 };
+
+const getStateGroupLabel = (stateGroup: keyof typeof STATE_GROUPS, t: (key: string) => string) =>
+  t(`workspace_projects.state.${stateGroup}`);
 
 export function ProfileStateDistribution({ stateDistribution, userProfile }: Props) {
   const { t } = useTranslation();
@@ -42,7 +44,7 @@ export function ProfileStateDistribution({ stateDistribution, userProfile }: Pro
                   id: group.state_group,
                   key: group.state_group,
                   value: group.state_count,
-                  name: capitalizeFirstLetter(group.state_group),
+                  name: getStateGroupLabel(group.state_group, t),
                   color: STATE_GROUPS[group.state_group]?.color,
                 })) ?? []
               }
@@ -51,7 +53,7 @@ export function ProfileStateDistribution({ stateDistribution, userProfile }: Pro
                 fill: STATE_GROUPS[group.state_group]?.color,
               }))}
               showTooltip
-              tooltipLabel="Count"
+              tooltipLabel={t("common.count")}
               paddingAngle={5}
               cornerRadius={4}
               innerRadius="50%"
@@ -69,7 +71,7 @@ export function ProfileStateDistribution({ stateDistribution, userProfile }: Pro
                             STATE_GROUPS[group.state_group]?.color ?? "var(--background-color-accent-primary)",
                         }}
                       />
-                      <div className="whitespace-nowrap">{STATE_GROUPS[group.state_group].label}</div>
+                      <div className="whitespace-nowrap">{getStateGroupLabel(group.state_group, t)}</div>
                     </div>
                     <div>{group.state_count}</div>
                   </div>

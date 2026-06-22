@@ -8,9 +8,9 @@ import { observable, action, makeObservable, runInAction, computed, reaction } f
 
 // helpers
 import { computedFn } from "mobx-utils";
-import type { ICalendarPayload, ICalendarWeek } from "@plane/types";
+import type { ICalendarPayload, ICalendarWeek, TCalendarLayouts } from "@plane/types";
 import { EStartOfTheWeek } from "@plane/types";
-import { generateCalendarData, getWeekNumberOfDate } from "@plane/utils";
+import { generateCalendarData, getWeekNumberOfDate, renderFormattedPayloadDate } from "@plane/utils";
 // types
 import type { IIssueRootStore } from "./root.store";
 
@@ -34,7 +34,7 @@ export interface ICalendarStore {
     | undefined;
   activeWeekNumber: number;
   allDaysOfActiveWeek: ICalendarWeek | undefined;
-  getStartAndEndDate: (layout: "week" | "month") => { startDate: string; endDate: string } | undefined;
+  getStartAndEndDate: (layout: TCalendarLayouts) => { startDate: string; endDate: string } | undefined;
 }
 
 export class CalendarStore implements ICalendarStore {
@@ -148,8 +148,13 @@ export class CalendarStore implements ICalendarStore {
     return monthData[weekKey];
   }
 
-  getStartAndEndDate = computedFn((layout: "week" | "month") => {
+  getStartAndEndDate = computedFn((layout: TCalendarLayouts) => {
     switch (layout) {
+      case "day": {
+        const date = renderFormattedPayloadDate(this.calendarFilters.activeWeekDate);
+        if (!date) return;
+        return { startDate: date, endDate: date };
+      }
       case "week": {
         if (!this.allDaysOfActiveWeek) return;
         const dates = Object.keys(this.allDaysOfActiveWeek);

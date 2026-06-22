@@ -24,10 +24,11 @@ export function ProfileSidebarTime(props: Props) {
     minute: "2-digit",
   });
   const timeString = formatter.format(currentTime);
+  const timeZoneLabel = timeZone === "Europe/Samara" ? "Самара" : timeZone?.replace("_", " ");
 
   return (
     <span>
-      {timeString} <span className="text-secondary">{timeZone}</span>
+      {timeString} <span className="text-secondary">{timeZoneLabel}</span>
     </span>
   );
 }

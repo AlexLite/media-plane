@@ -5,6 +5,7 @@
  */
 
 import * as React from "react";
+import { translate } from "@plane/i18n";
 import { AnimatedCounter } from "../animated-counter";
 import { stringToEmoji } from "../emoji-icon-picker";
 import { AddReactionIcon } from "../icons";
@@ -41,6 +42,7 @@ export interface EmojiReactionGroupProps extends React.HTMLAttributes<HTMLDivEle
 export interface EmojiReactionButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   onAddReaction?: () => void;
   className?: string;
+  tooltipContent?: string;
 }
 
 const EmojiReaction = React.forwardRef(function EmojiReaction(
@@ -71,7 +73,7 @@ const EmojiReaction = React.forwardRef(function EmojiReaction(
         <div className="mb-1 font-medium">{stringToEmoji(emoji)}</div>
         <div>
           {displayUsers.join(", ")}
-          {remainingCount > 0 && ` and ${remainingCount} more`}
+          {remainingCount > 0 && ` ${translate("emoji_picker.and_more", { count: remainingCount })}`}
         </div>
       </div>
     );
@@ -103,11 +105,11 @@ const EmojiReaction = React.forwardRef(function EmojiReaction(
 });
 
 const EmojiReactionButton = React.forwardRef(function EmojiReactionButton(
-  { onAddReaction, className, ...props }: EmojiReactionButtonProps,
+  { onAddReaction, className, tooltipContent, ...props }: EmojiReactionButtonProps,
   ref: React.ForwardedRef<HTMLButtonElement>
 ) {
   return (
-    <Tooltip tooltipContent="Add reaction">
+    <Tooltip tooltipContent={tooltipContent ?? translate("add_reaction")}>
       <IconButton
         ref={ref}
         icon={AddReactionIcon}

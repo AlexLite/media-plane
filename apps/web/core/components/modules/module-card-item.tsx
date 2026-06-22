@@ -219,7 +219,7 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
                   <ButtonAvatars showTooltip={false} userIds={moduleLeadDetails?.id} />
                 </span>
               ) : (
-                <Tooltip tooltipContent={t("common.no_lead")}>
+                <Tooltip tooltipContent={t("no_lead")}>
                   <SquareUser className="mx-1 h-4 w-4 text-tertiary" />
                 </Tooltip>
               )}
@@ -238,8 +238,17 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
                   handleModuleDetailsChange({
                     start_date: val?.from ? renderFormattedPayloadDate(val.from) : null,
                     target_date: val?.to ? renderFormattedPayloadDate(val.to) : null,
+                    ...(val?.from ? {} : { start_time: null }),
+                    ...(val?.to ? {} : { target_time: null }),
                   });
                 }}
+                showTimeInput
+                timeInputLabel="Время окончания"
+                timeValue={moduleDetails.target_time}
+                onTimeChange={(time) => {
+                  handleModuleDetailsChange({ target_time: time });
+                }}
+                endDateLabelSuffix={moduleDetails.target_time ? ` ${moduleDetails.target_time.slice(0, 5)}` : ""}
                 placeholder={{
                   from: t("common.start_date"),
                   to: t("common.end_date"),

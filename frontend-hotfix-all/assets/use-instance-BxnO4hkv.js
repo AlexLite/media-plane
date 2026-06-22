@@ -1,0 +1,1 @@
+import{r as e}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{S as r}from"./store-context-sMAwZF-T.js";const s=()=>{const t=e.useContext(r);if(t===void 0)throw new Error("useInstance must be used within StoreProvider");return t.instance};export{s as u};

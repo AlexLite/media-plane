@@ -77,6 +77,12 @@ from plane.utils.timezone_converter import user_timezone_converter
 from .. import BaseAPIView, BaseViewSet
 
 
+def exclude_hidden_pipeline_items(queryset, request):
+    if request.GET.get("include_pipeline_items", "false").lower() == "true":
+        return queryset
+    return queryset.exclude(pipeline_metadata__hidden_from_board=True)
+
+
 class IssueListEndpoint(BaseAPIView):
     filter_backends = (ComplexFilterBackend,)
     filterset_class = IssueFilterSet
@@ -92,6 +98,7 @@ class IssueListEndpoint(BaseAPIView):
 
         # Base queryset with basic filters
         queryset = Issue.issue_objects.filter(workspace__slug=slug, project_id=project_id, pk__in=issue_ids)
+        queryset = exclude_hidden_pipeline_items(queryset, request)
 
         # Apply filtering from filterset
         queryset = self.filter_queryset(queryset)
@@ -129,7 +136,7 @@ class IssueListEndpoint(BaseAPIView):
                 .values("count")
             )
             .annotate(
-                sub_issues_count=Issue.issue_objects.filter(parent=OuterRef("id"))
+                sub_issues_count=Issue.issue_objects.filter(parent=OuterRef("id")).exclude(pipeline_metadata__hidden_from_board=True)
                 .order_by()
                 .annotate(count=Func(F("id"), function="Count"))
                 .values("count")
@@ -238,7 +245,7 @@ class IssueViewSet(BaseViewSet):
             )
             .annotate(
                 sub_issues_count=Subquery(
-                    Issue.issue_objects.filter(parent=OuterRef("id"))
+                    Issue.issue_objects.filter(parent=OuterRef("id")).exclude(pipeline_metadata__hidden_from_board=True)
                     .values("parent")
                     .annotate(count=Count("id"))
                     .values("count")
@@ -262,6 +269,7 @@ class IssueViewSet(BaseViewSet):
         order_by_param = request.GET.get("order_by", "-created_at")
 
         issue_queryset = self.get_queryset()
+        issue_queryset = exclude_hidden_pipeline_items(issue_queryset, request)
 
         # Apply rich filters
         issue_queryset = self.filter_queryset(issue_queryset)
@@ -509,7 +517,7 @@ class IssueViewSet(BaseViewSet):
             )
             .annotate(
                 sub_issues_count=Subquery(
-                    Issue.issue_objects.filter(parent=OuterRef("id"))
+                    Issue.issue_objects.filter(parent=OuterRef("id")).exclude(pipeline_metadata__hidden_from_board=True)
                     .values("parent")
                     .annotate(count=Count("id"))
                     .values("count")
@@ -661,12 +669,19 @@ class IssueViewSet(BaseViewSet):
         if not issue:
             return Response({"error": "Issue not found"}, status=status.HTTP_404_NOT_FOUND)
 
+        old_state_id = issue.state_id
         current_instance = json.dumps(IssueDetailSerializer(issue).data, cls=DjangoJSONEncoder)
 
         requested_data = json.dumps(self.request.data, cls=DjangoJSONEncoder)
         serializer = IssueCreateSerializer(issue, data=request.data, partial=True, context={"project_id": project_id})
         if serializer.is_valid():
             serializer.save()
+            if "state_id" in request.data and old_state_id != serializer.instance.state_id:
+                from plane.app.views.issue.pipeline import sync_issue_pipeline_for_parent_state
+                from plane.db.models import IssuePipelineItem
+
+                if IssuePipelineItem.objects.filter(parent_issue=serializer.instance).exists():
+                    sync_issue_pipeline_for_parent_state(serializer.instance, request.user)
             # Check if the update is a migration description update
             is_migration_description_update = skip_activity and is_description_update
             # Log all the updates
@@ -806,6 +821,7 @@ class IssuePaginatedViewSet(BaseViewSet):
         project_id = self.kwargs.get("project_id")
 
         issue_queryset = Issue.issue_objects.filter(workspace__slug=workspace_slug, project_id=project_id)
+        issue_queryset = exclude_hidden_pipeline_items(issue_queryset, self.request)
 
         return (
             issue_queryset.select_related("state")
@@ -831,7 +847,7 @@ class IssuePaginatedViewSet(BaseViewSet):
             )
             .annotate(
                 sub_issues_count=Subquery(
-                    Issue.issue_objects.filter(parent=OuterRef("id"))
+                    Issue.issue_objects.filter(parent=OuterRef("id")).exclude(pipeline_metadata__hidden_from_board=True)
                     .values("parent")
                     .annotate(count=Count("id"))
                     .values("count")
@@ -889,6 +905,7 @@ class IssuePaginatedViewSet(BaseViewSet):
 
         # querying issues
         base_queryset = Issue.issue_objects.filter(workspace__slug=slug, project_id=project_id)
+        base_queryset = exclude_hidden_pipeline_items(base_queryset, request)
 
         base_queryset = base_queryset.order_by("updated_at")
         queryset = self.get_queryset().order_by("updated_at")
@@ -986,7 +1003,7 @@ class IssueDetailEndpoint(BaseAPIView):
                 .values("count")
             )
             .annotate(
-                sub_issues_count=Issue.issue_objects.filter(parent=OuterRef("id"))
+                sub_issues_count=Issue.issue_objects.filter(parent=OuterRef("id")).exclude(pipeline_metadata__hidden_from_board=True)
                 .order_by()
                 .annotate(count=Func(F("id"), function="Count"))
                 .values("count")
@@ -1045,6 +1062,7 @@ class IssueDetailEndpoint(BaseAPIView):
         issue = Issue.issue_objects.filter(workspace__slug=slug, project_id=project_id).filter(
             Exists(permission_subquery)
         )
+        issue = exclude_hidden_pipeline_items(issue, request)
 
         # Add additional prefetch based on expand parameter
         if self.expand:
@@ -1091,24 +1109,67 @@ class IssueDetailEndpoint(BaseAPIView):
 
 
 class IssueBulkUpdateDateEndpoint(BaseAPIView):
+    def parse_date_value(self, value):
+        from datetime import datetime
+
+        if isinstance(value, str):
+            return datetime.strptime(value, "%Y-%m-%d").date()
+        return value
+
     def validate_dates(self, current_start, current_target, new_start, new_target):
         """
         Validate that start date is before target date.
         """
-        from datetime import datetime
-
-        start = new_start or current_start
-        target = new_target or current_target
-
-        # Convert string dates to datetime objects if they're strings
-        if isinstance(start, str):
-            start = datetime.strptime(start, "%Y-%m-%d").date()
-        if isinstance(target, str):
-            target = datetime.strptime(target, "%Y-%m-%d").date()
+        start = self.parse_date_value(new_start or current_start)
+        target = self.parse_date_value(new_target or current_target)
 
         if start and target and start > target:
             return False
         return True
+
+    def validate_pipeline_target_date(self, issue, target_date):
+        if target_date is None:
+            return None
+
+        from plane.db.models import IssuePipelineItem
+
+        target_date = self.parse_date_value(target_date)
+        pipeline_item = IssuePipelineItem.objects.filter(child_issue=issue).select_related("parent_issue").first()
+        if pipeline_item:
+            parent_target_date = pipeline_item.parent_issue.target_date
+            if parent_target_date and target_date > parent_target_date:
+                return "Pipeline step due date cannot be later than parent issue due date"
+
+            previous_item = (
+                IssuePipelineItem.objects.filter(
+                    parent_issue=pipeline_item.parent_issue,
+                    sort_order__lt=pipeline_item.sort_order,
+                    child_issue__target_date__isnull=False,
+                )
+                .select_related("child_issue")
+                .order_by("-sort_order")
+                .first()
+            )
+            if previous_item and target_date < previous_item.child_issue.target_date:
+                return "Pipeline step due date cannot be earlier than previous pipeline step due date"
+
+            next_item = (
+                IssuePipelineItem.objects.filter(
+                    parent_issue=pipeline_item.parent_issue,
+                    sort_order__gt=pipeline_item.sort_order,
+                    child_issue__target_date__isnull=False,
+                )
+                .select_related("child_issue")
+                .order_by("sort_order")
+                .first()
+            )
+            if next_item and target_date > next_item.child_issue.target_date:
+                return "Pipeline step due date cannot be later than next pipeline step due date"
+
+        if IssuePipelineItem.objects.filter(parent_issue=issue, child_issue__target_date__gt=target_date).exists():
+            return "Parent issue due date cannot be earlier than existing pipeline step due dates"
+
+        return None
 
     @allow_permission([ROLE.ADMIN, ROLE.MEMBER])
     def post(self, request, slug, project_id):
@@ -1152,6 +1213,10 @@ class IssueBulkUpdateDateEndpoint(BaseAPIView):
                 issues_to_update.append(issue)
 
             if target_date:
+                pipeline_date_error = self.validate_pipeline_target_date(issue, target_date)
+                if pipeline_date_error:
+                    return Response({"message": pipeline_date_error}, status=status.HTTP_400_BAD_REQUEST)
+
                 issue_activity.delay(
                     type="issue.activity.updated",
                     requested_data=json.dumps({"target_date": update.get("target_date")}),
@@ -1239,7 +1304,7 @@ class IssueDetailIdentifierEndpoint(BaseAPIView):
                 .values("count")
             )
             .annotate(
-                sub_issues_count=Issue.issue_objects.filter(parent=OuterRef("id"))
+                sub_issues_count=Issue.issue_objects.filter(parent=OuterRef("id")).exclude(pipeline_metadata__hidden_from_board=True)
                 .order_by()
                 .annotate(count=Func(F("id"), function="Count"))
                 .values("count")

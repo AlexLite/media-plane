@@ -36,7 +36,13 @@ export const SpreadsheetSubIssueColumn = observer(function SpreadsheetSubIssueCo
     );
   };
 
-  const label = `${subIssueCount} sub-work item${subIssueCount !== 1 ? "s" : ""}`;
+  const subIssueLabel =
+    subIssueCount % 10 === 1 && subIssueCount % 100 !== 11
+      ? "подэлемент"
+      : subIssueCount % 10 >= 2 && subIssueCount % 10 <= 4 && (subIssueCount % 100 < 12 || subIssueCount % 100 > 14)
+        ? "подэлемента"
+        : "подэлементов";
+  const label = `${subIssueCount} ${subIssueLabel}`;
 
   return (
     <Row

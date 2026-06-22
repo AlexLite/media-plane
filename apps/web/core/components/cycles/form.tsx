@@ -168,8 +168,8 @@ export function CycleForm(props: Props) {
                         onChangeEndDate(val?.to ? renderFormattedPayloadDate(val.to) : null);
                       }}
                       placeholder={{
-                        from: "Start date",
-                        to: "End date",
+                        from: "Дата начала",
+                        to: "Дата окончания",
                       }}
                       hideIcon={{
                         to: true,

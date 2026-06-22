@@ -51,7 +51,7 @@ function AutomationSettingsPage({ params }: Route.ComponentProps) {
   };
 
   // derived values
-  const pageTitle = projectDetails?.name ? `${projectDetails?.name} - Automations` : undefined;
+  const pageTitle = projectDetails?.name ? `${projectDetails?.name} - Автоматизации` : undefined;
 
   if (workspaceUserInfo && !canPerformProjectAdminActions) {
     return <NotAuthorizedView section="settings" isProjectView className="h-auto" />;

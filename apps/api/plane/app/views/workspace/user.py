@@ -124,7 +124,7 @@ class WorkspaceUserProfileIssuesEndpoint(BaseAPIView):
                 .values("count")
             )
             .annotate(
-                sub_issues_count=Issue.issue_objects.filter(parent=OuterRef("id"))
+                sub_issues_count=Issue.issue_objects.filter(parent=OuterRef("id")).exclude(pipeline_metadata__hidden_from_board=True)
                 .order_by()
                 .annotate(count=Func(F("id"), function="Count"))
                 .values("count")
@@ -145,6 +145,9 @@ class WorkspaceUserProfileIssuesEndpoint(BaseAPIView):
             project__project_projectmember__member=request.user,
             project__project_projectmember__is_active=True,
         )
+
+        if request.GET.get("include_pipeline_items", "false").lower() != "true":
+            issue_queryset = issue_queryset.exclude(pipeline_metadata__hidden_from_board=True)
 
         # Apply filtering from filterset
         issue_queryset = self.filter_queryset(issue_queryset)

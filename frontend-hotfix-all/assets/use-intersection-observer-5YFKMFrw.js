@@ -1,0 +1,1 @@
+import{r as n}from"./chunk-EPOLDU6W-PsE1YSAx.js";const v=(t,r,s,o)=>{n.useEffect(()=>{if(r){const u=new IntersectionObserver(e=>{e[e.length-1].isIntersecting&&s&&s()},{root:t?.current,rootMargin:o});return u.observe(r),()=>{r&&u.unobserve(r)}}},[o,s,r,t.current])};export{v as u};

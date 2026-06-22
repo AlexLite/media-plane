@@ -20,7 +20,7 @@ import type { ICycle } from "@plane/types";
 import { EIssuesStoreType } from "@plane/types";
 // ui
 import { Loader, Avatar } from "@plane/ui";
-import { cn, renderFormattedDate, renderFormattedDateWithoutYear, getFileURL } from "@plane/utils";
+import { cn, renderFormattedDateWithTime, getFileURL } from "@plane/utils";
 // assets
 import darkAssigneeAsset from "@/app/assets/empty-state/active-cycle/assignee-dark.webp?url";
 import lightAssigneeAsset from "@/app/assets/empty-state/active-cycle/assignee-light.webp?url";
@@ -208,7 +208,7 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                         >
                           <div className="flex w-full min-w-24 flex-grow items-center gap-1.5 truncate">
                             <IssueIdentifier issueId={issue.id} projectId={projectId} size="xs" variant="secondary" />
-                            <Tooltip position="top-start" tooltipHeading={t("title")} tooltipContent={issue.name}>
+                            <Tooltip position="top-start" tooltipHeading="Title" tooltipContent={issue.name}>
                               <span className="truncate text-13 text-primary">{issue.name}</span>
                             </Tooltip>
                           </div>
@@ -225,13 +225,13 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                             />
                             {issue.target_date && (
                               <Tooltip
-                                tooltipHeading={t("common.target_date")}
-                                tooltipContent={renderFormattedDate(issue.target_date)}
+                                tooltipHeading="Target Date"
+                                tooltipContent={renderFormattedDateWithTime(issue.target_date, issue.target_time)}
                               >
                                 <div className="flex h-full cursor-pointer items-center gap-1.5 truncate rounded-sm bg-layer-1 px-2 py-0.5 text-11 group-hover:bg-surface-1">
                                   <CalendarCheck className="h-3 w-3 flex-shrink-0" />
                                   <span className="truncate text-11">
-                                    {renderFormattedDateWithoutYear(issue.target_date)}
+                                    {renderFormattedDateWithTime(issue.target_date, issue.target_time)}
                                   </span>
                                 </div>
                               </Tooltip>
@@ -342,7 +342,7 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                             backgroundColor: label.color ?? "#000000",
                           }}
                         />
-                        <span className="truncate text-11 text-ellipsis">{label.label_name ?? "No labels"}</span>
+                        <span className="truncate text-11 text-ellipsis">{label.label_name ?? "Без меток"}</span>
                       </div>
                     }
                     completed={label.completed_issues}

@@ -49,8 +49,8 @@ export const CycleDeleteModal = observer(function CycleDeleteModal(props: ICycle
           if (cycleId || peekCycle) router.push(`/${workspaceSlug}/projects/${projectId}/cycles`);
           setToast({
             type: TOAST_TYPE.SUCCESS,
-            title: t("common.success"),
-            message: t("cycle_operations.deleted"),
+            title: "Success!",
+            message: "Cycle deleted successfully.",
           });
         })
         .catch((errors) => {
@@ -68,8 +68,8 @@ export const CycleDeleteModal = observer(function CycleDeleteModal(props: ICycle
     } catch {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: t("common.warning"),
-        message: t("something_went_wrong_please_try_again"),
+        title: "Warning!",
+        message: "Something went wrong please try again later.",
       });
     }
 
@@ -82,7 +82,7 @@ export const CycleDeleteModal = observer(function CycleDeleteModal(props: ICycle
       handleSubmit={formSubmit}
       isSubmitting={loader}
       isOpen={isOpen}
-      title={t("project_cycles.delete_cycle")}
+      title="Delete cycle"
       content={
         <>
           Are you sure you want to delete cycle{' "'}

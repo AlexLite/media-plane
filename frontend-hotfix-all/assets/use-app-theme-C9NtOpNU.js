@@ -1,0 +1,1 @@
+import{r as t}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{S as r}from"./store-context-sMAwZF-T.js";const m=()=>{const e=t.useContext(r);if(e===void 0)throw new Error("useAppTheme must be used within StoreProvider");return e.theme};export{m as u};

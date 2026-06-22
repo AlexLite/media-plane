@@ -1,0 +1,1 @@
+import{j as l}from"./jsx-runtime-BrgLAWQM.js";import"./chunk-EPOLDU6W-PsE1YSAx.js";import{R as a,b as t}from"./index-DGJEEYQS.js";function c(o){const{children:r}=o;return l.jsx(a,{variant:t.HUGGING,className:"vertical-scrollbar flex scrollbar-lg h-full w-full flex-col overflow-y-auto",children:r})}export{c as L};

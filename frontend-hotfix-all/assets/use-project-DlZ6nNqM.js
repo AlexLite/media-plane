@@ -1,0 +1,1 @@
+import{r as o}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{S as r}from"./store-context-sMAwZF-T.js";const c=()=>{const t=o.useContext(r);if(t===void 0)throw new Error("useProject must be used within StoreProvider");return t.projectRoot.project};export{c as u};

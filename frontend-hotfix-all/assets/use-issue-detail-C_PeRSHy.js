@@ -1,0 +1,1 @@
+import{r}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{e as s}from"./issue.service-DRxlHZTq.js";import{S as o}from"./store-context-sMAwZF-T.js";const n=(t=s.ISSUES)=>{const e=r.useContext(o);if(e===void 0)throw new Error("useIssueDetail must be used within StoreProvider");return t===s.EPICS?e.issue.epicDetail:e.issue.issueDetail};export{n as u};

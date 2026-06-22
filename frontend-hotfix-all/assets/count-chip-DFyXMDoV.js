@@ -1,0 +1,1 @@
+import{j as n}from"./jsx-runtime-BrgLAWQM.js";import{c as s}from"./store-context-sMAwZF-T.js";function a(t){const{count:e,className:r=""}=t;return n.jsx("div",{className:s("relative flex flex-shrink-0 items-center justify-center rounded-xl bg-accent-primary/20 px-2.5 py-0.5 text-caption-sm-semibold text-accent-primary",r),children:e})}export{a as C};

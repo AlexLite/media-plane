@@ -50,7 +50,7 @@ export const ProjectsBaseHeader = observer(function ProjectsBaseHeader() {
               />
             }
           />
-          {isArchived && <Breadcrumbs.Item component={<BreadcrumbLink label={t("access.archived")} />} />}
+          {isArchived && <Breadcrumbs.Item component={<BreadcrumbLink label={t("common.access.archived")} />} />}
         </Breadcrumbs>
       </Header.LeftItem>
       <Header.RightItem>

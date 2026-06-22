@@ -11,7 +11,6 @@ import { useParams } from "next/navigation";
 import { ListFilter } from "lucide-react";
 import { useOutsideClickDetector } from "@plane/hooks";
 import { SearchIcon, CloseIcon } from "@plane/propel/icons";
-import { useTranslation } from "@plane/i18n";
 // plane helpers
 // types
 import type { TCycleFilters } from "@plane/types";
@@ -32,9 +31,8 @@ export const ArchivedCyclesHeader = observer(function ArchivedCyclesHeader() {
   // hooks
   const { currentProjectArchivedFilters, archivedCyclesSearchQuery, updateFilters, updateArchivedCyclesSearchQuery } =
     useCycleFilter();
-  const { t } = useTranslation();
   // states
-  const [isSearchOpen, setIsSearchOpen] = useState(archivedCyclesSearchQuery !== "");
+  const [isSearchOpen, setIsSearchOpen] = useState(archivedCyclesSearchQuery !== "" ? true : false);
   // outside click detector hook
   useOutsideClickDetector(inputRef, () => {
     if (isSearchOpen && archivedCyclesSearchQuery.trim() === "") setIsSearchOpen(false);
@@ -103,7 +101,7 @@ export const ArchivedCyclesHeader = observer(function ArchivedCyclesHeader() {
           <input
             ref={inputRef}
             className="w-full max-w-[234px] border-none bg-transparent text-13 text-primary placeholder:text-placeholder focus:outline-none"
-            placeholder={t("common.search.label")}
+            placeholder="Search"
             value={archivedCyclesSearchQuery}
             onChange={(e) => updateArchivedCyclesSearchQuery(e.target.value)}
             onKeyDown={handleInputKeyDown}
@@ -123,7 +121,7 @@ export const ArchivedCyclesHeader = observer(function ArchivedCyclesHeader() {
         </div>
         <FiltersDropdown
           icon={<ListFilter className="h-3 w-3" />}
-          title={t("common.filters")}
+          title="Filters"
           placement="bottom-end"
           isFiltersApplied={isFiltersApplied}
         >

@@ -6,7 +6,7 @@
 
 import type { SetStateAction } from "react";
 import { observer } from "mobx-react";
-import { GripVertical } from "lucide-react";
+import { GripVertical, Workflow } from "lucide-react";
 import { EIconSize, STATE_TRACKER_ELEMENTS } from "@plane/constants";
 // plane imports
 import { useTranslation } from "@plane/i18n";
@@ -25,7 +25,7 @@ type TBaseStateItemTitleProps = {
 
 type TEnabledStateItemTitleProps = TBaseStateItemTitleProps & {
   disabled: false;
-  stateOperationsCallbacks: Pick<TStateOperationsCallbacks, "markStateAsDefault" | "deleteState">;
+  stateOperationsCallbacks: Pick<TStateOperationsCallbacks, "markStateAsDefault" | "updateState" | "deleteState">;
   shouldTrackEvents: boolean;
 };
 
@@ -92,6 +92,22 @@ export const StateItemTitle = observer(function StateItemTitle(props: TStateItem
               markStateAsDefaultCallback={props.stateOperationsCallbacks.markStateAsDefault}
             />
           </div>
+          <button
+            type="button"
+            className={`flex h-5 w-5 flex-shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-sm transition-colors ${
+              state.is_pipeline_enabled
+                ? "bg-accent-primary/10 text-accent-primary hover:bg-accent-primary/20"
+                : "text-secondary hover:bg-layer-1 hover:text-primary"
+            }`}
+            title={t("issue.pipeline.label")}
+            onClick={() =>
+              props.stateOperationsCallbacks.updateState(state.id, {
+                is_pipeline_enabled: !state.is_pipeline_enabled,
+              })
+            }
+          >
+            <Workflow className="h-3.5 w-3.5" strokeWidth={2} />
+          </button>
           {/* state edit options */}
           <div className="flex items-center gap-1 transition-all">
             <button

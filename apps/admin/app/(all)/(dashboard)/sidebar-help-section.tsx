@@ -16,21 +16,22 @@ import { Tooltip } from "@plane/propel/tooltip";
 import { cn } from "@plane/utils";
 // hooks
 import { useInstance, useTheme } from "@/hooks/store";
+import { useAdminTranslation } from "@/helpers/i18n";
 // assets
 
 const helpOptions = [
   {
-    name: "Documentation",
+    nameKey: "help_documentation",
     href: "https://docs.plane.so/",
     Icon: PageIcon,
   },
   {
-    name: "Join our Forum",
+    nameKey: "help_join_forum",
     href: "https://forum.plane.so",
     Icon: MessageSquare,
   },
   {
-    name: "Report a bug",
+    nameKey: "help_report_bug",
     href: "https://github.com/makeplane/plane/issues/new/choose",
     Icon: GithubIcon,
   },
@@ -40,6 +41,7 @@ export const AdminSidebarHelpSection = observer(function AdminSidebarHelpSection
   // states
   const [isNeedHelpOpen, setIsNeedHelpOpen] = useState(false);
   // store
+  const { t } = useAdminTranslation();
   const { instance } = useInstance();
   const { isSidebarCollapsed, toggleSidebar } = useTheme();
   // refs
@@ -57,16 +59,16 @@ export const AdminSidebarHelpSection = observer(function AdminSidebarHelpSection
       )}
     >
       <div className={`flex items-center gap-1 ${isSidebarCollapsed ? "flex-col justify-center" : "w-full"}`}>
-        <Tooltip tooltipContent="Redirect to Plane" position="right" className="ml-4" disabled={!isSidebarCollapsed}>
+        <Tooltip tooltipContent={t("redirect_to_plane")} position="right" className="ml-4" disabled={!isSidebarCollapsed}>
           <a
             href={redirectionLink}
             className={`relative flex items-center gap-1 rounded-sm bg-layer-1 px-2 py-1 text-body-xs-medium whitespace-nowrap text-secondary`}
           >
             <NewTabIcon width={14} height={14} />
-            {!isSidebarCollapsed && "Redirect to Plane"}
+            {!isSidebarCollapsed && t("redirect_to_plane")}
           </a>
         </Tooltip>
-        <Tooltip tooltipContent="Help" position={isSidebarCollapsed ? "right" : "top"} className="ml-4">
+        <Tooltip tooltipContent={t("help")} position={isSidebarCollapsed ? "right" : "top"} className="ml-4">
           <button
             type="button"
             className={`ml-auto grid place-items-center rounded-md p-1.5 text-secondary outline-none hover:bg-layer-1-hover hover:text-primary ${
@@ -77,7 +79,7 @@ export const AdminSidebarHelpSection = observer(function AdminSidebarHelpSection
             <HelpCircle className="size-4" />
           </button>
         </Tooltip>
-        <Tooltip tooltipContent="Toggle sidebar" position={isSidebarCollapsed ? "right" : "top"} className="ml-4">
+        <Tooltip tooltipContent={t("toggle_sidebar")} position={isSidebarCollapsed ? "right" : "top"} className="ml-4">
           <button
             type="button"
             className={`grid place-items-center rounded-md p-1.5 text-secondary outline-none hover:bg-layer-1-hover hover:text-primary ${
@@ -107,34 +109,34 @@ export const AdminSidebarHelpSection = observer(function AdminSidebarHelpSection
             ref={helpOptionsRef}
           >
             <div className="space-y-1 pb-2">
-              {helpOptions.map(({ name, Icon, href }) => {
+              {helpOptions.map(({ nameKey, Icon, href }) => {
                 if (href)
                   return (
-                    <Link href={href} key={name} target="_blank">
+                    <Link href={href} key={nameKey} target="_blank">
                       <div className="flex items-center gap-x-2 rounded-sm px-2 py-1 text-11 hover:bg-layer-1-hover">
                         <div className="grid flex-shrink-0 place-items-center">
                           <Icon className="h-3.5 w-3.5 text-secondary" />
                         </div>
-                        <span className="text-11">{name}</span>
+                        <span className="text-11">{t(nameKey)}</span>
                       </div>
                     </Link>
                   );
                 else
                   return (
                     <button
-                      key={name}
+                      key={nameKey}
                       type="button"
                       className="flex w-full items-center gap-x-2 rounded-sm px-2 py-1 text-11 hover:bg-layer-1"
                     >
                       <div className="grid flex-shrink-0 place-items-center">
                         <Icon className="h-3.5 w-3.5 text-secondary" />
                       </div>
-                      <span className="text-11">{name}</span>
+                      <span className="text-11">{t(nameKey)}</span>
                     </button>
                   );
               })}
             </div>
-            <div className="px-2 pt-2 pb-1 text-10">Version: v{instance?.current_version}</div>
+            <div className="px-2 pt-2 pb-1 text-10">{t("version", undefined, { version: instance?.current_version ?? "" })}</div>
           </div>
         </Transition>
       </div>

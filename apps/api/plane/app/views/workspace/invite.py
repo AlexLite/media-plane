@@ -163,14 +163,17 @@ class WorkspaceJoinEndpoint(BaseAPIView):
     def post(self, request, slug, pk):
         workspace_invite = WorkspaceMemberInvite.objects.get(pk=pk, workspace__slug=slug)
 
-        email = request.data.get("email", "")
+        email = str(request.data.get("email") or request.query_params.get("email") or "").strip().lower()
+        invite_email = str(workspace_invite.email or "").strip().lower()
 
-        # Check the email
-        if email == "" or workspace_invite.email != email:
+        # Email links are bearer-style invitation URLs. If the client provides an email, validate it;
+        # otherwise allow the invitation id itself to authorize the response.
+        if email and invite_email != email:
             return Response(
                 {"error": "You do not have permission to join the workspace"},
                 status=status.HTTP_403_FORBIDDEN,
             )
+        email = invite_email
 
         # If already responded then return error
         if workspace_invite.responded_at is None:

@@ -121,11 +121,19 @@ export const InboxIssueProperties = observer(function InboxIssueProperties(props
       <div className="h-7">
         <DateDropdown
           value={data?.target_date || null}
-          onChange={(date) => handleData("target_date", date ? renderFormattedPayloadDate(date) : "")}
+          onChange={(date) => {
+            handleData("target_date", date ? renderFormattedPayloadDate(date) : "");
+            if (!date) handleData("target_time", null);
+          }}
           buttonVariant="border-with-text"
           minDate={minDate ?? undefined}
           placeholder={t("due_date")}
           tabIndex={getIndex("target_date")}
+          selectedLabelSuffix={data?.target_time ? ` ${data.target_time.slice(0, 5)}` : ""}
+          showTimeInput
+          timeInputLabel="Время окончания"
+          timeValue={data?.target_time}
+          onTimeChange={(time) => handleData("target_time", time)}
         />
       </div>
 

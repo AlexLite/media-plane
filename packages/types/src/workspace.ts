@@ -18,6 +18,30 @@ export enum EUserWorkspaceRoles {
   GUEST = 5,
 }
 
+export interface IWorkspaceGroup {
+  id: string;
+  workspace_id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  color: string | null;
+  emoji?: string | null;
+  sort_order: number | null;
+  is_archived: boolean;
+  member_count?: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface IWorkspaceGroupMember {
+  id: string;
+  workspace_id: string;
+  group_id: string;
+  workspace_member: IWorkspaceMember;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface IWorkspace {
   readonly id: string;
   readonly owner: IUser;

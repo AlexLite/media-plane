@@ -13,6 +13,7 @@ import { Breadcrumbs } from "@plane/ui";
 import { BreadcrumbLink } from "../breadcrumb-link";
 // hooks
 import { useTheme } from "@/hooks/store";
+import { useAdminTranslation } from "@/helpers/i18n";
 // local imports
 import { CORE_HEADER_SEGMENT_LABELS } from "./core";
 import { EXTENDED_HEADER_SEGMENT_LABELS } from "./extended";
@@ -36,6 +37,7 @@ const HEADER_SEGMENT_LABELS = {
 
 export const AdminHeader = observer(function AdminHeader() {
   const pathName = usePathname();
+  const { t } = useAdminTranslation();
 
   // Function to dynamically generate breadcrumb items based on pathname
   const generateBreadcrumbItems = (pathname: string) => {
@@ -66,7 +68,7 @@ export const AdminHeader = observer(function AdminHeader() {
                 component={
                   <BreadcrumbLink
                     href="/general/"
-                    label="Settings"
+                    label={t("settings")}
                     icon={<Settings className="h-4 w-4 text-tertiary" />}
                   />
                 }

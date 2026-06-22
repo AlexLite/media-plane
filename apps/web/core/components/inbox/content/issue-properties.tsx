@@ -152,6 +152,7 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
                   issue?.id &&
                   issueOperations.update(workspaceSlug, projectId, issue?.id, {
                     target_date: val ? renderFormattedPayloadDate(val) : null,
+                    ...(val ? {} : { target_time: null }),
                   })
                 }
                 minDate={minDate ?? undefined}
@@ -162,6 +163,16 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
                 buttonClassName={`text-13 ${issue?.target_date ? "" : "text-placeholder"}`}
                 hideIcon
                 clearIconClassName="h-3 w-3 hidden group-hover:inline"
+                selectedLabelSuffix={issue.target_time ? ` ${issue.target_time.slice(0, 5)}` : ""}
+                showTimeInput
+                timeInputLabel="Время окончания"
+                timeValue={issue.target_time}
+                onTimeChange={(time) =>
+                  issue?.id &&
+                  issueOperations.update(workspaceSlug, projectId, issue?.id, {
+                    target_time: time,
+                  })
+                }
               />
             </div>
             {/* Labels */}

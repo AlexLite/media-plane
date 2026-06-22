@@ -1,0 +1,1 @@
+import{r as s}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{S as e}from"./store-context-sMAwZF-T.js";const i=()=>{const r=s.useContext(e);if(r===void 0)throw new Error("useUserPermissions must be used within StoreProvider");return r.user.permission};export{i as u};

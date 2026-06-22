@@ -30,7 +30,9 @@ export const FilterPriority = observer(function FilterPriority(props: Props) {
   // derived values
   const filterValue = inboxFilters?.priority || [];
   const appliedFiltersCount = filterValue?.length ?? 0;
-  const filteredOptions = ISSUE_PRIORITIES.filter((p) => p.key.includes(searchQuery.toLowerCase()));
+  const filteredOptions = ISSUE_PRIORITIES.filter((p) =>
+    `${p.key} ${p.title}`.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleFilterValue = (value: TIssuePriorities): TIssuePriorities[] =>
     filterValue?.includes(value) ? filterValue.filter((v) => v !== value) : [...filterValue, value];

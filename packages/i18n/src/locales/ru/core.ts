@@ -29,7 +29,7 @@ export default {
     common: {
       email: {
         label: "Электронная почта",
-        placeholder: "name@company.com",
+        placeholder: "name@company.ru",
         errors: {
           required: "Электронная почта обязательна",
           invalid: "Недействительный адрес электронной почты",

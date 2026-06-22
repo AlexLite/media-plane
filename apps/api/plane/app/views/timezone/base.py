@@ -20,6 +20,56 @@ from rest_framework.views import APIView
 from plane.authentication.rate_limit import AuthenticationThrottle
 
 
+RU_WESTERN_RUSSIA_TIMEZONE_ALIASES = (
+    ("Москва", "Europe/Moscow"),  # UTC+03:00
+    ("Санкт-Петербург", "Europe/Moscow"),  # UTC+03:00
+    ("Нижний Новгород", "Europe/Moscow"),  # UTC+03:00
+    ("Казань", "Europe/Moscow"),  # UTC+03:00
+    ("Ростов-на-Дону", "Europe/Moscow"),  # UTC+03:00
+    ("Краснодар", "Europe/Moscow"),  # UTC+03:00
+    ("Воронеж", "Europe/Moscow"),  # UTC+03:00
+    ("Волгоград", "Europe/Volgograd"),  # UTC+03:00
+)
+
+RU_SAMARA_TIMEZONE_ALIASES = (
+    ("Самара", "Europe/Samara"),  # UTC+04:00
+    ("Саратов", "Europe/Saratov"),  # UTC+04:00
+    ("Ульяновск", "Europe/Ulyanovsk"),  # UTC+04:00
+    ("Ижевск", "Europe/Samara"),  # UTC+04:00
+    ("Астрахань", "Europe/Astrakhan"),  # UTC+04:00
+)
+
+RU_YEKATERINBURG_TIMEZONE_ALIASES = (
+    ("Екатеринбург", "Asia/Yekaterinburg"),  # UTC+05:00
+    ("Челябинск", "Asia/Yekaterinburg"),  # UTC+05:00
+    ("Уфа", "Asia/Yekaterinburg"),  # UTC+05:00
+    ("Пермь", "Asia/Yekaterinburg"),  # UTC+05:00
+    ("Тюмень", "Asia/Yekaterinburg"),  # UTC+05:00
+)
+
+RU_SIBERIA_TIMEZONE_ALIASES = (
+    ("Омск", "Asia/Omsk"),  # UTC+06:00
+    ("Новосибирск", "Asia/Novosibirsk"),  # UTC+07:00
+    ("Барнаул", "Asia/Barnaul"),  # UTC+07:00
+    ("Томск", "Asia/Tomsk"),  # UTC+07:00
+    ("Кемерово", "Asia/Novokuznetsk"),  # UTC+07:00
+    ("Красноярск", "Asia/Krasnoyarsk"),  # UTC+07:00
+    ("Иркутск", "Asia/Irkutsk"),  # UTC+08:00
+    ("Улан-Удэ", "Asia/Irkutsk"),  # UTC+08:00
+)
+
+RU_FAR_EAST_TIMEZONE_ALIASES = (
+    ("Якутск", "Asia/Yakutsk"),  # UTC+09:00
+    ("Чита", "Asia/Chita"),  # UTC+09:00
+    ("Владивосток", "Asia/Vladivostok"),  # UTC+10:00
+    ("Хабаровск", "Asia/Vladivostok"),  # UTC+10:00
+    ("Магадан", "Asia/Magadan"),  # UTC+11:00
+    ("Южно-Сахалинск", "Asia/Sakhalin"),  # UTC+11:00
+    ("Петропавловск-Камчатский", "Asia/Kamchatka"),  # UTC+12:00
+    ("Анадырь", "Asia/Anadyr"),  # UTC+12:00
+)
+
+
 class TimezoneEndpoint(APIView):
     permission_classes = [AllowAny]
 
@@ -110,6 +160,7 @@ class TimezoneEndpoint(APIView):
             ("Johannesburg", "Africa/Johannesburg"),  # UTC+02:00
             ("Harare, Pretoria", "Africa/Harare"),  # UTC+02:00
             ("Moscow Time", "Europe/Moscow"),  # UTC+03:00
+            *RU_WESTERN_RUSSIA_TIMEZONE_ALIASES,
             ("Baghdad", "Asia/Baghdad"),  # UTC+03:00
             ("Nairobi", "Africa/Nairobi"),  # UTC+03:00
             ("Kuwait, Riyadh", "Asia/Riyadh"),  # UTC+03:00
@@ -118,6 +169,7 @@ class TimezoneEndpoint(APIView):
             ("Baku", "Asia/Baku"),  # UTC+04:00 (DST: UTC+05:00)
             ("Yerevan", "Asia/Yerevan"),  # UTC+04:00 (DST: UTC+05:00)
             ("Astrakhan", "Europe/Astrakhan"),  # UTC+04:00
+            *RU_SAMARA_TIMEZONE_ALIASES,
             ("Tbilisi", "Asia/Tbilisi"),  # UTC+04:00
             ("Mauritius", "Indian/Mauritius"),  # UTC+04:00
             ("Kabul", "Asia/Kabul"),  # UTC+04:30
@@ -125,6 +177,7 @@ class TimezoneEndpoint(APIView):
             ("Karachi", "Asia/Karachi"),  # UTC+05:00
             ("Tashkent", "Asia/Tashkent"),  # UTC+05:00
             ("Yekaterinburg", "Asia/Yekaterinburg"),  # UTC+05:00
+            *RU_YEKATERINBURG_TIMEZONE_ALIASES,
             ("Maldives", "Indian/Maldives"),  # UTC+05:00
             ("Chagos", "Indian/Chagos"),  # UTC+05:00
             ("Chennai", "Asia/Kolkata"),  # UTC+05:30
@@ -134,6 +187,7 @@ class TimezoneEndpoint(APIView):
             ("Sri Jayawardenepura", "Asia/Colombo"),  # UTC+05:30
             ("Kathmandu", "Asia/Kathmandu"),  # UTC+05:45
             ("Dhaka", "Asia/Dhaka"),  # UTC+06:00
+            *RU_SIBERIA_TIMEZONE_ALIASES[:1],
             ("Almaty", "Asia/Almaty"),  # UTC+06:00
             ("Bishkek", "Asia/Bishkek"),  # UTC+06:00
             ("Thimphu", "Asia/Thimphu"),  # UTC+06:00
@@ -143,8 +197,11 @@ class TimezoneEndpoint(APIView):
             ("Hanoi", "Asia/Ho_Chi_Minh"),  # UTC+07:00
             ("Jakarta", "Asia/Jakarta"),  # UTC+07:00
             ("Novosibirsk", "Asia/Novosibirsk"),  # UTC+07:00
+            *RU_SIBERIA_TIMEZONE_ALIASES[1:5],
             ("Krasnoyarsk", "Asia/Krasnoyarsk"),  # UTC+07:00
+            *RU_SIBERIA_TIMEZONE_ALIASES[5:6],
             ("Beijing", "Asia/Shanghai"),  # UTC+08:00
+            *RU_SIBERIA_TIMEZONE_ALIASES[6:],
             ("Singapore", "Asia/Singapore"),  # UTC+08:00
             ("Perth", "Australia/Perth"),  # UTC+08:00
             ("Hong Kong", "Asia/Hong_Kong"),  # UTC+08:00
@@ -154,16 +211,19 @@ class TimezoneEndpoint(APIView):
             ("Tokyo", "Asia/Tokyo"),  # UTC+09:00
             ("Seoul", "Asia/Seoul"),  # UTC+09:00
             ("Yakutsk", "Asia/Yakutsk"),  # UTC+09:00
+            *RU_FAR_EAST_TIMEZONE_ALIASES[:2],
             ("Adelaide", "Australia/Adelaide"),  # UTC+09:30 (DST: UTC+10:30)
             ("Darwin", "Australia/Darwin"),  # UTC+09:30
             ("Sydney", "Australia/Sydney"),  # UTC+10:00 (DST: UTC+11:00)
             ("Brisbane", "Australia/Brisbane"),  # UTC+10:00
             ("Guam", "Pacific/Guam"),  # UTC+10:00
             ("Vladivostok", "Asia/Vladivostok"),  # UTC+10:00
+            *RU_FAR_EAST_TIMEZONE_ALIASES[2:4],
             ("Tahiti", "Pacific/Tahiti"),  # UTC+10:00
             ("Lord Howe Island", "Australia/Lord_Howe"),  # UTC+10:30 (DST: UTC+11:00)
             ("Solomon Islands", "Pacific/Guadalcanal"),  # UTC+11:00
             ("Magadan", "Asia/Magadan"),  # UTC+11:00
+            *RU_FAR_EAST_TIMEZONE_ALIASES[4:6],
             ("Norfolk Island", "Pacific/Norfolk"),  # UTC+11:00
             ("Bougainville Island", "Pacific/Bougainville"),  # UTC+11:00
             ("Chokurdakh", "Asia/Srednekolymsk"),  # UTC+11:00
@@ -171,6 +231,7 @@ class TimezoneEndpoint(APIView):
             ("Wellington", "Pacific/Auckland"),  # UTC+12:00 (DST: UTC+13:00)
             ("Fiji Islands", "Pacific/Fiji"),  # UTC+12:00 (DST: UTC+13:00)
             ("Anadyr", "Asia/Anadyr"),  # UTC+12:00
+            *RU_FAR_EAST_TIMEZONE_ALIASES[6:],
             ("Chatham Islands", "Pacific/Chatham"),  # UTC+12:45 (DST: UTC+13:45)
             ("Nuku'alofa", "Pacific/Tongatapu"),  # UTC+13:00
             ("Samoa", "Pacific/Apia"),  # UTC+13:00 (DST: UTC+14:00)

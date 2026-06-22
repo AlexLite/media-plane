@@ -32,7 +32,9 @@ export const FilterStatus = observer(function FilterStatus(props: Props) {
   return (
     <>
       <FilterHeader
-        title={`${t("common.cycle_status")}${appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : ""}`}
+        title={t("project_cycles.filters.status_of_cycle", {
+          count: appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : "",
+        })}
         isPreviewEnabled={previewEnabled}
         handleIsPreviewEnabled={() => setPreviewEnabled(!previewEnabled)}
       />
@@ -48,7 +50,7 @@ export const FilterStatus = observer(function FilterStatus(props: Props) {
               />
             ))
           ) : (
-            <p className="text-11 text-placeholder italic">{t("issues.search.no_matches_found")}</p>
+            <p className="text-11 text-placeholder italic">{t("no_matches_found")}</p>
           )}
         </div>
       )}

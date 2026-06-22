@@ -1,0 +1,1 @@
+import{r as e}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{S as o}from"./store-context-sMAwZF-T.js";const n=()=>{const t=e.useContext(o);if(t===void 0)throw new Error("useCommandPalette must be used within StoreProvider");return t.commandPalette};export{n as u};

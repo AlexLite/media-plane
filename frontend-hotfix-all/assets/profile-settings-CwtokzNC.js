@@ -1,0 +1,1 @@
+import{w as o,d as s}from"./chunk-EPOLDU6W-PsE1YSAx.js";const i=({params:t,request:r})=>{const e=new URL(r.url).searchParams,n=t["*"]||"";throw s(`/settings/profile/${n||"general"}?${e.toString()}`)},l=o(function(){return null});export{i as clientLoader,l as default};

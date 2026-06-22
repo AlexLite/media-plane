@@ -9,6 +9,7 @@ import React from "react";
 import { Button } from "@plane/propel/button";
 import { CopyIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
+import { useAdminTranslation } from "@/helpers/i18n";
 
 type Props = {
   label: string;
@@ -25,6 +26,7 @@ export type TCopyField = {
 
 export function CopyField(props: Props) {
   const { label, url, description } = props;
+  const { t } = useAdminTranslation();
 
   return (
     <div className="flex flex-col gap-1">
@@ -37,8 +39,8 @@ export function CopyField(props: Props) {
           navigator.clipboard.writeText(url);
           setToast({
             type: TOAST_TYPE.INFO,
-            title: "Copied to clipboard",
-            message: `The ${label} has been successfully copied to your clipboard`,
+            title: t("copied_to_clipboard"),
+            message: t("copied_to_clipboard_message", undefined, { label }),
           });
         }}
       >

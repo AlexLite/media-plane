@@ -93,6 +93,25 @@ export const getItemPositionWidth = (chartData: ChartDataType, itemData: IGanttB
   const { startDate: chartStartDate } = chartData.data;
   const { start_date, target_date } = itemData;
 
+  if (chartData.key === "day") {
+    const itemTargetDate = getDate(target_date);
+    if (!itemTargetDate) return;
+
+    const chartDay = new Date(chartStartDate);
+    chartDay.setHours(0, 0, 0, 0);
+    itemTargetDate.setHours(0, 0, 0, 0);
+    if (chartDay.getTime() !== itemTargetDate.getTime()) return;
+
+    const targetTime = itemData.target_time ?? itemData.data?.target_time ?? "00:00";
+    const [hours = 0, minutes = 0] = targetTime.split(":").map((value: string) => Number(value));
+    const hourWidth = chartData.data.dayWidth;
+
+    scrollPosition = Math.max(0, (hours + minutes / 60) * hourWidth);
+    scrollWidth = hourWidth;
+
+    return { marginLeft: scrollPosition, width: scrollWidth };
+  }
+
   const itemStartDate = getDate(start_date);
   const itemTargetDate = getDate(target_date);
 

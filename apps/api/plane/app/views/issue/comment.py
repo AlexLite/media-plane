@@ -19,7 +19,7 @@ from rest_framework import status
 from .. import BaseViewSet
 from plane.app.serializers import IssueCommentSerializer, CommentReactionSerializer
 from plane.app.permissions import allow_permission, ROLE
-from plane.db.models import IssueComment, ProjectMember, CommentReaction, Project, Issue
+from plane.db.models import IssueComment, IssuePipelineItem, ProjectMember, CommentReaction, Project, Issue
 from plane.bgtasks.issue_activities_task import issue_activity
 from plane.utils.host import base_host
 from plane.bgtasks.webhook_task import model_activity
@@ -31,6 +31,24 @@ class IssueCommentViewSet(BaseViewSet):
     webhook_event = "issue_comment"
 
     filterset_fields = ["issue__id", "workspace__id"]
+
+    def validate_pipeline_item(self, request, slug, project_id, issue_id):
+        pipeline_item_id = request.data.get("pipeline_item")
+        if not pipeline_item_id:
+            return None
+
+        try:
+            return IssuePipelineItem.objects.get(
+                pk=pipeline_item_id,
+                workspace__slug=slug,
+                project_id=project_id,
+                parent_issue_id=issue_id,
+            )
+        except IssuePipelineItem.DoesNotExist:
+            return Response(
+                {"error": "Pipeline item does not belong to this issue"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     def get_queryset(self):
         return self.filter_queryset(
@@ -64,6 +82,10 @@ class IssueCommentViewSet(BaseViewSet):
     def create(self, request, slug, project_id, issue_id):
         project = Project.objects.get(pk=project_id)
         issue = Issue.objects.get(pk=issue_id)
+        pipeline_item_validation = self.validate_pipeline_item(request, slug, project_id, issue_id)
+        if isinstance(pipeline_item_validation, Response):
+            return pipeline_item_validation
+
         if (
             ProjectMember.objects.filter(
                 workspace__slug=slug,
@@ -109,6 +131,10 @@ class IssueCommentViewSet(BaseViewSet):
     @allow_permission(allowed_roles=[ROLE.ADMIN], creator=True, model=IssueComment)
     def partial_update(self, request, slug, project_id, issue_id, pk):
         issue_comment = IssueComment.objects.get(workspace__slug=slug, project_id=project_id, issue_id=issue_id, pk=pk)
+        pipeline_item_validation = self.validate_pipeline_item(request, slug, project_id, issue_id)
+        if isinstance(pipeline_item_validation, Response):
+            return pipeline_item_validation
+
         requested_data = json.dumps(self.request.data, cls=DjangoJSONEncoder)
         current_instance = json.dumps(IssueCommentSerializer(issue_comment).data, cls=DjangoJSONEncoder)
         serializer = IssueCommentSerializer(issue_comment, data=request.data, partial=True)

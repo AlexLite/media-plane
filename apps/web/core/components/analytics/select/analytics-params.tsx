@@ -95,7 +95,9 @@ export const AnalyticsSelectParams = observer(function AnalyticsSelectParams(pro
                 <div className="flex items-center gap-2">
                   <SlidersHorizontal className="h-3 w-3" />
                   <span className={cn("text-secondary", value && "text-primary")}>
-                    {groupByOptions.find((v) => v.value === value)?.label || "Add Property"}
+                    {groupByOptions.find((v) => v.value === value)
+                      ? t(groupByOptions.find((v) => v.value === value)!.label)
+                      : t("workspace_analytics.add_property")}
                   </span>
                 </div>
               }

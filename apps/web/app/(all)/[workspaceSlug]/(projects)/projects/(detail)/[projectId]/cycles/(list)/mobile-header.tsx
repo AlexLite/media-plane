@@ -24,17 +24,17 @@ const CYCLE_VIEW_LAYOUTS: {
   {
     key: "list",
     icon: ListLayoutIcon,
-    title: "Список",
+    title: "List layout",
   },
   {
     key: "board",
     icon: GridLayoutIcon,
-    title: "Галерея",
+    title: "Gallery layout",
   },
   {
     key: "gantt",
     icon: TimelineLayoutIcon,
-    title: "Таймлайн",
+    title: "Timeline layout",
   },
 ];
 
@@ -51,7 +51,7 @@ export const CyclesListMobileHeader = observer(function CyclesListMobileHeader()
         customButton={
           <span className="flex items-center gap-2">
             <ListLayoutIcon className="h-4 w-4" />
-            <span className="flex flex-grow justify-center text-13 text-secondary">Вид</span>
+            <span className="flex flex-grow justify-center text-13 text-secondary">Layout</span>
           </span>
         }
         customButtonClassName="flex flex-grow justify-center items-center text-secondary text-13"

@@ -1101,6 +1101,9 @@ importers:
       '@plane/hooks':
         specifier: workspace:*
         version: link:../hooks
+      '@plane/i18n':
+        specifier: workspace:*
+        version: link:../i18n
       '@plane/types':
         specifier: workspace:*
         version: link:../types
@@ -1312,6 +1315,9 @@ importers:
       '@plane/hooks':
         specifier: workspace:*
         version: link:../hooks
+      '@plane/i18n':
+        specifier: workspace:*
+        version: link:../i18n
       '@plane/propel':
         specifier: workspace:*
         version: link:../propel

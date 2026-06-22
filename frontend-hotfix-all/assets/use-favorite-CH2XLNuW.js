@@ -1,0 +1,1 @@
+import{r}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{S as o}from"./store-context-sMAwZF-T.js";const i=()=>{const t=r.useContext(o);if(t===void 0)throw new Error("useFavorites must be used within StoreProvider");return t.favorite};export{i as u};

@@ -149,6 +149,7 @@ from .issue.relation import IssueRelationViewSet
 from .issue.reaction import IssueReactionViewSet
 
 from .issue.sub_issue import SubIssuesEndpoint
+from .issue.pipeline import IssuePipelineEndpoint, IssuePipelineItemEndpoint, IssuePipelineCompleteEndpoint
 
 from .issue.subscriber import IssueSubscriberViewSet
 

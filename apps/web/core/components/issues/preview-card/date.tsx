@@ -8,16 +8,17 @@ import { CalendarDays } from "lucide-react";
 // plane imports
 import { DueDatePropertyIcon, StartDatePropertyIcon } from "@plane/propel/icons";
 import type { TStateGroups } from "@plane/types";
-import { cn, renderFormattedDate, shouldHighlightIssueDueDate } from "@plane/utils";
+import { cn, renderFormattedDateWithTime, shouldHighlightIssueDueDate } from "@plane/utils";
 
 type Props = {
   startDate: string | null;
   stateGroup: TStateGroups;
   targetDate: string | null;
+  targetTime?: string | null;
 };
 
 export function WorkItemPreviewCardDate(props: Props) {
-  const { startDate, stateGroup, targetDate } = props;
+  const { startDate, stateGroup, targetDate, targetTime } = props;
   // derived values
   const isDateRangeEnabled = Boolean(startDate && targetDate);
   const shouldHighlightDate = shouldHighlightIssueDueDate(targetDate, stateGroup);
@@ -34,13 +35,13 @@ export function WorkItemPreviewCardDate(props: Props) {
         >
           <CalendarDays className="size-3 shrink-0" />
           <span>
-            {renderFormattedDate(startDate)} - {renderFormattedDate(targetDate)}
+            {renderFormattedDateWithTime(startDate)} - {renderFormattedDateWithTime(targetDate, targetTime)}
           </span>
         </div>
       ) : startDate ? (
         <div className="flex h-full items-center gap-1">
           <StartDatePropertyIcon className="size-3 shrink-0" />
-          <span>{renderFormattedDate(startDate)}</span>
+          <span>{renderFormattedDateWithTime(startDate)}</span>
         </div>
       ) : (
         <div
@@ -49,7 +50,7 @@ export function WorkItemPreviewCardDate(props: Props) {
           })}
         >
           <DueDatePropertyIcon className="size-3 shrink-0" />
-          <span>{renderFormattedDate(targetDate)}</span>
+          <span>{renderFormattedDateWithTime(targetDate, targetTime)}</span>
         </div>
       )}
     </div>

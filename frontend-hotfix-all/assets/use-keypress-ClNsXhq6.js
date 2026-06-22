@@ -1,0 +1,1 @@
+import{r}from"./chunk-EPOLDU6W-PsE1YSAx.js";const d=(e,t)=>{r.useEffect(()=>{const n=o=>{o.key===e&&t(o)};return document.addEventListener("keydown",n),()=>{document.removeEventListener("keydown",n)}},[e,t])};export{d as u};

@@ -5,7 +5,7 @@
  */
 
 import { observer } from "mobx-react";
-import { useParams } from "react-router";
+import { useParams } from "next/navigation";
 // ui
 import { EUserPermissions, EUserPermissionsLevel, CYCLE_TRACKER_ELEMENTS } from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
@@ -47,7 +47,7 @@ export const CyclesListHeader = observer(function CyclesListHeader() {
           <Breadcrumbs.Item
             component={
               <BreadcrumbLink
-                label={t("sidebar.cycles")}
+                label="Циклы"
                 href={`/${workspaceSlug}/projects/${currentProjectDetails?.id}/cycles/`}
                 icon={<CycleIcon className="h-4 w-4 text-tertiary" />}
                 isLast

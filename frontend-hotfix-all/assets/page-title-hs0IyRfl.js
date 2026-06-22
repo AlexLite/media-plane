@@ -1,0 +1,1 @@
+import{r as o}from"./chunk-EPOLDU6W-PsE1YSAx.js";function r(t){const{title:e}=t;return o.useEffect(()=>{e&&(document.title=e??"Plane | Simple, extensible, open-source project management tool.")},[e]),null}export{r as P};

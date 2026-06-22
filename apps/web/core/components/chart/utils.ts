@@ -22,7 +22,36 @@ type TDateGroupingOptions = {
   translate?: (key: string) => string;
 };
 
-const getDateGroupingName = (date: string, dateGrouping: ChartXAxisDateGrouping): string => {
+const translateChartLabel = (label: string, options?: TDateGroupingOptions): string => {
+  const normalizedLabel = `${label}`.trim();
+  const lowerLabel = normalizedLabel.toLowerCase();
+
+  if (["", "none", "null"].includes(lowerLabel)) return options?.noneLabel ?? normalizedLabel;
+
+  const directLabels: Record<string, string> = {
+    backlog: "workspace_projects.state.backlog",
+    unstarted: "workspace_projects.state.unstarted",
+    started: "workspace_projects.state.started",
+    completed: "workspace_projects.state.completed",
+    cancelled: "workspace_projects.state.cancelled",
+    canceled: "workspace_projects.state.cancelled",
+    urgent: "urgent",
+    high: "high",
+    medium: "medium",
+    low: "low",
+  };
+
+  const i18nKey = directLabels[lowerLabel];
+  if (i18nKey && options?.translate) return options.translate(i18nKey);
+
+  return options?.translate ? options.translate(lowerLabel) : capitalizeFirstLetter(normalizedLabel);
+};
+
+const getDateGroupingName = (
+  date: string,
+  dateGrouping: ChartXAxisDateGrouping,
+  options?: TDateGroupingOptions
+): string => {
   if (!date || ["none", "null"].includes(date.toLowerCase())) return "Нет";
 
   const formattedData = new Date(date);
@@ -85,9 +114,7 @@ export const parseChartData = (
     if (xAxisProperty) {
       // capitalize first letter if xAxisProperty is in TO_CAPITALIZE_PROPERTIES and no groupByProperty is set
       if (TO_CAPITALIZE_PROPERTIES.includes(xAxisProperty)) {
-        datum.name = options?.translate
-          ? options.translate(datum.name.toLowerCase())
-          : capitalizeFirstLetter(datum.name);
+        datum.name = translateChartLabel(datum.name, options);
       }
 
       // parse timestamp to visual date if xAxisProperty is in WIDGET_X_AXIS_DATE_PROPERTIES
@@ -107,9 +134,7 @@ export const parseChartData = (
   if (groupByProperty) {
     if (TO_CAPITALIZE_PROPERTIES.includes(groupByProperty)) {
       Object.keys(updatedSchema).forEach((key) => {
-        updatedSchema[key] = options?.translate
-          ? options.translate(updatedSchema[key].toLowerCase())
-          : capitalizeFirstLetter(updatedSchema[key]);
+        updatedSchema[key] = translateChartLabel(updatedSchema[key], options);
       });
     }
 

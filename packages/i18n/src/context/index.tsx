@@ -7,7 +7,7 @@
 import { observer } from "mobx-react";
 import React, { createContext } from "react";
 // store
-import { TranslationStore } from "../store";
+import { TranslationStore, translationStore } from "../store";
 
 export const TranslationContext = createContext<TranslationStore | null>(null);
 
@@ -19,7 +19,7 @@ interface TranslationProviderProps {
  * Provides the translation store to the application
  */
 export const TranslationProvider = observer(function TranslationProvider({ children }: TranslationProviderProps) {
-  const [store] = React.useState(() => new TranslationStore());
+  const [store] = React.useState(() => translationStore);
 
   return <TranslationContext.Provider value={store}>{children}</TranslationContext.Provider>;
 });

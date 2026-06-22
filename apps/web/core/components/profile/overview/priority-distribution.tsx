@@ -10,7 +10,6 @@ import { BarChart } from "@plane/propel/charts/bar-chart";
 import { EmptyStateCompact } from "@plane/propel/empty-state";
 import type { IUserProfileData } from "@plane/types";
 import { Loader, Card } from "@plane/ui";
-import { capitalizeFirstLetter } from "@plane/utils";
 
 type Props = {
   userProfile: IUserProfileData | undefined;
@@ -22,6 +21,14 @@ const priorityColors = {
   medium: "#f59e0b",
   low: "#16a34a",
   none: "#e5e5e5",
+};
+
+const getPriorityLabel = (priority: string | null | undefined, t: (key: string, options?: any) => string) => {
+  const normalizedPriority = priority?.toLowerCase() ?? "none";
+
+  if (normalizedPriority === "none") return t("common.none");
+
+  return t(normalizedPriority);
 };
 
 export function ProfilePriorityDistribution({ userProfile }: Props) {
@@ -36,14 +43,14 @@ export function ProfilePriorityDistribution({ userProfile }: Props) {
               className="h-[300px] w-full"
               margin={{ top: 20, right: 30, bottom: 5, left: 0 }}
               data={userProfile.priority_distribution.map((priority) => ({
-                key: priority.priority ?? "None",
-                name: capitalizeFirstLetter(priority.priority ?? "None"),
+                key: priority.priority ?? "none",
+                name: getPriorityLabel(priority.priority, t),
                 count: priority.priority_count,
               }))}
               bars={[
                 {
                   key: "count",
-                  label: "Count",
+                  label: t("common.count"),
                   stackId: "bar-one",
                   fill: (payload: any) => priorityColors[payload.key as keyof typeof priorityColors], // TODO: fix types
                   textClassName: "",

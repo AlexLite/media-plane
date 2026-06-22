@@ -31,6 +31,7 @@ import type { IProjectViewIssuesFilter } from "@/store/issue/project-views";
 
 interface ICalendarHeader {
   issuesFilterStore: IProjectIssuesFilter | IModuleIssuesFilter | ICycleIssuesFilter | IProjectViewIssuesFilter;
+  onToday?: () => void;
   updateFilters?: (
     projectId: string,
     filterType: TSupportedFilterTypeForUpdate,
@@ -39,7 +40,7 @@ interface ICalendarHeader {
 }
 
 export const CalendarOptionsDropdown = observer(function CalendarOptionsDropdown(props: ICalendarHeader) {
-  const { issuesFilterStore, updateFilters } = props;
+  const { issuesFilterStore, onToday, updateFilters } = props;
 
   const { t } = useTranslation();
 
@@ -65,6 +66,12 @@ export const CalendarOptionsDropdown = observer(function CalendarOptionsDropdown
 
   const calendarLayout = issuesFilterStore.issueFilters?.displayFilters?.calendar?.layout ?? "month";
   const showWeekends = issuesFilterStore.issueFilters?.displayFilters?.calendar?.show_weekends ?? false;
+
+  const getLayoutTitle = (layout: TCalendarLayouts) => {
+    if (layout === "day") return t("common.today");
+    if (layout === "month") return t("common.month");
+    return t("common.week");
+  };
 
   const handleLayoutChange = (layout: TCalendarLayouts, closePopover: any) => {
     if (!updateFilters) return;
@@ -142,9 +149,13 @@ export const CalendarOptionsDropdown = observer(function CalendarOptionsDropdown
                       key={layout}
                       type="button"
                       className="flex w-full items-center justify-between gap-2 rounded-sm px-1 py-1.5 text-left text-11 hover:bg-layer-1"
-                      onClick={() => handleLayoutChange(layoutDetails.key, closePopover)}
+                      onClick={() => {
+                        if (layoutDetails.key === "day" && onToday) onToday();
+                        else handleLayoutChange(layoutDetails.key, closePopover);
+                        if (windowWidth <= 768) closePopover();
+                      }}
                     >
-                      {layoutDetails.key === "month" ? t("common.month") : t("common.week")}
+                      {getLayoutTitle(layoutDetails.key)}
                       {calendarLayout === layout && <CheckIcon width={12} height={12} strokeWidth={2} />}
                     </button>
                   ))}

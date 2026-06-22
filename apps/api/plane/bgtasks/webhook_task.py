@@ -213,8 +213,8 @@ def send_webhook_deactivation_email(webhook_id: str, receiver_id: str, current_s
         webhook = Webhook.objects.get(pk=webhook_id)
 
         # Get the webhook payload
-        subject = "Webhook Deactivated"
-        message = f"Webhook {webhook.url} has been deactivated due to failed requests."
+        subject = "Webhook отключен"
+        message = f"Webhook {webhook.url} отключен из-за неудачных запросов."
 
         # Send the mail
         context = {
