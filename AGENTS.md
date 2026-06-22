@@ -1,5 +1,19 @@
 # Agent Development Guide
 
+## Fork Rules
+
+- Treat this repository as the deployable source of truth for the Plane RU fork.
+- Read [`docs/fork-workflow.md`](./docs/fork-workflow.md) before making changes.
+- Keep `preview` as the active integration branch unless the user says otherwise.
+- Use [`UPSTREAM_VERSION`](./UPSTREAM_VERSION) for the upstream base and
+  [`RELEASE_VERSION`](./RELEASE_VERSION) for the fork release tag.
+- Update [`CHANGELOG.md`](./CHANGELOG.md) and keep release/deploy notes aligned
+  with the code that is pushed to GitHub.
+- Do not modify the live `.97` deployment unless the user explicitly asks for a
+  deploy action.
+- Prefer repo changes over host-only fixes so GitHub and the deploy remain in
+  sync.
+
 ## Commands
 
 - `pnpm dev` - Start all dev servers (web:3000, admin:3001)

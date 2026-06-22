@@ -8,7 +8,6 @@ import os
 import uuid
 from io import BytesIO
 
-import requests
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
@@ -28,6 +27,7 @@ from plane.settings.storage import S3Storage
 from plane.utils.exception_logger import log_exception
 from plane.utils.host import base_host
 from plane.utils.ip_address import get_client_ip
+from plane.utils.url_security import pinned_fetch_following_redirects
 
 from .error import AUTHENTICATION_ERROR_CODES, AuthenticationException
 
@@ -146,71 +146,79 @@ class Adapter:
 
         try:
             headers = self.get_avatar_download_headers()
-            # Download the avatar image
-            response = requests.get(avatar_url, timeout=10, headers=headers)
-            response.raise_for_status()
-
-            # Check content length before downloading
-            content_length = response.headers.get("Content-Length")
-            max_size = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
-            if content_length and int(content_length) > max_size:
-                return None
-
-            # Get content type and determine file extension
-            content_type = response.headers.get("Content-Type", "image/jpeg")
-            extension_map = {
-                "image/jpeg": "jpg",
-                "image/jpg": "jpg",
-                "image/png": "png",
-                "image/gif": "gif",
-                "image/webp": "webp",
-            }
-            extension = extension_map.get(content_type)
-
-            if not extension:
-                return None
-
-            # Download with size limit
-            chunks = []
-            total_size = 0
-            for chunk in response.iter_content(chunk_size=8192):
-                total_size += len(chunk)
-                if total_size > max_size:
-                    return None
-                chunks.append(chunk)
-            content = b"".join(chunks)
-            file_size = len(content)
-
-            # Generate unique filename
-            filename = f"{uuid.uuid4().hex}-user-avatar.{extension}"
-
-            storage = S3Storage(request=self.request)
-
-            # Create file-like object
-            file_obj = BytesIO(response.content)
-            file_obj.seek(0)
-
-            # Upload using boto3 directly
-            upload_success = storage.upload_file(file_obj=file_obj, object_name=filename, content_type=content_type)
-            if not upload_success:
-                return None
-
-            # Get storage metadata
-            storage_metadata = storage.get_object_metadata(object_name=filename)
-
-            # Create FileAsset record
-            file_asset = FileAsset.objects.create(
-                attributes={"name": f"{self.provider}-avatar.{extension}", "type": content_type, "size": file_size},
-                asset=filename,
-                size=file_size,
-                user=user,
-                created_by=user,
-                entity_type=FileAsset.EntityTypeContext.USER_AVATAR,
-                is_uploaded=True,
-                storage_metadata=storage_metadata,
+            response, _ = pinned_fetch_following_redirects(
+                "GET",
+                avatar_url,
+                timeout=10,
+                headers=headers,
+                stream=True,
             )
+            try:
+                response.raise_for_status()
 
-            return file_asset
+                # Check content length before downloading
+                content_length = response.headers.get("Content-Length")
+                max_size = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
+                if content_length and int(content_length) > max_size:
+                    return None
+
+                # Get content type and determine file extension
+                content_type = response.headers.get("Content-Type", "image/jpeg")
+                extension_map = {
+                    "image/jpeg": "jpg",
+                    "image/jpg": "jpg",
+                    "image/png": "png",
+                    "image/gif": "gif",
+                    "image/webp": "webp",
+                }
+                extension = extension_map.get(content_type)
+
+                if not extension:
+                    return None
+
+                # Download with size limit
+                chunks = []
+                total_size = 0
+                for chunk in response.iter_content(chunk_size=8192):
+                    total_size += len(chunk)
+                    if total_size > max_size:
+                        return None
+                    chunks.append(chunk)
+                content = b"".join(chunks)
+                file_size = len(content)
+
+                # Generate unique filename
+                filename = f"{uuid.uuid4().hex}-user-avatar.{extension}"
+
+                storage = S3Storage(request=self.request)
+
+                # Create file-like object
+                file_obj = BytesIO(content)
+                file_obj.seek(0)
+
+                # Upload using boto3 directly
+                upload_success = storage.upload_file(file_obj=file_obj, object_name=filename, content_type=content_type)
+                if not upload_success:
+                    return None
+
+                # Get storage metadata
+                storage_metadata = storage.get_object_metadata(object_name=filename)
+
+                # Create FileAsset record
+                file_asset = FileAsset.objects.create(
+                    attributes={"name": f"{self.provider}-avatar.{extension}", "type": content_type, "size": file_size},
+                    asset=filename,
+                    size=file_size,
+                    user=user,
+                    created_by=user,
+                    entity_type=FileAsset.EntityTypeContext.USER_AVATAR,
+                    is_uploaded=True,
+                    storage_metadata=storage_metadata,
+                )
+
+                return file_asset
+            finally:
+                response.close()
 
         except Exception as e:
             log_exception(e)

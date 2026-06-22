@@ -51,6 +51,9 @@ jobs:
   branch_build_setup:
     name: Build Setup
     runs-on: ubuntu-22.04
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     outputs:
       gh_branch_name: ${{ steps.set_env_variables.outputs.TARGET_BRANCH }}
       gh_buildx_driver: ${{ steps.set_env_variables.outputs.BUILDX_DRIVER }}
@@ -71,6 +74,7 @@ jobs:
       build_prerelease: ${{ steps.set_env_variables.outputs.BUILD_PRERELEASE }}
       release_version: ${{ steps.set_env_variables.outputs.RELEASE_VERSION }}
       aio_build: ${{ steps.set_env_variables.outputs.AIO_BUILD }}
+      can_publish: ${{ steps.set_env_variables.outputs.CAN_PUBLISH }}
 
     steps:
       - id: set_env_variables
@@ -131,12 +135,18 @@ jobs:
           echo "BUILD_PRERELEASE=${BUILD_PRERELEASE}" >> $GITHUB_OUTPUT
           echo "RELEASE_VERSION=${RELVERSION}" >> $GITHUB_OUTPUT
           echo "AIO_BUILD=${BUILD_AIO}" >> $GITHUB_OUTPUT
+          if [ -n "${DOCKERHUB_USERNAME}" ] && [ -n "${DOCKERHUB_TOKEN}" ]; then
+            echo "CAN_PUBLISH=true" >> $GITHUB_OUTPUT
+          else
+            echo "CAN_PUBLISH=false" >> $GITHUB_OUTPUT
+          fi
 
       - id: checkout_files
         name: Checkout Files
         uses: actions/checkout@v6
 
   branch_build_push_admin:
+    if: ${{ needs.branch_build_setup.outputs.can_publish == 'true' }}
     name: Build-Push Admin Docker Image
     runs-on: ubuntu-22.04
     needs: [branch_build_setup]
@@ -159,6 +169,7 @@ jobs:
           buildx-endpoint: ${{ needs.branch_build_setup.outputs.gh_buildx_endpoint }}
 
   branch_build_push_web:
+    if: ${{ needs.branch_build_setup.outputs.can_publish == 'true' }}
     name: Build-Push Web Docker Image
     runs-on: ubuntu-22.04
     needs: [branch_build_setup]
@@ -181,6 +192,7 @@ jobs:
           buildx-endpoint: ${{ needs.branch_build_setup.outputs.gh_buildx_endpoint }}
 
   branch_build_push_space:
+    if: ${{ needs.branch_build_setup.outputs.can_publish == 'true' }}
     name: Build-Push Space Docker Image
     runs-on: ubuntu-22.04
     needs: [branch_build_setup]
@@ -203,6 +215,7 @@ jobs:
           buildx-endpoint: ${{ needs.branch_build_setup.outputs.gh_buildx_endpoint }}
 
   branch_build_push_live:
+    if: ${{ needs.branch_build_setup.outputs.can_publish == 'true' }}
     name: Build-Push Live Collaboration Docker Image
     runs-on: ubuntu-22.04
     needs: [branch_build_setup]
@@ -225,6 +238,7 @@ jobs:
           buildx-endpoint: ${{ needs.branch_build_setup.outputs.gh_buildx_endpoint }}
 
   branch_build_push_api:
+    if: ${{ needs.branch_build_setup.outputs.can_publish == 'true' }}
     name: Build-Push API Server Docker Image
     runs-on: ubuntu-22.04
     needs: [branch_build_setup]
@@ -247,6 +261,7 @@ jobs:
           buildx-endpoint: ${{ needs.branch_build_setup.outputs.gh_buildx_endpoint }}
 
   branch_build_push_proxy:
+    if: ${{ needs.branch_build_setup.outputs.can_publish == 'true' }}
     name: Build-Push Proxy Docker Image
     runs-on: ubuntu-22.04
     needs: [branch_build_setup]
@@ -269,7 +284,7 @@ jobs:
           buildx-endpoint: ${{ needs.branch_build_setup.outputs.gh_buildx_endpoint }}
 
   branch_build_push_aio:
-    if: ${{ needs.branch_build_setup.outputs.aio_build == 'true' }}
+    if: ${{ needs.branch_build_setup.outputs.aio_build == 'true' && needs.branch_build_setup.outputs.can_publish == 'true' }}
     name: Build-Push AIO Docker Image
     runs-on: ubuntu-22.04
     needs:
@@ -325,6 +340,7 @@ jobs:
             PLANE_VERSION=${{ steps.prepare_aio_assets.outputs.AIO_BUILD_VERSION }}
 
   upload_build_assets:
+    if: ${{ needs.branch_build_setup.outputs.can_publish == 'true' }}
     name: Upload Build Assets
     runs-on: ubuntu-22.04
     needs:
@@ -364,7 +380,7 @@ jobs:
             ./deployments/swarm/community/swarm.sh
 
   publish_release:
-    if: ${{ needs.branch_build_setup.outputs.build_type == 'Release' }}
+    if: ${{ needs.branch_build_setup.outputs.build_type == 'Release' && needs.branch_build_setup.outputs.can_publish == 'true' }}
     name: Build Release
     runs-on: ubuntu-22.04
     needs:

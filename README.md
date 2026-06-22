@@ -1,3 +1,32 @@
+## Plane RU Fork
+
+This repository is a self-host fork of Plane with Russian localization and
+deploy-specific patches for the `preview` branch.
+
+### What is different
+
+- Russian UI and email localization
+- Russian default states and related backend data patches
+- Additional self-host deployment helpers and image tags
+- Pipeline and target-time work item support in the RU fork
+
+### Release notes
+
+See [CHANGELOG.md](./CHANGELOG.md) for the current fork version and the changes
+included in each release snapshot.
+The current release tag is tracked in [RELEASE_VERSION](./RELEASE_VERSION).
+
+### Workflow
+
+See [docs/fork-workflow.md](./docs/fork-workflow.md) for the working rules we
+use to keep GitHub, local development, and the deploy on `plane2` aligned.
+
+### Compose files
+
+- `docker-compose.yml` is the main self-host stack
+- `docker-compose-local.yml` is for local development
+- `docker-compose-test.yml` is for the API test suite
+
 <br /><br />
 
 <p align="center">

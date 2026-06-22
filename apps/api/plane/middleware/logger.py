@@ -4,6 +4,7 @@
 
 # Python imports
 import logging
+import hashlib
 import time
 
 # Django imports
@@ -19,6 +20,20 @@ from plane.utils.exception_logger import log_exception
 from plane.bgtasks.logger_task import process_logs
 
 api_logger = logging.getLogger("plane.api.request")
+
+
+def build_token_identifier(api_key: str) -> str:
+    """
+    Build a stable, non-reversible identifier for API token logs.
+
+    We use a keyed BLAKE2b digest so the same token always maps to the same
+    identifier without persisting the raw secret.
+    """
+    return hashlib.blake2b(
+        api_key.encode("utf-8"),
+        key=settings.SECRET_KEY.encode("utf-8"),
+        digest_size=32,
+    ).hexdigest()
 
 
 class RequestLoggerMiddleware:
@@ -121,7 +136,7 @@ class APITokenLogMiddleware:
 
         try:
             log_data = {
-                "token_identifier": api_key,
+                "token_identifier": build_token_identifier(api_key),
                 "path": request.path,
                 "method": request.method,
                 "query_params": request.META.get("QUERY_STRING", ""),
