@@ -24,6 +24,7 @@ import { GithubConfiguration } from "@/components/authentication/github-config";
 import { GitlabConfiguration } from "@/components/authentication/gitlab-config";
 import { GoogleConfiguration } from "@/components/authentication/google-config";
 import { PasswordLoginConfiguration } from "@/components/authentication/password-config-switch";
+import { getAdminTranslation } from "@/helpers/i18n";
 
 // Authentication methods
 export const getCoreAuthenticationModesMap: (
@@ -35,39 +36,38 @@ export const getCoreAuthenticationModesMap: (
 }) => ({
   "unique-codes": {
     key: "unique-codes",
-    name: "Unique codes",
-    description:
-      "Log in or sign up for Plane using codes sent via email. You need to have set up SMTP to use this method.",
+    name: getAdminTranslation("auth_method_unique_codes_name"),
+    description: getAdminTranslation("auth_method_unique_codes_description"),
     icon: <Mails className="h-6 w-6 p-0.5 text-tertiary" />,
     config: <EmailCodesConfiguration disabled={disabled} updateConfig={updateConfig} />,
     enabledConfigKey: "ENABLE_MAGIC_LINK_LOGIN",
   },
   "passwords-login": {
     key: "passwords-login",
-    name: "Passwords",
-    description: "Allow members to create accounts with passwords and use it with their email addresses to sign in.",
+    name: getAdminTranslation("auth_method_passwords_name"),
+    description: getAdminTranslation("auth_method_passwords_description"),
     icon: <KeyRound className="h-6 w-6 p-0.5 text-tertiary" />,
     config: <PasswordLoginConfiguration disabled={disabled} updateConfig={updateConfig} />,
     enabledConfigKey: "ENABLE_EMAIL_PASSWORD",
   },
   google: {
     key: "google",
-    name: "Google",
-    description: "Allow members to log in or sign up for Plane with their Google accounts.",
-    icon: <img src={googleLogo} height={20} width={20} alt="Google Logo" />,
+    name: getAdminTranslation("google"),
+    description: getAdminTranslation("google_auth_description"),
+    icon: <img src={googleLogo} height={20} width={20} alt={getAdminTranslation("google_logo_alt")} />,
     config: <GoogleConfiguration disabled={disabled} updateConfig={updateConfig} />,
     enabledConfigKey: "IS_GOOGLE_ENABLED",
   },
   github: {
     key: "github",
-    name: "GitHub",
-    description: "Allow members to log in or sign up for Plane with their GitHub accounts.",
+    name: getAdminTranslation("github"),
+    description: getAdminTranslation("github_auth_description"),
     icon: (
       <img
         src={resolvedTheme === "dark" ? githubDarkModeImage : githubLightModeImage}
         height={20}
         width={20}
-        alt="GitHub Logo"
+        alt={getAdminTranslation("github_logo_alt")}
       />
     ),
     config: <GithubConfiguration disabled={disabled} updateConfig={updateConfig} />,
@@ -75,17 +75,17 @@ export const getCoreAuthenticationModesMap: (
   },
   gitlab: {
     key: "gitlab",
-    name: "GitLab",
-    description: "Allow members to log in or sign up to plane with their GitLab accounts.",
-    icon: <img src={gitlabLogo} height={20} width={20} alt="GitLab Logo" />,
+    name: getAdminTranslation("gitlab"),
+    description: getAdminTranslation("gitlab_auth_description"),
+    icon: <img src={gitlabLogo} height={20} width={20} alt={getAdminTranslation("gitlab_logo_alt")} />,
     config: <GitlabConfiguration disabled={disabled} updateConfig={updateConfig} />,
     enabledConfigKey: "IS_GITLAB_ENABLED",
   },
   gitea: {
     key: "gitea",
-    name: "Gitea",
-    description: "Allow members to log in or sign up to plane with their Gitea accounts.",
-    icon: <img src={giteaLogo} height={20} width={20} alt="Gitea Logo" />,
+    name: getAdminTranslation("gitea"),
+    description: getAdminTranslation("gitea_auth_description"),
+    icon: <img src={giteaLogo} height={20} width={20} alt={getAdminTranslation("gitea_logo_alt")} />,
     config: <GiteaConfiguration disabled={disabled} updateConfig={updateConfig} />,
     enabledConfigKey: "IS_GITEA_ENABLED",
   },

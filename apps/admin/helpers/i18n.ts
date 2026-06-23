@@ -154,6 +154,11 @@ const translations: Record<TLocale, Record<string, string>> = {
     allow_signup_without_invite_description:
       "Toggling this off will only let users sign up when they are invited.",
     available_authentication_modes: "Available authentication modes",
+    auth_method_unique_codes_name: "Unique codes",
+    auth_method_unique_codes_description: "Log in or sign up for Plane using codes sent via email. You need to have set up SMTP to use this method.",
+    auth_method_passwords_name: "Passwords",
+    auth_method_passwords_description: "Allow members to create accounts with passwords and use it with their email addresses to sign in.",
+    oauth_sync_description: "Refresh user attributes from {label} during sign in",
     authentication_page_meta_title: "Authentication Settings - Plane Web",
     settings_updated_successfully: "Settings updated successfully",
     instance_details: "Instance details",
@@ -421,6 +426,11 @@ const translations: Record<TLocale, Record<string, string>> = {
     allow_signup_without_invite_description:
       "Если отключить, пользователи смогут регистрироваться только по приглашению.",
     available_authentication_modes: "Доступные методы аутентификации",
+    auth_method_unique_codes_name: "Одноразовые коды",
+    auth_method_unique_codes_description: "Вход или регистрация в Plane с помощью кодов, отправленных на email. Требуется настроенный SMTP.",
+    auth_method_passwords_name: "Пароли",
+    auth_method_passwords_description: "Позволяет участникам создавать учетные записи с паролем и входить с их помощью.",
+    oauth_sync_description: "Обновлять атрибуты пользователя из {label} при входе",
     authentication_page_meta_title: "Настройки аутентификации — Plane Web",
     settings_updated_successfully: "Настройки успешно обновлены",
     instance_details: "Параметры инстанса",
