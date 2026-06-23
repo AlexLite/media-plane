@@ -20,11 +20,14 @@ localization and a small set of fork-specific patches.
 
 1. Sync from upstream with `scripts/sync-upstream.sh`.
 2. Make the fork-specific change locally.
-3. Verify the local stack and tests.
-4. Update `CHANGELOG.md` and bump the fork version if the change is release-worthy.
-5. Commit to `preview`.
-6. Push `preview` to GitHub.
-7. Build and deploy the matching images to the self-host stack.
+3. Run `scripts/check-sync.sh` before editing if you need to confirm local,
+   deploy, and GitHub state.
+4. Verify the local stack and tests.
+5. Update `CHANGELOG.md` and bump the fork version if the change is
+   release-worthy.
+6. Commit to `preview`.
+7. Push `preview` to GitHub.
+8. Build and deploy the matching images to the self-host stack.
 
 ## Build and Deploy
 
@@ -42,3 +45,5 @@ localization and a small set of fork-specific patches.
 - The deploy should come from a tagged or committed release snapshot.
 - Host-only changes should be avoided unless they are part of a deliberate
   deployment adjustment.
+- Use `scripts/check-sync.sh` whenever you need a quick answer to "do local,
+  deploy, and GitHub actually match right now?"

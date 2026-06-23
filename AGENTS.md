@@ -13,6 +13,17 @@
   deploy action.
 - Prefer repo changes over host-only fixes so GitHub and the deploy remain in
   sync.
+- Before any write action, run [`scripts/check-sync.sh`](./scripts/check-sync.sh)
+  or equivalent manual checks and confirm that local, deploy, and GitHub SHAs
+  are aligned for the branch you intend to touch.
+- If the SHAs differ, reconcile first. Never assume `.97` already matches GitHub.
+- Never use `git add -A` on a mixed tree unless the user has confirmed that every
+  change in the worktree belongs in scope.
+- Keep deploy-affecting changes split by concern when possible:
+  translations, backend patches, pipeline/build changes, and docs should be
+  separate commits unless the user explicitly asks for a bundled sync.
+- After committing, verify the new commit on local, deploy, and GitHub before
+  declaring the state synced.
 
 ## Commands
 
