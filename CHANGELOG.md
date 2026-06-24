@@ -6,6 +6,9 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ## [Unreleased]
 
+### Fixed
+- Calendar issue creation hotfix was deployed as `plane-frontend-ru:v1.3.1-calendar-day-fix1-runtime` while frontend rebuilds were temporarily blocked by `registry.npmjs.org` DNS resolution.
+
 ## [v1.3.1-ru.1] - 2026-06-21
 
 ### Added
