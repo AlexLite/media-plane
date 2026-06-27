@@ -780,6 +780,13 @@ export default {
       },
     },
   },
+  rich_filters: {
+    operators: {
+      is: "is",
+      is_any_of: "is any of",
+      between: "between",
+    },
+  },
   common: {
     all: "All",
     no_items_in_this_group: "No items in this group",
@@ -916,6 +923,8 @@ export default {
     updates: "Updates",
     clear_all: "Clear all",
     clear_filters: "Clear filters",
+    save_view: "Save view",
+    update_view: "Update view",
     copied: "Copied!",
     link_copied: "Link copied!",
     link_copied_to_clipboard: "Link copied to clipboard",
@@ -1273,6 +1282,10 @@ export default {
       assigned_count: "{count} assigned",
       complete_active_step: "Complete active step",
       only_active_step_can_be_completed: "Only active step can be completed",
+      errors: {
+        start_date_before_previous_target_date: "Pipeline item start date cannot be earlier than the previous item target date",
+        target_date_after_next_start_date: "Pipeline item target date cannot be later than the next item start date",
+      },
       status: {
         pending: "Pending",
         active: "Active",
@@ -1329,6 +1342,7 @@ export default {
     open_in_full_screen: "Open work item in full screen",
   },
   attachment: {
+    uploaded_by_on: "{name} uploaded on {date}",
     error: "File could not be attached. Try uploading again.",
     only_one_file_allowed: "Only one file can be uploaded at a time.",
     file_size_limit: "File must be of {size}MB or less in size.",
@@ -2160,6 +2174,13 @@ export default {
         create_group: "Create group",
         edit_group: "Edit group",
         archive_group: "Archive group",
+        manage_members: "Manage members",
+        members_panel_description: "Add and remove members in this group.",
+        current_members: "Group members",
+        available_members: "Available members",
+        search_members: "Search members",
+        no_available_members: "All workspace members are already in this group.",
+        no_search_results: "No members found.",
         add_member: "Add member",
         remove_member: "Remove member",
         select_member: "Select member",

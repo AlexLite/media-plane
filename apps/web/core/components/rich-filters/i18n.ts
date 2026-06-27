@@ -6,6 +6,12 @@
 
 type TTranslate = (key: string) => string;
 
+const OPERATOR_LABEL_KEY_MAP: Record<string, string> = {
+  is: "rich_filters.operators.is",
+  "is any of": "rich_filters.operators.is_any_of",
+  between: "rich_filters.operators.between",
+};
+
 const FILTER_LABEL_KEY_MAP: Record<string, string> = {
   State: "common.state",
   "State Group": "common.state_group",
@@ -20,6 +26,13 @@ const FILTER_LABEL_KEY_MAP: Record<string, string> = {
   "Created by": "common.created_by",
   Cycle: "common.cycle",
   Module: "common.module",
+};
+
+export const translateOperatorLabel = (t: TTranslate, label: string) => {
+  const normalizedLabel = label.trim();
+  const key = OPERATOR_LABEL_KEY_MAP[normalizedLabel.toLowerCase()];
+
+  return key ? t(key) : normalizedLabel;
 };
 
 export const translateFilterLabel = (t: TTranslate, label: string) => {

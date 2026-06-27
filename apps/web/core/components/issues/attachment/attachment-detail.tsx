@@ -8,6 +8,7 @@ import { useState } from "react";
 import { observer } from "mobx-react";
 import Link from "next/link";
 import { AlertCircle } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 import { CloseIcon } from "@plane/propel/icons";
 // ui
 import { Tooltip } from "@plane/propel/tooltip";
@@ -43,6 +44,7 @@ type TIssueAttachmentsDetail = {
 export const IssueAttachmentsDetail = observer(function IssueAttachmentsDetail(props: TIssueAttachmentsDetail) {
   // props
   const { attachmentId, attachmentHelpers, disabled } = props;
+  const { t } = useTranslation();
   // store hooks
   const { getUserDetails } = useMember();
   const {
@@ -82,9 +84,10 @@ export const IssueAttachmentsDetail = observer(function IssueAttachmentsDetail(p
                 </Tooltip>
                 <Tooltip
                   isMobile={isMobile}
-                  tooltipContent={`${
-                    getUserDetails(attachment.updated_by)?.display_name ?? ""
-                  } uploaded on ${renderFormattedDate(attachment.updated_at)}`}
+                  tooltipContent={t("attachment.uploaded_by_on", {
+                    name: getUserDetails(attachment.updated_by)?.display_name ?? "",
+                    date: renderFormattedDate(attachment.updated_at),
+                  })}
                 >
                   <span>
                     <AlertCircle className="h-3 w-3" />

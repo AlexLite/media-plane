@@ -75,9 +75,10 @@ export const IssueAttachmentsListItem = observer(function IssueAttachmentsListIt
               <>
                 <Tooltip
                   isMobile={isMobile}
-                  tooltipContent={`${
-                    getUserDetails(attachment?.created_by)?.display_name ?? ""
-                  } uploaded on ${renderFormattedDate(attachment.updated_at)}`}
+                  tooltipContent={t("attachment.uploaded_by_on", {
+                    name: getUserDetails(attachment?.created_by)?.display_name ?? "",
+                    date: renderFormattedDate(attachment.updated_at),
+                  })}
                 >
                   <div className="flex items-center justify-center">
                     <ButtonAvatars showTooltip userIds={attachment?.created_by} />

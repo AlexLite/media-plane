@@ -17,6 +17,7 @@ import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 import { usePlatformOS } from "@/hooks/use-platform-os";
 import { IssueService } from "@/services/issue";
 import { ISSUE_PIPELINE_UPDATED } from "./events";
+import { getPipelineErrorMessage } from "./error-message";
 
 type PipelineItem = {
   id: string;
@@ -170,7 +171,7 @@ export const PipelineCollapsible = observer(function PipelineCollapsible(props: 
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: error?.error || error?.detail || error?.message || t("common.error.message"),
+        message: getPipelineErrorMessage(t, error),
       });
     } finally {
       setIsLoading(false);

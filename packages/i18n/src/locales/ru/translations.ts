@@ -787,6 +787,13 @@ export default {
       },
     },
   },
+  rich_filters: {
+    operators: {
+      is: "это",
+      is_any_of: "любой из",
+      between: "между",
+    },
+  },
   common: {
     all: "Все",
     no_items_in_this_group: "В этой группе нет элементов",
@@ -920,6 +927,8 @@ export default {
     updates: "Обновления",
     clear_all: "Очистить все",
     clear_filters: "Сбросить фильтры",
+    save_view: "Сохранить вид",
+    update_view: "Обновить вид",
     copied: "Скопировано!",
     link_copied: "Ссылка скопирована!",
     link_copied_to_clipboard: "Ссылка скопирована в буфер обмена",
@@ -1282,6 +1291,10 @@ export default {
       assigned_count: "Назначено: {count}",
       complete_active_step: "Завершить активный шаг",
       only_active_step_can_be_completed: "Завершить можно только активный шаг",
+      errors: {
+        start_date_before_previous_target_date: "Дата начала элемента пайплайна не может быть раньше срока предыдущего элемента",
+        target_date_after_next_start_date: "Срок элемента пайплайна не может быть позже даты начала следующего элемента",
+      },
       status: {
         pending: "Ожидает",
         active: "Активен",
@@ -1337,6 +1350,7 @@ export default {
     open_in_full_screen: "Открыть рабочий элемент в полном экране",
   },
   attachment: {
+    uploaded_by_on: "{name}: загружено {date}",
     error: "Ошибка прикрепления файла",
     only_one_file_allowed: "Можно загрузить только один файл",
     file_size_limit: "Максимальный размер файла - {size} МБ",
@@ -2235,6 +2249,13 @@ export default {
         create_group: "Создать группу",
         edit_group: "Изменить группу",
         archive_group: "Архивировать группу",
+        manage_members: "Управлять участниками",
+        members_panel_description: "Добавляйте и убирайте участников этой группы.",
+        current_members: "Участники группы",
+        available_members: "Доступные участники",
+        search_members: "Найти участника",
+        no_available_members: "Все участники рабочего пространства уже добавлены в эту группу.",
+        no_search_results: "Участники не найдены.",
         add_member: "Добавить участника",
         remove_member: "Убрать участника",
         select_member: "Выберите участника",

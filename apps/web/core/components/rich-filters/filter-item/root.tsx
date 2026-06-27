@@ -7,6 +7,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import type { IFilterInstance } from "@plane/shared-state";
 import type {
   SingleOrArray,
@@ -20,6 +21,7 @@ import { CustomSearchSelect } from "@plane/ui";
 import { cn, getOperatorForPayload } from "@plane/utils";
 // local imports
 import { FilterValueInput } from "../filter-value-input/root";
+import { translateOperatorLabel } from "../i18n";
 import { COMMON_FILTER_ITEM_BORDER_CLASSNAME } from "../shared";
 import { FilterItemCloseButton } from "./close-button";
 import { FilterItemContainer } from "./container";
@@ -38,14 +40,15 @@ export const FilterItem = observer(function FilterItem<P extends TFilterProperty
   props: IFilterItemProps<P, E>
 ) {
   const { condition, filter, isDisabled = false, showTransition = true } = props;
+  const { t } = useTranslation();
   // derived values
   const filterConfig = condition?.property ? filter.configManager.getConfigByProperty(condition.property) : undefined;
   const operatorOptions = filterConfig
     ?.getAllDisplayOperatorOptionsByValue(condition.value as TFilterValue)
     .map((option) => ({
       value: option.value,
-      content: option.label,
-      query: option.label.toLowerCase(),
+      content: translateOperatorLabel(t, option.label),
+      query: translateOperatorLabel(t, option.label).toLowerCase(),
     }));
   const selectedOperatorFieldConfig = filterConfig?.getOperatorConfig(condition.operator);
   const selectedOperatorOption = filterConfig?.getDisplayOperatorByValue(
@@ -110,7 +113,7 @@ export const FilterItem = observer(function FilterItem<P extends TFilterProperty
         disabled={isOperatorSelectionDisabled}
         customButton={
           <div className="flex h-full items-center" aria-disabled={isOperatorSelectionDisabled}>
-            {filterConfig.getLabelForOperator(selectedOperatorOption)}
+            {translateOperatorLabel(t, filterConfig.getLabelForOperator(selectedOperatorOption))}
           </div>
         }
       />

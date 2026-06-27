@@ -5,6 +5,7 @@ import { Button } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { IssueService } from "@/services/issue";
 import { ISSUE_PIPELINE_UPDATED } from "./events";
+import { getPipelineErrorMessage } from "./error-message";
 
 type Props = {
   workspaceSlug: string;
@@ -40,7 +41,7 @@ export function PipelineActionButton(props: Props) {
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: error?.error || error?.detail || error?.message || t("common.error.message"),
+        message: getPipelineErrorMessage(t, error),
       });
     } finally {
       setIsLoading(false);
