@@ -22,7 +22,6 @@ import icon512 from "@/app/assets/icons/icon-512x512.png?url";
 import globalStyles from "@/styles/globals.css?url";
 import type { Route } from "./+types/root";
 // components
-import { LogoSpinner } from "@/components/common/logo-spinner";
 // local
 import { CustomErrorComponent } from "./error";
 import { AppProvider } from "./provider";
@@ -131,7 +130,7 @@ export default function Root() {
 export function HydrateFallback() {
   return (
     <div className="relative flex h-screen w-full items-center justify-center bg-canvas">
-      <LogoSpinner />
+      <div className="h-6 w-6 animate-spin rounded-full border-2 border-custom-border-200 border-t-custom-primary-100 sm:h-11 sm:w-11" />
     </div>
   );
 }
