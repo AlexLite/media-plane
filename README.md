@@ -1,12 +1,16 @@
 ## Plane RU Fork
 
-This repository is a self-host fork of Plane with Russian localization and
-deploy-specific patches for the `preview` branch.
+This repository is a self-host Plane fork developed for a video production team
+workflow. The fork is still in active development, so a complete description of
+the final product scope will be added later.
 
 ### What is different
 
 - Russian UI and email localization
+- Ongoing migration of hardcoded UI text into locale files for easier language
+  translation
 - Russian default states and related backend data patches
+- Groups support for team workflows
 - Additional self-host deployment helpers and image tags
 - Pipeline and target-time work item support in the RU fork
 
