@@ -1,123 +1,273 @@
 #!/usr/bin/env node
 /**
- * audit-hardcoded.mjs
- * Finds hardcoded English UI strings in component files that should use t()
- * Usage: node scripts/audit-hardcoded.mjs [--json]
+ * Finds likely hardcoded English UI strings that should use i18n keys.
+ *
+ * Default mode is a report over known frontend surfaces. CI should use
+ * --changed so existing debt does not block unrelated upstream syncs.
  */
 
-import { execSync } from "child_process";
-import { readFileSync } from "fs";
-import path from "path";
+import { execFileSync } from "node:child_process";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import path from "node:path";
 
-const SEARCH_DIRS = [
-  "apps/web/core/components",
-  "apps/web/ce/components",
-  "apps/web/app",
+const DEFAULT_SEARCH_DIRS = [
+  "apps/web",
+  "apps/admin",
+  "apps/space",
+  "packages/ui",
+  "packages/editor",
 ];
 
-// Patterns that indicate UI strings (key = prop name, value = min string length)
-const UI_PROP_PATTERNS = [
-  /(?:label|title|heading|message|description|placeholder|tooltipContent|tooltipHeading|buttonText|emptyStateTitle|emptyStateDescription)\s*[:=]\s*["']([A-Z][a-zA-Z0-9 ',\-\.!?]{2,80})["']/g,
-  />\s*([A-Z][a-z][a-zA-Z0-9 ',\-\.!?]{3,60})\s*</g,  // JSX text content
+const VALID_EXTENSIONS = new Set([".ts", ".tsx"]);
+const IGNORE_FILE_PATTERNS = [
+  /\.d\.ts$/,
+  /\.test\.[tj]sx?$/,
+  /\.spec\.[tj]sx?$/,
+  /\.stories\.[tj]sx?$/,
+  /(^|\/)__tests__(\/|$)/,
+  /(^|\/)node_modules(\/|$)/,
+  /(^|\/)\.next(\/|$)/,
+  /(^|\/)dist(\/|$)/,
+  /(^|\/)build(\/|$)/,
 ];
 
-const IGNORE_PATTERNS = [
-  /t\(/,              // already using t()
-  /^\s*\/\//,        // comment
-  /import /,         // import statement
-  /className/,       // CSS classes
-  /\.(png|svg|jpg|ico|woff|css|js)/, // file paths
-  /"[a-z-_]+"/,      // lowercase-only strings (keys, variants)
-  /TOAST_TYPE\./,    // toast type constants
+const UI_STRING_PATTERNS = [
+  {
+    kind: "prop",
+    pattern:
+      /(?:aria-label|label|title|heading|message|description|placeholder|tooltipContent|tooltipHeading|buttonText|emptyStateTitle|emptyStateDescription)\s*[:=]\s*["']([A-Z][A-Za-z0-9 ',./:;!?()[\]&+-]{2,100})["']/g,
+  },
+  {
+    kind: "jsx-text",
+    pattern: />\s*([A-Z][A-Za-z0-9 ',./:;!?()[\]&+-]{3,100})\s*</g,
+  },
 ];
 
-function shouldIgnoreLine(line) {
-  return IGNORE_PATTERNS.some((p) => p.test(line));
+const IGNORE_LINE_PATTERNS = [
+  /i18n-hardcoded-ok/,
+  /\bt\(/,
+  /<Trans\b/,
+  /\bi18nKey=/,
+  /^\s*\/\//,
+  /^\s*\*/,
+  /^\s*import\b/,
+  /^\s*export\s+type\b/,
+  /^\s*type\s+\w+/,
+  /^\s*interface\s+\w+/,
+  /\bclassName\s*=/,
+  /\b(?:href|src|url|path|icon|image|avatar|logo|testId|data-testid)\s*[:=]/,
+  /\.(png|svg|jpg|jpeg|webp|ico|woff2?|css|mjs|js)\b/i,
+  /\bTOAST_TYPE\./,
+];
+
+const args = parseArgs(process.argv.slice(2));
+
+if (args.help) {
+  printHelp();
+  process.exit(0);
 }
 
-const results = {};
-let totalCount = 0;
+const files = args.changed ? getChangedFiles(args.base) : getAllFiles(args.searchDirs);
+const results = auditFiles(files);
+const totalCount = Object.values(results).reduce((sum, matches) => sum + matches.length, 0);
 
-for (const dir of SEARCH_DIRS) {
-  let files;
-  try {
-    files = execSync(`find "${dir}" -name "*.tsx" -o -name "*.ts" 2>/dev/null`, {
-      encoding: "utf8",
-    })
-      .trim()
-      .split("\n")
-      .filter(Boolean);
-  } catch {
-    continue;
+if (args.json) {
+  console.log(JSON.stringify(results, null, 2));
+} else {
+  printReport(results, totalCount, files.length, args.changed);
+}
+
+if (args.ci && totalCount > 0) {
+  process.exitCode = 1;
+}
+
+function parseArgs(argv) {
+  const parsed = {
+    base: "HEAD~1",
+    changed: false,
+    ci: false,
+    help: false,
+    json: false,
+    searchDirs: DEFAULT_SEARCH_DIRS,
+  };
+
+  for (let i = 0; i < argv.length; i += 1) {
+    const arg = argv[i];
+
+    if (arg === "--base") {
+      parsed.base = argv[i + 1] || parsed.base;
+      i += 1;
+    } else if (arg.startsWith("--base=")) {
+      parsed.base = arg.slice("--base=".length) || parsed.base;
+    } else if (arg === "--changed") {
+      parsed.changed = true;
+    } else if (arg === "--ci") {
+      parsed.ci = true;
+    } else if (arg === "--dir") {
+      parsed.searchDirs = [argv[i + 1]];
+      i += 1;
+    } else if (arg.startsWith("--dir=")) {
+      parsed.searchDirs = [arg.slice("--dir=".length)];
+    } else if (arg === "--help" || arg === "-h") {
+      parsed.help = true;
+    } else if (arg === "--json") {
+      parsed.json = true;
+    } else {
+      throw new Error(`Unknown argument: ${arg}`);
+    }
   }
 
-  for (const file of files) {
-    let content;
-    try {
-      content = readFileSync(file, "utf8");
-    } catch {
+  return parsed;
+}
+
+function printHelp() {
+  console.log(`Usage: node scripts/audit-hardcoded.mjs [options]
+
+Options:
+  --changed          Check only TS/TSX files changed against --base.
+  --base <ref>       Base ref or SHA for --changed. Defaults to HEAD~1.
+  --ci               Exit with status 1 when findings are present.
+  --dir <path>       Check one directory instead of default frontend surfaces.
+  --json             Print machine-readable findings.
+  -h, --help         Show this help.
+
+Add // i18n-hardcoded-ok on a line for intentional literals.`);
+}
+
+function getAllFiles(searchDirs) {
+  const files = [];
+
+  for (const searchDir of searchDirs) {
+    if (!existsSync(searchDir)) continue;
+    walk(searchDir, files);
+  }
+
+  return files.filter(isCandidateFile).sort();
+}
+
+function walk(dir, files) {
+  for (const entry of readdirSync(dir)) {
+    const fullPath = path.join(dir, entry);
+    const stat = statSync(fullPath);
+
+    if (stat.isDirectory()) {
+      if (!shouldIgnoreFile(toPosix(fullPath))) walk(fullPath, files);
       continue;
     }
 
-    const lines = content.split("\n");
-    const fileMatches = [];
+    files.push(toPosix(fullPath));
+  }
+}
 
-    lines.forEach((line, i) => {
+function getChangedFiles(base) {
+  let output = "";
+
+  try {
+    output = execFileSync("git", ["diff", "--name-only", "--diff-filter=ACMR", `${base}...HEAD`], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+  } catch {
+    output = execFileSync("git", ["diff", "--name-only", "--diff-filter=ACMR", base, "HEAD"], {
+      encoding: "utf8",
+    });
+  }
+
+  return output
+    .split(/\r?\n/)
+    .map((file) => file.trim())
+    .filter(Boolean)
+    .filter((file) => DEFAULT_SEARCH_DIRS.some((dir) => file === dir || file.startsWith(`${dir}/`)))
+    .filter((file) => existsSync(file))
+    .filter(isCandidateFile)
+    .sort();
+}
+
+function isCandidateFile(file) {
+  return VALID_EXTENSIONS.has(path.extname(file)) && !shouldIgnoreFile(toPosix(file));
+}
+
+function shouldIgnoreFile(file) {
+  return IGNORE_FILE_PATTERNS.some((pattern) => pattern.test(file));
+}
+
+function auditFiles(files) {
+  const findings = {};
+
+  for (const file of files) {
+    const content = readFileSync(file, "utf8");
+    const matches = [];
+
+    content.split(/\r?\n/).forEach((line, index) => {
       if (shouldIgnoreLine(line)) return;
 
-      for (const pattern of UI_PROP_PATTERNS) {
+      for (const { kind, pattern } of UI_STRING_PATTERNS) {
         pattern.lastIndex = 0;
         let match;
-        while ((match = pattern.exec(line)) !== null) {
-          const str = match[1].trim();
-          // Skip very short strings and obviously non-UI strings
-          if (str.length < 4) continue;
-          if (/^[a-z]/.test(str)) continue; // starts lowercase
-          if (/^[A-Z_0-9]+$/.test(str)) continue; // ALL_CAPS constant
-          if (str.includes("${")) continue; // template literal
-          if (/^https?:/.test(str)) continue; // URL
 
-          fileMatches.push({
-            line: i + 1,
-            text: line.trim().slice(0, 120),
-            match: str,
+        while ((match = pattern.exec(line)) !== null) {
+          const value = match[1].trim();
+          if (!isLikelyUiString(value)) continue;
+
+          matches.push({
+            kind,
+            line: index + 1,
+            match: value,
+            text: line.trim().slice(0, 160),
           });
-          totalCount++;
         }
       }
     });
 
-    if (fileMatches.length > 0) {
-      const relPath = file.replace(/\\/g, "/");
-      results[relPath] = fileMatches;
+    if (matches.length > 0) {
+      findings[toPosix(file)] = matches;
     }
   }
+
+  return findings;
 }
 
-// Output
-const isJson = process.argv.includes("--json");
+function shouldIgnoreLine(line) {
+  return IGNORE_LINE_PATTERNS.some((pattern) => pattern.test(line));
+}
 
-if (isJson) {
-  console.log(JSON.stringify(results, null, 2));
-} else {
-  console.log("=".repeat(70));
-  console.log("HARDCODED ENGLISH STRINGS AUDIT");
-  console.log("=".repeat(70));
-  console.log();
+function isLikelyUiString(value) {
+  if (value.length < 4) return false;
+  if (/^[A-Z_0-9-]+$/.test(value)) return false;
+  if (/^https?:\/\//.test(value)) return false;
+  if (/^[A-Z][a-z]+(?:Icon|Type|Status|State|Variant)$/.test(value)) return false;
+  if (value.includes("${")) return false;
+  if (value.includes("{{")) return false;
+  if (/^[A-Z][a-z]+\/[A-Z][a-z]+$/.test(value)) return false;
 
+  return /[A-Za-z]/.test(value);
+}
+
+function printReport(results, totalCount, scannedCount, changedOnly) {
   const fileList = Object.entries(results).sort(([, a], [, b]) => b.length - a.length);
 
+  console.log("=".repeat(70));
+  console.log("HARDCODED ENGLISH UI STRINGS AUDIT");
+  console.log("=".repeat(70));
+  console.log(`Mode: ${changedOnly ? "changed files" : "full report"}`);
+  console.log(`Candidate files scanned: ${scannedCount}`);
+
   for (const [file, matches] of fileList) {
-    console.log(`\n📄 ${file} (${matches.length} strings)`);
+    console.log(`\n${file} (${matches.length} findings)`);
     console.log("-".repeat(60));
-    for (const m of matches) {
-      console.log(`  L${m.line}: "${m.match}"`);
-      console.log(`         ${m.text}`);
+
+    for (const match of matches) {
+      console.log(`  L${match.line} [${match.kind}]: "${match.match}"`);
+      console.log(`         ${match.text}`);
     }
   }
 
   console.log("\n" + "=".repeat(70));
-  console.log(`Total files with hardcoded strings: ${fileList.length}`);
-  console.log(`Total hardcoded strings found: ${totalCount}`);
+  console.log(`Files with findings: ${fileList.length}`);
+  console.log(`Total findings: ${totalCount}`);
   console.log("=".repeat(70));
+}
+
+function toPosix(file) {
+  return file.replace(/\\/g, "/");
 }

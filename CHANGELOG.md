@@ -6,6 +6,9 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ## [Unreleased]
 
+### Added
+- Changed-file hardcoded UI string audit for frontend i18n regressions.
+
 ### Fixed
 - RU locale audits now distinguish intentional brand, placeholder, and protocol values from real untranslated UI strings.
 - i18n sync CI now requires the Russian locale to match English while leaving non-RU upstream locales as report-only checks.
