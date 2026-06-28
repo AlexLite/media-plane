@@ -39,11 +39,11 @@ pnpm --filter=@plane/i18n audit:ru
 For CI-style locale shape checks:
 
 ```bash
-pnpm dlx tsx packages/i18n/scripts/sync-check.ts --ci
+pnpm dlx tsx packages/i18n/scripts/sync-check.ts --ci --locale ru
 ```
 
-That sync check compares every locale to English; non-RU upstream locales may
-still miss fork-specific keys even when RU is complete.
+The fork CI requires RU to match English. Run the same command without
+`--locale ru` when you want a report for every upstream locale.
 
 ## Editing Rules
 

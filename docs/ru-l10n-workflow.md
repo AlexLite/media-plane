@@ -16,6 +16,7 @@ Run from repo root:
 node packages/i18n/scripts/audit-ru-locale.mjs
 node packages/i18n/scripts/audit-ru-locale.mjs --override E:/Dev/projects/Plane/ru-override.utf8.js
 node scripts/audit-keys.mjs
+pnpm dlx tsx packages/i18n/scripts/sync-check.ts --ci --locale ru
 ```
 
 ## Update Cycle (new upstream release)

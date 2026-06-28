@@ -7,6 +7,7 @@
 // Usage:
 //   tsx packages/i18n/scripts/sync-check.ts          # Report only
 //   tsx packages/i18n/scripts/sync-check.ts --ci     # Exit 1 if issues found
+//   tsx packages/i18n/scripts/sync-check.ts --ci --locale ru
 
 import type { LocaleData } from "./lib/locale-io.js";
 import { LOCALES_DIR, listLocales, loadLocale } from "./lib/locale-io.js";
@@ -18,6 +19,28 @@ import { LOCALES_DIR, listLocales, loadLocale } from "./lib/locale-io.js";
 /** Format a number with commas (e.g. 7712 -> "7,712"). */
 function fmt(n: number): string {
   return n.toLocaleString("en-US");
+}
+
+function parseLocaleFilters(args: string[]): string[] {
+  const locales: string[] = [];
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (arg === "--locale" || arg === "--locales") {
+      const value = args[i + 1];
+      if (!value) {
+        throw new Error(`${arg} requires a comma-separated locale value`);
+      }
+      locales.push(...value.split(","));
+      i++;
+    } else if (arg.startsWith("--locale=")) {
+      locales.push(...arg.slice("--locale=".length).split(","));
+    } else if (arg.startsWith("--locales=")) {
+      locales.push(...arg.slice("--locales=".length).split(","));
+    }
+  }
+
+  return [...new Set(locales.map((locale) => locale.trim()).filter(Boolean))];
 }
 
 // ---------------------------------------------------------------------------
@@ -125,7 +148,9 @@ function compareToEnglish(enKeys: Set<string>, other: LocaleData): LocaleCompari
 // ---------------------------------------------------------------------------
 
 function main() {
-  const ciMode = process.argv.includes("--ci");
+  const args = process.argv.slice(2);
+  const ciMode = args.includes("--ci");
+  const localeFilters = parseLocaleFilters(args);
 
   // Discover all locale directories
   const localeDirs = listLocales();
@@ -148,7 +173,14 @@ function main() {
   const pathConflicts = findPathConflicts(enData);
 
   const comparisons: LocaleComparison[] = [];
-  for (const locale of localeDirs) {
+  const localesToCompare = localeFilters.length > 0 ? localeFilters : localeDirs.filter((locale) => locale !== "en");
+  const missingLocaleDirs = localesToCompare.filter((locale) => !localeDirs.includes(locale));
+  if (missingLocaleDirs.length > 0) {
+    console.error(`ERROR: Locale(s) not found: ${missingLocaleDirs.join(", ")}`);
+    process.exit(1);
+  }
+
+  for (const locale of localesToCompare) {
     if (locale === "en") continue;
     comparisons.push(compareToEnglish(enData.allKeys, localeDataMap.get(locale)!));
   }
@@ -161,6 +193,9 @@ function main() {
 
   console.log("\n=== Sync Check Results ===\n");
   console.log(`  en:    ${fmt(enData.allKeys.size)} keys (source)\n`);
+  if (localeFilters.length > 0) {
+    console.log(`  Required locales: ${localeFilters.join(", ")}\n`);
+  }
 
   for (const comp of comparisons) {
     const status = comp.missingKeys.length === 0 ? "✓" : "✗";

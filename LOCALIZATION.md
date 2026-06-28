@@ -49,11 +49,12 @@ node scripts/audit-keys.mjs --extra
 The CI-oriented i18n check is:
 
 ```bash
-pnpm dlx tsx packages/i18n/scripts/sync-check.ts --ci
+pnpm dlx tsx packages/i18n/scripts/sync-check.ts --ci --locale ru
 ```
 
-Note: that CI check compares every locale to English. In this fork, RU may be in
-sync while non-RU upstream locales still miss fork-specific keys.
+The fork CI requires RU to match English. To inspect every upstream locale as a
+report, omit `--locale ru`; non-RU upstream locales may still miss fork-specific
+keys that this fork does not own.
 
 ## Build And Deploy
 

@@ -7,6 +7,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 ## [Unreleased]
 
 ### Fixed
+- i18n sync CI now requires the Russian locale to match English while leaving non-RU upstream locales as report-only checks.
 - Web nginx now returns 404 for missing hashed assets instead of serving the SPA shell, preventing stale frontend chunks from breaking client-side navigation after deploys.
 
 ## [v1.3.1-ru.2] - 2026-06-29
