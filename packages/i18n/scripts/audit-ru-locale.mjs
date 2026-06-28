@@ -19,6 +19,47 @@ const cwd = process.cwd();
 const repoRoot = cwd.endsWith(path.join("packages", "i18n")) ? path.resolve(cwd, "..", "..") : cwd;
 const ruDir = path.join(repoRoot, "packages", "i18n", "src", "locales", "ru");
 
+const intentionallyIdenticalKeys = new Set([
+  "auth.json:sso.domain_management.verified_domains.add_domain.form.domain_placeholder",
+  "auth.json:sso.providers.saml.setup_modal.mapping_table.table.idp",
+  "auth.json:sso.providers.saml.setup_modal.mapping_table.table.plane",
+  "auth.json:auth.common.email.label",
+  "automation.json:automations.trigger.schedule.am",
+  "automation.json:automations.trigger.schedule.pm",
+  "automation.json:automations.trigger.schedule.schedule_mode_cron",
+  "automation.json:automations.trigger.schedule.main_content_cron_summary",
+  "common.json:ok",
+  "common.json:email",
+  "common.json:exporter.excel.title",
+  "common.json:exporter.xlsx.title",
+  "common.json:exporter.json.title",
+  "integration.json:github_integration.name",
+  "integration.json:gitlab_integration.name",
+  "integration.json:gitlab_enterprise_integration.name",
+  "integration.json:slack_integration.name",
+  "integration.json:sentry_integration.name",
+  "integration.json:bitbucket_dc_integration.name",
+  "integration.json:oauth_bridge_integration.name",
+  "integration.json:oauth_bridge_integration.provider_form.audience_placeholder",
+  "integration.json:oauth_bridge_integration.provider_form.user_claims_placeholder",
+  "integration.json:oauth_bridge_integration.provider_form.rate_limit_placeholder",
+  "integration.json:github_enterprise_integration.name",
+  "integration.json:github_enterprise_integration.app_id_placeholder",
+  "integration.json:github_enterprise_integration.app_name_placeholder",
+  "integration.json:github_enterprise_integration.client_id_placeholder",
+  "integration.json:github_enterprise_integration.client_secret_placeholder",
+  "integration.json:github_enterprise_integration.webhook_secret_placeholder",
+  "integration.json:github_enterprise_integration.private_key_placeholder",
+  "navigation.json:sidebar.pro",
+  "project.json:project_members.email",
+  "template.json:templates.settings.form.publish.company_name.placeholder",
+  "template.json:templates.settings.form.publish.contact_email.placeholder",
+  "workspace-settings.json:workspace_settings.settings.members.details.email_address",
+  "workspace-settings.json:workspace_settings.settings.plane-intelligence.title",
+  "workspace-settings.json:workspace_settings.settings.plane-intelligence.heading",
+  "workspace-settings.json:workspace_settings.settings.runners.title",
+]);
+
 const args = process.argv.slice(2);
 const overrideIndex = args.indexOf("--override");
 const overridePath = overrideIndex >= 0 ? args[overrideIndex + 1] : null;
@@ -34,9 +75,6 @@ const ignoredLineSubstrings = [
   "ID",
   "CSV",
   "HEX",
-  "GitHub",
-  "GitLab",
-  "Plane",
   "{email}",
   "name@company.com",
 ];
@@ -83,7 +121,7 @@ const collectRuCandidates = () => {
     const filePath = path.join(ruDir, file);
     const values = flattenValues(JSON.parse(fs.readFileSync(filePath, "utf8")));
     for (const { key, value } of values) {
-      if (!shouldIgnoreText(value)) {
+      if (!intentionallyIdenticalKeys.has(`${file}:${key}`) && !shouldIgnoreText(value)) {
         results.push({ file, key, value });
       }
     }

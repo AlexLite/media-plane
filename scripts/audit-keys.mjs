@@ -31,6 +31,52 @@ function loadNamespaces() {
 
 const NAMESPACES = loadNamespaces();
 
+const INTENTIONALLY_IDENTICAL_KEYS = new Set([
+  "auth:sso.domain_management.verified_domains.add_domain.form.domain_placeholder",
+  "auth:sso.providers.saml.setup_modal.mapping_table.table.idp",
+  "auth:sso.providers.saml.setup_modal.mapping_table.table.plane",
+  "auth:auth.common.email.label",
+  "auth:auth.common.email.placeholder",
+  "auth:auth.sign_up.header.step.email.sub_header",
+  "auth:auth.sign_in.header.step.email.sub_header",
+  "automation:automations.trigger.schedule.schedule_mode_cron",
+  "automation:automations.trigger.schedule.cron_expression_placeholder",
+  "automation:automations.trigger.schedule.main_content_cron_summary",
+  "common:email",
+  "integration:gitlab_integration.name",
+  "integration:gitlab_enterprise_integration.name",
+  "integration:sentry_integration.name",
+  "integration:bitbucket_dc_integration.name",
+  "integration:oauth_bridge_integration.name",
+  "integration:oauth_bridge_integration.provider_form.issuer_placeholder",
+  "integration:oauth_bridge_integration.provider_form.jwks_url_placeholder",
+  "integration:oauth_bridge_integration.provider_form.audience_placeholder",
+  "integration:oauth_bridge_integration.provider_form.rate_limit_placeholder",
+  "integration:github_enterprise_integration.name",
+  "integration:github_enterprise_integration.app_id_placeholder",
+  "integration:github_enterprise_integration.app_name_placeholder",
+  "integration:github_enterprise_integration.base_url_placeholder",
+  "integration:github_enterprise_integration.client_id_placeholder",
+  "integration:github_enterprise_integration.client_secret_placeholder",
+  "integration:github_enterprise_integration.webhook_secret_placeholder",
+  "integration:github_enterprise_integration.private_key_placeholder",
+  "navigation:sidebar.pro",
+  "project:project_members.email",
+  "template:templates.settings.form.publish.website.placeholder",
+  "template:templates.settings.form.publish.company_name.placeholder",
+  "template:templates.settings.form.publish.contact_email.placeholder",
+  "template:templates.settings.form.publish.privacy_policy_url.placeholder",
+  "template:templates.settings.form.publish.terms_of_service_url.placeholder",
+  "workspace-settings:workspace_settings.settings.members.modal.placeholder",
+  "workspace-settings:workspace_settings.settings.applications.website.placeholder",
+  "workspace-settings:workspace_settings.settings.applications.setup_url.placeholder",
+  "workspace-settings:workspace_settings.settings.applications.webhook_url.placeholder",
+  "workspace-settings:workspace_settings.settings.applications.redirect_uris.placeholder",
+  "workspace-settings:workspace_settings.settings.plane-intelligence.title",
+  "workspace-settings:workspace_settings.settings.plane-intelligence.heading",
+  "workspace-settings:workspace_settings.settings.runners.title",
+]);
+
 // Technical terms that are intentionally identical in both locales.
 const TECHNICAL_TERMS = new Set([
   "PDF",
@@ -70,7 +116,8 @@ const TECHNICAL_TERMS = new Set([
 const SLUG_PATTERN = /^[a-z][a-z0-9-]*$/;
 const ACRONYM_PATTERN = /^[A-Z0-9\s\-_.\\/]+$/;
 
-function isTechnical(val) {
+function isTechnical(key, val) {
+  if (INTENTIONALLY_IDENTICAL_KEYS.has(key)) return true;
   if (TECHNICAL_TERMS.has(val)) return true;
   if (SLUG_PATTERN.test(val)) return true;
   if (ACRONYM_PATTERN.test(val)) return true;
@@ -119,7 +166,7 @@ const extra = [];
 for (const [key, enVal] of Object.entries(enAll)) {
   if (!(key in ruAll)) {
     missing.push({ key, enVal });
-  } else if (ruAll[key] === enVal && !isTechnical(enVal)) {
+  } else if (ruAll[key] === enVal && !isTechnical(key, enVal)) {
     untranslated.push({ key, val: enVal });
   }
 }
