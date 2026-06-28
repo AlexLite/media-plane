@@ -31,13 +31,18 @@ localization and a small set of fork-specific patches.
 
 ## Build and Deploy
 
-- Use `build-web-ipv4.sh` for the frontend image when an explicit release tag is
-  needed.
+- Use `build-backend-ru.sh` for the backend image when an explicit release tag
+  is needed.
+- Use `build-web-ipv4.sh` for the frontend image when an explicit release tag
+  is needed.
 - Set `RELEASE_VERSION` or update [`RELEASE_VERSION`](../RELEASE_VERSION) before
   building release images.
 - Use the compose files in the repo as the source of truth for local, test, and
   self-host environments.
 - Keep deployment tags aligned with the GitHub commit that produced them.
+- Do not add one-off root-level hotfix Dockerfiles for runtime-only layers.
+  Bring hotfixes back into source and build clean images from the canonical app
+  Dockerfiles instead.
 
 ## Principles
 
