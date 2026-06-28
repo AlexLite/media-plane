@@ -146,7 +146,7 @@ export default {
     max_size_error: "Размер изображения не должен превышать 5 МБ.",
     invalid_format_error: "Загрузите файл в допустимом формате.",
     supported_formats: "Поддерживаемые форматы: .jpeg, .jpg, .png, .webp",
-    uploading: "Загрузка",
+    uploading: "Загрузка...",
     upload_and_save: "Загрузить и сохранить",
     image_not_uploaded: "Изображение не загружено",
     image_could_not_be_uploaded: "Не удалось загрузить изображение",
@@ -841,7 +841,7 @@ export default {
     offline_tooltip_heading: "Вы не в сети.",
     offline_tooltip_content: "Вы можете продолжать вносить изменения. Они будут синхронизированы, когда вы снова подключитесь к сети.",
     locked: "Заблокировано",
-    drop_here: "Перетащите сюда...",
+    drop_here: "Перетащите изображение сюда",
     drop_here_to_delete: "Перетащите сюда для удаления задачи.",
     click_or_drag_file: "Нажмите или перетащите файл сюда",
     links: "Ссылки",
@@ -1570,7 +1570,7 @@ export default {
         removing: "Удаление",
         remove: "Удалить",
         cancel: "Отмена",
-        uploading: "Загрузка",
+        uploading: "Загрузка...",
         save: "Загрузить и сохранить",
       },
     },
@@ -1711,6 +1711,12 @@ export default {
       coordinate_cross_functional_projects: "Координировать кросс-функциональные проекты",
       replace_current_tool: "Заменить текущий инструмент",
       just_exploring: "Просто изучаю",
+    },
+  },
+  project: {
+    join_modal: {
+      title: "Присоединиться к проекту",
+      description: "Вы собираетесь присоединиться к проекту {name}.",
     },
   },
   project_modals: {
@@ -1889,6 +1895,11 @@ export default {
     customized_insights: "Индивидуальные аналитические данные",
     backlog_work_items: "{entity} в бэклоге",
     active_projects: "Активные проекты",
+    workload: "Загрузка",
+    workload_member: "Участник",
+    workload_days: "{count} дн.",
+    workload_empty_title: "Загрузка пока не указана",
+    workload_empty_description: "Здесь появятся участники, назначенные на этапы пайплайна с датами.",
     trend_on_charts: "Тренд на графиках",
     all_projects: "Все проекты",
     summary_of_projects: "Сводка по проектам",
@@ -2227,9 +2238,11 @@ export default {
           display_name: "Отображаемое имя",
           email_address: "Электронная почта",
           account_type: "Тип аккаунта",
+          group: "Группа",
           authentication: "Аутентификация",
           joining_date: "Дата присоединения",
         },
+        no_group: "Нет группы",
         modal: {
           title: "Пригласить участников",
           description: "Пригласите коллег в рабочее пространство.",
@@ -2250,6 +2263,18 @@ export default {
         edit_group: "Изменить группу",
         archive_group: "Архивировать группу",
         manage_members: "Управлять участниками",
+        manage_notifications: "Настроить уведомления",
+        notifications_title: "Уведомления: {group}",
+        notifications_panel_description: "Выберите статусы проекта, в которых участники группы будут получать обычные уведомления по рабочим элементам.",
+        project: "Проект",
+        no_projects: "Проектов нет",
+        allowed_states: "Разрешенные статусы",
+        allowed_states_description: "Если статусы выбраны, уведомления участникам этой группы приходят только когда рабочий элемент находится в одном из них. Упоминания @ приходят всегда.",
+        states_count: "{count, plural, one {# статус} few {# статуса} many {# статусов} other {# статуса}}",
+        no_states: "В проекте нет статусов.",
+        select_project: "Выберите проект.",
+        no_rule_hint: "Статусы не выбраны: для этого проекта действует обычное поведение Plane.",
+        rule_active_hint: "Правило активно для выбранных статусов.",
         members_panel_description: "Добавляйте и убирайте участников этой группы.",
         current_members: "Участники группы",
         available_members: "Доступные участники",
@@ -2283,6 +2308,7 @@ export default {
           archived: "Группа архивирована.",
           member_added: "Участник добавлен в группу.",
           member_removed: "Участник удален из группы.",
+          notification_rules_updated: "Настройки уведомлений обновлены.",
         },
       },
       billing_and_plans: {
@@ -2523,6 +2549,8 @@ export default {
     general: {
       enter_project_id: "Введите ID проекта",
       please_select_a_timezone: "Выберите часовой пояс",
+      default_due_time: "Время дедлайна по умолчанию",
+      default_due_time_description: "Автоматически подставляется в задачи этого проекта при выборе даты дедлайна.",
       archive_project: {
         title: "Архивировать проект",
         description:
@@ -2567,6 +2595,14 @@ export default {
         title: "Нет статусов для группы {groupKey}",
         description: "Создайте новый статус",
       },
+    },
+    pipeline: {
+      heading: "Пайплайн",
+      description: "Настройте статусы, которые участвуют в пайплайне, и алиасы стадий для распознавания таблиц графика.",
+      aliases_help:
+        "Алиасы используются для будущего создания пайплайна из таблиц «График» или «Пайплайн» внутри рабочего элемента. Например, стадия «Съемка» сможет попадать в реальный статус проекта «Продакшн».",
+      aliases_placeholder: "Алиасы через запятую",
+      save_aliases: "Сохранить",
     },
     labels: {
       heading: "Метки",
@@ -3593,6 +3629,27 @@ export default {
       show_tab_failed: "Что-то пошло не так. Попробуйте позже.",
     },
   },
+  editor: {
+    image: {
+      add_image: "Добавить изображение",
+      drop_here: "Перетащите изображение сюда",
+      uploading: "Загрузка...",
+      error_loading: "Ошибка загрузки изображения",
+    },
+    table_menu: {
+      header_row: "Строка заголовка",
+      header_column: "Столбец заголовка",
+      color: "Цвет",
+      background_color: "Цвет фона",
+      insert_above: "Вставить выше",
+      insert_below: "Вставить ниже",
+      insert_left: "Вставить слева",
+      insert_right: "Вставить справа",
+      duplicate: "Дублировать",
+      clear_contents: "Очистить содержимое",
+      delete: "Удалить",
+    },
+  },
   power_k: {
     contextual_actions: {
       work_item: {
@@ -3754,6 +3811,9 @@ export default {
       update_timezone: "Изменить часовой пояс",
       update_start_of_week: "Изменить первый день недели",
       update_language: "Изменить язык",
+    },
+    shortcut: {
+      sequence_separator: "+",
     },
     search_menu: {
       no_results: "Ничего не найдено",

@@ -1,4 +1,8 @@
 {
+  "join_modal": {
+    "title": "Присоединиться к проекту",
+    "description": "Вы собираетесь присоединиться к проекту {name}."
+  },
   "project_view": {
     "sort_by": {
       "created_at": "Дата создания",

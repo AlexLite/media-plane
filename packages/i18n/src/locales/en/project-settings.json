@@ -3,6 +3,8 @@
     "general": {
       "enter_project_id": "Enter project ID",
       "please_select_a_timezone": "Please select a timezone",
+      "default_due_time": "Default due time",
+      "default_due_time_description": "Automatically applied to this project's work items when a due date is selected.",
       "archive_project": {
         "title": "Archive project",
         "description": "Archiving a project will unlist your project from your side navigation although you will still be able to access it from your projects page. You can restore the project or delete it whenever you want.",
@@ -44,6 +46,13 @@
         "title": "No states available for the {groupKey} group",
         "description": "Please create a new state"
       }
+    },
+    "pipeline": {
+      "heading": "Pipeline",
+      "description": "Configure the states included in the pipeline and stage aliases used to recognize schedule tables.",
+      "aliases_help": "Aliases are used for future pipeline creation from \"Schedule\" or \"Pipeline\" tables inside a work item. For example, the \"Shooting\" stage can map to the real project state \"Production\".",
+      "aliases_placeholder": "Aliases separated by commas",
+      "save_aliases": "Save"
     },
     "labels": {
       "heading": "Labels",

@@ -1706,6 +1706,12 @@ export default {
       just_exploring: "Just exploring",
     },
   },
+  project: {
+    join_modal: {
+      title: "Join project",
+      description: "You are about to join {name}.",
+    },
+  },
   project_modals: {
     delete_project: {
       title: "Delete project",
@@ -1860,6 +1866,11 @@ export default {
     all_projects: "All Projects",
     trend_on_charts: "Trend on charts",
     active_projects: "Active Projects",
+    workload: "Workload",
+    workload_member: "Member",
+    workload_days: "{count} d",
+    workload_empty_title: "No workload yet",
+    workload_empty_description: "Members assigned to dated pipeline steps will appear here.",
     customized_insights: "Customized Insights",
     created_vs_resolved: "Created vs Resolved",
     add_property: "Add Property",
@@ -2152,9 +2163,11 @@ export default {
           display_name: "Display name",
           email_address: "Email address",
           account_type: "Account type",
+          group: "Group",
           authentication: "Authentication",
           joining_date: "Joining date",
         },
+        no_group: "No group",
         modal: {
           title: "Invite people to collaborate",
           description: "Invite people to collaborate on your workspace.",
@@ -2175,6 +2188,18 @@ export default {
         edit_group: "Edit group",
         archive_group: "Archive group",
         manage_members: "Manage members",
+        manage_notifications: "Configure notifications",
+        notifications_title: "Notifications: {group}",
+        notifications_panel_description: "Choose project states where group members should receive regular work item notifications.",
+        project: "Project",
+        no_projects: "No projects",
+        allowed_states: "Allowed states",
+        allowed_states_description: "When states are selected, this group receives notifications only while the work item is in one of them. @mentions always come through.",
+        states_count: "{count, plural, one {# state} other {# states}}",
+        no_states: "This project has no states.",
+        select_project: "Select a project.",
+        no_rule_hint: "No states selected: this project keeps Plane default notification behavior.",
+        rule_active_hint: "Rule is active for the selected states.",
         members_panel_description: "Add and remove members in this group.",
         current_members: "Group members",
         available_members: "Available members",
@@ -2208,6 +2233,7 @@ export default {
           archived: "Group archived successfully.",
           member_added: "Member added to group.",
           member_removed: "Member removed from group.",
+          notification_rules_updated: "Notification settings updated.",
         },
       },
       billing_and_plans: {
@@ -2449,6 +2475,8 @@ export default {
     general: {
       enter_project_id: "Enter project ID",
       please_select_a_timezone: "Please select a timezone",
+      default_due_time: "Default due time",
+      default_due_time_description: "Automatically applied to this project's work items when a due date is selected.",
       archive_project: {
         title: "Archive project",
         description:
@@ -2494,6 +2522,14 @@ export default {
         title: "No states available for the {groupKey} group",
         description: "Please create a new state",
       },
+    },
+    pipeline: {
+      heading: "Pipeline",
+      description: "Configure the states included in the pipeline and stage aliases used to recognize schedule tables.",
+      aliases_help:
+        'Aliases are used for future pipeline creation from "Schedule" or "Pipeline" tables inside a work item. For example, the "Shooting" stage can map to the real project state "Production".',
+      aliases_placeholder: "Aliases separated by commas",
+      save_aliases: "Save",
     },
     labels: {
       heading: "Labels",
@@ -3593,6 +3629,27 @@ export default {
       show_tab_failed: "Something went wrong. Please try again later.",
     },
   },
+  editor: {
+    image: {
+      add_image: "Add an image",
+      drop_here: "Drop image here",
+      uploading: "Uploading...",
+      error_loading: "Error loading image",
+    },
+    table_menu: {
+      header_row: "Header row",
+      header_column: "Header column",
+      color: "Color",
+      background_color: "Background color",
+      insert_above: "Insert above",
+      insert_below: "Insert below",
+      insert_left: "Insert left",
+      insert_right: "Insert right",
+      duplicate: "Duplicate",
+      clear_contents: "Clear contents",
+      delete: "Delete",
+    },
+  },
   power_k: {
     contextual_actions: {
       work_item: {
@@ -3754,6 +3811,9 @@ export default {
       update_timezone: "Change timezone",
       update_start_of_week: "Change first day of week",
       update_language: "Change language",
+    },
+    shortcut: {
+      sequence_separator: "then",
     },
     search_menu: {
       no_results: "No results found",

@@ -1,4 +1,8 @@
 {
+  "join_modal": {
+    "title": "Join project",
+    "description": "You are about to join {name}."
+  },
   "project_view": {
     "sort_by": {
       "created_at": "Created at",
