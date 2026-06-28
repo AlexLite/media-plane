@@ -50,11 +50,19 @@ The CI-oriented i18n check is:
 
 ```bash
 pnpm dlx tsx packages/i18n/scripts/sync-check.ts --ci --locale ru
+pnpm --filter @plane/i18n build
 ```
 
 The fork CI requires RU to match English. To inspect every upstream locale as a
 report, omit `--locale ru`; non-RU upstream locales may still miss fork-specific
 keys that this fork does not own.
+
+Use Turbo for package type checks so workspace dependencies are built before
+TypeScript resolves package `exports`:
+
+```bash
+pnpm turbo run check:types --filter=@plane/ui
+```
 
 ## Build And Deploy
 

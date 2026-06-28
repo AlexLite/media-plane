@@ -19,6 +19,8 @@ node scripts/audit-keys.mjs
 node scripts/audit-hardcoded.mjs
 node scripts/audit-hardcoded.mjs --changed --base fork/preview --ci
 pnpm dlx tsx packages/i18n/scripts/sync-check.ts --ci --locale ru
+pnpm --filter @plane/i18n build
+pnpm turbo run check:types --filter=@plane/ui
 ```
 
 ## Update Cycle (new upstream release)
