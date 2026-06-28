@@ -4,13 +4,12 @@
  * See the LICENSE file for details.
  */
 
-import IntlMessageFormat from "intl-messageformat";
+import { IntlMessageFormat } from "intl-messageformat";
 import { get, merge } from "lodash-es";
 import { makeAutoObservable, runInAction } from "mobx";
 // constants
-import { FALLBACK_LANGUAGE, SUPPORTED_LANGUAGES, LANGUAGE_STORAGE_KEY, ETranslationFiles } from "../constants";
-// core translations imports
-import { enCore, ruCore, locales } from "../locales";
+import { FALLBACK_LANGUAGE, SUPPORTED_LANGUAGES, LANGUAGE_STORAGE_KEY } from "../constants";
+import { NAMESPACES } from "../constants/namespaces";
 // types
 import type { TLanguage, ILanguageOption, ITranslations } from "../types";
 
@@ -31,10 +30,7 @@ const getDefaultLanguage = (): TLanguage => {
  */
 export class TranslationStore {
   // Core translations that are always loaded
-  private coreTranslations: ITranslations = {
-    en: enCore,
-    ru: ruCore,
-  };
+  private coreTranslations: ITranslations = {};
   // List of translations for each language
   private translations: ITranslations = {};
   // Cache for IntlMessageFormat instances
@@ -161,27 +157,12 @@ export class TranslationStore {
    */
   private async importAndMergeFiles(language: TLanguage, files: string[]) {
     try {
-      const localeData = locales[language as keyof typeof locales];
-      if (!localeData) {
-        throw new Error(`Locale data not found for language: ${language}`);
-      }
-
-      // Filter out files that don't exist for this language
-      const availableFiles = files.filter((file) => {
-        const fileKey = file as keyof typeof localeData;
-        return fileKey in localeData;
-      });
-
-      const importPromises = availableFiles.map((file) => {
-        const fileKey = file as keyof typeof localeData;
-        return localeData[fileKey]();
-      });
-
+      const importPromises = files.map((file) => import(`../locales/${language}/${file}.json`));
       const modules = await Promise.all(importPromises);
       const merged = modules.reduce((acc: any, module: any) => merge(acc, module.default), {});
       return { default: merged };
     } catch (error) {
-      throw new Error(`Failed to import and merge files for ${language}: ${error}`);
+      throw new Error(`Failed to import and merge files for ${language}: ${error}`, { cause: error });
     }
   }
 
@@ -191,7 +172,7 @@ export class TranslationStore {
    * @returns {Promise<any>}
    */
   private async importLanguageFile(language: TLanguage) {
-    const files = Object.values(ETranslationFiles);
+    const files = [...NAMESPACES];
     return this.importAndMergeFiles(language, files);
   }
 
