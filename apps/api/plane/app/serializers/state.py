@@ -22,6 +22,7 @@ class StateSerializer(BaseSerializer):
             "color",
             "group",
             "is_pipeline_enabled",
+            "pipeline_aliases",
             "default",
             "description",
             "sequence",
@@ -33,6 +34,25 @@ class StateSerializer(BaseSerializer):
         if attrs.get("group") == StateGroup.TRIAGE.value:
             raise serializers.ValidationError("Cannot create triage state")
         return attrs
+
+    def validate_pipeline_aliases(self, value):
+        if value is None:
+            return []
+        if not isinstance(value, list):
+            raise serializers.ValidationError("Pipeline aliases must be a list")
+
+        aliases = []
+        seen = set()
+        for alias in value:
+            if not isinstance(alias, str):
+                raise serializers.ValidationError("Pipeline aliases must be strings")
+            alias = alias.strip()
+            alias_key = alias.lower()
+            if alias and alias_key not in seen:
+                aliases.append(alias)
+                seen.add(alias_key)
+
+        return aliases
 
 
 class StateLiteSerializer(BaseSerializer):

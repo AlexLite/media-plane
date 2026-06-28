@@ -8,7 +8,7 @@ from rest_framework import serializers
 
 from plane.app.serializers.base import BaseSerializer
 from plane.app.serializers.user import UserAdminLiteSerializer
-from plane.db.models import WorkspaceGroup, WorkspaceGroupMember, WorkspaceMember
+from plane.db.models import Project, State, WorkspaceGroup, WorkspaceGroupMember, WorkspaceGroupNotificationRule, WorkspaceMember
 
 
 HEX_COLOR_RE = re.compile(r"^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$")
@@ -128,3 +128,49 @@ class WorkspaceGroupSerializer(BaseSerializer):
             raise serializers.ValidationError("INVALID_GROUP_EMOJI")
 
         return value
+
+
+class WorkspaceGroupNotificationRuleSerializer(BaseSerializer):
+    class Meta:
+        model = WorkspaceGroupNotificationRule
+        fields = [
+            "id",
+            "workspace_id",
+            "group_id",
+            "project_id",
+            "state_id",
+            "created_at",
+            "updated_at",
+        ]
+        read_only_fields = fields
+
+
+class WorkspaceGroupNotificationRuleUpdateSerializer(serializers.Serializer):
+    project_id = serializers.UUIDField()
+    state_ids = serializers.ListField(child=serializers.UUIDField(), allow_empty=True)
+
+    def validate(self, attrs):
+        workspace_id = self.context.get("workspace_id")
+        group_id = self.context.get("group_id")
+        project_id = attrs.get("project_id")
+        state_ids = list(dict.fromkeys(attrs.get("state_ids") or []))
+
+        if not Project.objects.filter(id=project_id, workspace_id=workspace_id, archived_at__isnull=True).exists():
+            raise serializers.ValidationError({"project_id": "PROJECT_NOT_FOUND"})
+
+        if state_ids:
+            valid_state_ids = set(
+                State.objects.filter(
+                    id__in=state_ids,
+                    workspace_id=workspace_id,
+                    project_id=project_id,
+                ).values_list("id", flat=True)
+            )
+            invalid_state_ids = [str(state_id) for state_id in state_ids if state_id not in valid_state_ids]
+            if invalid_state_ids:
+                raise serializers.ValidationError({"state_ids": "INVALID_STATE_IDS"})
+
+        attrs["state_ids"] = state_ids
+        attrs["group_id"] = group_id
+        attrs["workspace_id"] = workspace_id
+        return attrs

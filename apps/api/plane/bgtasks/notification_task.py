@@ -23,6 +23,7 @@ from plane.db.models import (
     IssueActivity,
     UserNotificationPreference,
     ProjectMember,
+    WorkspaceGroupNotificationRule,
 )
 from django.db.models import Subquery
 
@@ -203,6 +204,29 @@ def create_mention_notification(project, notification_comment, issue, actor_id, 
     )
 
 
+def is_group_notification_allowed(receiver_id, issue):
+    if issue is None:
+        return True
+
+    allowed_state_ids = list(
+        WorkspaceGroupNotificationRule.objects.filter(
+            workspace_id=issue.workspace_id,
+            project_id=issue.project_id,
+            group__is_archived=False,
+            group__group_members__workspace_member__member_id=receiver_id,
+            group__group_members__workspace_member__is_active=True,
+            group__group_members__deleted_at__isnull=True,
+        )
+        .distinct()
+        .values_list("state_id", flat=True)
+    )
+
+    if not allowed_state_ids:
+        return True
+
+    return issue.state_id in allowed_state_ids
+
+
 @shared_task
 def notifications(
     type,
@@ -325,6 +349,9 @@ def notifications(
             issue_subscribers = list(set(issue_subscribers) - {uuid.UUID(actor_id)})
 
             for subscriber in issue_subscribers:
+                if not is_group_notification_allowed(subscriber, issue):
+                    continue
+
                 if issue.created_by_id and issue.created_by_id == subscriber:
                     sender = "in_app:issue_activities:created"
                 elif subscriber in issue_assignees and issue.created_by_id not in issue_assignees:

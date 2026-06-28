@@ -3,6 +3,7 @@
 # See the LICENSE file for details.
 
 # Django imports
+from datetime import time as datetime_time
 from django.utils import timezone
 from django.utils.html import escape
 from lxml import html
@@ -72,6 +73,23 @@ class IssueSerializer(BaseSerializer):
         model = Issue
         read_only_fields = ["id", "workspace", "project", "updated_by", "updated_at"]
         exclude = ["description_json", "description_stripped"]
+
+
+    def _get_default_target_time(self, instance=None):
+        default_target_time = self.context.get("default_target_time")
+        if default_target_time is None and instance is not None:
+            default_target_time = getattr(getattr(instance, "project", None), "default_target_time", None)
+
+        if not default_target_time:
+            return None
+        if isinstance(default_target_time, datetime_time):
+            return default_target_time
+
+        try:
+            hour, minute = str(default_target_time).split(":")[:2]
+            return datetime_time(hour=int(hour), minute=int(minute))
+        except (TypeError, ValueError):
+            return None
 
     def validate(self, data):
         if (
@@ -163,6 +181,10 @@ class IssueSerializer(BaseSerializer):
             # Get default issue type
             issue_type = IssueType.objects.filter(project_issue_types__project_id=project_id, is_default=True).first()
             issue_type = issue_type
+
+        default_target_time = self._get_default_target_time()
+        if validated_data.get("target_date") and validated_data.get("target_time") is None and default_target_time:
+            validated_data["target_time"] = default_target_time
 
         issue = Issue.objects.create(**validated_data, project_id=project_id, type=issue_type)
 
@@ -283,6 +305,14 @@ class IssueSerializer(BaseSerializer):
                 )
             except IntegrityError:
                 pass
+
+        if "target_date" in validated_data:
+            if validated_data.get("target_date") is None:
+                validated_data["target_time"] = None
+            elif validated_data.get("target_time") is None and instance.target_time is None:
+                default_target_time = self._get_default_target_time(instance)
+                if default_target_time:
+                    validated_data["target_time"] = default_target_time
 
         # Time updation occues even when other related models are updated
         instance.updated_at = timezone.now()

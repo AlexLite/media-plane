@@ -94,3 +94,34 @@ class WorkspaceGroupMember(BaseModel):
 
     def __str__(self):
         return f"{self.workspace_member_id} <{self.group_id}>"
+
+
+class WorkspaceGroupNotificationRule(BaseModel):
+    workspace = models.ForeignKey(
+        "db.Workspace", on_delete=models.CASCADE, related_name="workspace_group_notification_rules"
+    )
+    group = models.ForeignKey(
+        WorkspaceGroup, on_delete=models.CASCADE, related_name="notification_rules"
+    )
+    project = models.ForeignKey(
+        "db.Project", on_delete=models.CASCADE, related_name="workspace_group_notification_rules"
+    )
+    state = models.ForeignKey(
+        "db.State", on_delete=models.CASCADE, related_name="workspace_group_notification_rules"
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["group", "project", "state"],
+                condition=Q(deleted_at__isnull=True),
+                name="workspace_group_notification_rule_unique_active",
+            ),
+        ]
+        verbose_name = "Workspace Group Notification Rule"
+        verbose_name_plural = "Workspace Group Notification Rules"
+        db_table = "workspace_group_notification_rules"
+        ordering = ("project_id", "state__sequence", "created_at")
+
+    def __str__(self):
+        return f"{self.group_id} <{self.project_id}:{self.state_id}>"

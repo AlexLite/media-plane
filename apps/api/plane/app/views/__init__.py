@@ -210,6 +210,7 @@ from .analytic.advance import (
     AdvanceAnalyticsEndpoint,
     AdvanceAnalyticsStatsEndpoint,
     AdvanceAnalyticsChartEndpoint,
+    AdvanceAnalyticsWorkloadEndpoint,
 )
 
 from .analytic.project_analytics import (

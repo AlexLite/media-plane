@@ -85,7 +85,7 @@ from .issue_type import IssueType
 from .recent_visit import UserRecentVisit
 
 from .label import Label
-from .workspace_group import WorkspaceGroup, WorkspaceGroupMember
+from .workspace_group import WorkspaceGroup, WorkspaceGroupMember, WorkspaceGroupNotificationRule
 
 from .device import Device, DeviceSession
 

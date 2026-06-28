@@ -13,8 +13,11 @@ from plane.app.views.base import BaseAPIView
 from plane.app.permissions import ROLE, allow_permission
 from plane.db.models import (
     WorkspaceMember,
+    WorkspaceGroup,
+    WorkspaceGroupMember,
     Project,
     Issue,
+    IssuePipelineItem,
     Cycle,
     Module,
     IssueView,
@@ -316,3 +319,115 @@ class AdvanceAnalyticsChartEndpoint(AdvanceAnalyticsBaseView):
             )
 
         return Response({"message": "Invalid type"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class AdvanceAnalyticsWorkloadEndpoint(AdvanceAnalyticsBaseView):
+    def get_pipeline_workload(self) -> Dict[str, Any]:
+        project_ids_param = self.request.GET.get("project_ids", None)
+        project_ids = [project_id for project_id in (project_ids_param or "").split(",") if project_id]
+
+        members = list(
+            WorkspaceMember.objects.filter(
+                workspace__slug=self._workspace_slug,
+                is_active=True,
+                member__is_bot=False,
+            )
+            .select_related("member")
+            .order_by("member__display_name", "member__email")
+        )
+        member_by_user_id = {str(workspace_member.member_id): workspace_member for workspace_member in members}
+
+        groups = list(
+            WorkspaceGroup.objects.filter(workspace__slug=self._workspace_slug, is_archived=False).order_by(
+                "sort_order", "name", "created_at"
+            )
+        )
+        groups_payload = [
+            {
+                "id": str(group.id),
+                "name": group.name,
+                "color": group.color,
+                "emoji": group.emoji,
+            }
+            for group in groups
+        ]
+
+        member_groups: Dict[str, List[Dict[str, Any]]] = {}
+        group_members = WorkspaceGroupMember.objects.filter(
+            group__workspace__slug=self._workspace_slug,
+            group__is_archived=False,
+        ).select_related("group")
+        for group_member in group_members:
+            workspace_member_id = str(group_member.workspace_member_id)
+            member_groups.setdefault(workspace_member_id, []).append(
+                {
+                    "id": str(group_member.group_id),
+                    "name": group_member.group.name,
+                    "color": group_member.group.color,
+                    "emoji": group_member.group.emoji,
+                }
+            )
+
+        pipeline_items = IssuePipelineItem.objects.filter(
+            workspace__slug=self._workspace_slug,
+            start_date__isnull=False,
+            target_date__isnull=False,
+        ).select_related("parent_issue", "project")
+        if project_ids:
+            pipeline_items = pipeline_items.filter(project_id__in=project_ids)
+
+        rows_by_member: Dict[str, Dict[str, Any]] = {}
+        for item in pipeline_items.order_by("start_date", "target_date", "sort_order", "created_at"):
+            if not item.assignee_ids or item.target_date < item.start_date:
+                continue
+
+            workload = (item.target_date - item.start_date).days + 1
+            if workload <= 0:
+                continue
+
+            for user_id in item.assignee_ids:
+                workspace_member = member_by_user_id.get(str(user_id))
+                if not workspace_member:
+                    continue
+
+                workspace_member_id = str(workspace_member.id)
+                user = workspace_member.member
+                row = rows_by_member.setdefault(
+                    workspace_member_id,
+                    {
+                        "workspace_member_id": workspace_member_id,
+                        "member": {
+                            "id": str(user.id),
+                            "display_name": user.display_name,
+                            "email": user.email,
+                            "avatar_url": user.avatar_url,
+                        },
+                        "groups": member_groups.get(workspace_member_id, []),
+                        "workload": 0,
+                        "items": [],
+                    },
+                )
+                row["workload"] += workload
+                row["items"].append(
+                    {
+                        "id": str(item.id),
+                        "issue_id": str(item.parent_issue_id),
+                        "issue_name": item.parent_issue.name,
+                        "project_id": str(item.project_id),
+                        "project_name": item.project.name,
+                        "pipeline_name": item.name or item.state_name_snapshot,
+                        "status": item.status,
+                        "start_date": item.start_date.isoformat(),
+                        "target_date": item.target_date.isoformat(),
+                        "workload": workload,
+                    }
+                )
+
+        rows = sorted(rows_by_member.values(), key=lambda row: (-row["workload"], row["member"]["display_name"].lower()))
+        return {"groups": groups_payload, "members": rows}
+
+    @allow_permission([ROLE.ADMIN, ROLE.MEMBER], level="WORKSPACE")
+    def get(self, request: HttpRequest, slug: str) -> Response:
+        self.initialize_workspace(slug, type="analytics")
+        return Response(self.get_pipeline_workload(), status=status.HTTP_200_OK)

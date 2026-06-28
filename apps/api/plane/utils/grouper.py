@@ -7,6 +7,7 @@ from django.contrib.postgres.aggregates import ArrayAgg
 from django.contrib.postgres.fields import ArrayField
 from django.db.models import Q, UUIDField, Value, QuerySet, OuterRef, Subquery
 from django.db.models.functions import Coalesce
+from django.utils import timezone
 
 # Module imports
 from plane.db.models import (
@@ -21,6 +22,7 @@ from plane.db.models import (
     IssueAssignee,
     ModuleIssue,
     IssueLabel,
+    IssuePipelineItem,
 )
 from typing import Optional, Dict, Tuple, Any, Union, List
 
@@ -138,7 +140,49 @@ def issue_on_results(
         original_list.append(sub_group_by)
 
     required_fields.extend(original_list)
-    return list(issues.values(*required_fields))
+    issue_results = list(issues.values(*required_fields))
+    return enrich_issue_results_with_pipeline(issue_results)
+
+
+def enrich_issue_results_with_pipeline(issue_results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    issue_ids = [issue.get("id") for issue in issue_results]
+    pipeline_items_by_issue_id: Dict[str, List[IssuePipelineItem]] = {}
+
+    pipeline_items = IssuePipelineItem.objects.filter(parent_issue_id__in=issue_ids).order_by("sort_order", "created_at")
+    for item in pipeline_items:
+        parent_issue_id = str(item.parent_issue_id)
+        pipeline_items_by_issue_id.setdefault(parent_issue_id, []).append(item)
+
+    today = timezone.localdate()
+    for issue in issue_results:
+        pipeline_items_for_issue = pipeline_items_by_issue_id.get(str(issue.get("id")), [])
+        final_item = pipeline_items_for_issue[-1] if pipeline_items_for_issue else None
+        has_overdue_issue_deadline = bool(issue.get("target_date") and issue.get("target_date") < today)
+
+        issue["has_overdue_pipeline_items"] = any(
+            item.target_date and item.target_date < today for item in pipeline_items_for_issue
+        )
+        issue["has_overdue_final_pipeline_item"] = has_overdue_issue_deadline or bool(
+            final_item
+            and final_item.status != IssuePipelineItem.StatusChoices.COMPLETED
+            and final_item.target_date
+            and final_item.target_date < today
+        )
+        issue["pipeline_gantt_items"] = [
+            {
+                "id": item.id,
+                "name": item.name or item.state_name_snapshot,
+                "start_date": item.start_date,
+                "target_date": item.target_date,
+                "target_time": item.target_time,
+                "status": item.status,
+                "sort_order": item.sort_order,
+            }
+            for item in pipeline_items_for_issue
+            if item.start_date or item.target_date
+        ]
+
+    return issue_results
 
 
 def issue_group_values(

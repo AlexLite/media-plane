@@ -65,6 +65,13 @@ def get_default_preferences():
     return {"pages": {"block_display": True}, "navigation": {"default_tab": "work_items", "hide_in_more_menu": []}}
 
 
+DEFAULT_TARGET_TIME_CHOICES = tuple(
+    (f"{hour:02d}:{minute:02d}", f"{hour:02d}:{minute:02d}")
+    for hour in range(24)
+    for minute in (0, 30)
+)
+
+
 class Project(BaseModel):
     NETWORK_CHOICES = ((0, "Secret"), (2, "Public"))
     name = models.CharField(max_length=255, verbose_name="Project Name")
@@ -115,6 +122,7 @@ class Project(BaseModel):
     # timezone
     TIMEZONE_CHOICES = tuple(zip(pytz.common_timezones, pytz.common_timezones))
     timezone = models.CharField(max_length=255, default="UTC", choices=TIMEZONE_CHOICES)
+    default_target_time = models.CharField(max_length=5, choices=DEFAULT_TARGET_TIME_CHOICES, null=True, blank=True)
     # external_id for imports
     external_source = models.CharField(max_length=255, null=True, blank=True)
     external_id = models.CharField(max_length=255, blank=True, null=True)

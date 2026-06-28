@@ -52,6 +52,7 @@ from plane.db.models import (
     IssueAssignee,
     IssueLabel,
     IssueLink,
+    IssuePipelineItem,
     IssueReaction,
     IssueRelation,
     IssueSubscriber,
@@ -855,12 +856,59 @@ class IssuePaginatedViewSet(BaseViewSet):
             )
         )
 
+    def get_pipeline_items_by_issue_id(self, issue_ids):
+        pipeline_items_by_issue_id = {}
+        pipeline_items = IssuePipelineItem.objects.filter(parent_issue_id__in=issue_ids).order_by("sort_order", "created_at")
+
+        for item in pipeline_items:
+            parent_issue_id = str(item.parent_issue_id)
+            pipeline_items_by_issue_id.setdefault(parent_issue_id, []).append(item)
+
+        return pipeline_items_by_issue_id
+
+    def get_pipeline_issue_payload(self, issue, pipeline_items):
+        today = timezone.localdate()
+        final_item = pipeline_items[-1] if pipeline_items else None
+        has_overdue_issue_deadline = bool(issue.get("target_date") and issue.get("target_date") < today)
+
+        return {
+            "has_overdue_pipeline_items": any(
+                item.target_date and item.target_date < today for item in pipeline_items
+            ),
+            "has_overdue_final_pipeline_item": has_overdue_issue_deadline
+            or bool(
+                final_item
+                and final_item.status != IssuePipelineItem.StatusChoices.COMPLETED
+                and final_item.target_date
+                and final_item.target_date < today
+            ),
+            "pipeline_gantt_items": [
+                {
+                    "id": item.id,
+                    "name": item.name or item.state_name_snapshot,
+                    "start_date": item.start_date,
+                    "target_date": item.target_date,
+                    "target_time": item.target_time,
+                    "status": item.status,
+                    "sort_order": item.sort_order,
+                }
+                for item in pipeline_items
+                if item.start_date or item.target_date
+            ],
+        }
+
     def process_paginated_result(self, fields, results, timezone):
-        paginated_data = results.values(*fields)
+        paginated_data = list(results.values(*fields))
 
         # converting the datetime fields in paginated data
         datetime_fields = ["created_at", "updated_at"]
         paginated_data = user_timezone_converter(paginated_data, datetime_fields, timezone)
+
+        issue_ids = [issue.get("id") for issue in paginated_data]
+        pipeline_items_by_issue_id = self.get_pipeline_items_by_issue_id(issue_ids)
+
+        for issue in paginated_data:
+            issue.update(self.get_pipeline_issue_payload(issue, pipeline_items_by_issue_id.get(str(issue.get("id")), [])))
 
         return paginated_data
 

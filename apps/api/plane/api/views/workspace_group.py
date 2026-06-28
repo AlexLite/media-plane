@@ -11,10 +11,12 @@ from plane.app.permissions import WorkspaceEntityPermission
 from plane.app.serializers import (
     WorkspaceGroupMemberCreateSerializer,
     WorkspaceGroupMemberSerializer,
+    WorkspaceGroupNotificationRuleSerializer,
+    WorkspaceGroupNotificationRuleUpdateSerializer,
     WorkspaceGroupSerializer,
 )
 from plane.app.views.base import BaseAPIView
-from plane.db.models import Workspace, WorkspaceGroup, WorkspaceGroupMember
+from plane.db.models import Workspace, WorkspaceGroup, WorkspaceGroupMember, WorkspaceGroupNotificationRule
 
 
 class WorkspaceGroupListCreateAPIEndpoint(BaseAPIView):
@@ -121,3 +123,52 @@ class WorkspaceGroupMemberDetailAPIEndpoint(WorkspaceGroupMemberListCreateAPIEnd
         group_member = self.get_member_queryset(slug, group_id).get(pk=pk)
         group_member.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class WorkspaceGroupNotificationRuleAPIEndpoint(WorkspaceGroupDetailAPIEndpoint):
+    serializer_class = WorkspaceGroupNotificationRuleSerializer
+    model = WorkspaceGroupNotificationRule
+
+    def get_group(self, slug, group_id):
+        return WorkspaceGroup.objects.get(workspace__slug=slug, id=group_id, is_archived=False)
+
+    def get_queryset(self, slug, group_id):
+        return WorkspaceGroupNotificationRule.objects.filter(
+            group_id=group_id,
+            group__workspace__slug=slug,
+        ).select_related("workspace", "group", "project", "state")
+
+    def get(self, request, slug, group_id):
+        self.get_group(slug, group_id)
+        serializer = WorkspaceGroupNotificationRuleSerializer(self.get_queryset(slug, group_id), many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, slug, group_id):
+        group = self.get_group(slug, group_id)
+        serializer = WorkspaceGroupNotificationRuleUpdateSerializer(
+            data=request.data,
+            context={"workspace_id": group.workspace_id, "group_id": group.id},
+        )
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        project_id = serializer.validated_data["project_id"]
+        state_ids = serializer.validated_data["state_ids"]
+
+        WorkspaceGroupNotificationRule.objects.filter(group=group, project_id=project_id).delete()
+        WorkspaceGroupNotificationRule.objects.bulk_create(
+            [
+                WorkspaceGroupNotificationRule(
+                    workspace_id=group.workspace_id,
+                    group=group,
+                    project_id=project_id,
+                    state_id=state_id,
+                )
+                for state_id in state_ids
+            ],
+            batch_size=100,
+            ignore_conflicts=True,
+        )
+
+        rules = self.get_queryset(slug, group_id)
+        return Response(WorkspaceGroupNotificationRuleSerializer(rules, many=True).data, status=status.HTTP_200_OK)

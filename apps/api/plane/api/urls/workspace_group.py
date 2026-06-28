@@ -9,6 +9,7 @@ from plane.api.views import (
     WorkspaceGroupListCreateAPIEndpoint,
     WorkspaceGroupMemberDetailAPIEndpoint,
     WorkspaceGroupMemberListCreateAPIEndpoint,
+    WorkspaceGroupNotificationRuleAPIEndpoint,
 )
 
 
@@ -22,6 +23,12 @@ urlpatterns = [
         "workspaces/<str:slug>/groups/<uuid:pk>/",
         WorkspaceGroupDetailAPIEndpoint.as_view(http_method_names=["get", "patch", "delete"]),
         name="workspace-groups",
+    ),
+
+    path(
+        "workspaces/<str:slug>/groups/<uuid:group_id>/notification-rules/",
+        WorkspaceGroupNotificationRuleAPIEndpoint.as_view(http_method_names=["get", "put"]),
+        name="workspace-group-notification-rules",
     ),
     path(
         "workspaces/<str:slug>/groups/<uuid:group_id>/members/",

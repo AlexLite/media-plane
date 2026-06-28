@@ -889,19 +889,41 @@ class IssueListDetailSerializer(serializers.Serializer):
     def get_assignee_ids(self, obj):
         return [assignee.assignee_id for assignee in obj.issue_assignee.all()]
 
+    def get_pipeline_items(self, obj):
+        cached_items = getattr(obj, "_pipeline_items_for_serializer", None)
+        if cached_items is not None:
+            return cached_items
+
+        prefetched_items = getattr(obj, "_prefetched_objects_cache", {}).get("pipeline_items")
+        if prefetched_items is not None:
+            items = sorted(prefetched_items, key=lambda item: (item.sort_order, item.created_at))
+            setattr(obj, "_pipeline_items_for_serializer", items)
+            return items
+
+        items = list(IssuePipelineItem.objects.filter(parent_issue=obj).order_by("sort_order", "created_at"))
+        setattr(obj, "_pipeline_items_for_serializer", items)
+        return items
+
+    def get_pipeline_gantt_items(self, obj):
+        return [
+            {
+                "id": item.id,
+                "name": item.name or item.state_name_snapshot,
+                "start_date": item.start_date,
+                "target_date": item.target_date,
+                "target_time": item.target_time,
+                "status": item.status,
+                "sort_order": item.sort_order,
+            }
+            for item in self.get_pipeline_items(obj)
+            if item.start_date or item.target_date
+        ]
+
     def get_pipeline_overdue_flags(self, obj):
         today = timezone.localdate()
-        pipeline_items = list(
-            IssuePipelineItem.objects.filter(parent_issue=obj)
-            .exclude(status=IssuePipelineItem.StatusChoices.COMPLETED)
-            .order_by("sort_order", "created_at")
-        )
+        pipeline_items = self.get_pipeline_items(obj)
         has_overdue = any(item.target_date and item.target_date < today for item in pipeline_items)
-        final_item = (
-            IssuePipelineItem.objects.filter(parent_issue=obj)
-            .order_by("-sort_order", "-created_at")
-            .first()
-        )
+        final_item = pipeline_items[-1] if pipeline_items else None
         has_overdue_issue_deadline = bool(obj.target_date and obj.target_date < today)
         has_overdue_final = has_overdue_issue_deadline or bool(
             final_item
@@ -944,6 +966,7 @@ class IssueListDetailSerializer(serializers.Serializer):
             "link_count": instance.link_count,
             "has_overdue_pipeline_items": has_overdue_pipeline_items,
             "has_overdue_final_pipeline_item": has_overdue_final_pipeline_item,
+            "pipeline_gantt_items": self.get_pipeline_gantt_items(instance),
         }
 
         # Handle expanded fields only when requested - using direct field access

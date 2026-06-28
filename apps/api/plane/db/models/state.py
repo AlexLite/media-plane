@@ -89,6 +89,7 @@ class State(ProjectBaseModel):
     )
     is_triage = models.BooleanField(default=False)
     is_pipeline_enabled = models.BooleanField(default=False)
+    pipeline_aliases = models.JSONField(default=list, blank=True)
     default = models.BooleanField(default=False)
     external_source = models.CharField(max_length=255, null=True, blank=True)
     external_id = models.CharField(max_length=255, blank=True, null=True)
