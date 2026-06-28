@@ -27,6 +27,7 @@
       "clear_email": "Clear email",
       "show_password": "Show password",
       "hide_password": "Hide password",
+      "open_color_picker": "Open color picker",
       "close_alert": "Close alert",
       "close_popover": "Close popover"
     }

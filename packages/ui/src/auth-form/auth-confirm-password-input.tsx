@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from "react";
+import { useTranslation } from "@plane/i18n";
 import { cn } from "@plane/utils";
 import { AuthInput } from "./auth-input";
 
@@ -21,7 +22,7 @@ export type TAuthConfirmPasswordInputProps = React.InputHTMLAttributes<HTMLInput
 
 export function AuthConfirmPasswordInput({
   password,
-  label = "Confirm Password",
+  label,
   error,
   showPasswordToggle = true,
   containerClassName = "",
@@ -32,6 +33,7 @@ export function AuthConfirmPasswordInput({
   onPasswordMatchChange,
   ...props
 }: TAuthConfirmPasswordInputProps) {
+  const { t } = useTranslation();
   const [isFocused, setIsFocused] = useState(false);
 
   const confirmPassword = value as string;
@@ -55,7 +57,7 @@ export function AuthConfirmPasswordInput({
 
   const getError = () => {
     if (error) return error;
-    if (showMatchError) return "Passwords don't match";
+    if (showMatchError) return t("auth.common.password.errors.match");
     return "";
   };
 
@@ -64,7 +66,7 @@ export function AuthConfirmPasswordInput({
       <AuthInput
         {...props}
         type="password"
-        label={label}
+        label={label ?? t("auth.common.password.confirm_password.label")}
         error={getError()}
         showPasswordToggle={showPasswordToggle}
         errorClassName={errorClassName}
@@ -75,7 +77,9 @@ export function AuthConfirmPasswordInput({
         onBlur={handleBlur}
         autoComplete="off"
       />
-      {confirmPassword && passwordsMatch && <p className="text-13 text-success-primary">Passwords match</p>}
+      {confirmPassword && passwordsMatch && (
+        <p className="text-13 text-success-primary">{t("auth.common.password.match_success")}</p>
+      )}
     </div>
   );
 }

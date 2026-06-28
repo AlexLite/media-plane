@@ -5,6 +5,7 @@
  */
 
 import * as React from "react";
+import { useTranslation } from "@plane/i18n";
 
 interface ColorPickerProps {
   value: string;
@@ -14,6 +15,7 @@ interface ColorPickerProps {
 
 export function ColorPicker(props: ColorPickerProps) {
   const { value, onChange, className = "" } = props;
+  const { t } = useTranslation();
   // refs
   const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -29,7 +31,7 @@ export function ColorPicker(props: ColorPickerProps) {
       <button
         className={`size-4 cursor-pointer rounded-full conical-gradient ${className}`}
         onClick={handleOnClick}
-        aria-label="Open color picker"
+        aria-label={t("accessibility.aria_labels.auth_forms.open_color_picker")}
       />
       <input
         ref={inputRef}
@@ -37,7 +39,6 @@ export function ColorPicker(props: ColorPickerProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className="invisible absolute inset-0 size-4"
-        aria-hidden="true"
       />
     </div>
   );
