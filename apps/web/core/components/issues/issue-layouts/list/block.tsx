@@ -34,7 +34,7 @@ import { IssueIdentifier } from "@/plane-web/components/issues/issue-details/iss
 import { IssueStats } from "@/plane-web/components/issues/issue-layouts/issue-stats";
 // types
 import { WithDisplayPropertiesHOC } from "../properties/with-display-properties-HOC";
-import { calculateIdentifierWidth } from "../utils";
+import { calculateIdentifierWidth, getIssueOverdueBackgroundStyle } from "../utils";
 import type { TRenderQuickActions } from "./list-view-types";
 
 interface IssueBlockProps {
@@ -173,6 +173,8 @@ export const IssueBlock = observer(function IssueBlock(props: IssueBlockProps) {
     isEpic,
     isArchived: !!issue?.archived_at,
   });
+  const overdueBackgroundStyle = getIssueOverdueBackgroundStyle(issue);
+
   return (
     <ControlLink
       id={`issue-${issue.id}`}
@@ -195,6 +197,7 @@ export const IssueBlock = observer(function IssueBlock(props: IssueBlockProps) {
             "lg:flex-row lg:items-center": !isSidebarCollapsed,
           }
         )}
+        style={overdueBackgroundStyle}
         onDragStart={() => {
           if (!isDraggingAllowed) {
             setToast({

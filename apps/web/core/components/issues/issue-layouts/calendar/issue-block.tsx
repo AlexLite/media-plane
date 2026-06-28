@@ -26,6 +26,7 @@ import { usePlatformOS } from "@/hooks/use-platform-os";
 import { IssueIdentifier } from "@/plane-web/components/issues/issue-details/issue-identifier";
 // local components
 import { WorkItemPreviewCard } from "../../preview-card";
+import { getIssueOverdueBackgroundStyle } from "../utils";
 import type { TRenderQuickActions } from "../list/list-view-types";
 import type { CalendarStoreType } from "./base-calendar-root";
 
@@ -89,6 +90,7 @@ export const CalendarIssueBlock = observer(
       isEpic,
       isArchived: !!issue?.archived_at,
     });
+    const overdueBackgroundStyle = getIssueOverdueBackgroundStyle(issue);
 
     return (
       <Popover delay={100} openOnHover>
@@ -114,10 +116,11 @@ export const CalendarIssueBlock = observer(
                     "group/calendar-block flex h-10 w-full items-center justify-between gap-1.5 rounded-sm px-4 py-1.5 md:h-8 md:px-1",
                     {
                       "border-accent-strong bg-surface-2 shadow-raised-200": isDragging,
-                      "bg-surface-1 hover:bg-surface-2": !isDragging,
+                      "bg-surface-1 hover:bg-surface-2": !isDragging && !overdueBackgroundStyle,
                       "border border-accent-strong hover:border-accent-strong": getIsIssuePeeked(issue.id),
                     }
                   )}
+                  style={overdueBackgroundStyle}
                 >
                   <div className="flex h-full items-center gap-1.5 truncate">
                     <span

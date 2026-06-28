@@ -32,6 +32,13 @@ import { ProjectService } from "@/services/project";
 // local imports
 import { ProjectNetworkIcon } from "./project-network-icon";
 
+const DEFAULT_DUE_TIME_OPTIONS = Array.from({ length: 48 }, (_, index) => {
+  const hour = Math.floor(index / 2);
+  const minute = index % 2 === 0 ? "00" : "30";
+  const value = `${String(hour).padStart(2, "0")}:${minute}`;
+  return { value, label: value };
+});
+
 export interface IProjectDetailsForm {
   project: IProject;
   workspaceSlug: string;
@@ -152,6 +159,7 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
 
       logo_props: formData.logo_props,
       timezone: formData.timezone,
+      default_target_time: formData.default_target_time,
     };
 
     // Handle cover image changes
@@ -425,6 +433,39 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
               )}
             />
             {errors.timezone && <span className="text-11 text-danger-primary">{errors.timezone.message}</span>}
+          </div>
+          <div className="col-span-1 rounded-lg border border-subtle bg-custom-background-80 p-4 sm:col-span-2">
+            <div className="mb-3 flex flex-col gap-1">
+              <h4 className="text-13 font-medium">{t("project_settings.general.default_due_time")}</h4>
+              <p className="text-12 text-secondary">{t("project_settings.general.default_due_time_description")}</p>
+            </div>
+            <Controller
+              name="default_target_time"
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <CustomSelect
+                  value={value ?? ""}
+                  onChange={(nextValue) => onChange(nextValue || null)}
+                  label={
+                    <div className="flex items-center gap-1">
+                      {value ? <span>{value}</span> : <span className="text-placeholder">{t("common.none")}</span>}
+                    </div>
+                  }
+                  buttonClassName="!border-subtle !shadow-none font-medium rounded-md"
+                  input
+                  disabled={!isAdmin}
+                >
+                  <CustomSelect.Option value="">{t("common.none")}</CustomSelect.Option>
+                  {DEFAULT_DUE_TIME_OPTIONS.map((time) => (
+                    <CustomSelect.Option key={time.value} value={time.value}>
+                      <div className="flex items-center">
+                        <span className="ml-3 block truncate">{time.label}</span>
+                      </div>
+                    </CustomSelect.Option>
+                  ))}
+                </CustomSelect>
+              )}
+            />
           </div>
         </div>
         <div className="flex items-center justify-between py-2">

@@ -6,6 +6,7 @@
 
 import { useMemo } from "react";
 import { observer } from "mobx-react";
+import useSWR from "swr";
 // plane imports
 import { EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
@@ -213,6 +214,18 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
       removeIssueFromModule,
       t,
     ]
+  );
+
+
+  useSWR(
+    ["issue-detail-refresh", workspaceSlug, projectId, issueId],
+    () => fetchIssue(workspaceSlug, projectId, issueId),
+    {
+      refreshInterval: 15000,
+      refreshWhenHidden: false,
+      refreshWhenOffline: false,
+      revalidateOnFocus: true,
+    }
   );
 
   // issue details

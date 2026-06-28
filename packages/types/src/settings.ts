@@ -28,6 +28,7 @@ export type TProjectSettingsTabs =
   | "features_pages"
   | "features_intake"
   | "states"
+  | "pipeline"
   | "labels"
   | "estimates"
   | "automations";

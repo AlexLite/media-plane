@@ -40,6 +40,11 @@ type Props = {
 
 function isDateOverdue(date: string | null | undefined) {
   if (!date) return false;
+  const datePart = date.slice(0, 10);
+  const todayPart = renderFormattedPayloadDate(new Date());
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(datePart) && todayPart) return datePart < todayPart;
+
   const target = getDate(date);
   if (!target) return false;
   const today = new Date();
@@ -47,6 +52,9 @@ function isDateOverdue(date: string | null | undefined) {
   target.setHours(0, 0, 0, 0);
   return target < today;
 }
+
+const PIPELINE_ACTIVE_BACKGROUND = "rgba(40, 212, 20, 0.25)";
+const PIPELINE_OVERDUE_BACKGROUND = "rgba(249, 115, 22, 0.25)";
 
 function PipelineStatusButton({
   item,
@@ -142,10 +150,7 @@ export const PipelineCollapsible = observer(function PipelineCollapsible(props: 
 
   const completedCount = items.filter((item) => item.status === "completed").length;
   const percentage = completedCount && items.length ? (completedCount / items.length) * 100 : 0;
-  const hasOverduePipelineItem = items.some((item) => item.status !== "completed" && isDateOverdue(item.target_date));
-  const finalPipelineItem = items[items.length - 1];
-  const isFinalPipelineOverdue =
-    finalPipelineItem?.status !== "completed" && isDateOverdue(finalPipelineItem?.target_date);
+  const hasOverduePipelineItem = items.some((item) => isDateOverdue(item.target_date));
   const isParentDeadlineOverdue = isDateOverdue(parentIssue?.target_date);
 
   const completeItem = async (item: PipelineItem) => {
@@ -194,7 +199,7 @@ export const PipelineCollapsible = observer(function PipelineCollapsible(props: 
     <div
       id="issue-pipeline-section"
       className={cn("rounded-sm transition-colors", {
-        "bg-red-500/10": hasOverduePipelineItem || isFinalPipelineOverdue,
+        "bg-orange-500/10": hasOverduePipelineItem && !isParentDeadlineOverdue,
         "bg-red-500/20": isParentDeadlineOverdue,
       })}
     >
@@ -231,18 +236,23 @@ export const PipelineCollapsible = observer(function PipelineCollapsible(props: 
             return (
               <div
                 key={item.id}
-                className={cn("transition-all", {
-                  "bg-orange-500/25": isItemOverdue,
-                })}
+                className="transition-all"
+                style={isItemOverdue ? { backgroundColor: PIPELINE_OVERDUE_BACKGROUND } : undefined}
               >
                 <div
                   className={cn(
-                    "group relative flex h-full min-h-9 w-full cursor-pointer items-center py-0.5 pr-2 transition-all hover:bg-surface-2",
+                    "group relative flex h-full min-h-9 w-full cursor-pointer items-center py-0.5 pr-2 transition-all",
                     {
-                      "bg-[#28d414]/25 hover:bg-[#28d414]/30": isActiveItem && !isItemOverdue,
-                      "bg-orange-500/25 hover:bg-orange-500/30": isItemOverdue,
+                      "hover:bg-surface-2": !isActiveItem && !isItemOverdue,
                     }
                   )}
+                  style={
+                    isItemOverdue
+                      ? { backgroundColor: PIPELINE_OVERDUE_BACKGROUND }
+                      : isActiveItem
+                        ? { backgroundColor: PIPELINE_ACTIVE_BACKGROUND }
+                        : undefined
+                  }
                   onClick={() => toggleExpandedItem(item.id)}
                 >
                   <div className="flex size-5 flex-shrink-0 items-center justify-center">

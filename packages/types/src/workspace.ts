@@ -33,6 +33,22 @@ export interface IWorkspaceGroup {
   updated_at: string;
 }
 
+
+export interface IWorkspaceGroupNotificationRule {
+  id: string;
+  workspace_id: string;
+  group_id: string;
+  project_id: string;
+  state_id: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface IWorkspaceGroupNotificationRulePayload {
+  project_id: string;
+  state_ids: string[];
+}
+
 export interface IWorkspaceGroupMember {
   id: string;
   workspace_id: string;

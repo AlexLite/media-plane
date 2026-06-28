@@ -9,6 +9,16 @@ import { set } from "lodash-es";
 import { DEFAULT_WORK_ITEM_FORM_VALUES } from "@plane/constants";
 import type { IPartialProject, ISearchIssueResponse, IState, TIssue } from "@plane/types";
 
+export const getWorkItemTargetDatePayload = (
+  targetDate: string | null | undefined,
+  currentTargetTime: string | null | undefined,
+  defaultTargetTime: string | null | undefined
+) => ({
+  target_date: targetDate ?? null,
+  target_time: targetDate ? currentTargetTime || defaultTargetTime || null : null,
+});
+
+
 export const getUpdateFormDataForReset = (projectId: string | null | undefined, formData: Partial<TIssue>) => ({
   ...DEFAULT_WORK_ITEM_FORM_VALUES,
   project_id: projectId,

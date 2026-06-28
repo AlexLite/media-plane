@@ -35,7 +35,7 @@ import { usePlatformOS } from "@/hooks/use-platform-os";
 import { IssueIdentifier } from "@/plane-web/components/issues/issue-details/issue-identifier";
 // local components
 import type { TRenderQuickActions } from "../list/list-view-types";
-import { isIssueNew } from "../utils";
+import { getIssueOverdueBackgroundStyle, isIssueNew } from "../utils";
 import { IssueColumn } from "./issue-column";
 
 interface Props {
@@ -87,7 +87,6 @@ export const SpreadsheetIssueRow = observer(function SpreadsheetIssueRow(props: 
   const isIssueActive = selectionHelpers.getIsEntityActive(issueId);
 
   if (!issue) return null;
-
   return (
     <>
       {/* first column/ issue name and key column */}
@@ -256,6 +255,7 @@ const IssueRowDetails = observer(function IssueRowDetails(props: IssueRowDetails
     sequenceId: issueDetail?.sequence_id,
     isEpic,
   });
+  const overdueBackgroundStyle = getIssueOverdueBackgroundStyle(issueDetail);
 
   return (
     <>
@@ -265,6 +265,7 @@ const IssueRowDetails = observer(function IssueRowDetails(props: IssueRowDetails
         ref={cellRef}
         tabIndex={0}
         className="group/list-block relative left-0 z-10 max-w-lg bg-surface-1 md:sticky"
+        style={overdueBackgroundStyle}
       >
         <ControlLink
           href={workItemLink}
@@ -282,6 +283,7 @@ const IssueRowDetails = observer(function IssueRowDetails(props: IssueRowDetails
                 "shadow-[8px_22px_22px_10px_rgba(0,0,0,0.05)]": isScrolled.current,
               }
             )}
+            style={overdueBackgroundStyle}
           >
             {/* Identifier section - conditionally rendered */}
             {displayProperties?.key && (
@@ -396,6 +398,7 @@ const IssueRowDetails = observer(function IssueRowDetails(props: IssueRowDetails
           property={property}
           updateIssue={updateIssue}
           isEstimateEnabled={isEstimateEnabled}
+          highlightStyle={overdueBackgroundStyle}
         />
       ))}
     </>

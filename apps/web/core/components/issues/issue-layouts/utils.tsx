@@ -30,7 +30,7 @@ import type {
 import { EIssuesStoreType } from "@plane/types";
 // plane ui
 import { Avatar } from "@plane/ui";
-import { renderFormattedDateWithTime, getFileURL } from "@plane/utils";
+import { renderFormattedDateWithTime, getFileURL, getDate } from "@plane/utils";
 // helpers
 // store
 import { store } from "@/lib/store-context";
@@ -46,6 +46,27 @@ import { DEFAULT_DISPLAY_PROPERTIES } from "@/store/issue/issue-details/sub_issu
 
 export const HIGHLIGHT_CLASS = "highlight";
 export const HIGHLIGHT_WITH_LINE = "highlight-with-line";
+
+export const ISSUE_PIPELINE_OVERDUE_BACKGROUND = "rgba(249, 115, 22, 0.12)";
+export const ISSUE_DEADLINE_OVERDUE_BACKGROUND = "rgba(239, 68, 68, 0.18)";
+
+export function isIssueTargetDateOverdue(date: string | null | undefined) {
+  const target = getDate(date);
+  if (!target) return false;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  target.setHours(0, 0, 0, 0);
+
+  return target < today;
+}
+
+export function getIssueOverdueBackgroundStyle(issue: TIssue | undefined | null): CSSProperties | undefined {
+  if (!issue) return undefined;
+  if (isIssueTargetDateOverdue(issue.target_date)) return { backgroundColor: ISSUE_DEADLINE_OVERDUE_BACKGROUND };
+  if (issue.has_overdue_pipeline_items) return { backgroundColor: ISSUE_PIPELINE_OVERDUE_BACKGROUND };
+  return undefined;
+}
 
 export type GroupDropLocation = {
   columnId: string;

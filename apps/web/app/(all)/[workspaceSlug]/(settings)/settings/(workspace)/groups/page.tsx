@@ -4,9 +4,10 @@
  * See the LICENSE file for details.
  */
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Popover } from "@headlessui/react";
 import { observer } from "mobx-react";
-import { Pencil, Plus, SmilePlus, Trash2, X } from "lucide-react";
+import { Bell, Pencil, Search, SmilePlus, Trash2, UserPlus, Users, X } from "lucide-react";
 import useSWR from "swr";
 // plane imports
 import { EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
@@ -24,6 +25,8 @@ import { SettingsContentWrapper } from "@/components/settings/content-wrapper";
 import { SettingsHeading } from "@/components/settings/heading";
 // hooks
 import { useWorkspace } from "@/hooks/store/use-workspace";
+import { useProject } from "@/hooks/store/use-project";
+import { useProjectState } from "@/hooks/store/use-project-state";
 import { useWorkspaceGroup } from "@/hooks/store/use-workspace-group";
 import { useMember } from "@/hooks/store/use-member";
 import { useUserPermissions } from "@/hooks/store/user";
@@ -67,15 +70,25 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
     fetchWorkspaceGroupMembers,
     addWorkspaceGroupMember,
     deleteWorkspaceGroupMember,
+    getGroupNotificationRules,
+    fetchWorkspaceGroupNotificationRules,
+    updateWorkspaceGroupNotificationRules,
   } = useWorkspaceGroup();
   const { workspace: workspaceMemberStore } = useMember();
+  const { workspaceProjectIds, getProjectById, fetchProjects } = useProject();
+  const projectStateStore = useProjectState();
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingGroupId, setEditingGroupId] = useState<string | null>(null);
   const [formData, setFormData] = useState<GroupFormData>(DEFAULT_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedMemberIds, setSelectedMemberIds] = useState<Record<string, string>>({});
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
+  const [managingGroupId, setManagingGroupId] = useState<string | null>(null);
+  const [notificationGroupId, setNotificationGroupId] = useState<string | null>(null);
+  const [selectedNotificationProjectId, setSelectedNotificationProjectId] = useState<string | null>(null);
+  const [selectedNotificationStateIds, setSelectedNotificationStateIds] = useState<string[]>([]);
+  const [isNotificationSaving, setIsNotificationSaving] = useState(false);
+  const [memberSearchQuery, setMemberSearchQuery] = useState("");
   const formRef = useRef<HTMLDivElement | null>(null);
 
   const canViewGroups = allowPermissions(
@@ -91,9 +104,48 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
   useSWR(canViewGroups ? `WORKSPACE_MEMBERS_${workspaceSlug}` : null, () =>
     workspaceMemberStore.fetchWorkspaceMembers(workspaceSlug)
   );
+  useSWR(canViewGroups ? `WORKSPACE_GROUP_PROJECTS_${workspaceSlug}` : null, () => fetchProjects(workspaceSlug));
   useSWR(canViewGroups && workspaceGroups ? `WORKSPACE_GROUP_MEMBERS_${workspaceSlug}` : null, async () => {
     await Promise.all(workspaceGroups?.map((group) => fetchWorkspaceGroupMembers(workspaceSlug, group.id)) || []);
   });
+  useSWR(
+    canViewGroups && selectedNotificationProjectId
+      ? `WORKSPACE_GROUP_NOTIFICATION_STATES_${workspaceSlug}_${selectedNotificationProjectId}`
+      : null,
+    () => projectStateStore.fetchProjectStates(workspaceSlug, selectedNotificationProjectId || "")
+  );
+
+  const projects = (workspaceProjectIds || [])
+    .map((projectId) => getProjectById(projectId))
+    .filter(
+      (project): project is NonNullable<ReturnType<typeof getProjectById>> => !!project && !project.archived_at
+    );
+  const notificationRules = notificationGroupId ? getGroupNotificationRules(notificationGroupId) : [];
+  const notificationRulesKey = notificationRules
+    .map((rule) => `${rule.project_id}:${rule.state_id}`)
+    .sort()
+    .join(",");
+  const selectedProjectStates = selectedNotificationProjectId
+    ? projectStateStore.getProjectStates(selectedNotificationProjectId) || []
+    : [];
+
+  useEffect(() => {
+    if (!notificationGroupId || selectedNotificationProjectId || projects.length === 0) return;
+    setSelectedNotificationProjectId(projects[0]?.id || null);
+  }, [notificationGroupId, selectedNotificationProjectId, projects]);
+
+  useEffect(() => {
+    if (!notificationGroupId || !selectedNotificationProjectId) {
+      setSelectedNotificationStateIds([]);
+      return;
+    }
+
+    setSelectedNotificationStateIds(
+      notificationRules
+        .filter((rule) => rule.project_id === selectedNotificationProjectId)
+        .map((rule) => rule.state_id)
+    );
+  }, [notificationGroupId, selectedNotificationProjectId, notificationRulesKey]);
 
   const pageTitle = currentWorkspace?.name
     ? `${currentWorkspace.name} - ${t("workspace_settings.settings.groups.title")}`
@@ -171,6 +223,57 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
   const getMemberName = (member?: IWorkspaceMember | null) =>
     member?.member?.display_name || member?.member?.email || t("workspace_settings.settings.groups.unknown_member");
 
+  const getAvailableMembers = (group: IWorkspaceGroup) => {
+    const assignedWorkspaceMemberIds = new Set(getGroupMembers(group.id).map((member) => member.workspace_member.id));
+
+    return workspaceMemberIds
+      .map((userId) => workspaceMemberStore.getWorkspaceMemberDetails(userId))
+      .filter((member): member is IWorkspaceMember => !!member && !assignedWorkspaceMemberIds.has(member.id));
+  };
+
+  const openMembersPanel = async (group: IWorkspaceGroup) => {
+    setManagingGroupId(group.id);
+    setMemberSearchQuery("");
+    await fetchWorkspaceGroupMembers(workspaceSlug, group.id);
+  };
+
+  const openNotificationPanel = async (group: IWorkspaceGroup) => {
+    setNotificationGroupId(group.id);
+    if (!selectedNotificationProjectId && projects.length > 0) setSelectedNotificationProjectId(projects[0]?.id || null);
+    await fetchWorkspaceGroupNotificationRules(workspaceSlug, group.id);
+  };
+
+  const toggleNotificationState = (stateId: string) => {
+    setSelectedNotificationStateIds((current) =>
+      current.includes(stateId) ? current.filter((id) => id !== stateId) : [...current, stateId]
+    );
+  };
+
+  const saveNotificationRules = async (group: IWorkspaceGroup) => {
+    if (!selectedNotificationProjectId) return;
+
+    setIsNotificationSaving(true);
+    try {
+      await updateWorkspaceGroupNotificationRules(workspaceSlug, group.id, {
+        project_id: selectedNotificationProjectId,
+        state_ids: selectedNotificationStateIds,
+      });
+      setToast({
+        type: TOAST_TYPE.SUCCESS,
+        title: t("common.success"),
+        message: t("workspace_settings.settings.groups.toasts.notification_rules_updated"),
+      });
+    } catch (error: any) {
+      setToast({
+        type: TOAST_TYPE.ERROR,
+        title: t("common.error.label"),
+        message: error?.error || t("something_went_wrong_please_try_again"),
+      });
+    } finally {
+      setIsNotificationSaving(false);
+    }
+  };
+
   const handleArchive = async (groupId: string) => {
     try {
       await deleteWorkspaceGroup(workspaceSlug, groupId);
@@ -188,13 +291,11 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
     }
   };
 
-  const handleAddMember = async (group: IWorkspaceGroup) => {
-    const workspaceMemberId = selectedMemberIds[group.id];
+  const handleAddMember = async (group: IWorkspaceGroup, workspaceMemberId: string) => {
     if (!workspaceMemberId) return;
 
     try {
       await addWorkspaceGroupMember(workspaceSlug, group.id, workspaceMemberId);
-      setSelectedMemberIds((current) => ({ ...current, [group.id]: "" }));
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("common.success"),
@@ -343,10 +444,6 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
           <div className="divide-y divide-subtle rounded-md border border-subtle bg-surface-1">
             {workspaceGroups.map((group) => {
               const groupMembers = getGroupMembers(group.id);
-              const assignedWorkspaceMemberIds = new Set(groupMembers.map((member) => member.workspace_member.id));
-              const availableMembers = workspaceMemberIds
-                .map((userId) => workspaceMemberStore.getWorkspaceMemberDetails(userId))
-                .filter((member): member is IWorkspaceMember => !!member && !assignedWorkspaceMemberIds.has(member.id));
 
               return (
                 <div key={group.id} className="grid gap-4 px-4 py-4">
@@ -387,6 +484,349 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
                         >
                           <Pencil className="size-4" />
                         </button>
+                        <Popover className="relative">
+                          {({ close, open }) => (
+                            <>
+                              <Popover.Button
+                                type="button"
+                                className={`rounded p-1.5 text-secondary hover:bg-surface-2 ${
+                                  open ? "bg-surface-2" : ""
+                                }`}
+                                onClick={() => openMembersPanel(group)}
+                                aria-label={t("workspace_settings.settings.groups.manage_members")}
+                                title={t("workspace_settings.settings.groups.manage_members")}
+                              >
+                                <Users className="size-4" />
+                              </Popover.Button>
+                              <Popover.Panel className="absolute right-0 top-full z-[100] mt-2 w-[28rem] max-w-[calc(100vw-2rem)] isolate overflow-hidden rounded-md border border-strong bg-layer-2 shadow-raised-200">
+                                <div className="border-b border-subtle px-3 py-2.5">
+                                  <div className="flex items-start justify-between gap-3">
+                                    <div className="min-w-0">
+                                      <div className="flex items-center gap-2">
+                                        {group.emoji ? (
+                                          <span className="flex size-7 shrink-0 items-center justify-center rounded bg-surface-2 text-base">
+                                            {getGroupEmoji(group.emoji)}
+                                          </span>
+                                        ) : (
+                                          <span
+                                            className="size-3 shrink-0 rounded-full"
+                                            style={{ backgroundColor: group.color || DEFAULT_FORM.color }}
+                                          />
+                                        )}
+                                        <div className="truncate text-body-sm-medium text-primary">{group.name}</div>
+                                      </div>
+                                      <div className="mt-1 text-body-xs-regular text-secondary">
+                                        {t("workspace_settings.settings.groups.members_panel_description")}
+                                      </div>
+                                    </div>
+                                    <button
+                                      type="button"
+                                      className="rounded p-1 text-secondary hover:bg-surface-2"
+                                      onClick={() => {
+                                        setManagingGroupId(null);
+                                        close();
+                                      }}
+                                      aria-label={t("close")}
+                                      title={t("close")}
+                                    >
+                                      <X className="size-4" />
+                                    </button>
+                                  </div>
+                                </div>
+
+                                <div className="max-h-[28rem] overflow-y-auto p-3">
+                                  <section className="grid gap-2">
+                                    <div className="flex items-center justify-between gap-3">
+                                      <h6 className="text-body-xs-medium text-primary">
+                                        {t("workspace_settings.settings.groups.current_members")}
+                                      </h6>
+                                      <span className="rounded bg-surface-2 px-2 py-0.5 text-body-xs-regular text-secondary">
+                                        {t("workspace_settings.settings.groups.members_count", {
+                                          count: group.member_count ?? groupMembers.length,
+                                        })}
+                                      </span>
+                                    </div>
+
+                                    {groupMembers.length > 0 ? (
+                                      <div className="grid gap-1.5">
+                                        {groupMembers.map((groupMember) => {
+                                          const member = groupMember.workspace_member;
+
+                                          return (
+                                            <div
+                                              key={groupMember.id}
+                                              className="flex items-center justify-between gap-3 rounded px-2 py-1.5 hover:bg-surface-1"
+                                            >
+                                              <div className="flex min-w-0 items-center gap-2">
+                                                <Avatar
+                                                  name={getMemberName(member)}
+                                                  src={member.member?.avatar_url || ""}
+                                                  size="sm"
+                                                />
+                                                <div className="min-w-0">
+                                                  <div className="truncate text-body-sm-regular text-primary">
+                                                    {getMemberName(member)}
+                                                  </div>
+                                                  {member.member?.email && (
+                                                    <div className="truncate text-body-xs-regular text-secondary">
+                                                      {member.member.email}
+                                                    </div>
+                                                  )}
+                                                </div>
+                                              </div>
+                                              <button
+                                                type="button"
+                                                className="rounded p-1 text-secondary hover:bg-surface-2"
+                                                onClick={() => handleRemoveMember(group, groupMember)}
+                                                aria-label={t("workspace_settings.settings.groups.remove_member")}
+                                                title={t("workspace_settings.settings.groups.remove_member")}
+                                              >
+                                                <X className="size-4" />
+                                              </button>
+                                            </div>
+                                          );
+                                        })}
+                                      </div>
+                                    ) : (
+                                      <div className="rounded border border-dashed border-subtle px-3 py-3 text-body-xs-regular text-secondary">
+                                        {t("workspace_settings.settings.groups.no_members")}
+                                      </div>
+                                    )}
+                                  </section>
+
+                                  <section className="mt-4 grid gap-2">
+                                    <h6 className="text-body-xs-medium text-primary">
+                                      {t("workspace_settings.settings.groups.available_members")}
+                                    </h6>
+                                    <label className="flex items-center gap-2 rounded-md border border-subtle bg-surface-1 px-2 py-1.5">
+                                      <Search className="size-4 shrink-0 text-secondary" />
+                                      <input
+                                        className="min-w-0 flex-1 bg-transparent text-body-sm-regular outline-none"
+                                        value={memberSearchQuery}
+                                        onChange={(event) => setMemberSearchQuery(event.target.value)}
+                                        placeholder={t("workspace_settings.settings.groups.search_members")}
+                                      />
+                                    </label>
+
+                                    {(() => {
+                                      const query = memberSearchQuery.trim().toLowerCase();
+                                      const availableMembers = getAvailableMembers(group).filter((member) => {
+                                        if (!query) return true;
+                                        const name = getMemberName(member).toLowerCase();
+                                        const email = member.member?.email?.toLowerCase() || "";
+
+                                        return name.includes(query) || email.includes(query);
+                                      });
+
+                                      if (availableMembers.length === 0) {
+                                        return (
+                                          <div className="rounded border border-dashed border-subtle px-3 py-3 text-body-xs-regular text-secondary">
+                                            {query
+                                              ? t("workspace_settings.settings.groups.no_search_results")
+                                              : t("workspace_settings.settings.groups.no_available_members")}
+                                          </div>
+                                        );
+                                      }
+
+                                      return (
+                                        <div className="grid gap-1.5">
+                                          {availableMembers.map((member) => (
+                                            <div
+                                              key={member.id}
+                                              className="flex items-center justify-between gap-3 rounded px-2 py-1.5 hover:bg-surface-1"
+                                            >
+                                              <div className="flex min-w-0 items-center gap-2">
+                                                <Avatar
+                                                  name={getMemberName(member)}
+                                                  src={member.member?.avatar_url || ""}
+                                                  size="sm"
+                                                />
+                                                <div className="min-w-0">
+                                                  <div className="truncate text-body-sm-regular text-primary">
+                                                    {getMemberName(member)}
+                                                  </div>
+                                                  {member.member?.email && (
+                                                    <div className="truncate text-body-xs-regular text-secondary">
+                                                      {member.member.email}
+                                                    </div>
+                                                  )}
+                                                </div>
+                                              </div>
+                                              <button
+                                                type="button"
+                                                className="rounded p-1 text-secondary hover:bg-surface-2"
+                                                onClick={() => handleAddMember(group, member.id)}
+                                                aria-label={t("workspace_settings.settings.groups.add_member")}
+                                                title={t("workspace_settings.settings.groups.add_member")}
+                                              >
+                                                <UserPlus className="size-4" />
+                                              </button>
+                                            </div>
+                                          ))}
+                                        </div>
+                                      );
+                                    })()}
+                                  </section>
+                                </div>
+                              </Popover.Panel>
+                            </>
+                          )}
+                        </Popover>
+                        <Popover className="relative">
+                          {({ close, open }) => (
+                            <>
+                              <Popover.Button
+                                type="button"
+                                className={`rounded p-1.5 text-secondary hover:bg-surface-2 ${
+                                  open ? "bg-surface-2" : ""
+                                }`}
+                                onClick={() => openNotificationPanel(group)}
+                                aria-label={t("workspace_settings.settings.groups.manage_notifications")}
+                                title={t("workspace_settings.settings.groups.manage_notifications")}
+                              >
+                                <Bell className="size-4" />
+                              </Popover.Button>
+                              <Popover.Panel className="absolute right-0 top-full z-[100] mt-2 w-[32rem] max-w-[calc(100vw-2rem)] isolate overflow-hidden rounded-md border border-strong bg-layer-2 shadow-raised-200">
+                                <div className="border-b border-subtle px-3 py-2.5">
+                                  <div className="flex items-start justify-between gap-3">
+                                    <div className="min-w-0">
+                                      <div className="flex items-center gap-2">
+                                        {group.emoji ? (
+                                          <span className="flex size-7 shrink-0 items-center justify-center rounded bg-surface-2 text-base">
+                                            {getGroupEmoji(group.emoji)}
+                                          </span>
+                                        ) : (
+                                          <span
+                                            className="size-3 shrink-0 rounded-full"
+                                            style={{ backgroundColor: group.color || DEFAULT_FORM.color }}
+                                          />
+                                        )}
+                                        <div className="truncate text-body-sm-medium text-primary">
+                                          {t("workspace_settings.settings.groups.notifications_title", {
+                                            group: group.name,
+                                          })}
+                                        </div>
+                                      </div>
+                                      <div className="mt-1 text-body-xs-regular text-secondary">
+                                        {t("workspace_settings.settings.groups.notifications_panel_description")}
+                                      </div>
+                                    </div>
+                                    <button
+                                      type="button"
+                                      className="rounded p-1 text-secondary hover:bg-surface-2"
+                                      onClick={() => {
+                                        setNotificationGroupId(null);
+                                        close();
+                                      }}
+                                      aria-label={t("close")}
+                                      title={t("close")}
+                                    >
+                                      <X className="size-4" />
+                                    </button>
+                                  </div>
+                                </div>
+
+                                <div className="grid max-h-[30rem] gap-4 overflow-y-auto p-3">
+                                  <label className="grid gap-1.5 text-body-xs-medium text-primary">
+                                    {t("workspace_settings.settings.groups.project")}
+                                    <select
+                                      className="rounded-md border border-subtle bg-surface-1 px-2 py-2 text-body-sm-regular outline-none focus:border-custom-primary-100"
+                                      value={selectedNotificationProjectId || ""}
+                                      onChange={(event) => setSelectedNotificationProjectId(event.target.value || null)}
+                                    >
+                                      {projects.length === 0 && (
+                                        <option value="">
+                                          {t("workspace_settings.settings.groups.no_projects")}
+                                        </option>
+                                      )}
+                                      {projects.map((project) => (
+                                        <option key={project.id} value={project.id}>
+                                          {project.name}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </label>
+
+                                  <section className="grid gap-2">
+                                    <div className="flex items-center justify-between gap-3">
+                                      <h6 className="text-body-xs-medium text-primary">
+                                        {t("workspace_settings.settings.groups.allowed_states")}
+                                      </h6>
+                                      <span className="rounded bg-surface-2 px-2 py-0.5 text-body-xs-regular text-secondary">
+                                        {t("workspace_settings.settings.groups.states_count", {
+                                          count: selectedNotificationStateIds.length,
+                                        })}
+                                      </span>
+                                    </div>
+                                    <div className="text-body-xs-regular text-secondary">
+                                      {t("workspace_settings.settings.groups.allowed_states_description")}
+                                    </div>
+
+                                    {selectedProjectStates.length > 0 ? (
+                                      <div className="grid gap-1.5">
+                                        {selectedProjectStates.map((state) => {
+                                          const selected = selectedNotificationStateIds.includes(state.id);
+
+                                          return (
+                                            <button
+                                              key={state.id}
+                                              type="button"
+                                              className={`flex items-center justify-between gap-3 rounded border px-2 py-1.5 text-left hover:bg-surface-1 ${
+                                                selected ? "border-custom-primary-100 bg-custom-primary-100/10" : "border-subtle"
+                                              }`}
+                                              onClick={() => toggleNotificationState(state.id)}
+                                            >
+                                              <span className="flex min-w-0 items-center gap-2">
+                                                <span
+                                                  className="size-3 shrink-0 rounded-full"
+                                                  style={{ backgroundColor: state.color }}
+                                                />
+                                                <span className="truncate text-body-sm-regular text-primary">
+                                                  {state.name}
+                                                </span>
+                                              </span>
+                                              <input
+                                                type="checkbox"
+                                                className="size-4 shrink-0"
+                                                checked={selected}
+                                                onChange={() => toggleNotificationState(state.id)}
+                                                onClick={(event) => event.stopPropagation()}
+                                              />
+                                            </button>
+                                          );
+                                        })}
+                                      </div>
+                                    ) : (
+                                      <div className="rounded border border-dashed border-subtle px-3 py-3 text-body-xs-regular text-secondary">
+                                        {selectedNotificationProjectId
+                                          ? t("workspace_settings.settings.groups.no_states")
+                                          : t("workspace_settings.settings.groups.select_project")}
+                                      </div>
+                                    )}
+                                  </section>
+                                </div>
+
+                                <div className="flex items-center justify-between gap-3 border-t border-subtle px-3 py-2.5">
+                                  <div className="text-body-xs-regular text-secondary">
+                                    {selectedNotificationStateIds.length === 0
+                                      ? t("workspace_settings.settings.groups.no_rule_hint")
+                                      : t("workspace_settings.settings.groups.rule_active_hint")}
+                                  </div>
+                                  <Button
+                                    variant="primary"
+                                    size="sm"
+                                    onClick={() => saveNotificationRules(group)}
+                                    disabled={!selectedNotificationProjectId || isNotificationSaving}
+                                  >
+                                    {isNotificationSaving
+                                      ? `${t("workspace_settings.settings.groups.saving")}...`
+                                      : t("save")}
+                                  </Button>
+                                </div>
+                              </Popover.Panel>
+                            </>
+                          )}
+                        </Popover>
                         <button
                           type="button"
                           className="rounded p-1.5 text-secondary hover:bg-surface-2"
@@ -413,16 +853,6 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
                               <span className="max-w-44 truncate text-body-xs-regular text-primary">
                                 {getMemberName(member)}
                               </span>
-                              {canManageGroups && (
-                                <button
-                                  type="button"
-                                  className="rounded p-0.5 text-secondary hover:bg-surface-2"
-                                  onClick={() => handleRemoveMember(group, groupMember)}
-                                  title={t("workspace_settings.settings.groups.remove_member")}
-                                >
-                                  <X className="size-3.5" />
-                                </button>
-                              )}
                             </div>
                           );
                         })}
@@ -430,33 +860,6 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
                     ) : (
                       <div className="text-body-xs-regular text-secondary">
                         {t("workspace_settings.settings.groups.no_members")}
-                      </div>
-                    )}
-
-                    {canManageGroups && (
-                      <div className="flex flex-wrap items-center gap-2">
-                        <select
-                          className="min-w-52 rounded-md border border-subtle bg-surface-0 px-3 py-2 text-body-sm-regular outline-none focus:border-custom-primary-100"
-                          value={selectedMemberIds[group.id] || ""}
-                          onChange={(event) =>
-                            setSelectedMemberIds((current) => ({ ...current, [group.id]: event.target.value }))
-                          }
-                        >
-                          <option value="">{t("workspace_settings.settings.groups.select_member")}</option>
-                          {availableMembers.map((member) => (
-                            <option key={member.id} value={member.id}>
-                              {getMemberName(member)}
-                            </option>
-                          ))}
-                        </select>
-                        <Button
-                          variant="neutral-primary"
-                          size="lg"
-                          onClick={() => handleAddMember(group)}
-                          disabled={!selectedMemberIds[group.id] || availableMembers.length === 0}
-                        >
-                          {t("workspace_settings.settings.groups.add_member")}
-                        </Button>
                       </div>
                     )}
                   </div>

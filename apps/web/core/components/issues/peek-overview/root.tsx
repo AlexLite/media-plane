@@ -219,8 +219,11 @@ export const IssuePeekOverview = observer(function IssuePeekOverview(props: IWor
     ["peek-issue", peekIssue?.workspaceSlug, peekIssue?.projectId, peekIssue?.issueId],
     () => peekIssue && issueOperations.fetch(peekIssue.workspaceSlug, peekIssue.projectId, peekIssue.issueId),
     {
+      refreshInterval: 15000,
+      refreshWhenHidden: false,
+      refreshWhenOffline: false,
       revalidateIfStale: false,
-      revalidateOnFocus: false,
+      revalidateOnFocus: true,
       revalidateOnReconnect: false,
     }
   );

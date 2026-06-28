@@ -20,7 +20,7 @@ import type { TIssue, IIssueDisplayProperties, IIssueMap } from "@plane/types";
 import { EIssueServiceType } from "@plane/types";
 // ui
 import { ControlLink, DropIndicator } from "@plane/ui";
-import { cn, generateWorkItemLink } from "@plane/utils";
+import { cn, generateWorkItemLink, getDate } from "@plane/utils";
 // components
 import RenderIfVisible from "@/components/core/render-if-visible-HOC";
 import { HIGHLIGHT_CLASS, getIssueBlockId } from "@/components/issues/issue-layouts/utils";
@@ -64,6 +64,17 @@ interface IssueDetailsBlockProps {
   quickActions: TRenderQuickActions;
   isReadOnly: boolean;
   isEpic?: boolean;
+}
+
+function isIssueDateOverdue(date: string | null | undefined) {
+  const target = getDate(date);
+  if (!target) return false;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  target.setHours(0, 0, 0, 0);
+
+  return target < today;
 }
 
 const KanbanIssueDetailsBlock = observer(function KanbanIssueDetailsBlock(props: IssueDetailsBlockProps) {
@@ -250,6 +261,9 @@ export const KanbanIssueBlock = observer(function KanbanIssueBlock(props: IssueB
 
   if (!issue) return null;
 
+  const isIssueDeadlineOverdue = isIssueDateOverdue(issue.target_date);
+  const hasOnlyPipelineOverdue = !!issue.has_overdue_pipeline_items && !isIssueDeadlineOverdue;
+
   return (
     <>
       <DropIndicator isVisible={!isCurrentBlockDragging && isDraggingOverBlock} />
@@ -280,8 +294,8 @@ export const KanbanIssueBlock = observer(function KanbanIssueBlock(props: IssueB
             { "border border-accent-strong hover:border-accent-strong": getIsIssuePeeked(issue.id) },
             { "z-[100] bg-layer-1": isCurrentBlockDragging },
             {
-              "border-red-400/40 bg-red-500/10 hover:border-red-400/60": issue.has_overdue_pipeline_items,
-              "border-red-500/60 bg-red-500/20 hover:border-red-500/80": issue.has_overdue_final_pipeline_item,
+              "!border-orange-200/80 !bg-[rgba(249,115,22,0.12)] hover:!border-orange-300/80": hasOnlyPipelineOverdue,
+              "!border-red-200/80 !bg-[rgba(239,68,68,0.18)] hover:!border-red-300/80": isIssueDeadlineOverdue,
             }
           )}
           onClick={() => handleIssuePeekOverview(issue)}

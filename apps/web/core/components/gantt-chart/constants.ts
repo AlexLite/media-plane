@@ -4,7 +4,7 @@
  * See the LICENSE file for details.
  */
 
-export const BLOCK_HEIGHT = 44;
+export const BLOCK_HEIGHT = 58;
 
 export const HEADER_HEIGHT = 48;
 

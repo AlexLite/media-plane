@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+import type { CSSProperties } from "react";
 import { useRef } from "react";
 import { observer } from "mobx-react";
 // types
@@ -20,10 +21,11 @@ type Props = {
   property: keyof IIssueDisplayProperties;
   updateIssue: ((projectId: string | null, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
   isEstimateEnabled: boolean;
+  highlightStyle?: CSSProperties;
 };
 
 export const IssueColumn = observer(function IssueColumn(props: Props) {
-  const { displayProperties, issueDetail, disableUserActions, property, updateIssue } = props;
+  const { displayProperties, issueDetail, disableUserActions, property, updateIssue, highlightStyle } = props;
   // router
   const tableCellRef = useRef<HTMLTableCellElement | null>(null);
 
@@ -47,6 +49,7 @@ export const IssueColumn = observer(function IssueColumn(props: Props) {
         tabIndex={0}
         className="h-11 min-w-36 border-r-[1px] border-subtle text-13 after:absolute after:bottom-[-1px] after:w-full after:border after:border-subtle"
         ref={tableCellRef}
+        style={highlightStyle}
       >
         <Column
           issue={issueDetail}

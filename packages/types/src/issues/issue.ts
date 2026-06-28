@@ -80,6 +80,17 @@ export type TBaseIssue = {
   is_intake?: boolean;
   has_overdue_pipeline_items?: boolean;
   has_overdue_final_pipeline_item?: boolean;
+  pipeline_gantt_items?: TIssuePipelineGanttItem[];
+};
+
+export type TIssuePipelineGanttItem = {
+  id: string;
+  name: string;
+  start_date: string | null;
+  target_date: string | null;
+  target_time: string | null;
+  status: "pending" | "active" | "completed" | "skipped";
+  sort_order: number;
 };
 
 type IssueRelation = {

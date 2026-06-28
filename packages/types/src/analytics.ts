@@ -37,7 +37,7 @@ export enum ChartYAxisMetric {
   EPIC_WORK_ITEM_COUNT = "EPIC_WORK_ITEM_COUNT",
 }
 
-export type TAnalyticsTabsBase = "overview" | "work-items";
+export type TAnalyticsTabsBase = "overview" | "work-items" | "workload";
 export type TAnalyticsGraphsBase = "projects" | "work-items" | "custom-work-items";
 export interface AnalyticsTab {
   key: TAnalyticsTabsBase;
@@ -45,6 +45,47 @@ export interface AnalyticsTab {
   content: React.FC;
   isDisabled: boolean;
 }
+
+export interface IAnalyticsWorkloadGroup {
+  id: string;
+  name: string;
+  color: string | null;
+  emoji?: string | null;
+}
+
+export interface IAnalyticsWorkloadMember {
+  id: string;
+  display_name: string;
+  email: string;
+  avatar_url: string | null;
+}
+
+export interface IAnalyticsWorkloadItem {
+  id: string;
+  issue_id: string;
+  issue_name: string;
+  project_id: string;
+  project_name: string;
+  pipeline_name: string;
+  status: "pending" | "active" | "completed" | "skipped";
+  start_date: string;
+  target_date: string;
+  workload: number;
+}
+
+export interface IAnalyticsWorkloadRow {
+  workspace_member_id: string;
+  member: IAnalyticsWorkloadMember;
+  groups: IAnalyticsWorkloadGroup[];
+  workload: number;
+  items: IAnalyticsWorkloadItem[];
+}
+
+export interface IAnalyticsWorkloadResponse {
+  groups: IAnalyticsWorkloadGroup[];
+  members: IAnalyticsWorkloadRow[];
+}
+
 export type TAnalyticsFilterParams = {
   project_ids?: string;
   cycle_id?: string;

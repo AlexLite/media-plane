@@ -63,6 +63,18 @@ export class AnalyticsService extends APIService {
       });
   }
 
+  async getAdvanceAnalyticsWorkload<T>(workspaceSlug: string, params?: TAnalyticsFilterParams): Promise<T> {
+    return this.get(`/api/workspaces/${workspaceSlug}/advance-analytics-workload/`, {
+      params: {
+        ...params,
+      },
+    })
+      .then((res) => res?.data)
+      .catch((err) => {
+        throw err?.response?.data;
+      });
+  }
+
   async getAdvanceAnalyticsCharts<T>(
     workspaceSlug: string,
     tab: TAnalyticsGraphsBase,

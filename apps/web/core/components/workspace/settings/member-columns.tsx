@@ -12,6 +12,7 @@ import { Disclosure } from "@headlessui/react";
 // plane imports
 import { ROLE, EUserPermissions, EUserPermissionsLevel, MEMBER_TRACKER_ELEMENTS } from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
+import { stringToEmoji } from "@plane/propel/emoji-icon-picker";
 import { TrashIcon, SuspendedUserIcon } from "@plane/propel/icons";
 import { Pill, EPillVariant, EPillSize } from "@plane/propel/pill";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -22,9 +23,11 @@ import { CustomSelect, PopoverMenu } from "@plane/ui";
 import { getFileURL } from "@plane/utils";
 // hooks
 import { useMember } from "@/hooks/store/use-member";
+import { useWorkspaceGroup } from "@/hooks/store/use-workspace-group";
 import { useUser, useUserPermissions } from "@/hooks/store/user";
 
 export interface RowData {
+  id: string;
   member: IWorkspaceMember;
   role: EUserPermissions;
   is_active: boolean;
@@ -40,6 +43,13 @@ const getWorkspaceRoleLabel = (role: EUserPermissions, t: (key: string) => strin
     default:
       return t("workspace_member_roles.guest");
   }
+};
+
+const getGroupEmoji = (emoji?: string | null) => {
+  if (!emoji) return "";
+  const storedPickerValue = /^[0-9]+(?:-[0-9]+)*$/.test(emoji);
+
+  return storedPickerValue ? stringToEmoji(emoji) || emoji : emoji;
 };
 
 type NameProps = {
@@ -204,5 +214,36 @@ export const AccountTypeColumn = observer(function AccountTypeColumn(props: Acco
         />
       )}
     </>
+  );
+});
+
+export const GroupColumn = observer(function GroupColumn({ rowData }: { rowData: RowData }) {
+  const { t } = useTranslation();
+  const { workspaceGroups, getGroupMembers } = useWorkspaceGroup();
+
+  if (rowData.is_active === false) return null;
+
+  const memberGroups =
+    workspaceGroups?.filter((group) =>
+      getGroupMembers(group.id).some((groupMember) => groupMember.workspace_member.id === rowData.id)
+    ) || [];
+
+  if (memberGroups.length === 0) {
+    return <span className="text-body-xs-regular text-placeholder">{t("workspace_settings.settings.members.no_group")}</span>;
+  }
+
+  return (
+    <div className="flex max-w-56 flex-wrap gap-1">
+      {memberGroups.map((group) => (
+        <span
+          key={group.id}
+          className="inline-flex max-w-full items-center gap-1 rounded bg-surface-2 px-2 py-0.5 text-body-xs-regular text-primary"
+          title={group.name}
+        >
+          {group.emoji ? <span className="shrink-0">{getGroupEmoji(group.emoji)}</span> : null}
+          <span className="truncate">{group.name}</span>
+        </span>
+      ))}
+    </div>
   );
 });

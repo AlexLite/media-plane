@@ -5,7 +5,7 @@
  */
 
 import { API_BASE_URL } from "@plane/constants";
-import type { IWorkspaceGroup, IWorkspaceGroupMember } from "@plane/types";
+import type { IWorkspaceGroup, IWorkspaceGroupMember, IWorkspaceGroupNotificationRule, IWorkspaceGroupNotificationRulePayload } from "@plane/types";
 // services
 import { APIService } from "@/services/api.service";
 
@@ -66,6 +66,29 @@ export class WorkspaceGroupService extends APIService {
     return this.post(`/api/workspaces/${workspaceSlug}/groups/${groupId}/members/`, {
       workspace_member_id: workspaceMemberId,
     })
+      .then((response) => response?.data)
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
+  async listWorkspaceGroupNotificationRules(
+    workspaceSlug: string,
+    groupId: string
+  ): Promise<IWorkspaceGroupNotificationRule[]> {
+    return this.get(`/api/workspaces/${workspaceSlug}/groups/${groupId}/notification-rules/`)
+      .then((response) => response?.data)
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
+  async updateWorkspaceGroupNotificationRules(
+    workspaceSlug: string,
+    groupId: string,
+    data: IWorkspaceGroupNotificationRulePayload
+  ): Promise<IWorkspaceGroupNotificationRule[]> {
+    return this.put(`/api/workspaces/${workspaceSlug}/groups/${groupId}/notification-rules/`, data)
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;

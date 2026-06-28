@@ -13,6 +13,7 @@ export interface IState {
   description: string;
   group: TStateGroups;
   is_pipeline_enabled?: boolean;
+  pipeline_aliases?: string[];
   name: string;
   project_id: string;
   sequence: number;
