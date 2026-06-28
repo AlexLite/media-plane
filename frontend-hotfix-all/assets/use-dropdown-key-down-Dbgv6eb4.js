@@ -1,1 +1,0 @@
-import{r as t}from"./chunk-EPOLDU6W-PsE1YSAx.js";const p=(e,s,o=!0)=>{const r=t.useCallback(a=>{o&&(a.stopPropagation(),a.preventDefault())},[o]);return t.useCallback(a=>{a.key==="Enter"&&!a.nativeEvent.isComposing?(r(a),e()):a.key==="Escape"?(r(a),s()):a.key==="Tab"&&s()},[e,s,r])};export{p as u};

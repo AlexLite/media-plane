@@ -1,1 +1,0 @@
-import{r as e}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{S as r}from"./store-context-sMAwZF-T.js";const i=()=>{const t=e.useContext(r);if(t===void 0)throw new Error("useProjectPage must be used within StoreProvider");return t.projectEstimate};export{i as u};

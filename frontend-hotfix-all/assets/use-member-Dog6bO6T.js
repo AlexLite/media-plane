@@ -1,1 +1,0 @@
-import{r}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{S as t}from"./store-context-sMAwZF-T.js";const m=()=>{const e=r.useContext(t);if(e===void 0)throw new Error("useMember must be used within StoreProvider");return e.memberRoot};export{m as u};

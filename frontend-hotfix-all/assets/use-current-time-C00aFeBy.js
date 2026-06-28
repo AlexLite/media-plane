@@ -1,1 +1,0 @@
-import{r as e}from"./chunk-EPOLDU6W-PsE1YSAx.js";const a=()=>{const[t,r]=e.useState(new Date);return e.useEffect(()=>{const n=setInterval(()=>{r(new Date)},6e4);return()=>clearInterval(n)},[]),{currentTime:t}};export{a as u};

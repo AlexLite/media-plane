@@ -1,1 +1,0 @@
-import{r}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{S as t}from"./store-context-sMAwZF-T.js";const n=()=>{const o=r.useContext(t);if(o===void 0)throw new Error("useWorkspace must be used within StoreProvider");return o.workspaceRoot};export{n as u};

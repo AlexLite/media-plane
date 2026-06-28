@@ -1,1 +1,0 @@
-import{j as t}from"./jsx-runtime-BrgLAWQM.js";import{L as e}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{e as l}from"./helper-CmYjNUif.js";function c({href:r,replace:o,prefetch:i,scroll:a,shallow:n,...s}){return t.jsx(e,{to:l(r),replace:o,...s})}export{c as L};

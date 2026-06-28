@@ -1,1 +1,0 @@
-import{w as t,O as o}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{j as e}from"./jsx-runtime-BrgLAWQM.js";const n=t(function(){return e.jsx(o,{})}),p=()=>[{title:"Создать пространство"}];export{n as default,p as meta};

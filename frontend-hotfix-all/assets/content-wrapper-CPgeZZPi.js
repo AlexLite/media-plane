@@ -1,1 +1,0 @@
-import{j as l}from"./jsx-runtime-BrgLAWQM.js";import{c as o}from"./store-context-sMAwZF-T.js";function i({className:r,children:e}){return l.jsx("div",{className:"h-full w-full overflow-hidden",children:l.jsx("div",{className:o("relative h-full w-full overflow-x-hidden overflow-y-scroll",r),children:e})})}export{i as C};

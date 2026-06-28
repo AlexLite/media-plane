@@ -1,1 +1,0 @@
-import{w as r,d as e}from"./chunk-EPOLDU6W-PsE1YSAx.js";const s=({params:o})=>{const{workspaceSlug:t,projectId:n}=o;throw e(`/${t}/projects/${n}/intake/`)},a=r(function(){return null});export{s as clientLoader,a as default};

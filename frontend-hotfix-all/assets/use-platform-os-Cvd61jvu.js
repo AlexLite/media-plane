@@ -1,1 +1,0 @@
-const o=()=>{const i=window.navigator.userAgent,n=/iPhone|iPad|iPod|Android/i.test(i);let e="";return n||(i.indexOf("Win")!==-1?e="Windows":i.indexOf("Mac")!==-1?e="MacOS":i.indexOf("Linux")!==-1?e="Linux":e="Unknown"),{isMobile:n,platform:e}};export{o as u};

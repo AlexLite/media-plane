@@ -1,1 +1,0 @@
-import{w as t,O as o}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{j as s}from"./jsx-runtime-BrgLAWQM.js";const e=t(function(){return s.jsx(o,{})}),i=()=>[{title:"Приглашения в пространство"}];export{e as default,i as meta};

@@ -1,1 +1,0 @@
-import{r as t}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{S as o}from"./store-context-sMAwZF-T.js";const u=()=>{const e=t.useContext(o);if(e===void 0)throw new Error("useCycle must be used within StoreProvider");return e.cycle},n=()=>{const e=t.useContext(o);if(e===void 0)throw new Error("useModule must be used within StoreProvider");return e.module};export{u as a,n as u};

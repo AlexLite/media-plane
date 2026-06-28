@@ -1,1 +1,0 @@
-import{w as t,O as o}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{j as e}from"./jsx-runtime-BrgLAWQM.js";const m=()=>[{name:"robots",content:"index, nofollow"},{name:"viewport",content:"width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover"}],r=t(function(){return e.jsx(o,{})});export{r as default,m as meta};

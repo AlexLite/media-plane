@@ -1,1 +1,0 @@
-import{r as a}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{S as i}from"./store-context-sMAwZF-T.js";import{u as n}from"./use-page-store-ChZKzGFf.js";const d=r=>{const{pageId:e,storeType:t}=r,o=a.useContext(i),s=n(t);if(o===void 0)throw new Error("usePage must be used within StoreProvider");if(!e)throw new Error("pageId is required");return s.getPageById(e)};export{d as u};

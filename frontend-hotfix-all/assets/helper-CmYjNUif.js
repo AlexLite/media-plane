@@ -1,1 +1,0 @@
-function a(t){try{const e=typeof window<"u"&&window.location.origin?window.location.origin:"http://dummy.com",n=new URL(t,e);return n.pathname==="/"?t:(n.pathname.endsWith("/")||(n.pathname+="/"),t.startsWith("/")?n.pathname+n.search+n.hash:n.toString())}catch(e){return console.warn("Ошибка to parse URL for trailing slash enforcement:",t,e),t}}export{a as e};

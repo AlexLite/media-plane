@@ -1,1 +1,0 @@
-import{w as n,d as r}from"./chunk-EPOLDU6W-PsE1YSAx.js";const e=({params:t})=>{const{workspaceSlug:o}=t;throw r(`/${o}/analytics/overview/`)},s=n(function(){return null});export{e as clientLoader,s as default};

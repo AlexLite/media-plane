@@ -1,1 +1,0 @@
-import{w as t,O as o}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{j as n}from"./jsx-runtime-BrgLAWQM.js";const r=t(function(){return n.jsx(o,{})}),e=()=>[{title:"Приглашения"}];export{r as default,e as meta};

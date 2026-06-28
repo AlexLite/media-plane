@@ -1,1 +1,0 @@
-import{r as e}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{S as o}from"./store-context-sMAwZF-T.js";const n=t=>{const r=e.useContext(o);if(r===void 0)throw new Error("useEstimate must be used within StoreProvider");return t?r.projectEstimate.estimates?.[t]??{}:{}};export{n as u};

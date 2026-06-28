@@ -1,1 +1,0 @@
-import{w as t,O as o}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{j as s}from"./jsx-runtime-BrgLAWQM.js";const n=t(function(){return s.jsx(o,{})}),m=()=>[{title:"Сброс пароля - Plane"}];export{n as default,m as meta};

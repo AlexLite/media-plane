@@ -1,1 +1,0 @@
-import{r}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{S as o}from"./store-context-sMAwZF-T.js";const i=()=>{const t=r.useContext(o);if(t===void 0)throw new Error("useProjectFilter must be used within StoreProvider");return t.projectRoot.projectFilter};export{i as u};

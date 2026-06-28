@@ -24,8 +24,10 @@ build/
 # Misc
 .DS_Store
 *.pem
+*.bak*
 .history
 tsconfig.tsbuildinfo
+frontend-hotfix-*/
 
 # Debug
 npm-debug.log*

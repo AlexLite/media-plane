@@ -1,1 +1,0 @@
-import{r as t}from"./chunk-EPOLDU6W-PsE1YSAx.js";import{S as r}from"./store-context-sMAwZF-T.js";const s=()=>{const o=t.useContext(r);if(o===void 0)throw new Error("useWorkspaceNotifications must be used within StoreProvider");return o.workspaceNotification};export{s as u};
