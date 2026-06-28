@@ -6,6 +6,8 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ## [Unreleased]
 
+## [v1.3.1-ru.2] - 2026-06-29
+
 ### Added
 - Pipeline workload analytics, project pipeline aliases, default project due time, and workspace group notification rules from the plane2 runtime source.
 - Clean backend image build helper for building the RU backend directly from source.
