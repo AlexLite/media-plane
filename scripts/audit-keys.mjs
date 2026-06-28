@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Plane RU Translation Audit Script
- * Compares EN vs RU translation keys across all namespaces.
+ * Compares EN vs RU translation keys across runtime JSON namespaces.
  *
  * Usage: node scripts/audit-keys.mjs [--missing] [--untranslated] [--extra]
  *   --missing       show keys in EN but absent in RU
@@ -10,16 +10,28 @@
  *   (no flags = show all)
  */
 
-import { readFileSync, existsSync } from "fs";
-import { join, dirname } from "path";
+import { existsSync, readFileSync } from "fs";
+import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 const LOCALES_DIR = join(ROOT, "packages/i18n/src/locales");
-const NAMESPACES = ["translations", "core", "accessibility", "empty-state"];
+const NAMESPACES_FILE = join(ROOT, "packages/i18n/src/constants/namespaces.ts");
 
-// Technical terms that are intentionally identical in both locales
+function loadNamespaces() {
+  const content = readFileSync(NAMESPACES_FILE, "utf-8");
+  const match = content.match(/export const NAMESPACES = \[([\s\S]*?)\] as const;/);
+  if (!match) {
+    throw new Error(`Failed to parse namespace list from ${NAMESPACES_FILE}`);
+  }
+
+  return [...match[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]);
+}
+
+const NAMESPACES = loadNamespaces();
+
+// Technical terms that are intentionally identical in both locales.
 const TECHNICAL_TERMS = new Set([
   "PDF",
   "Markdown",
@@ -54,33 +66,25 @@ const TECHNICAL_TERMS = new Set([
   "LLM",
 ]);
 
-// Patterns for values that don't need translation (slugs, identifiers, codes)
-const SLUG_PATTERN = /^[a-z][a-z0-9-]*$/; // kebab-case identifiers
-const ACRONYM_PATTERN = /^[A-Z0-9\s\-_./]+$/; // ALL CAPS / acronyms
+// Patterns for values that don't need translation (slugs, identifiers, codes).
+const SLUG_PATTERN = /^[a-z][a-z0-9-]*$/;
+const ACRONYM_PATTERN = /^[A-Z0-9\s\-_.\\/]+$/;
 
 function isTechnical(val) {
   if (TECHNICAL_TERMS.has(val)) return true;
-  if (SLUG_PATTERN.test(val)) return true; // e.g. "all-issues", "api-tokens"
-  if (ACRONYM_PATTERN.test(val)) return true; // e.g. "HR", "PDF"
+  if (SLUG_PATTERN.test(val)) return true;
+  if (ACRONYM_PATTERN.test(val)) return true;
   return false;
 }
 
 function loadLocale(lang, ns) {
-  const filePath = join(LOCALES_DIR, lang, `${ns}.ts`);
+  const filePath = join(LOCALES_DIR, lang, `${ns}.json`);
   if (!existsSync(filePath)) return {};
 
-  const content = readFileSync(filePath, "utf-8");
-  const cleaned = content
-    .replace(/\/\*[\s\S]*?\*\//g, "") // remove block comments
-    .replace(/\/\/[^\n]*/g, "") // remove line comments
-    .replace(/^\s*export\s+default\s+/, "") // remove export default
-    .replace(/\}\s+as\s+const\s*;?\s*$/, "}") // remove TypeScript "as const"
-    .trim();
-
   try {
-    return new Function(`return (${cleaned})`)();
+    return JSON.parse(readFileSync(filePath, "utf-8"));
   } catch (e) {
-    console.error(`  ✗ Failed to parse ${lang}/${ns}.ts: ${e.message}`);
+    console.error(`  Failed to parse ${lang}/${ns}.json: ${e.message}`);
     return {};
   }
 }
@@ -98,7 +102,6 @@ function flatKeys(obj, prefix = "") {
   return result;
 }
 
-// --- Load all namespaces ---
 const enAll = {};
 const ruAll = {};
 
@@ -109,7 +112,6 @@ for (const ns of NAMESPACES) {
   for (const [k, v] of Object.entries(ruFlat)) ruAll[`${ns}:${k}`] = v;
 }
 
-// --- Categorize ---
 const missing = [];
 const untranslated = [];
 const extra = [];
@@ -126,29 +128,28 @@ for (const key of Object.keys(ruAll)) {
   if (!(key in enAll)) extra.push(key);
 }
 
-// --- Parse flags ---
 const args = process.argv.slice(2);
 const showAll = args.length === 0;
 const showMissing = showAll || args.includes("--missing");
 const showUntranslated = showAll || args.includes("--untranslated");
 const showExtra = showAll || args.includes("--extra");
 
-// --- Output ---
-const hr = "─".repeat(60);
+const hr = "-".repeat(60);
 const hr2 = "=".repeat(60);
 
 console.log(`\n${hr2}`);
-console.log(`PLANE RU TRANSLATION AUDIT — ${new Date().toISOString().slice(0, 10)}`);
+console.log(`PLANE RU TRANSLATION AUDIT - ${new Date().toISOString().slice(0, 10)}`);
 console.log(hr2);
-console.log(`\n  EN keys total : ${Object.keys(enAll).length}`);
+console.log(`\n  Namespaces    : ${NAMESPACES.length}`);
+console.log(`  EN keys total : ${Object.keys(enAll).length}`);
 console.log(`  RU keys total : ${Object.keys(ruAll).length}`);
-console.log(`  Missing in RU : ${missing.length}  ${missing.length === 0 ? "✓" : "✗"}`);
-console.log(`  Untranslated  : ${untranslated.length}  ${untranslated.length === 0 ? "✓" : "⚠"}`);
-console.log(`  Orphaned in RU: ${extra.length}  ${extra.length === 0 ? "✓" : "⚠"}`);
+console.log(`  Missing in RU : ${missing.length}  ${missing.length === 0 ? "OK" : "FAIL"}`);
+console.log(`  Untranslated  : ${untranslated.length}  ${untranslated.length === 0 ? "OK" : "WARN"}`);
+console.log(`  Orphaned in RU: ${extra.length}  ${extra.length === 0 ? "OK" : "WARN"}`);
 
 if (showMissing && missing.length > 0) {
   console.log(`\n${hr}`);
-  console.log("MISSING IN RU — add these keys to ru/translations.ts or ru/core.ts:");
+  console.log("MISSING IN RU - add these keys to the matching ru/*.json namespace:");
   console.log(hr);
   for (const { key, enVal } of missing) {
     console.log(`  ${key}`);
@@ -158,7 +159,7 @@ if (showMissing && missing.length > 0) {
 
 if (showUntranslated && untranslated.length > 0) {
   console.log(`\n${hr}`);
-  console.log("POSSIBLY UNTRANSLATED — RU value identical to EN (review these):");
+  console.log("POSSIBLY UNTRANSLATED - RU value identical to EN (review these):");
   console.log(hr);
   for (const { key, val } of untranslated) {
     console.log(`  ${key}: "${val}"`);
@@ -167,12 +168,11 @@ if (showUntranslated && untranslated.length > 0) {
 
 if (showExtra && extra.length > 0) {
   console.log(`\n${hr}`);
-  console.log("ORPHANED IN RU — key removed from EN, consider cleaning up:");
+  console.log("ORPHANED IN RU - key removed from EN, consider cleaning up:");
   console.log(hr);
   for (const key of extra) console.log(`  ${key}`);
 }
 
 console.log(`\n${hr2}\n`);
 
-// Exit code: 1 if missing keys (useful for CI)
 if (missing.length > 0) process.exit(1);

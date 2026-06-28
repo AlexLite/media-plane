@@ -3,8 +3,8 @@
  * Quick RU locale audit helper.
  *
  * Checks:
- * 1) Lines with likely untranslated English in ru locale files.
- * 2) Optional: compare with an override file and show phrases still found in ru locale values.
+ * 1) Values with likely untranslated English in ru JSON namespace files.
+ * 2) Optional: compare with an override file and show phrases still found in RU values.
  *
  * Usage:
  *   node packages/i18n/scripts/audit-ru-locale.mjs
@@ -18,7 +18,6 @@ import process from "node:process";
 const cwd = process.cwd();
 const repoRoot = cwd.endsWith(path.join("packages", "i18n")) ? path.resolve(cwd, "..", "..") : cwd;
 const ruDir = path.join(repoRoot, "packages", "i18n", "src", "locales", "ru");
-const ruFiles = ["translations.ts", "empty-state.ts", "accessibility.ts", "editor.ts"];
 
 const args = process.argv.slice(2);
 const overrideIndex = args.indexOf("--override");
@@ -30,13 +29,14 @@ const latinRe = /[A-Za-z]/;
 const ignoredLineSubstrings = [
   "http://",
   "https://",
-  "aria_labels.",
   "API",
   "URL",
   "ID",
   "CSV",
   "HEX",
   "GitHub",
+  "GitLab",
+  "Plane",
   "{email}",
   "name@company.com",
 ];
@@ -54,25 +54,39 @@ const shouldIgnoreText = (text) => {
   if (!latinRe.test(text)) return true;
   if (cyrillicRe.test(text)) return true;
   if (text.length <= 1) return true;
-  if (/^[a-z0-9_.-]+$/i.test(text) && text.includes("_")) return true;
+  if (/^[a-z0-9_.-]+$/i.test(text) && /[_-]/.test(text)) return true;
   return ignoredLineSubstrings.some((x) => text.includes(x));
 };
 
+const flattenValues = (obj, prefix = "") => {
+  const results = [];
+  for (const [key, value] of Object.entries(obj)) {
+    const nextKey = prefix ? `${prefix}.${key}` : key;
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+      results.push(...flattenValues(value, nextKey));
+    } else if (typeof value === "string") {
+      results.push({ key: nextKey, value });
+    }
+  }
+  return results;
+};
+
+const listRuFiles = () =>
+  fs
+    .readdirSync(ruDir)
+    .filter((file) => file.endsWith(".json"))
+    .sort();
+
 const collectRuCandidates = () => {
   const results = [];
-  for (const file of ruFiles) {
+  for (const file of listRuFiles()) {
     const filePath = path.join(ruDir, file);
-    const content = fs.readFileSync(filePath, "utf8");
-    const lines = content.split(/\r?\n/);
-    lines.forEach((line, i) => {
-      const matches = [...line.matchAll(/"((?:\\.|[^"])*)"/g)];
-      for (const m of matches) {
-        const value = decodeEscapes(m[1]);
-        if (!shouldIgnoreText(value)) {
-          results.push({ file, line: i + 1, value });
-        }
+    const values = flattenValues(JSON.parse(fs.readFileSync(filePath, "utf8")));
+    for (const { key, value } of values) {
+      if (!shouldIgnoreText(value)) {
+        results.push({ file, key, value });
       }
-    });
+    }
   }
   return results;
 };
@@ -94,12 +108,13 @@ const main = () => {
     process.exit(1);
   }
 
+  const ruFiles = listRuFiles();
   const untranslated = collectRuCandidates();
   console.log("== RU locale audit ==");
   console.log(`Files: ${ruFiles.join(", ")}`);
   console.log(`Potential untranslated values: ${untranslated.length}`);
   untranslated.slice(0, 200).forEach((it) => {
-    console.log(`${it.file}:${it.line} -> ${it.value}`);
+    console.log(`${it.file}:${it.key} -> ${it.value}`);
   });
   if (untranslated.length > 200) {
     console.log(`... and ${untranslated.length - 200} more`);

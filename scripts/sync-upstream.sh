@@ -21,7 +21,7 @@ STORAGE_PY="apps/api/plane/settings/storage.py"
 BACKUP_DIR="/tmp/plane-ru-sync-$(date +%s)"
 
 # Verify we're in the right repo
-if [ ! -f "packages/i18n/src/locales/en/translations.ts" ]; then
+if [ ! -f "packages/i18n/src/locales/en/common.json" ]; then
   echo "ERROR: Run this script from the repo root."
   exit 1
 fi
@@ -126,8 +126,7 @@ echo "==========================================================="
 echo " Sync complete!"
 echo ""
 echo " Next steps if audit shows missing keys:"
-echo "   1. Edit packages/i18n/src/locales/ru/translations.ts"
-echo "      (or core.ts / accessibility.ts / empty-state.ts)"
+echo "   1. Edit the matching packages/i18n/src/locales/ru/*.json namespace"
 echo "   2. git add packages/i18n/src/locales/ru/"
 echo "   3. git commit -m 'l10n(ru): translate new keys from upstream'"
 echo "   4. Rebuild frontend image (see LOCALIZATION.md)"

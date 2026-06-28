@@ -4,7 +4,7 @@ This workflow keeps Russian localization easy to maintain across upstream update
 
 ## Scope Rules
 
-1. Keep translation changes in `packages/i18n/src/locales/ru/*` whenever possible.
+1. Keep translation changes in `packages/i18n/src/locales/ru/*.json` whenever possible.
 2. If UI has hardcoded English, add i18n keys first, then translate in RU locale.
 3. Avoid runtime overrides for production (`ru-override.js` should not be the primary source of truth).
 
@@ -15,6 +15,7 @@ Run from repo root:
 ```bash
 node packages/i18n/scripts/audit-ru-locale.mjs
 node packages/i18n/scripts/audit-ru-locale.mjs --override E:/Dev/projects/Plane/ru-override.utf8.js
+node scripts/audit-keys.mjs
 ```
 
 ## Update Cycle (new upstream release)
@@ -40,4 +41,3 @@ git rebase upstream/main
 1. RU locale files have no obvious EN leftovers from audit output.
 2. New UI text is key-based (no hardcoded EN in changed files).
 3. Build passes and auth/navigation paths are verified in browser.
-
