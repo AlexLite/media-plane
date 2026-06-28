@@ -7,6 +7,9 @@ PYPI_HOST="${PYPI_HOST:-pypi.org}"
 PYPI_HOST_IP="$(getent ahostsv4 "$PYPI_HOST" | awk 'NR == 1 { print $1 }')"
 PYPI_FILES_HOST="${PYPI_FILES_HOST:-files.pythonhosted.org}"
 PYPI_FILES_HOST_IP="$(getent ahostsv4 "$PYPI_FILES_HOST" | awk 'NR == 1 { print $1 }')"
+RELEASE_VERSION_VALUE="$(cat RELEASE_VERSION 2>/dev/null || echo v1.3.1-ru)"
+GIT_SHA="$(git rev-parse --short=12 HEAD)"
+DEFAULT_BACKEND_IMAGE_TAG="plane-backend-ru:${RELEASE_VERSION_VALUE}-${GIT_SHA}"
 
 if [ -z "$ALPINE_REPOSITORY_IP" ]; then
   echo "Unable to resolve IPv4 address for $ALPINE_REPOSITORY_HOST" >&2
@@ -23,5 +26,5 @@ docker build \
   --add-host "$PYPI_HOST:$PYPI_HOST_IP" \
   --add-host "$PYPI_FILES_HOST:$PYPI_FILES_HOST_IP" \
   -f apps/api/Dockerfile.api \
-  -t "${BACKEND_IMAGE_TAG:-plane-backend-ru:v1.3.1-ru-clean-final}" \
+  -t "${BACKEND_IMAGE_TAG:-$DEFAULT_BACKEND_IMAGE_TAG}" \
   apps/api
