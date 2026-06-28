@@ -8,6 +8,7 @@ import { ImageIcon, RotateCcw } from "lucide-react";
 import type { ChangeEvent } from "react";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { cn } from "@plane/utils";
 // constants
 import { ACCEPTED_IMAGE_MIME_TYPES } from "@/constants/config";
@@ -30,6 +31,7 @@ type CustomImageUploaderProps = CustomImageNodeViewProps & {
 };
 
 export function CustomImageUploader(props: CustomImageUploaderProps) {
+  const { t } = useTranslation();
   const {
     editor,
     extension,
@@ -184,19 +186,19 @@ export function CustomImageUploader(props: CustomImageUploaderProps) {
   const getDisplayMessage = useCallback(() => {
     const isUploading = isImageBeingUploaded;
     if (isErrorState) {
-      return "Error loading image";
+      return t("editor.image.error_loading");
     }
 
     if (isUploading) {
-      return "Uploading...";
+      return t("editor.image.uploading");
     }
 
     if (draggedInside && editor.isEditable) {
-      return "Drop image here";
+      return t("editor.image.drop_here");
     }
 
-    return "Add an image";
-  }, [draggedInside, editor.isEditable, isErrorState, isImageBeingUploaded]);
+    return t("editor.image.add_image");
+  }, [draggedInside, editor.isEditable, isErrorState, isImageBeingUploaded, t]);
 
   const handleRetryClick = useCallback(
     (e: React.MouseEvent) => {

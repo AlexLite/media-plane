@@ -8,6 +8,7 @@ import { Disclosure } from "@headlessui/react";
 import type { Editor } from "@tiptap/core";
 import { Ban, Palette } from "lucide-react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { ChevronRightIcon } from "@plane/propel/icons";
 import { cn } from "@plane/utils";
 // constants
@@ -43,6 +44,7 @@ const handleBackgroundColorChange = (editor: Editor, color: string | null) => {
 
 export function TableDragHandleDropdownColorSelector(props: Props) {
   const { editor, onSelect } = props;
+  const { t } = useTranslation();
 
   return (
     <Disclosure defaultOpen>
@@ -55,7 +57,7 @@ export function TableDragHandleDropdownColorSelector(props: Props) {
           <>
             <span className="flex items-center gap-2">
               <Palette className="size-3 shrink-0" />
-              Цвет
+              {t("editor.table_menu.color")}
             </span>
             <ChevronRightIcon
               className={cn("size-3 shrink-0 transition-transform duration-200", {
@@ -90,7 +92,7 @@ export function TableDragHandleDropdownColorSelector(props: Props) {
           </div>
         </div> */}
         <div className="space-y-1">
-          <p className="text-11 font-semibold text-tertiary">Цвет фона</p>
+          <p className="text-11 font-semibold text-tertiary">{t("editor.table_menu.background_color")}</p>
           <div className="flex flex-wrap items-center gap-2">
             {COLORS_LIST.map((color) => (
               <button

@@ -22,6 +22,8 @@ export function UserGreetingsView(props: IUserGreetingsView) {
   // store hooks
   const { t } = useTranslation();
 
+  if (!currentTime) return null;
+
   const locale = "ru-RU";
   const timeZone = user?.user_timezone;
 

@@ -6,8 +6,10 @@
 
 import { useState, useEffect, useCallback } from "react";
 
+const isBrowser = () => typeof window !== "undefined";
+
 export const getValueFromLocalStorage = (key: string, defaultValue: any) => {
-  if (typeof window === "undefined" || typeof window === "undefined") return defaultValue;
+  if (!isBrowser()) return defaultValue;
   try {
     const item = window.localStorage.getItem(key);
     return item ? JSON.parse(item) : defaultValue;
@@ -18,7 +20,7 @@ export const getValueFromLocalStorage = (key: string, defaultValue: any) => {
 };
 
 export const setValueIntoLocalStorage = (key: string, value: any) => {
-  if (typeof window === "undefined" || typeof window === "undefined") return false;
+  if (!isBrowser()) return false;
   try {
     window.localStorage.setItem(key, JSON.stringify(value));
     return true;
@@ -28,10 +30,12 @@ export const setValueIntoLocalStorage = (key: string, value: any) => {
 };
 
 export const useLocalStorage = <T,>(key: string, initialValue: T) => {
-  const [storedValue, setStoredValue] = useState<T | null>(() => getValueFromLocalStorage(key, initialValue));
+  // Keep the first render SSR-safe. Hydrate from localStorage only after mount.
+  const [storedValue, setStoredValue] = useState<T | null>(initialValue);
 
   const setValue = useCallback(
     (value: T) => {
+      if (!isBrowser()) return;
       window.localStorage.setItem(key, JSON.stringify(value));
       setStoredValue(value);
       window.dispatchEvent(new Event(`local-storage:${key}`));
@@ -40,6 +44,7 @@ export const useLocalStorage = <T,>(key: string, initialValue: T) => {
   );
 
   const clearValue = useCallback(() => {
+    if (!isBrowser()) return;
     window.localStorage.removeItem(key);
     setStoredValue(null);
     window.dispatchEvent(new Event(`local-storage:${key}`));
@@ -51,6 +56,7 @@ export const useLocalStorage = <T,>(key: string, initialValue: T) => {
   }, [key, initialValue]);
 
   useEffect(() => {
+    setStoredValue(getValueFromLocalStorage(key, initialValue));
     window.addEventListener(`local-storage:${key}`, reHydrate);
     return () => {
       window.removeEventListener(`local-storage:${key}`, reHydrate);

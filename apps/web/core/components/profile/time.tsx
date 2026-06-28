@@ -16,6 +16,8 @@ export function ProfileSidebarTime(props: Props) {
   // current time hook
   const { currentTime } = useCurrentTime();
 
+  if (!currentTime) return null;
+
   // Create a date object for the current time in the specified timezone
   const formatter = new Intl.DateTimeFormat("ru-RU", {
     timeZone: timeZone,

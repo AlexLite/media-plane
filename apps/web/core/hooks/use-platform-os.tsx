@@ -4,7 +4,18 @@
  * See the LICENSE file for details.
  */
 
-export const usePlatformOS = () => {
+import { useEffect, useState } from "react";
+
+type TPlatformOS = {
+  isMobile: boolean;
+  platform: string;
+};
+
+const getPlatformOS = (): TPlatformOS => {
+  if (typeof window === "undefined") {
+    return { isMobile: false, platform: "" };
+  }
+
   const userAgent = window.navigator.userAgent;
   const isMobile = /iPhone|iPad|iPod|Android/i.test(userAgent);
   let platform = "";
@@ -20,5 +31,16 @@ export const usePlatformOS = () => {
       platform = "Unknown";
     }
   }
+
   return { isMobile, platform };
+};
+
+export const usePlatformOS = () => {
+  const [platformInfo, setPlatformInfo] = useState<TPlatformOS>({ isMobile: false, platform: "" });
+
+  useEffect(() => {
+    setPlatformInfo(getPlatformOS());
+  }, []);
+
+  return platformInfo;
 };

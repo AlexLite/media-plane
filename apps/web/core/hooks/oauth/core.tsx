@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+import { useEffect, useState } from "react";
 // plane imports
 import { useSearchParams } from "next/navigation";
 import { useTheme } from "next-themes";
@@ -25,9 +26,14 @@ export const useCoreOAuthConfig = (oauthActionText: string): TOAuthConfigs => {
   const next_path = searchParams.get("next_path");
   // theme
   const { resolvedTheme } = useTheme();
+  const [isMounted, setIsMounted] = useState(false);
   // store hooks
   const { config } = useInstance();
   // derived values
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const isOAuthEnabled =
     (config &&
       (config?.is_google_enabled ||
@@ -50,7 +56,7 @@ export const useCoreOAuthConfig = (oauthActionText: string): TOAuthConfigs => {
       text: `${oauthActionText} with GitHub`,
       icon: (
         <img
-          src={resolvedTheme === "dark" ? GithubDarkLogo : GithubLightLogo}
+          src={isMounted && resolvedTheme === "dark" ? GithubDarkLogo : GithubLightLogo}
           height={18}
           width={18}
           alt="GitHub Logo"
