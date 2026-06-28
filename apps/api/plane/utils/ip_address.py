@@ -8,6 +8,71 @@ import socket
 from urllib.parse import urlparse
 
 
+_CGNAT_NETWORK = ipaddress.ip_network("100.64.0.0/10")
+_NAT64_WELL_KNOWN_NETWORK = ipaddress.ip_network("64:ff9b::/96")
+_NAT64_LOCAL_USE_NETWORK = ipaddress.ip_network("64:ff9b:1::/48")
+_SIX_TO_FOUR_NETWORK = ipaddress.ip_network("2002::/16")
+
+
+def is_blocked_ip(ip):
+    if getattr(ip, "ipv4_mapped", None):
+        return is_blocked_ip(ip.ipv4_mapped)
+
+    if isinstance(ip, ipaddress.IPv6Address):
+        if ip in _NAT64_LOCAL_USE_NETWORK:
+            return True
+        if ip in _NAT64_WELL_KNOWN_NETWORK:
+            embedded = ipaddress.IPv4Address(int(ip) & 0xFFFFFFFF)
+            return is_blocked_ip(embedded)
+        if ip in _SIX_TO_FOUR_NETWORK:
+            embedded = ipaddress.IPv4Address((int(ip) >> 80) & 0xFFFFFFFF)
+            return is_blocked_ip(embedded)
+
+    if isinstance(ip, ipaddress.IPv4Address) and ip in _CGNAT_NETWORK:
+        return True
+
+    return any(
+        (
+            ip.is_private,
+            ip.is_loopback,
+            ip.is_reserved,
+            ip.is_link_local,
+            ip.is_unspecified,
+            ip.is_multicast,
+        )
+    )
+
+
+def resolve_and_validate(hostname, allowed_ips=None, require_safe=True):
+    try:
+        addr_info = socket.getaddrinfo(hostname, None)
+    except socket.gaierror:
+        raise ValueError("Hostname could not be resolved")
+
+    if not addr_info:
+        raise ValueError("No IP addresses found for the hostname")
+
+    resolved_ips = []
+    seen = set()
+    for addr in addr_info:
+        ip = ipaddress.ip_address(addr[4][0])
+        ip_text = str(ip)
+        if ip_text in seen:
+            continue
+        seen.add(ip_text)
+        resolved_ips.append(ip_text)
+
+        if not require_safe:
+            continue
+
+        if is_blocked_ip(ip):
+            if allowed_ips and any(network.version == ip.version and ip in network for network in allowed_ips):
+                continue
+            raise ValueError("Access to private/internal networks is not allowed")
+
+    return resolved_ips
+
+
 def validate_url(url, allowed_ips=None, allowed_hosts=None):
     """
     Validate that a URL doesn't resolve to a private/internal IP address (SSRF protection).
@@ -41,22 +106,7 @@ def validate_url(url, allowed_ips=None, allowed_hosts=None):
     }:
         return
 
-    try:
-        addr_info = socket.getaddrinfo(hostname, None)
-    except socket.gaierror:
-        raise ValueError("Hostname could not be resolved")
-
-    if not addr_info:
-        raise ValueError("No IP addresses found for the hostname")
-
-    for addr in addr_info:
-        ip = ipaddress.ip_address(addr[4][0])
-        if ip.is_private or ip.is_loopback or ip.is_reserved or ip.is_link_local:
-            if allowed_ips and any(
-                network.version == ip.version and ip in network for network in allowed_ips
-            ):
-                continue
-            raise ValueError("Access to private/internal networks is not allowed")
+    resolve_and_validate(hostname, allowed_ips=allowed_ips)
 
 
 def get_client_ip(request):
