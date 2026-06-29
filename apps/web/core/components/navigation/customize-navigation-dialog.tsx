@@ -229,7 +229,7 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
 
           {/* Workspace Section */}
           <div className="flex flex-col gap-2">
-            <h3 className="text-13 font-semibold text-placeholder">{t("workspace")}</h3>
+            <h3 className="text-13 font-semibold text-placeholder">{t("common.workspace")}</h3>
             <div className="rounded-md border border-subtle bg-surface-2 py-2">
               {/* Pinned Items - Draggable */}
               <Sortable
@@ -259,7 +259,7 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
 
           {/* Projects Section */}
           <div className="flex flex-col gap-2">
-            <h3 className="text-13 font-semibold text-placeholder">{t("projects")}</h3>
+            <h3 className="text-13 font-semibold text-placeholder">{t("common.projects")}</h3>
 
             <div className="rounded-md border border-subtle bg-surface-2 px-2 py-2">
               <div className="space-y-3">

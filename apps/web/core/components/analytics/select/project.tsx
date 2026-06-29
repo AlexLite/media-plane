@@ -55,7 +55,7 @@ export const ProjectSelect = observer(function ProjectSelect(props: Props) {
         <div className={cn(getButtonStyling("secondary", "lg"), "gap-2")}>
           <ProjectIcon className="h-4 w-4" />
           {value && value.length > 3
-            ? `3+ ${t("projects").toLowerCase()}`
+            ? `3+ ${t("common.projects").toLowerCase()}`
             : value && value.length > 0
               ? projectIds
                   ?.filter((p) => value.includes(p))

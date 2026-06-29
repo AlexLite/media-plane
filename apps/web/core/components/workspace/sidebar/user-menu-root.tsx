@@ -41,8 +41,8 @@ export const UserMenuRoot = observer(function UserMenuRoot() {
     signOut().catch(() =>
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: t("sign_out.toast.error.title"),
-        message: t("sign_out.toast.error.message"),
+        title: t("common.sign_out_error.title"),
+        message: t("common.sign_out_error.message"),
       })
     );
   };
@@ -135,7 +135,7 @@ export const UserMenuRoot = observer(function UserMenuRoot() {
       </div>
       <CustomMenu.MenuItem onClick={handleSignOut} className="flex items-center gap-2">
         <LogOut className="size-3.5 shrink-0" />
-        {t("sign_out")}
+        {t("common.sign_out")}
       </CustomMenu.MenuItem>
       {isUserInstanceAdmin && (
         <CustomMenu.MenuItem

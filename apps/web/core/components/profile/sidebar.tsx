@@ -237,7 +237,7 @@ export const ProfileSidebar = observer(function ProfileSidebar(props: TProfileSi
                                   Создано
                                 </div>
                                 <div className="font-medium">
-                                  {project.created_issues} {t("issues")}
+                                  {project.created_issues} {t("common.work_items")}
                                 </div>
                               </div>
                               <div className="flex items-center justify-between gap-2">
@@ -246,7 +246,7 @@ export const ProfileSidebar = observer(function ProfileSidebar(props: TProfileSi
                                   Назначено
                                 </div>
                                 <div className="font-medium">
-                                  {project.assigned_issues} {t("issues")}
+                                  {project.assigned_issues} {t("common.work_items")}
                                 </div>
                               </div>
                               <div className="flex items-center justify-between gap-2">
@@ -255,7 +255,7 @@ export const ProfileSidebar = observer(function ProfileSidebar(props: TProfileSi
                                   К сроку
                                 </div>
                                 <div className="font-medium">
-                                  {project.pending_issues} {t("issues")}
+                                  {project.pending_issues} {t("common.work_items")}
                                 </div>
                               </div>
                               <div className="flex items-center justify-between gap-2">
@@ -264,7 +264,7 @@ export const ProfileSidebar = observer(function ProfileSidebar(props: TProfileSi
                                   Завершено
                                 </div>
                                 <div className="font-medium">
-                                  {project.completed_issues} {t("issues")}
+                                  {project.completed_issues} {t("common.work_items")}
                                 </div>
                               </div>
                             </div>

@@ -9,6 +9,7 @@ export const NAMESPACES = [
   "auth",
   "automation",
   "common",
+  "compat",
   "cycle",
   "editor",
   "empty-state",

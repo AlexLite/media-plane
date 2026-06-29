@@ -67,7 +67,7 @@ export const PageFiltersSelection = observer(function PageFiltersSelection(props
             ref={inputRef}
             type="text"
             className="w-full outline-none placeholder:text-placeholder"
-            placeholder={t("search")}
+            placeholder={t("common.search.label")}
             value={filtersSearchQuery}
             onChange={(e) => setFiltersSearchQuery(e.target.value)}
           />

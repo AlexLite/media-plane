@@ -183,7 +183,7 @@ export const SidebarProjectsList = observer(function SidebarProjectsList() {
                     : "aria_labels.projects_sidebar.open_projects_menu"
                 )}
               >
-                <span className="text-13 font-semibold">{t("projects")}</span>
+                <span className="text-13 font-semibold">{t("common.projects")}</span>
               </Disclosure.Button>
               <div className="flex items-center gap-1">
                 {isAuthorizedUser && (

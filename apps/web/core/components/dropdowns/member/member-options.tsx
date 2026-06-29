@@ -146,7 +146,7 @@ export const MemberOptions = observer(function MemberOptions(props: Props) {
             className="w-full bg-transparent py-1 text-11 text-secondary placeholder:text-placeholder focus:outline-none"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder={t("search")}
+            placeholder={t("common.search.label")}
             displayValue={(assigned: any) => assigned?.name}
             onKeyDown={searchInputKeyDown}
           />

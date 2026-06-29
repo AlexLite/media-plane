@@ -33,7 +33,7 @@ type TModuleAnalyticsProgress = {
 };
 
 const moduleBurnDownChartOptions = [
-  { value: "burndown", i18n_label: "issues" },
+  { value: "burndown", i18n_label: "common.work_items" },
   { value: "points", i18n_label: "points" },
 ];
 

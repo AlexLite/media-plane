@@ -102,7 +102,7 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
                 }
                 disabled={!isEditable}
                 projectId={projectId?.toString() ?? ""}
-                placeholder={t("issues.add.assignee")}
+                placeholder={t("issue.add.assignee")}
                 multiple
                 buttonVariant={
                   (issue?.assignee_ids || [])?.length > 0 ? "transparent-without-text" : "transparent-with-text"
@@ -146,7 +146,7 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
                 <span>{t("due_date")}</span>
               </div>
               <DateDropdown
-                placeholder={t("issues.add.due_date")}
+                placeholder={t("issue.add.due_date")}
                 value={issue.target_date || null}
                 onChange={(val) =>
                   issue?.id &&
@@ -202,7 +202,7 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
               <div className="flex min-h-8 gap-2">
                 <div className="flex w-2/5 flex-shrink-0 gap-1 pt-2 text-13 text-tertiary">
                   <DuplicatePropertyIcon className="h-4 w-4 flex-shrink-0" />
-                  <span>{t("issues.duplicate")}</span>
+                  <span>{t("common.duplicate")}</span>
                 </div>
 
                 <ControlLink

@@ -340,7 +340,7 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
           <div className="flex items-center justify-start gap-1">
             <div className="flex w-2/5 items-center justify-start gap-2 text-tertiary">
               <WorkItemsIcon className="h-4 w-4" />
-              <span className="text-14">{t("issues")}</span>
+              <span className="text-14">{t("common.work_items")}</span>
             </div>
             <div className="flex h-7 w-3/5 items-center">
               <span className="px-1.5 text-13 text-tertiary">{issueCount}</span>

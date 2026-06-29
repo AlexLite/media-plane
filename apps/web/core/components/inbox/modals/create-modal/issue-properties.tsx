@@ -144,7 +144,7 @@ export const InboxIssueProperties = observer(function InboxIssueProperties(props
             value={data?.cycle_id || ""}
             onChange={(cycleId) => handleData("cycle_id", cycleId)}
             projectId={projectId}
-            placeholder={t("cycle")}
+            placeholder={t("common.cycle")}
             buttonVariant="border-with-text"
             tabIndex={getIndex("cycle_id")}
           />

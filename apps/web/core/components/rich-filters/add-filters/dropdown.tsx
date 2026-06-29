@@ -88,7 +88,7 @@ export const AddFilterDropdown = observer(function AddFilterDropdown<
         maxHeight="2xl"
         placement="bottom-start"
         disabled={isDisabled}
-        noResultsMessage={t("issues.search.no_matches_found")}
+        noResultsMessage={t("common.search.no_matches_found")}
         customButtonClassName={className}
         customButton={customButton}
       />

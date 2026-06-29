@@ -16,6 +16,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 - Proxy now load-balances UI traffic across `web` and `web-ru` to avoid asset 502s during frontend restarts.
 - Missing RU labels for project/profile settings categories and pipeline aliases.
+- Missing JSON locale keys used by the web UI now load from a committed compat namespace instead of falling back to raw key names.
 - i18n providers now wait for primary locale namespaces before rendering, preventing raw translation keys during startup.
 - i18n package builds now load JSON namespaces instead of removed legacy locale modules.
 - RU locale audits now distinguish intentional brand, placeholder, and protocol values from real untranslated UI strings.

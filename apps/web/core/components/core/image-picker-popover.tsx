@@ -241,7 +241,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                           )}
                         />
                         <Button variant="primary" size="xl" onClick={() => setSearchParams(formData.search)}>
-                          {t("search")}
+                          {t("common.search.label")}
                         </Button>
                       </div>
                       {unsplashImages ? (

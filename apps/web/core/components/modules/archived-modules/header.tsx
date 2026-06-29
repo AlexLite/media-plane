@@ -113,7 +113,7 @@ export const ArchivedModulesHeader = observer(function ArchivedModulesHeader() {
           <input
             ref={inputRef}
             className="w-full max-w-[234px] border-none bg-transparent text-13 text-primary placeholder:text-placeholder focus:outline-none"
-            placeholder={t("search")}
+            placeholder={t("common.search.label")}
             value={archivedModulesSearchQuery}
             onChange={(e) => updateArchivedModulesSearchQuery(e.target.value)}
             onKeyDown={handleInputKeyDown}

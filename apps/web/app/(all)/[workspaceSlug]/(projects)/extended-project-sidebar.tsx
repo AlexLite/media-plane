@@ -112,7 +112,7 @@ export const ExtendedProjectSidebar = observer(function ExtendedProjectSidebar()
       >
         <div className="sticky top-4 flex w-full flex-col gap-1 px-4">
           <div className="flex items-center justify-between">
-            <span className="py-1.5 text-13 font-semibold text-tertiary">{t("projects")}</span>
+            <span className="py-1.5 text-13 font-semibold text-tertiary">{t("common.projects")}</span>
             {isAuthorizedUser && (
               <Tooltip tooltipHeading={t("create_project")} tooltipContent="">
                 <button
@@ -132,7 +132,7 @@ export const ExtendedProjectSidebar = observer(function ExtendedProjectSidebar()
             <SearchIcon className="h-3.5 w-3.5 text-placeholder" />
             <input
               className="w-full max-w-[234px] border-none bg-transparent text-13 outline-none placeholder:text-placeholder"
-              placeholder={t("search")}
+              placeholder={t("common.search.label")}
               value={searchQuery}
               autoFocus
               onChange={(e) => setSearchQuery(e.target.value)}

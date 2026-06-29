@@ -36,7 +36,7 @@ export const AppSidebar = observer(function AppSidebar() {
   const isFavoriteEmpty = isEmpty(groupedFavorites);
 
   return (
-    <SidebarWrapper title={t("projects")} quickActions={<SidebarQuickActions />} showCustomizeNavigation>
+    <SidebarWrapper title={t("common.projects")} quickActions={<SidebarQuickActions />} showCustomizeNavigation>
       <SidebarMenuItems />
       {/* Favorites Menu */}
       {canPerformWorkspaceMemberActions && !isFavoriteEmpty && <SidebarFavoritesMenu />}

@@ -14,6 +14,7 @@ import enAccessibility from "../locales/en/accessibility.json";
 import enAuth from "../locales/en/auth.json";
 import enAutomation from "../locales/en/automation.json";
 import enCommon from "../locales/en/common.json";
+import enCompat from "../locales/en/compat.json";
 import enCycle from "../locales/en/cycle.json";
 import enEditor from "../locales/en/editor.json";
 import enEmptyState from "../locales/en/empty-state.json";
@@ -42,6 +43,7 @@ import ruAccessibility from "../locales/ru/accessibility.json";
 import ruAuth from "../locales/ru/auth.json";
 import ruAutomation from "../locales/ru/automation.json";
 import ruCommon from "../locales/ru/common.json";
+import ruCompat from "../locales/ru/compat.json";
 import ruCycle from "../locales/ru/cycle.json";
 import ruEditor from "../locales/ru/editor.json";
 import ruEmptyState from "../locales/ru/empty-state.json";
@@ -75,6 +77,7 @@ const enCore = merge(
   enAuth,
   enAutomation,
   enCommon,
+  enCompat,
   enCycle,
   enEditor,
   enEmptyState,
@@ -107,6 +110,7 @@ const ruCore = merge(
   ruAuth,
   ruAutomation,
   ruCommon,
+  ruCompat,
   ruCycle,
   ruEditor,
   ruEmptyState,

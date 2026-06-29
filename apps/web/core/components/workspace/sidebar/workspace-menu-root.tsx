@@ -55,8 +55,8 @@ export const WorkspaceMenuRoot = observer(function WorkspaceMenuRoot(props: Work
     await signOut().catch(() =>
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: t("sign_out.toast.error.title"),
-        message: t("sign_out.toast.error.message"),
+        title: t("common.sign_out_error.title"),
+        message: t("common.sign_out_error.message"),
       })
     );
   };
@@ -217,7 +217,7 @@ export const WorkspaceMenuRoot = observer(function WorkspaceMenuRoot(props: Work
                         onClick={handleSignOut}
                       >
                         <LogOut className="size-4 flex-shrink-0" />
-                        {t("sign_out")}
+                        {t("common.sign_out")}
                       </Menu.Item>
                     </div>
                   </div>

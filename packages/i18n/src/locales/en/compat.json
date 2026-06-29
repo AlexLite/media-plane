@@ -1,0 +1,806 @@
+{
+  "Dark": "Dark",
+  "Light": "Light",
+  "access": {
+    "private": "Private",
+    "public": "Public"
+  },
+  "account_deactivated_successfully": "Account deactivated successfully.",
+  "account_settings": {
+    "api_tokens": {
+      "heading": "Personal Access Tokens"
+    }
+  },
+  "activity_feed": {
+    "a_work_item": "a work item",
+    "added": "added",
+    "added_new_assignee": "added a new assignee",
+    "added_new_label": "added a new label",
+    "added_this": "added this",
+    "archived": "archived",
+    "as_duplicate_of": "as duplicate of",
+    "being_blocked_by_work_item": "being blocked by work item",
+    "commented": "Commented",
+    "converted": "converted",
+    "created": "created",
+    "deleted": "deleted",
+    "for": "for",
+    "from": "from",
+    "from_cycle": "from the cycle",
+    "from_module": "from the module",
+    "inbox": {
+      "accepted_issue": "accepted work item",
+      "accepted_no_issue": "accepted this work item from intake.",
+      "declined_duplicate_no_issue": "declined this work item from intake by marking a duplicate work item.",
+      "declined_issue": "declined work item",
+      "declined_no_issue": "declined this work item from intake.",
+      "from_intake_by_marking_duplicate": "from intake by marking a duplicate work item.",
+      "snoozed_issue": "snoozed work item",
+      "snoozed_no_issue": "snoozed this work item.",
+      "updated_status": "updated intake work item status."
+    },
+    "is_blocked_by": "is being blocked by",
+    "is_blocking_work_item": "is blocking work item",
+    "marked": "marked",
+    "marked_that": "marked that",
+    "of": "of",
+    "relates_to": "relates to",
+    "removed": "removed",
+    "removed_assignee": "removed the assignee",
+    "removed_attachment": "removed an attachment",
+    "removed_blocking_work_item": "removed the blocking work item",
+    "removed_due_date": "removed the due date",
+    "removed_estimate": "removed the estimate point",
+    "removed_label": "removed the label",
+    "removed_parent": "removed the parent",
+    "removed_relation_from": "removed the relation from",
+    "removed_start_date": "removed the start date",
+    "removed_this": "removed this",
+    "restored": "restored",
+    "set_cycle_to": "set the cycle to",
+    "set_due_date_to": "set the due date to",
+    "set_estimate_to": "set the estimate point to",
+    "set_module_to": "set the module to",
+    "set_parent_to": "set the parent to",
+    "set_priority_to": "set the priority to",
+    "set_start_date_to": "set the start date to",
+    "set_state_to": "set the state to",
+    "set_title_to": "set the title to",
+    "this_work_item": "this work item",
+    "to": "to",
+    "to_cycle": "to the cycle",
+    "to_epic": "to an epic",
+    "to_module": "to the module",
+    "to_work_item": "to a work item",
+    "updated_description": "updated the description",
+    "updated_the": "updated the",
+    "uploaded_attachment": "uploaded a new attachment",
+    "via": "via",
+    "work_item_deleted_tooltip": "This work item has been deleted"
+  },
+  "add_existing_work_item": "Add an existing work item",
+  "add_reaction": "Add reaction",
+  "api_token_select_expiration": "Please select an expiration date.",
+  "archive_success_message": "Your archives can be found in project archives.",
+  "at": "at",
+  "attachment": {
+    "delete_confirmation": "Are you sure you want to delete attachment - {name}? This attachment will be permanently removed. This action cannot be undone.",
+    "uploaded_by_on": "{name} uploaded on {date}"
+  },
+  "attachment_operations": {
+    "remove_failed": "The attachment could not be removed",
+    "removed": "The attachment has been successfully removed",
+    "upload_failed": "File could not be attached. Try uploading again."
+  },
+  "auth": {
+    "common": {
+      "no_auth_methods_available": "No authentication methods available",
+      "no_auth_methods_available_description": "Contact your administrator to enable an authentication method.",
+      "password": {
+        "toast": {
+          "error": {
+            "message": "We could not update your password. Please try again.",
+            "title": "Password update failed"
+          }
+        }
+      },
+      "sign_in_action": "Sign in",
+      "sign_up_action": "Sign up"
+    },
+    "footer": {
+      "join_teams_building_with_plane": "Join teams building with Plane"
+    },
+    "landing": {
+      "create_your_plane_account": "Create your Plane account",
+      "welcome_back_to_plane": "Welcome back to Plane",
+      "work_in_all_dimensions": "Work in all dimensions"
+    },
+    "legal": {
+      "and": "and",
+      "our": "our",
+      "privacy_policy": "Privacy Policy",
+      "sign_in_prefix": "By signing in, you agree to",
+      "sign_up_prefix": "By signing up, you agree to",
+      "terms_of_service": "Terms of Service"
+    }
+  },
+  "change_parent_work_item": "Change parent work item",
+  "chart": {
+    "completion": "Completion",
+    "date": "Date"
+  },
+  "check_pending_invites": "Check pending invites",
+  "clear": "Clear",
+  "commented": "commented",
+  "common": {
+    "access": {
+      "archived": "Archived",
+      "label": "Access"
+    },
+    "add_page": "Add page",
+    "clear_filters": "Clear filters",
+    "click_or_drag_file": "Click or drag a file here",
+    "count": "Count",
+    "created": "Created",
+    "created_on_date": "Created on {date}",
+    "custom": "Custom",
+    "date": "Date",
+    "date_range": "Date range",
+    "drop_here": "Drop here...",
+    "drop_here_to_delete": "Drop here to delete the work item.",
+    "due_date": "Due date",
+    "due_time": "Due time",
+    "end_date": "End date",
+    "end_time": "End time",
+    "in_project": "in project:",
+    "in_workspace": "in workspace:",
+    "joined": "Joined",
+    "link_count": "{count, plural, one {# link} other {# links}}",
+    "locked": "Locked",
+    "no_member_yet": "No members yet",
+    "offline": "Offline",
+    "offline_tooltip_content": "You can continue making changes. They will be synced when you are back online.",
+    "offline_tooltip_heading": "You are offline.",
+    "save_view": "Save view",
+    "search_results_for": "Search results for",
+    "skip": "Skip",
+    "start_date": "Start date",
+    "sub_group_by": "Sub-group by",
+    "submit": "Submit",
+    "target_date": "Target date",
+    "update_view": "Update view",
+    "uploading": "Uploading",
+    "view_all": "View all",
+    "view_less": "View less",
+    "work_items_in_module": "Work items in module",
+    "work_items_in_project": "Work items in project",
+    "duplicate": "Duplicate",
+    "sign_out": "Sign out",
+    "sign_out_error": {
+      "title": "Sign out failed",
+      "message": "We could not sign you out. Please try again."
+    }
+  },
+  "connection_lost": "Connection lost",
+  "create_new_workspace": "Create new workspace",
+  "created_date": "Created date",
+  "creating_theme": "Creating theme",
+  "custom_date": "Custom",
+  "dashboards": {
+    "widget": {
+      "color_palettes": {
+        "earthen": "Earthen",
+        "horizon": "Horizon",
+        "modern": "Modern"
+      }
+    }
+  },
+  "date_filters": {
+    "1_month_from_now": "1 month from now",
+    "1_week_from_now": "1 week from now",
+    "2_months_from_now": "2 months from now",
+    "2_weeks_from_now": "2 weeks from now"
+  },
+  "display_name_required": "Display name is required.",
+  "drag_drop_manual_only": "Drag and drop is only enabled when sorted by manual",
+  "editor_still_processing": "Editor is still processing changes. Please wait before proceeding.",
+  "email_is_required": "Email is required.",
+  "enter_valid_hex_code": "Enter a valid hex code",
+  "enter_your_display_name": "Enter your display name",
+  "enter_your_email": "Enter your email",
+  "enter_your_first_name": "Enter your first name",
+  "enter_your_last_name": "Enter your last name",
+  "epics": "Epics",
+  "error_page_description": "We track these errors automatically and working on getting things back up and running. If the problem persists feel free to contact us. In the meantime, try refreshing.",
+  "error_page_title": "🚧 Looks like something went wrong!",
+  "estimate_operations": {
+    "delete_failed": "We were unable to delete the estimate, please try again.",
+    "deleted": "Estimate has been removed from your project."
+  },
+  "failed_to_process_cover_image": "Failed to process cover image",
+  "failed_to_sign_out": "Failed to sign out. Please try again.",
+  "failed_to_update_language": "Failed to update language",
+  "failed_to_update_timezone": "Failed to update timezone",
+  "favorite": "Favorite",
+  "feature_tabs_horizontal_inside_project": "Feature tabs will appear as horizontal tabs inside a project.",
+  "feature_tabs_nested_under_project": "Feature tabs will appear as nested items under project and acts as accordion.",
+  "first_day_of_the_week": "First day of the week",
+  "first_day_of_the_week_description": "This will change how all calendars in your app look.",
+  "first_day_of_the_week_updated_successfully": "First day of the week updated successfully",
+  "gantt_block_dates_update_failed": "Something went wrong while updating block dates",
+  "go_to_home": "Go to Home",
+  "gpt_enter_task": "Please enter some task to get AI assistance.",
+  "image_picker": {
+    "drag_drop_image_here": "Drag & drop image here",
+    "drop_image_here_to_upload": "Drop image here to upload",
+    "image_could_not_be_uploaded": "The image could not be uploaded",
+    "image_not_uploaded": "Image not uploaded",
+    "invalid_format_error": "Please upload a file in a valid format.",
+    "max_size_error": "The image size cannot exceed 5 MB.",
+    "no_images_found": "No images found.",
+    "search_for_images": "Search for images",
+    "supported_formats": "File formats supported- .jpeg, .jpg, .png, .webp",
+    "upload_and_save": "Upload & Save",
+    "uploading": "Uploading"
+  },
+  "issue": {
+    "add": {
+      "module": {
+        "failed": "Work item could not be added to the module. Please try again.",
+        "success": "{count, plural, one {Work item} other {Work items}} added to the module successfully."
+      }
+    },
+    "pipeline": {
+      "complete_active_step": "Complete active step",
+      "only_active_step_can_be_completed": "Only active step can be completed"
+    }
+  },
+  "join": "Join",
+  "join_project": "Join Project",
+  "joining": "Joining...",
+  "label": {
+    "delete_label": "Delete Label"
+  },
+  "language_updated_successfully": "Language updated successfully",
+  "link_copy_failed": "We couldn't copy the link. Please try again.",
+  "link_operations": {
+    "create_failed_title": "Link not created",
+    "create_title": "Link created",
+    "created": "The link has been successfully created",
+    "remove_failed": "The link could not be removed",
+    "remove_failed_title": "Link not removed",
+    "remove_title": "Link removed",
+    "removed": "The link has been successfully removed",
+    "update_failed": "The link could not be updated",
+    "update_failed_title": "Link not updated",
+    "update_title": "Link updated",
+    "updated": "The link has been successfully updated"
+  },
+  "markdown_copied": "Markdown copied to clipboard.",
+  "members_added_successfully": "Members added successfully.",
+  "minimum_value_is_1": "Minimum value is 1",
+  "module_operations": {
+    "archive_failed": "Module could not be archived. Please try again.",
+    "created": "Module created successfully.",
+    "deleted": "Module deleted successfully.",
+    "link_copied": "Module link copied to clipboard.",
+    "link_created": "Module link created successfully.",
+    "link_deleted": "Module link deleted successfully.",
+    "link_updated": "Module link updated successfully.",
+    "restore_failed": "Module could not be restored. Please try again.",
+    "restored": "Your module can be found in project modules.",
+    "update_failed": "Module could not be updated. Please try again."
+  },
+  "module_updated_successfully": "Module updated successfully.",
+  "more": "more",
+  "name_within_50_chars": "Name must be within 50 characters.",
+  "navigation": {
+    "toasts": {
+      "default_tab_update_failed": "Failed to update default tab. Please try again later.",
+      "default_tab_updated": "Default tab updated successfully.",
+      "hide_tab_failed": "Failed to hide tab. Please try again later.",
+      "show_tab_failed": "Something went wrong. Please try again later."
+    }
+  },
+  "no_lead": "No lead",
+  "no_matches_found": "No matches found",
+  "not_authorized": "Not Authorized!",
+  "notification": {
+    "toasts": {
+      "un_snoozed": "Notification unsnoozed"
+    }
+  },
+  "onboarding_failed": "Failed to finish onboarding, please try again later.",
+  "onboarding_invite_members": {
+    "add_another": "Add another",
+    "description": "Work in plane happens best with your team. Invite them now to use Plane to its potential.",
+    "errors": {
+      "invalid_email": "Invalid Email ID",
+      "invalid_email_hint": "That doesn't look like an email address."
+    },
+    "later": "I'll do it later",
+    "title": "Invite your teammates",
+    "toast": {
+      "error": {
+        "title": "Error!"
+      },
+      "success": {
+        "message": "Invitations sent successfully.",
+        "title": "Success!"
+      }
+    }
+  },
+  "onboarding_invites": {
+    "continue_to_workspace": "Continue to workspace",
+    "create_new_workspace": "Create new workspace",
+    "create_workspace": "Create your own workspace",
+    "description": "Accept the invites to collaborate with your team.",
+    "join_or_create_description": "All your work — unified.",
+    "join_or_create_title": "Join invites or create a workspace",
+    "no_invitations": "No invitations found",
+    "or": "or",
+    "title": "You are invited!"
+  },
+  "onboarding_profile_setup": {
+    "choose_image": "Choose image",
+    "domain": {
+      "errors": {
+        "required": "Please select at least one option"
+      },
+      "question": "What is your domain expertise? Choose one or more."
+    },
+    "first_name": {
+      "errors": {
+        "max_length": "First name must be within 50 characters.",
+        "required": "First name is required"
+      },
+      "label": "First name",
+      "placeholder": "Wilbur"
+    },
+    "last_name": {
+      "errors": {
+        "max_length": "Last name must be within 50 characters.",
+        "required": "Last name is required"
+      },
+      "label": "Last name",
+      "placeholder": "Wright"
+    },
+    "password": {
+      "confirm": {
+        "errors": {
+          "mismatch": "Passwords don't match"
+        }
+      },
+      "label": "Set a password",
+      "placeholder": "New password..."
+    },
+    "profile_step": {
+      "change_image": "Change image",
+      "description": "This is how you will appear in Plane.",
+      "full_name": {
+        "errors": {
+          "required": "Name is required"
+        },
+        "label": "Name",
+        "placeholder": "Enter your full name"
+      },
+      "image_upload": {
+        "cancel": "Cancel",
+        "drag": "Drag & drop image here",
+        "drop": "Drop image here to upload",
+        "edit": "Edit",
+        "formats": "Supported formats: .jpeg, .jpg, .png, .webp",
+        "invalid_format": "Please upload a file in a valid format.",
+        "remove": "Remove",
+        "removing": "Removing",
+        "save": "Upload & Save",
+        "title": "Upload image",
+        "too_large": "The image size cannot exceed 5 MB.",
+        "uploading": "Uploading"
+      },
+      "title": "Create your profile.",
+      "upload_image": "Upload image"
+    },
+    "role": {
+      "errors": {
+        "required": "This field is required"
+      },
+      "question": "What role are you working on? Choose one."
+    },
+    "toast": {
+      "error": {
+        "failed": "Profile setup failed. Please try again!",
+        "title": "Error",
+        "user_details_failed": "User details update failed. Please try again!"
+      },
+      "success": {
+        "completed": "Profile setup completed!",
+        "title": "Success"
+      }
+    }
+  },
+  "onboarding_role_setup": {
+    "description": "Let's set up Plane for how you work.",
+    "select_one": "Select one",
+    "title": "What's your role?"
+  },
+  "onboarding_set_password": {
+    "password_mismatch": "Passwords do not match",
+    "passwords_match": "✓ Passwords match",
+    "placeholder": "Set a password",
+    "title": "Set a password"
+  },
+  "onboarding_use_case_setup": {
+    "description": "Tell us your goals and team size.",
+    "select_one_or_more": "Select one or more",
+    "title": "What brings you to Plane?"
+  },
+  "oops_something_went_wrong": "Oops! Something went wrong.",
+  "page_modals": {
+    "create": {
+      "creating": "Creating",
+      "name_max_length": "Max length of the name should be less than 255 characters",
+      "name_placeholder": "Title",
+      "submit": "Create page",
+      "title": "Create page"
+    },
+    "delete": {
+      "title": "Delete page"
+    },
+    "export": {
+      "export_format": "Export format",
+      "exporting": "Exporting",
+      "include_content": "Include content",
+      "options": {
+        "content_variety": {
+          "everything": "Everything",
+          "no_assets": "No images"
+        },
+        "format": {
+          "markdown": "Markdown",
+          "pdf": "PDF"
+        },
+        "page_format": {
+          "a2": "A2",
+          "a3": "A3",
+          "a4": "A4",
+          "legal": "Legal",
+          "letter": "Letter",
+          "tabloid": "Tabloid"
+        }
+      },
+      "page_format": "Page format",
+      "submit": "Export",
+      "title": "Export page",
+      "toast": {
+        "error": {
+          "message": "Page could not be exported. Please try again later.",
+          "title": "Error!"
+        },
+        "success": {
+          "message": "Page exported successfully.",
+          "title": "Success!"
+        }
+      }
+    }
+  },
+  "page_not_found_description": "Sorry, the page you are looking for cannot be found. It may have been removed, had its name changed, or is temporarily unavailable.",
+  "page_operations": {
+    "add_to_favorites_failed": "Page could not be added to favorites. Please try again later.",
+    "added_to_favorites": "Page added to favorites.",
+    "archive_failed": "Page could not be archived. Please try again later.",
+    "archived": "Page archived successfully.",
+    "delete_failed": "Page could not be deleted. Please try again.",
+    "deleted": "Page deleted successfully.",
+    "duplicate_failed": "Page could not be duplicated. Please try again later.",
+    "duplicated": "Page duplicated successfully.",
+    "link_copied": "Page link copied to clipboard.",
+    "lock_failed": "Page could not be locked. Please try again later.",
+    "locked": "Page locked successfully.",
+    "remove_from_favorites_failed": "Page could not be removed from favorites. Please try again later.",
+    "removed_from_favorites": "Page removed from favorites.",
+    "restore_failed": "Page could not be restored. Please try again later.",
+    "restored": "Page restored successfully.",
+    "unlock_failed": "Page could not be unlocked. Please try again later.",
+    "unlocked": "Page unlocked successfully."
+  },
+  "page_sync": {
+    "connection_lost_tooltip": "We're having trouble connecting to the websocket server. Your changes will be synced and saved every 10 seconds.",
+    "content_limit_message": "Content limit reached and live sync is off. Create a new page or use nested pages to continue syncing.",
+    "syncing_tooltip": "Your changes are being synced with the server. You can continue making changes."
+  },
+  "pages_list": {
+    "owned_by": "Owned by"
+  },
+  "please_enter_first_name": "Please enter first name",
+  "power_k": {
+    "shortcut": {
+      "sequence_separator": "then"
+    }
+  },
+  "profile": {
+    "completion_percentage": "Completion percentage",
+    "stats": {
+      "priority_distribution": {
+        "priority": "Priority"
+      },
+      "state_distribution": {
+        "not_started": "Not started",
+        "working_on": "Working on"
+      }
+    }
+  },
+  "profile_picture_delete_failed": "There was some error in deleting your profile picture. Please try again.",
+  "profile_picture_deleted_successfully": "Profile picture deleted successfully.",
+  "profile_update_failed": "There was some error in updating your profile. Please try again.",
+  "profile_updated_successfully": "Profile updated successfully.",
+  "progress": "Progress",
+  "project_archive": {
+    "archive_failed": "Project could not be archived. Please try again.",
+    "archive_title": "Archive success",
+    "publish_updated": "Publish settings updated successfully!",
+    "published_link_copied": "Published page link copied successfully.",
+    "restore_failed": "Project could not be restored. Please try again.",
+    "select_layout": "Please select at least one view layout to publish the project.",
+    "unpublish_failed": "Something went wrong while unpublishing the project."
+  },
+  "project_cycles": {
+    "filters": {
+      "status_of_cycle": "Status of the cycle{count}"
+    }
+  },
+  "project_members": {
+    "toasts": {
+      "leave_failed_title": "You can’t leave this project yet.",
+      "remove_failed_title": "You can't remove the member from this project yet."
+    }
+  },
+  "project_modals": {
+    "delete_project": {
+      "confirm_phrase_input": "delete my project",
+      "confirm_placeholder": "Enter 'delete my project'",
+      "confirm_prompt_prefix": "To confirm, type",
+      "confirm_prompt_suffix": "below:",
+      "deleting": "Deleting",
+      "description": "Are you sure you want to delete project {projectName}? All of the data related to the project will be permanently removed. This action cannot be undone",
+      "project_name_placeholder": "Project name",
+      "project_name_prompt": "Enter the project name {projectName} to continue:",
+      "submit": "Delete project",
+      "title": "Delete project",
+      "toast": {
+        "error": {
+          "message": "Something went wrong. Please try again later.",
+          "title": "Error!"
+        },
+        "success": {
+          "message": "Project deleted successfully.",
+          "title": "Success!"
+        }
+      }
+    },
+    "leave_project": {
+      "confirm_phrase_input": "Leave Project",
+      "confirm_placeholder": "Enter 'Leave Project'",
+      "confirm_prompt_prefix": "To confirm, type",
+      "confirm_prompt_suffix": "below:",
+      "description_prefix": "Are you sure you want to leave the project -",
+      "description_suffix": "All of the work items associated with you will become inaccessible.",
+      "errors": {
+        "project_name_required": "Project name is required"
+      },
+      "leaving": "Leaving...",
+      "project_name_placeholder": "Enter project name",
+      "project_name_prompt": "Enter the project name {projectName} to continue:",
+      "submit": "Leave Project",
+      "title": "Leave Project",
+      "toast": {
+        "error": {
+          "all_fields": "Please fill all fields.",
+          "confirm_phrase": "Please confirm leaving the project by typing the 'Leave Project'.",
+          "generic": "Something went wrong please try again later.",
+          "project_name": "Please enter the project name as shown in the description.",
+          "title": "Error!"
+        }
+      }
+    }
+  },
+  "project_module": {
+    "no_matching_modules": "No matching modules",
+    "remove_filters_to_see_all_modules": "Remove the filters to see all modules",
+    "remove_search_criteria_to_see_all_modules": "Remove the search criteria to see all modules"
+  },
+  "project_modules": {
+    "quick_actions": {
+      "archive_module_description": "Archive module"
+    }
+  },
+  "project_multi_select": {
+    "search_placeholder": "Search for projects"
+  },
+  "project_name_too_long": "Project name should be less than 255 characters",
+  "project_settings": {
+    "automations": {
+      "select_month_modal": {
+        "errors": {
+          "month_range": "Select a month between 1 and 12."
+        },
+        "months_label": "Months",
+        "months_placeholder": "Enter months",
+        "submitting": "Submitting...",
+        "title": "Customize time range"
+      }
+    },
+    "features": {
+      "toasts": {
+        "update_failed": "Something went wrong while updating project feature. Please try again.",
+        "updated": "Project feature updated successfully.",
+        "updating": "Updating project feature..."
+      }
+    },
+    "members": {
+      "leave_confirmation": "Are you sure you want to leave the {name} project? You will be able to join the project if invited again or if it is public.",
+      "leave_title": "Leave project?",
+      "remove_confirmation": "Are you sure you want to remove member {name}? They will no longer have access to this project. This action cannot be undone.",
+      "remove_title": "Remove {name}?"
+    }
+  },
+  "project_states": {
+    "cannot_delete_default": "Cannot delete the default state.",
+    "cannot_have_empty_group": "Cannot have an empty group.",
+    "delete_state": "Delete State",
+    "delete_state_confirm_prefix": "Are you sure you want to delete state-",
+    "delete_state_confirm_suffix": "? All of the data related to the state will be permanently removed. This action cannot be undone.",
+    "describe_state_placeholder": "Describe this state for your members.",
+    "mark_as_default": "Mark as default",
+    "marking_as_default": "Marking as default",
+    "state_created": "State created successfully.",
+    "state_delete_failed": "State could not be deleted. Please try again.",
+    "state_has_issues": "This state contains some work items, please move them to another state before deleting.",
+    "state_name_exists": "Another state exists with the same name. Please try again with another name.",
+    "state_update_failed": "State could not be updated. Please try again.",
+    "state_updated": "State updated successfully."
+  },
+  "project_views": {
+    "toast": {
+      "create_failed": "Failed to create view. Please try again.",
+      "created_success": "View created successfully.",
+      "delete_failed": "View could not be deleted. Please try again.",
+      "deleted_success": "View deleted successfully.",
+      "not_found": {
+        "message": "The view you're trying to update doesn't exist.",
+        "title": "We couldn't find the view"
+      },
+      "update_failed": "Your view could not be updated. Please try again.",
+      "updated_success": "Your view has been updated successfully."
+    }
+  },
+  "reaction_created_successfully": "Reaction created successfully",
+  "reaction_creation_failed": "Reaction creation failed",
+  "reaction_remove_failed": "Reaction remove failed",
+  "reaction_removed_successfully": "Reaction removed successfully",
+  "reloading_to_apply_changes": "Reloading to apply changes...",
+  "remove_parent_work_item": "Remove parent work item",
+  "rename_folder": "Rename Folder",
+  "repository_sync_failed": "Repository could not be synced with the project. Please try again.",
+  "roles": "Roles",
+  "saved": "Saved",
+  "saving_ellipsis": "Saving...",
+  "select_at_least_one_work_item": "Please select at least one work item.",
+  "select_language": "Select a language",
+  "selected": "selected",
+  "selected_items_will_always_stay_visible": "Selected items will always stay visible in your sidebar. You can still find the others anytime from the More menu. These changes are personal to you and won't affect anyone else on your workspace.",
+  "self_hosted_maintenance_message": {
+    "contact_support": "Contact Support",
+    "startup_failed_description": "Some services might have failed to start. Please check your container logs to identify and resolve the issue. If you're stuck, reach out to our support team for more help.",
+    "startup_failed_title": "🚧 Looks like Plane didn't start up correctly!"
+  },
+  "some_error_occurred": "Some error occurred",
+  "syncing_ellipsis": "Syncing...",
+  "tab_navigation": {
+    "clear_default": "Clear default",
+    "hide_in_more_menu": "Hide in more menu",
+    "set_as_default": "Set as default",
+    "show": "Show"
+  },
+  "theme_operations": {
+    "download_failed": "Failed to download theme configuration.",
+    "downloaded": "Theme configuration downloaded successfully.",
+    "imported": "Theme configuration imported successfully"
+  },
+  "timezone_updated_successfully": "Timezone updated successfully",
+  "url_copied_to_clipboard": "The URL has been successfully copied to your clipboard",
+  "user_update_failed": "User details update failed. Please try again.",
+  "view_delete_failed": "Failed to delete the view. Please try again.",
+  "visit_profile": "Visit Profile",
+  "webhook_key_regenerated": "New key regenerated successfully.",
+  "webhook_operations": {
+    "delete_failed": "Webhook could not be deleted. Please try again.",
+    "deleted": "Webhook deleted successfully."
+  },
+  "work_item_operations": {
+    "action_not_available": "Action not available",
+    "bulk_deleted": "Work items deleted successfully!",
+    "date_update_failed": "Error while updating work item dates, please try again later.",
+    "delete_failed": "Work item delete failed",
+    "deleted": "Work item deleted successfully",
+    "due_date_before_start": "Due date cannot be before the start date of the work item.",
+    "move_failed": "Failed to move work item to project. Please try again.",
+    "restore_failed": "Work item could not be restored. Please try again.",
+    "restore_success_title": "Restore success",
+    "restored": "Your work item can be found in project work items.",
+    "update_failed": "Work item update failed"
+  },
+  "work_items_added_to_cycle_successfully": "Work items added to the cycle successfully.",
+  "work_items_could_not_be_added_to_cycle": "Selected work items could not be added to the cycle. Please try again.",
+  "workspace_invitation_page": {
+    "accept": "Accept",
+    "already_member": "You are already a member of {workspace_name}",
+    "continue_to_home": "Continue to home",
+    "description": "Your workspace is where you'll create projects, collaborate on your work items, and organize different streams of work in your Plane account.",
+    "ignore": "Ignore",
+    "invited_to": "You have been invited to {workspace_name}",
+    "join_community": "Join our community of active creators",
+    "link_not_active": "This invitation link is not active anymore.",
+    "not_found": "Invitation not found",
+    "sign_in_to_continue": "Sign in to continue",
+    "star_on_github": "Star us on GitHub",
+    "start_empty_project": "Or start from an empty project"
+  },
+  "workspace_member_roles": {
+    "admin": "Administrator",
+    "guest": "Guest",
+    "member": "Member",
+    "suspended": "Suspended"
+  },
+  "workspace_not_found": "Workspace not found",
+  "workspace_not_found_description": "No workspace found with the URL. It may not exist or you lack authorization to view it.",
+  "workspace_not_member_description": "You're not a member of this workspace. Please contact the workspace admin to get an invitation or check your pending invitations.",
+  "workspace_projects": {
+    "filters": {
+      "my_projects": "My projects"
+    }
+  },
+  "workspace_settings": {
+    "settings": {
+      "general": {
+        "delete_modal": {
+          "confirm_phrase": "delete my workspace",
+          "confirmation_prefix": "You are about to delete the workspace",
+          "confirmation_suffix": ". If you confirm, you will lose access to all your work data in this workspace without any way to restore it. Tread very carefully.",
+          "enter_workspace_name": "Type in this workspace's name to continue.",
+          "final_confirmation_prefix": "For final confirmation, type",
+          "final_confirmation_suffix": "below."
+        },
+        "toasts": {
+          "workspace_logo_removed": "Workspace picture removed successfully.",
+          "workspace_updated": "Workspace updated successfully.",
+          "workspace_url_copied": "Workspace URL copied to the clipboard."
+        }
+      },
+      "members": {
+        "details": {
+          "group": "Group"
+        },
+        "invitation_removed_successfully": "Invitation removed successfully.",
+        "leave_title": "Leave workspace?",
+        "no_group": "No group",
+        "remove_confirmation": "Are you sure you want to remove member {name}? They will no longer have access to this workspace. This action cannot be undone.",
+        "remove_title": "Remove {name}?",
+        "role_is_required": "Role is required",
+        "role_update_error": "An error occurred while updating member role. Please try again."
+      },
+      "webhooks": {
+        "danger_zone": {
+          "delete_button": "Delete webhook",
+          "description": "Once a webhook is deleted, it cannot be restored. Future events will no longer be delivered to this webhook.",
+          "title": "Danger zone"
+        },
+        "delete_modal": {
+          "description": "Are you sure you want to delete this webhook? Future events will not be delivered to this webhook. This action cannot be undone.",
+          "title": "Delete webhook"
+        },
+        "enabled": "Enable webhook"
+      }
+    }
+  }
+}

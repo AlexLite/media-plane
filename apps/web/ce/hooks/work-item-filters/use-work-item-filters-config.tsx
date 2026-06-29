@@ -361,7 +361,7 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
       getProjectFilterConfig<TWorkItemFilterProperty>("project_id")({
         isEnabled: isFilterEnabled("project_id") && projects !== undefined,
         filterIcon: Briefcase,
-        label: t("projects"),
+        label: t("common.projects"),
         projects: projects,
         getOptionIcon: (project) => <Logo logo={project.logo_props} size={12} />,
         ...operatorConfigs,
