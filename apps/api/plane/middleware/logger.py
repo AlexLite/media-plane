@@ -5,9 +5,11 @@
 # Python imports
 import logging
 import hashlib
+import hmac
 import time
 
 # Django imports
+from django.conf import settings
 from django.http import HttpRequest
 from django.utils import timezone
 
@@ -26,13 +28,13 @@ def build_token_identifier(api_key: str) -> str:
     """
     Build a stable, non-reversible identifier for API token logs.
 
-    We use a keyed BLAKE2b digest so the same token always maps to the same
+    We use a keyed HMAC digest so the same token always maps to the same
     identifier without persisting the raw secret.
     """
-    return hashlib.blake2b(
+    return hmac.new(
+        settings.SECRET_KEY.encode("utf-8"),
         api_key.encode("utf-8"),
-        key=settings.SECRET_KEY.encode("utf-8"),
-        digest_size=32,
+        hashlib.sha256,
     ).hexdigest()
 
 

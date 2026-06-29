@@ -67,17 +67,7 @@ const overridePath = overrideIndex >= 0 ? args[overrideIndex + 1] : null;
 const cyrillicRe = /[А-Яа-яЁё]/;
 const latinRe = /[A-Za-z]/;
 
-const ignoredLineSubstrings = [
-  "http://",
-  "https://",
-  "API",
-  "URL",
-  "ID",
-  "CSV",
-  "HEX",
-  "{email}",
-  "name@company.com",
-];
+const ignoredLineSubstrings = ["http://", "https://", "API", "URL", "ID", "CSV", "HEX", "{email}", "name@company.com"];
 
 const decodeEscapes = (s) => {
   try {
@@ -131,12 +121,55 @@ const collectRuCandidates = () => {
 
 const parseOverrideMap = (content) => {
   const pairs = [];
-  const mapMatches = [...content.matchAll(/\[\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*\]/g)];
-  for (const m of mapMatches) {
-    const en = decodeEscapes(m[1]);
-    const ru = decodeEscapes(m[2]);
-    pairs.push({ en, ru });
+
+  const skipWhitespace = (index) => {
+    while (index < content.length && /\s/.test(content[index])) index += 1;
+    return index;
+  };
+
+  const readQuotedString = (index) => {
+    if (content[index] !== '"') return null;
+
+    let value = "";
+    let escaped = false;
+    for (let i = index + 1; i < content.length; i += 1) {
+      const char = content[i];
+      if (escaped) {
+        value += `\\${char}`;
+        escaped = false;
+      } else if (char === "\\") {
+        escaped = true;
+      } else if (char === '"') {
+        return { value: decodeEscapes(value), nextIndex: i + 1 };
+      } else {
+        value += char;
+      }
+    }
+
+    return null;
+  };
+
+  for (let i = 0; i < content.length; i += 1) {
+    if (content[i] !== "[") continue;
+
+    let cursor = skipWhitespace(i + 1);
+    const en = readQuotedString(cursor);
+    if (!en) continue;
+
+    cursor = skipWhitespace(en.nextIndex);
+    if (content[cursor] !== ",") continue;
+
+    cursor = skipWhitespace(cursor + 1);
+    const ru = readQuotedString(cursor);
+    if (!ru) continue;
+
+    cursor = skipWhitespace(ru.nextIndex);
+    if (content[cursor] !== "]") continue;
+
+    pairs.push({ en: en.value, ru: ru.value });
+    i = cursor;
   }
+
   return pairs;
 };
 

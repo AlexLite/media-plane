@@ -13,6 +13,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - i18n package builds now load JSON namespaces instead of removed legacy locale modules.
 - RU locale audits now distinguish intentional brand, placeholder, and protocol values from real untranslated UI strings.
 - i18n sync CI now requires the Russian locale to match English while leaving non-RU upstream locales as report-only checks.
+- CodeQL alerts for locale audit parsing, toast key normalization, and API token log identifiers.
 - Web nginx now returns 404 for missing hashed assets instead of serving the SPA shell, preventing stale frontend chunks from breaking client-side navigation after deploys.
 
 ### Removed
