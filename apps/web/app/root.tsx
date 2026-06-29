@@ -8,7 +8,7 @@ import type { ReactNode } from "react";
 import Script from "next/script";
 import { Links, Meta, Outlet, Scripts } from "react-router";
 import type { LinksFunction } from "react-router";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider, useTheme } from "next-themes";
 // plane imports
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@plane/constants";
 import { cn } from "@plane/utils";
@@ -22,6 +22,7 @@ import icon512 from "@/app/assets/icons/icon-512x512.png?url";
 import globalStyles from "@/styles/globals.css?url";
 import type { Route } from "./+types/root";
 // components
+import { LogoSpinner } from "@/components/common/logo-spinner";
 // local
 import { CustomErrorComponent } from "./error";
 import { AppProvider } from "./provider";
@@ -128,9 +129,14 @@ export default function Root() {
 }
 
 export function HydrateFallback() {
+  const { resolvedTheme } = useTheme();
+
+  // if we are on the server or the theme is not resolved, return an empty div
+  if (typeof window === "undefined" || resolvedTheme === undefined) return <div />;
+
   return (
     <div className="relative flex h-screen w-full items-center justify-center bg-canvas">
-      <div className="h-6 w-6 animate-spin rounded-full border-2 border-custom-border-200 border-t-custom-primary-100 sm:h-11 sm:w-11" />
+      <LogoSpinner />
     </div>
   );
 }
