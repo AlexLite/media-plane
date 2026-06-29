@@ -100,6 +100,18 @@
     "backlog_work_items": "{entity} в бэклоге",
     "un_started_work_items": "Не начатые {entity}",
     "completed_work_items": "Завершённые {entity}",
+    "add_metric": "Добавить метрику",
+    "add_property": "Добавить свойство",
+    "duration": {
+      "yesterday": "Вчера",
+      "last_7_days": "Последние 7 дней",
+      "last_30_days": "Последние 30 дней",
+      "last_3_months": "Последние 3 месяца"
+    },
+    "x_axis": {
+      "state_name": "Название статуса",
+      "estimate_point": "Оценка"
+    },
     "project_insights": "Аналитика проекта",
     "summary_of_projects": "Сводка по проектам",
     "all_projects": "Все проекты",
@@ -107,6 +119,11 @@
     "active_projects": "Активные проекты",
     "customized_insights": "Индивидуальные аналитические данные",
     "created_vs_resolved": "Создано vs Решено",
+    "workload": "Нагрузка",
+    "workload_member": "Участник",
+    "workload_days": "{count, plural, one {# день} few {# дня} many {# дней} other {# дня}}",
+    "workload_empty_title": "Данных по нагрузке пока нет",
+    "workload_empty_description": "Работа, назначенная участникам пространства, появится здесь после добавления дат.",
     "empty_state": {
       "project_insights": {
         "title": "Данных пока нет",

@@ -100,6 +100,18 @@
     "backlog_work_items": "Backlog {entity}",
     "un_started_work_items": "Unstarted {entity}",
     "completed_work_items": "Completed {entity}",
+    "add_metric": "Add metric",
+    "add_property": "Add property",
+    "duration": {
+      "yesterday": "Yesterday",
+      "last_7_days": "Last 7 days",
+      "last_30_days": "Last 30 days",
+      "last_3_months": "Last 3 months"
+    },
+    "x_axis": {
+      "state_name": "State name",
+      "estimate_point": "Estimate point"
+    },
     "project_insights": "Project Insights",
     "summary_of_projects": "Summary of Projects",
     "all_projects": "All Projects",
@@ -107,6 +119,11 @@
     "active_projects": "Active Projects",
     "customized_insights": "Customized Insights",
     "created_vs_resolved": "Created vs Resolved",
+    "workload": "Workload",
+    "workload_member": "Member",
+    "workload_days": "{count, plural, one {# day} other {# days}}",
+    "workload_empty_title": "No workload data yet",
+    "workload_empty_description": "Work assigned to workspace members will appear here once it has dates.",
     "empty_state": {
       "project_insights": {
         "title": "No data yet",
