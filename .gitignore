@@ -114,6 +114,7 @@ scripts/*
 !scripts/audit-keys.mjs
 !scripts/sync-upstream.sh
 !scripts/audit-hardcoded.mjs
+!scripts/deploy-frontend-plane2.sh
 
 # OMC tool state files
 .omc/state/

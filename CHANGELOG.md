@@ -8,11 +8,13 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Added
 
+- Plane2 frontend deploy helper that rolls `web` and `web-ru` one at a time.
 - Changed-file i18n key existence check for web and constants usage.
 - Changed-file hardcoded UI string audit for frontend i18n regressions.
 
 ### Fixed
 
+- Proxy now load-balances UI traffic across `web` and `web-ru` to avoid asset 502s during frontend restarts.
 - Missing RU labels for project/profile settings categories and pipeline aliases.
 - i18n providers now wait for primary locale namespaces before rendering, preventing raw translation keys during startup.
 - i18n package builds now load JSON namespaces instead of removed legacy locale modules.
