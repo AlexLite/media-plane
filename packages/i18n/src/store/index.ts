@@ -10,8 +10,128 @@ import { makeAutoObservable, runInAction } from "mobx";
 // constants
 import { FALLBACK_LANGUAGE, SUPPORTED_LANGUAGES, LANGUAGE_STORAGE_KEY } from "../constants";
 import { NAMESPACES } from "../constants/namespaces";
+import enAccessibility from "../locales/en/accessibility.json";
+import enAuth from "../locales/en/auth.json";
+import enAutomation from "../locales/en/automation.json";
+import enCommon from "../locales/en/common.json";
+import enCycle from "../locales/en/cycle.json";
+import enEditor from "../locales/en/editor.json";
+import enEmptyState from "../locales/en/empty-state.json";
+import enHome from "../locales/en/home.json";
+import enInbox from "../locales/en/inbox.json";
+import enIntegration from "../locales/en/integration.json";
+import enModule from "../locales/en/module.json";
+import enNavigation from "../locales/en/navigation.json";
+import enNotification from "../locales/en/notification.json";
+import enPage from "../locales/en/page.json";
+import enPowerK from "../locales/en/power-k.json";
+import enProject from "../locales/en/project.json";
+import enProjectSettings from "../locales/en/project-settings.json";
+import enSettings from "../locales/en/settings.json";
+import enStickies from "../locales/en/stickies.json";
+import enTemplate from "../locales/en/template.json";
+import enTour from "../locales/en/tour.json";
+import enUpdate from "../locales/en/update.json";
+import enWiki from "../locales/en/wiki.json";
+import enWorkItem from "../locales/en/work-item.json";
+import enWorkItemType from "../locales/en/work-item-type.json";
+import enWorkflow from "../locales/en/workflow.json";
+import enWorkspace from "../locales/en/workspace.json";
+import enWorkspaceSettings from "../locales/en/workspace-settings.json";
+import ruAccessibility from "../locales/ru/accessibility.json";
+import ruAuth from "../locales/ru/auth.json";
+import ruAutomation from "../locales/ru/automation.json";
+import ruCommon from "../locales/ru/common.json";
+import ruCycle from "../locales/ru/cycle.json";
+import ruEditor from "../locales/ru/editor.json";
+import ruEmptyState from "../locales/ru/empty-state.json";
+import ruHome from "../locales/ru/home.json";
+import ruInbox from "../locales/ru/inbox.json";
+import ruIntegration from "../locales/ru/integration.json";
+import ruModule from "../locales/ru/module.json";
+import ruNavigation from "../locales/ru/navigation.json";
+import ruNotification from "../locales/ru/notification.json";
+import ruPage from "../locales/ru/page.json";
+import ruPowerK from "../locales/ru/power-k.json";
+import ruProject from "../locales/ru/project.json";
+import ruProjectSettings from "../locales/ru/project-settings.json";
+import ruSettings from "../locales/ru/settings.json";
+import ruStickies from "../locales/ru/stickies.json";
+import ruTemplate from "../locales/ru/template.json";
+import ruTour from "../locales/ru/tour.json";
+import ruUpdate from "../locales/ru/update.json";
+import ruWiki from "../locales/ru/wiki.json";
+import ruWorkItem from "../locales/ru/work-item.json";
+import ruWorkItemType from "../locales/ru/work-item-type.json";
+import ruWorkflow from "../locales/ru/workflow.json";
+import ruWorkspace from "../locales/ru/workspace.json";
+import ruWorkspaceSettings from "../locales/ru/workspace-settings.json";
 // types
 import type { TLanguage, ILanguageOption, ITranslations } from "../types";
+
+const enCore = merge(
+  {},
+  enAccessibility,
+  enAuth,
+  enAutomation,
+  enCommon,
+  enCycle,
+  enEditor,
+  enEmptyState,
+  enHome,
+  enInbox,
+  enIntegration,
+  enModule,
+  enNavigation,
+  enNotification,
+  enPage,
+  enPowerK,
+  enProject,
+  enProjectSettings,
+  enSettings,
+  enStickies,
+  enTemplate,
+  enTour,
+  enUpdate,
+  enWiki,
+  enWorkItem,
+  enWorkItemType,
+  enWorkflow,
+  enWorkspace,
+  enWorkspaceSettings
+);
+
+const ruCore = merge(
+  {},
+  ruAccessibility,
+  ruAuth,
+  ruAutomation,
+  ruCommon,
+  ruCycle,
+  ruEditor,
+  ruEmptyState,
+  ruHome,
+  ruInbox,
+  ruIntegration,
+  ruModule,
+  ruNavigation,
+  ruNotification,
+  ruPage,
+  ruPowerK,
+  ruProject,
+  ruProjectSettings,
+  ruSettings,
+  ruStickies,
+  ruTemplate,
+  ruTour,
+  ruUpdate,
+  ruWiki,
+  ruWorkItem,
+  ruWorkItemType,
+  ruWorkflow,
+  ruWorkspace,
+  ruWorkspaceSettings
+);
 
 const getDefaultLanguage = (): TLanguage => {
   const envLocale = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env
@@ -30,7 +150,10 @@ const getDefaultLanguage = (): TLanguage => {
  */
 export class TranslationStore {
   // Core translations that are always loaded
-  private coreTranslations: ITranslations = {};
+  private coreTranslations: ITranslations = {
+    en: enCore,
+    ru: ruCore,
+  };
   // List of translations for each language
   private translations: ITranslations = {};
   // Cache for IntlMessageFormat instances
