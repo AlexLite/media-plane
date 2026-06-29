@@ -215,8 +215,6 @@ export class TranslationStore {
       });
       // Load current and fallback languages in parallel
       await this.loadPrimaryLanguages();
-      // Load all remaining languages in parallel
-      this.loadRemainingLanguages();
     } catch (error) {
       console.error("Failed in translation initialization:", error);
       runInAction(() => {
@@ -248,21 +246,22 @@ export class TranslationStore {
     }
   }
 
-  private loadRemainingLanguages(): void {
-    const remainingLanguages = SUPPORTED_LANGUAGES.map((lang) => lang.value).filter(
-      (lang) => !this.loadedLanguages.has(lang) && lang !== this.currentLocale && lang !== FALLBACK_LANGUAGE
-    );
-    // Load all remaining languages in parallel
-    Promise.all(remainingLanguages.map((lang) => this.loadLanguageTranslations(lang))).catch((error) => {
-      console.error("Failed to load some remaining languages:", error);
-    });
-  }
-
   private async loadLanguageTranslations(language: TLanguage): Promise<void> {
     // Skip if already loaded
     if (this.loadedLanguages.has(language)) return;
 
     try {
+      const coreTranslations = this.coreTranslations[language];
+
+      if (coreTranslations) {
+        runInAction(() => {
+          this.translations[language] = coreTranslations;
+          this.loadedLanguages.add(language);
+          this.messageCache.clear();
+        });
+        return;
+      }
+
       const translations = await this.importLanguageFile(language);
       runInAction(() => {
         // Use lodash merge for deep merging

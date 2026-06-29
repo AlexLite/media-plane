@@ -5,15 +5,8 @@
  */
 
 import { startTransition, StrictMode } from "react";
-import { createRoot, hydrateRoot } from "react-dom/client";
+import { hydrateRoot } from "react-dom/client";
 import { HydratedRouter } from "react-router/dom";
-
-type ReactRouterWindow = Window & {
-  __reactRouterContext?: {
-    isSpaMode?: boolean;
-    ssr?: boolean;
-  };
-};
 
 startTransition(() => {
   const app = (
@@ -21,13 +14,6 @@ startTransition(() => {
       <HydratedRouter />
     </StrictMode>
   );
-
-  const routerContext = (window as ReactRouterWindow).__reactRouterContext;
-
-  if (routerContext?.isSpaMode && routerContext.ssr === false) {
-    createRoot(document).render(app);
-    return;
-  }
 
   hydrateRoot(document, app);
 });
