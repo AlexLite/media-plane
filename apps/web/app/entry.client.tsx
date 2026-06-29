@@ -25,6 +25,7 @@ startTransition(() => {
   const routerContext = (window as ReactRouterWindow).__reactRouterContext;
 
   if (routerContext?.isSpaMode && routerContext.ssr === false) {
+    document.body.replaceChildren();
     createRoot(document).render(app);
     return;
   }
