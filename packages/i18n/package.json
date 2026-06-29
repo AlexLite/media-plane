@@ -16,6 +16,7 @@
     "dev": "tsdown --watch --no-clean",
     "build": "tsdown",
     "audit:ru": "node ./scripts/audit-ru-locale.mjs",
+    "check:keys": "node ./scripts/check-used-keys.mjs --locale=ru --changed-from=WORKTREE",
     "check:lint": "oxlint --max-warnings=2 .",
     "check:types": "tsc --noEmit",
     "check:format": "oxfmt --check .",

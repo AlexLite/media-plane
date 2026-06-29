@@ -11,12 +11,16 @@ on:
       - "reopened"
       - "ready_for_review"
     paths:
+      - "apps/web/**"
+      - "packages/constants/**"
       - "packages/i18n/**"
       - ".github/workflows/i18n-sync-check.yml"
   push:
     branches:
       - "preview"
     paths:
+      - "apps/web/**"
+      - "packages/constants/**"
       - "packages/i18n/**"
       - ".github/workflows/i18n-sync-check.yml"
 
@@ -37,7 +41,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
-          fetch-depth: 1
+          fetch-depth: 0
           filter: blob:none
 
       - name: Set up Node.js
@@ -53,6 +57,16 @@ jobs:
 
       - name: Run sync check
         run: pnpm dlx tsx packages/i18n/scripts/sync-check.ts --ci --locale ru
+
+      - name: Check used i18n keys
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            BASE_REF="origin/${{ github.base_ref }}"
+          else
+            BASE_REF="${{ github.event.before }}"
+          fi
+          pnpm --filter @plane/i18n check:keys -- --changed-from "$BASE_REF"
 
       - name: Build i18n package
         run: pnpm --filter @plane/i18n build

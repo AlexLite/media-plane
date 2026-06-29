@@ -68,6 +68,9 @@
         "show_empty_groups": "Показывать пустые группы"
       }
     },
+    "pipeline": {
+      "label": "Пайплайн"
+    },
     "layouts": {
       "ordered_by_label": "Сортировка по",
       "list": "Список",

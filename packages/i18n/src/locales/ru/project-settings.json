@@ -1,5 +1,12 @@
 {
   "project_settings": {
+    "label": "Настройки проекта",
+    "categories": {
+      "general": "Общее",
+      "features": "Функции",
+      "work_structure": "Структура работы",
+      "execution": "Выполнение"
+    },
     "general": {
       "enter_project_id": "Введите ID проекта",
       "please_select_a_timezone": "Выберите часовой пояс",

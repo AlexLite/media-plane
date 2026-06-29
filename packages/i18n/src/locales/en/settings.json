@@ -67,6 +67,10 @@
       "description": "Manage your workspace connections settings."
     }
   },
+  "profile_setting_categories": {
+    "your_profile": "Your profile",
+    "developer": "Developer"
+  },
   "profile": {
     "label": "Profile",
     "page_label": "Your work",

@@ -68,6 +68,9 @@
         "show_empty_groups": "Show empty groups"
       }
     },
+    "pipeline": {
+      "label": "Pipeline"
+    },
     "layouts": {
       "ordered_by_label": "This layout is ordered by",
       "list": "List",

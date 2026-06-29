@@ -67,6 +67,10 @@
       "description": "Управляйте настройками соединений вашего рабочего пространства."
     }
   },
+  "profile_setting_categories": {
+    "your_profile": "Ваш профиль",
+    "developer": "Разработчик"
+  },
   "profile": {
     "label": "Профиль",
     "page_label": "Ваша работа",

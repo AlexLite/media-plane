@@ -1,5 +1,12 @@
 {
   "project_settings": {
+    "label": "Project settings",
+    "categories": {
+      "general": "General",
+      "features": "Features",
+      "work_structure": "Work structure",
+      "execution": "Execution"
+    },
     "general": {
       "enter_project_id": "Enter project ID",
       "please_select_a_timezone": "Please select a timezone",
