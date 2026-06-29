@@ -13,15 +13,23 @@ interface TranslationProviderProps {
 }
 
 export const TranslationProvider: React.FC<TranslationProviderProps> = ({ children }) => {
-  const [isReady, setIsReady] = useState(i18nInstance.isInitialized);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
+
     initPromise
-      .then(() => setIsReady(true))
-      .catch((err) => {
+      .then(() => {
+        if (isMounted) setIsReady(true);
+      })
+      .catch((err: unknown) => {
         console.error("Failed to initialize i18n:", err);
-        setIsReady(true);
+        if (isMounted) setIsReady(true);
       });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   if (!isReady) return null;

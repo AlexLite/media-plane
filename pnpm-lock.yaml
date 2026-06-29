@@ -1033,6 +1033,15 @@ importers:
       '@plane/utils':
         specifier: workspace:*
         version: link:../utils
+      i18next:
+        specifier: ^26.3.3
+        version: 26.3.3(typescript@5.8.3)
+      i18next-icu:
+        specifier: ^2.4.3
+        version: 2.4.3(intl-messageformat@10.7.16)
+      i18next-resources-to-backend:
+        specifier: ^1.2.1
+        version: 1.2.1
       intl-messageformat:
         specifier: ^10.7.11
         version: 10.7.16
@@ -1048,6 +1057,9 @@ importers:
       react:
         specifier: 'catalog:'
         version: 18.3.1
+      react-i18next:
+        specifier: ^17.0.8
+        version: 17.0.8(i18next@26.3.3(typescript@5.8.3))(react@18.3.1)(typescript@5.8.3)
     devDependencies:
       '@plane/typescript-config':
         specifier: workspace:*
@@ -5994,6 +6006,9 @@ packages:
     engines: {node: '>=12'}
     hasBin: true
 
+  html-parse-stringify@3.0.1:
+    resolution: {integrity: sha512-KknJ50kTInJ7qIScF3jeaFRpMpE8/lfiTdzf/twXyPBLAGrLRTmkz3AdTnKeh40X8k9L2fdYwEp/42WGXIRGcg==}
+
   html-void-elements@3.0.0:
     resolution: {integrity: sha512-bEqo66MRXsUGxWHV5IP0PUiAWwoEjba4VCzg0LjFJBpchPaTfyfCKTG6bc5F8ucKec3q5y6qOdGyYTSBEvhCrg==}
 
@@ -6038,6 +6053,22 @@ packages:
 
   hyphen@1.10.6:
     resolution: {integrity: sha512-fXHXcGFTXOvZTSkPJuGOQf5Lv5T/R2itiiCVPg9LxAje5D00O0pP83yJShFq5V89Ly//Gt6acj7z8pbBr34stw==}
+
+  i18next-icu@2.4.3:
+    resolution: {integrity: sha512-Clb5XCp416Z+BkJUTATCjmDcw2AFzSUDVLxLVK/KhtXP6TJQHrht+6MqoJU1hCpyoCBKe59wMO9pvCvYroNcKg==}
+    peerDependencies:
+      intl-messageformat: '>=10.3.3 <12.0.0'
+
+  i18next-resources-to-backend@1.2.1:
+    resolution: {integrity: sha512-okHbVA+HZ7n1/76MsfhPqDou0fptl2dAlhRDu2ideXloRRduzHsqDOznJBef+R3DFZnbvWoBW+KxJ7fnFjd6Yw==}
+
+  i18next@26.3.3:
+    resolution: {integrity: sha512-aYVegyBdXSO93CMMihvr47jI7GHSOcIahMpJX+qzUXDzW4xDJf2uenIA+45vDU+YhiVdcfsql70AC9RVdMNrHg==}
+    peerDependencies:
+      typescript: 5.8.3
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
@@ -7500,6 +7531,22 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18
 
+  react-i18next@17.0.8:
+    resolution: {integrity: sha512-0ooKbGLU8JXhe1zwpQUWIeXSgLPOfwJmgheWRIUpcoA0CpyabpGhayjdG+/eA5esC1AQ8h2jWpXjJfzQzeDOCw==}
+    peerDependencies:
+      i18next: '>= 26.2.0'
+      react: '>= 16.8.0'
+      react-dom: '*'
+      react-native: '*'
+      typescript: 5.8.3
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+      typescript:
+        optional: true
+
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -8425,6 +8472,11 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
+  use-sync-external-store@1.6.0:
+    resolution: {integrity: sha512-Pp6GSwGP/NrPIrxVFAIkOQeyw8lFenOHijQWkUTrDvrF4ALqylP2C/KCkeS9dpUM3KvYRQhna5vt7IL95+ZQ9w==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -8567,6 +8619,10 @@ packages:
         optional: true
       jsdom:
         optional: true
+
+  void-elements@3.1.0:
+    resolution: {integrity: sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==}
+    engines: {node: '>=0.10.0'}
 
   w3c-keyname@2.2.8:
     resolution: {integrity: sha512-dpojBhNsCNN7T82Tm7k26A6G9ML3NkhDsnw9n/eoxSRlVBB4CEtIQ/KTCLI2Fwf3ataSXRhYFkQi3SlnFwPvPQ==}
@@ -13309,6 +13365,10 @@ snapshots:
       relateurl: 0.2.7
       terser: 5.43.1
 
+  html-parse-stringify@3.0.1:
+    dependencies:
+      void-elements: 3.1.0
+
   html-void-elements@3.0.0: {}
 
   html-webpack-plugin@5.6.4(webpack@5.104.1(@swc/core@1.13.5(@swc/helpers@0.5.17))):
@@ -13364,6 +13424,18 @@ snapshots:
   husky@9.1.7: {}
 
   hyphen@1.10.6: {}
+
+  i18next-icu@2.4.3(intl-messageformat@10.7.16):
+    dependencies:
+      intl-messageformat: 10.7.16
+
+  i18next-resources-to-backend@1.2.1:
+    dependencies:
+      '@babel/runtime': 7.26.10
+
+  i18next@26.3.3(typescript@5.8.3):
+    optionalDependencies:
+      typescript: 5.8.3
 
   iconv-lite@0.4.24:
     dependencies:
@@ -15113,6 +15185,16 @@ snapshots:
     dependencies:
       react: 18.3.1
 
+  react-i18next@17.0.8(i18next@26.3.3(typescript@5.8.3))(react@18.3.1)(typescript@5.8.3):
+    dependencies:
+      '@babel/runtime': 7.26.10
+      html-parse-stringify: 3.0.1
+      i18next: 26.3.3(typescript@5.8.3)
+      react: 18.3.1
+      use-sync-external-store: 1.6.0(react@18.3.1)
+    optionalDependencies:
+      typescript: 5.8.3
+
   react-is@16.13.1: {}
 
   react-is@17.0.2: {}
@@ -16235,6 +16317,10 @@ snapshots:
     dependencies:
       react: 18.3.1
 
+  use-sync-external-store@1.6.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+
   util-deprecate@1.0.2: {}
 
   util@0.12.5:
@@ -16400,6 +16486,8 @@ snapshots:
       - terser
       - tsx
       - yaml
+
+  void-elements@3.1.0: {}
 
   w3c-keyname@2.2.8: {}
 

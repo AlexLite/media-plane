@@ -61,37 +61,33 @@ export class TranslationStore {
     if (typeof window === "undefined") return;
 
     const defaultLanguage = getDefaultLanguage();
-    // If build-time default locale is explicitly configured (e.g. ru),
-    // keep startup language deterministic between SSR and hydration.
-    if (defaultLanguage !== FALLBACK_LANGUAGE) {
-      this.setLanguage(defaultLanguage);
-      return;
-    }
+    let nextLanguage = defaultLanguage;
 
     const savedLocale = localStorage.getItem(LANGUAGE_STORAGE_KEY) as TLanguage;
-    if (this.isValidLanguage(savedLocale)) {
-      this.setLanguage(savedLocale);
-      return;
+    if (defaultLanguage === FALLBACK_LANGUAGE && this.isValidLanguage(savedLocale)) {
+      nextLanguage = savedLocale;
     }
 
-    // Fallback to default language
-    this.setLanguage(defaultLanguage);
+    this.currentLocale = nextLanguage;
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, nextLanguage);
+    document.documentElement.lang = nextLanguage;
   }
 
   /** Loads the translations for the current language */
   private async loadTranslations(): Promise<void> {
     try {
-      // Set initialized to true (Core translations are already loaded)
-      runInAction(() => {
-        this.isInitialized = true;
-      });
       // Load current and fallback languages in parallel
       await this.loadPrimaryLanguages();
+      runInAction(() => {
+        this.isInitialized = true;
+        this.isLoading = false;
+      });
       // Load all remaining languages in parallel
       this.loadRemainingLanguages();
     } catch (error) {
       console.error("Failed in translation initialization:", error);
       runInAction(() => {
+        this.isInitialized = true;
         this.isLoading = false;
       });
     }
@@ -108,15 +104,9 @@ export class TranslationStore {
       // Load all primary languages in parallel
       const loadPromises = Array.from(languagesToLoad).map((lang) => this.loadLanguageTranslations(lang));
       await Promise.all(loadPromises);
-      // Update loading state
-      runInAction(() => {
-        this.isLoading = false;
-      });
     } catch (error) {
       console.error("Failed to load primary languages:", error);
-      runInAction(() => {
-        this.isLoading = false;
-      });
+      throw error;
     }
   }
 
@@ -285,7 +275,6 @@ export class TranslationStore {
     return SUPPORTED_LANGUAGES;
   }
 }
-
 
 export const translationStore = new TranslationStore();
 

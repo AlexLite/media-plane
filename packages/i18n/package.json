@@ -25,11 +25,15 @@
   },
   "dependencies": {
     "@plane/utils": "workspace:*",
+    "i18next": "^26.3.3",
+    "i18next-icu": "^2.4.3",
+    "i18next-resources-to-backend": "^1.2.1",
     "intl-messageformat": "^10.7.11",
     "lodash-es": "catalog:",
     "mobx": "catalog:",
     "mobx-react": "catalog:",
-    "react": "catalog:"
+    "react": "catalog:",
+    "react-i18next": "^17.0.8"
   },
   "devDependencies": {
     "@plane/typescript-config": "workspace:*",
