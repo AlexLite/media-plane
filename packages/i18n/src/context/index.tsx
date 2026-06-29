@@ -21,7 +21,5 @@ interface TranslationProviderProps {
 export const TranslationProvider = observer(function TranslationProvider({ children }: TranslationProviderProps) {
   const [store] = React.useState(() => translationStore);
 
-  if (!store.isInitialized) return null;
-
   return <TranslationContext.Provider value={store}>{children}</TranslationContext.Provider>;
 });

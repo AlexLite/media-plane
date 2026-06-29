@@ -61,33 +61,38 @@ export class TranslationStore {
     if (typeof window === "undefined") return;
 
     const defaultLanguage = getDefaultLanguage();
-    let nextLanguage = defaultLanguage;
-
-    const savedLocale = localStorage.getItem(LANGUAGE_STORAGE_KEY) as TLanguage;
-    if (defaultLanguage === FALLBACK_LANGUAGE && this.isValidLanguage(savedLocale)) {
-      nextLanguage = savedLocale;
+    // If build-time default locale is explicitly configured (e.g. ru),
+    // keep startup language deterministic between SSR and hydration.
+    if (defaultLanguage !== FALLBACK_LANGUAGE) {
+      this.setLanguage(defaultLanguage);
+      return;
     }
 
-    this.currentLocale = nextLanguage;
-    localStorage.setItem(LANGUAGE_STORAGE_KEY, nextLanguage);
-    document.documentElement.lang = nextLanguage;
+    const savedLocale = localStorage.getItem(LANGUAGE_STORAGE_KEY) as TLanguage;
+    if (this.isValidLanguage(savedLocale)) {
+      this.setLanguage(savedLocale);
+      return;
+    }
+
+    // Fallback to default language
+    this.setLanguage(defaultLanguage);
   }
 
   /** Loads the translations for the current language */
   private async loadTranslations(): Promise<void> {
     try {
-      // Load current and fallback languages in parallel
-      await this.loadPrimaryLanguages();
+      // Core translations are available immediately; don't block route rendering
+      // while language namespace chunks are still loading.
       runInAction(() => {
         this.isInitialized = true;
-        this.isLoading = false;
       });
+      // Load current and fallback languages in parallel
+      await this.loadPrimaryLanguages();
       // Load all remaining languages in parallel
       this.loadRemainingLanguages();
     } catch (error) {
       console.error("Failed in translation initialization:", error);
       runInAction(() => {
-        this.isInitialized = true;
         this.isLoading = false;
       });
     }
@@ -104,9 +109,15 @@ export class TranslationStore {
       // Load all primary languages in parallel
       const loadPromises = Array.from(languagesToLoad).map((lang) => this.loadLanguageTranslations(lang));
       await Promise.all(loadPromises);
+      // Update loading state
+      runInAction(() => {
+        this.isLoading = false;
+      });
     } catch (error) {
       console.error("Failed to load primary languages:", error);
-      throw error;
+      runInAction(() => {
+        this.isLoading = false;
+      });
     }
   }
 
