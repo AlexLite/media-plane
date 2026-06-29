@@ -65,6 +65,60 @@
           }
         }
       },
+      "groups": {
+        "title": "Groups",
+        "description": "Create workspace groups to organize members and manage notifications together.",
+        "add_group": "Add group",
+        "create_group": "Create group",
+        "edit_group": "Edit group",
+        "archive_group": "Archive group",
+        "manage_members": "Manage members",
+        "manage_notifications": "Manage notifications",
+        "members_count": "{count, plural, one {# member} other {# members}}",
+        "states_count": "{count, plural, one {# state} other {# states}}",
+        "members_panel_description": "Add or remove workspace members in this group.",
+        "notifications_title": "{group} notifications",
+        "notifications_panel_description": "Choose which project states should notify this group.",
+        "current_members": "Current members",
+        "available_members": "Available members",
+        "search_members": "Search members",
+        "add_member": "Add member",
+        "remove_member": "Remove member",
+        "unknown_member": "Unknown member",
+        "no_members": "No members",
+        "no_available_members": "No available members",
+        "no_search_results": "No matching members",
+        "project": "Project",
+        "no_projects": "No projects available",
+        "allowed_states": "Allowed states",
+        "allowed_states_description": "Members in this group will be notified only for the selected states.",
+        "no_states": "No states available",
+        "select_project": "Select a project first",
+        "no_rule_hint": "No states selected. This group will not receive notifications for this project.",
+        "rule_active_hint": "Selected states will notify this group.",
+        "empty_title": "No groups yet",
+        "empty_state": "Create a group to organize workspace members and notification rules.",
+        "saving": "Saving",
+        "name_placeholder": "Group name",
+        "description_placeholder": "Optional description",
+        "fields": {
+          "name": "Name",
+          "color": "Color",
+          "emoji": "Emoji",
+          "description": "Description"
+        },
+        "errors": {
+          "name_required": "Group name is required"
+        },
+        "toasts": {
+          "created": "Group created successfully.",
+          "updated": "Group updated successfully.",
+          "archived": "Group archived successfully.",
+          "member_added": "Member added to group.",
+          "member_removed": "Member removed from group.",
+          "notification_rules_updated": "Notification rules updated."
+        }
+      },
       "billing_and_plans": {
         "heading": "Billing & Plans",
         "description": "Choose your plan, manage subscriptions, and easily upgrade as your needs grow.",
