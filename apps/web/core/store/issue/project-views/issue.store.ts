@@ -114,9 +114,7 @@ export class ProjectViewIssues extends BaseIssuesStore implements IProjectViewIs
       this.onfetchIssues(response, options, workspaceSlug, projectId, viewId, !isExistingPaginationOptions);
       return response;
     } catch (error) {
-      // set loader to undefined if errored out
-      this.setLoader(undefined);
-      throw error;
+      return this.handleFetchIssuesError(error);
     }
   };
 

@@ -209,9 +209,7 @@ export class CycleIssues extends BaseIssuesStore implements ICycleIssues {
       this.onfetchIssues(response, options, workspaceSlug, projectId, cycleId, !isExistingPaginationOptions);
       return response;
     } catch (error) {
-      // set loader to undefined once errored out
-      this.setLoader(undefined);
-      throw error;
+      return this.handleFetchIssuesError(error);
     }
   };
 

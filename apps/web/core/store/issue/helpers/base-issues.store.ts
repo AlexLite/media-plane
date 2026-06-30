@@ -261,6 +261,24 @@ export abstract class BaseIssuesStore implements IBaseIssuesStore {
     this.controller = new AbortController();
   }
 
+  protected isRequestCanceled(error: unknown) {
+    if (!error || typeof error !== "object") return false;
+
+    const maybeCanceledError = error as { code?: string; name?: string; message?: string };
+
+    return (
+      maybeCanceledError.code === "ERR_CANCELED" ||
+      maybeCanceledError.name === "CanceledError" ||
+      maybeCanceledError.message === "canceled"
+    );
+  }
+
+  protected handleFetchIssuesError(error: unknown, groupId?: string, subGroupId?: string): undefined {
+    this.setLoader(undefined, groupId, subGroupId);
+    if (this.isRequestCanceled(error)) return undefined;
+    throw error;
+  }
+
   // Abstract class to be implemented to fetch parent stats such as project, module or cycle details
   abstract fetchParentStats: (workspaceSlug: string, projectId?: string, id?: string) => void;
 

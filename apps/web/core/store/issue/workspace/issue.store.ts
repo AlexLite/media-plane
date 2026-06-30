@@ -119,9 +119,7 @@ export class WorkspaceIssues extends BaseIssuesStore implements IWorkspaceIssues
       this.onfetchIssues(response, options, workspaceSlug, undefined, undefined, !isExistingPaginationOptions);
       return response;
     } catch (error) {
-      // set loader to undefined if errored out
-      this.setLoader(undefined);
-      throw error;
+      return this.handleFetchIssuesError(error);
     }
   };
 

@@ -116,9 +116,7 @@ export class ArchivedIssues extends BaseIssuesStore implements IArchivedIssues {
       this.onfetchIssues(response, options, workspaceSlug, projectId, undefined, !isExistingPaginationOptions);
       return response;
     } catch (error) {
-      // set loader to undefined if errored out
-      this.setLoader(undefined);
-      throw error;
+      return this.handleFetchIssuesError(error);
     }
   };
 
