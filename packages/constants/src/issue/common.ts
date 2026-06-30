@@ -240,9 +240,9 @@ export const SPREADSHEET_PROPERTY_DETAILS: {
   assignee: {
     i18n_title: "common.assignees",
     ascendingOrderKey: "assignees__first_name",
-    ascendingOrderTitle: "A",
+    ascendingOrderTitle: "А",
     descendingOrderKey: "-assignees__first_name",
-    descendingOrderTitle: "Z",
+    descendingOrderTitle: "Я",
     icon: "MembersPropertyIcon",
   },
   created_on: {
@@ -272,25 +272,25 @@ export const SPREADSHEET_PROPERTY_DETAILS: {
   labels: {
     i18n_title: "common.labels",
     ascendingOrderKey: "labels__name",
-    ascendingOrderTitle: "A",
+    ascendingOrderTitle: "А",
     descendingOrderKey: "-labels__name",
-    descendingOrderTitle: "Z",
+    descendingOrderTitle: "Я",
     icon: "LabelPropertyIcon",
   },
   modules: {
     i18n_title: "common.modules",
     ascendingOrderKey: "issue_module__module__name",
-    ascendingOrderTitle: "A",
+    ascendingOrderTitle: "А",
     descendingOrderKey: "-issue_module__module__name",
-    descendingOrderTitle: "Z",
+    descendingOrderTitle: "Я",
     icon: "DiceIcon",
   },
   cycle: {
     i18n_title: "common.cycle",
     ascendingOrderKey: "issue_cycle__cycle__name",
-    ascendingOrderTitle: "A",
+    ascendingOrderTitle: "А",
     descendingOrderKey: "-issue_cycle__cycle__name",
-    descendingOrderTitle: "Z",
+    descendingOrderTitle: "Я",
     icon: "ContrastIcon",
   },
   priority: {
@@ -312,9 +312,9 @@ export const SPREADSHEET_PROPERTY_DETAILS: {
   state: {
     i18n_title: "common.state",
     ascendingOrderKey: "state__name",
-    ascendingOrderTitle: "A",
+    ascendingOrderTitle: "А",
     descendingOrderKey: "-state__name",
-    descendingOrderTitle: "Z",
+    descendingOrderTitle: "Я",
     icon: "StatePropertyIcon",
   },
   updated_on: {

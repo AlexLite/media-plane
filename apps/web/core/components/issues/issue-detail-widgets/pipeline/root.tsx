@@ -53,8 +53,8 @@ function isDateOverdue(date: string | null | undefined) {
   return target < today;
 }
 
-const PIPELINE_ACTIVE_BACKGROUND = "rgba(40, 212, 20, 0.25)";
-const PIPELINE_OVERDUE_BACKGROUND = "rgba(249, 115, 22, 0.25)";
+const PIPELINE_ACTIVE_BACKGROUND = "#bbeeb5";
+const PIPELINE_OVERDUE_BACKGROUND = "#f7cfb5";
 
 function PipelineStatusButton({
   item,

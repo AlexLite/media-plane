@@ -47,8 +47,8 @@ import { DEFAULT_DISPLAY_PROPERTIES } from "@/store/issue/issue-details/sub_issu
 export const HIGHLIGHT_CLASS = "highlight";
 export const HIGHLIGHT_WITH_LINE = "highlight-with-line";
 
-export const ISSUE_PIPELINE_OVERDUE_BACKGROUND = "rgba(249, 115, 22, 0.12)";
-export const ISSUE_DEADLINE_OVERDUE_BACKGROUND = "rgba(239, 68, 68, 0.18)";
+export const ISSUE_PIPELINE_OVERDUE_BACKGROUND = "#f7cfb5";
+export const ISSUE_DEADLINE_OVERDUE_BACKGROUND = "#f9c1c1";
 
 export function isIssueTargetDateOverdue(date: string | null | undefined) {
   const target = getDate(date);

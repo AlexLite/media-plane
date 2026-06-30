@@ -294,8 +294,8 @@ export const KanbanIssueBlock = observer(function KanbanIssueBlock(props: IssueB
             { "border border-accent-strong hover:border-accent-strong": getIsIssuePeeked(issue.id) },
             { "z-[100] bg-layer-1": isCurrentBlockDragging },
             {
-              "!border-orange-200/80 !bg-[rgba(249,115,22,0.12)] hover:!border-orange-300/80": hasOnlyPipelineOverdue,
-              "!border-red-200/80 !bg-[rgba(239,68,68,0.18)] hover:!border-red-300/80": isIssueDeadlineOverdue,
+              "!border-orange-200/80 !bg-[#f7cfb5] hover:!border-orange-300/80": hasOnlyPipelineOverdue,
+              "!border-red-200/80 !bg-[#f9c1c1] hover:!border-red-300/80": isIssueDeadlineOverdue,
             }
           )}
           onClick={() => handleIssuePeekOverview(issue)}
