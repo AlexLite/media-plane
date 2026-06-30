@@ -283,7 +283,7 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
       getSubscriberFilterConfig<TWorkItemFilterProperty>("subscriber_id")({
         isEnabled: isFilterEnabled("subscriber_id") && members !== undefined,
         filterIcon: MembersPropertyIcon,
-        label: t("subscriber"),
+        label: t("subscribers"),
         members: members ?? [],
         getOptionIcon: (memberDetails) => (
           <Avatar
