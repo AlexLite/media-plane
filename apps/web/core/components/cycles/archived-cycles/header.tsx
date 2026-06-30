@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 // icons
 import { ListFilter } from "lucide-react";
 import { useOutsideClickDetector } from "@plane/hooks";
+import { useTranslation } from "@plane/i18n";
 import { SearchIcon, CloseIcon } from "@plane/propel/icons";
 // plane helpers
 // types
@@ -29,6 +30,7 @@ export const ArchivedCyclesHeader = observer(function ArchivedCyclesHeader() {
   // refs
   const inputRef = useRef<HTMLInputElement>(null);
   // hooks
+  const { t } = useTranslation();
   const { currentProjectArchivedFilters, archivedCyclesSearchQuery, updateFilters, updateArchivedCyclesSearchQuery } =
     useCycleFilter();
   // states
@@ -100,8 +102,10 @@ export const ArchivedCyclesHeader = observer(function ArchivedCyclesHeader() {
           <SearchIcon className="h-3.5 w-3.5" />
           <input
             ref={inputRef}
+            name="archived-cycles-search"
+            aria-label={t("common.search.placeholder")}
             className="w-full max-w-[234px] border-none bg-transparent text-13 text-primary placeholder:text-placeholder focus:outline-none"
-            placeholder="Search"
+            placeholder={t("common.search.placeholder")}
             value={archivedCyclesSearchQuery}
             onChange={(e) => updateArchivedCyclesSearchQuery(e.target.value)}
             onKeyDown={handleInputKeyDown}
@@ -121,7 +125,7 @@ export const ArchivedCyclesHeader = observer(function ArchivedCyclesHeader() {
         </div>
         <FiltersDropdown
           icon={<ListFilter className="h-3 w-3" />}
-          title="Filters"
+          title={t("common.filters")}
           placement="bottom-end"
           isFiltersApplied={isFiltersApplied}
         >

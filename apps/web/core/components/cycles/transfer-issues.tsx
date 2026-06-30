@@ -7,6 +7,7 @@
 import React from "react";
 import { AlertCircle } from "lucide-react";
 // ui
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { TransferIcon } from "@plane/propel/icons";
 
@@ -18,17 +19,19 @@ type Props = {
 
 export function TransferIssues(props: Props) {
   const { handleClick, canTransferIssues = false, disabled = false } = props;
+  const { t } = useTranslation();
+
   return (
     <div className="-mt-2 mb-4 flex items-center justify-between px-4 pt-6">
       <div className="flex items-center gap-2 text-13 text-secondary">
         <AlertCircle className="h-3.5 w-3.5 text-secondary" />
-        <span>Завершенные циклы нельзя редактировать.</span>
+        <span>{t("project_cycles.transfer.completed_cycles_read_only")}</span>
       </div>
 
       {canTransferIssues && (
         <div>
           <Button variant="primary" size="lg" prependIcon={<TransferIcon />} onClick={handleClick} disabled={disabled}>
-            Перенести рабочие элементы
+            {t("project_cycles.transfer.title")}
           </Button>
         </div>
       )}

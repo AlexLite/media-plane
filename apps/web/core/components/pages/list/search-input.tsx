@@ -65,6 +65,8 @@ export function PageSearchInput(props: Props) {
         <SearchIcon className="h-3.5 w-3.5" />
         <input
           ref={inputRef}
+          name="pages-search"
+          aria-label={t("common.search.label")}
           className="ml-2 w-full max-w-[234px] border-none bg-transparent text-13 text-primary placeholder:text-placeholder focus:outline-none"
           placeholder={t("common.search.label")}
           value={searchQuery}

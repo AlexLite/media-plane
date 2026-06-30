@@ -92,7 +92,9 @@ const WorkspaceMembersSettingsPage = observer(function WorkspaceMembersSettingsP
   };
 
   // derived values
-  const pageTitle = currentWorkspace?.name ? `${currentWorkspace.name} - Участники` : undefined;
+  const pageTitle = currentWorkspace?.name
+    ? `${currentWorkspace.name} - ${t("workspace_settings.settings.members.title")}`
+    : undefined;
   const appliedRoleFilters = filtersStore.filters?.roles || [];
 
   // if user is not authorized to view this page
@@ -124,6 +126,8 @@ const WorkspaceMembersSettingsPage = observer(function WorkspaceMembersSettingsP
             <div className="flex items-center gap-1.5 rounded-md border border-subtle bg-surface-1 px-2.5 py-1.5">
               <SearchIcon className="h-3.5 w-3.5 text-placeholder" />
               <input
+                name="workspace-members-search"
+                aria-label={t("common.search.label")}
                 className="w-full max-w-[234px] border-none bg-transparent text-body-xs-regular outline-none placeholder:text-placeholder"
                 placeholder={`${t("common.search.label")}...`}
                 value={searchQuery}

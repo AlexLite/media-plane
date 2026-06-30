@@ -124,6 +124,8 @@ export const ModuleViewHeader = observer(function ModuleViewHeader() {
           <SearchIcon className="h-3.5 w-3.5" />
           <input
             ref={inputRef}
+            name="modules-search"
+            aria-label={t("common.search.placeholder")}
             className="w-full max-w-[234px] border-none bg-transparent text-13 text-primary placeholder:text-placeholder focus:outline-none"
             placeholder={t("common.search.placeholder")}
             value={searchQuery}

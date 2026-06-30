@@ -66,6 +66,8 @@ export const PageFiltersSelection = observer(function PageFiltersSelection(props
           <input
             ref={inputRef}
             type="text"
+            name="page-filters-search"
+            aria-label={t("common.search.label")}
             className="w-full outline-none placeholder:text-placeholder"
             placeholder={t("common.search.label")}
             value={filtersSearchQuery}

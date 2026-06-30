@@ -7,6 +7,7 @@
 import { useState } from "react";
 import { observer } from "mobx-react";
 import { SearchIcon, CloseIcon } from "@plane/propel/icons";
+import { useTranslation } from "@plane/i18n";
 // hooks
 import { useLabel } from "@/hooks/store/use-label";
 import { useMember } from "@/hooks/store/use-member";
@@ -20,6 +21,7 @@ import { FilterStatus } from "./status";
 
 export const InboxIssueFilterSelection = observer(function InboxIssueFilterSelection() {
   // hooks
+  const { t } = useTranslation();
   const { isMobile } = usePlatformOS();
   const {
     project: { projectMemberIds },
@@ -35,8 +37,10 @@ export const InboxIssueFilterSelection = observer(function InboxIssueFilterSelec
           <SearchIcon className="text-placeholder" width={12} height={12} strokeWidth={2} />
           <input
             type="text"
+            name="inbox-filters-search"
+            aria-label={t("common.search.label")}
             className="w-full bg-surface-2 outline-none placeholder:text-placeholder"
-            placeholder="Поиск"
+            placeholder={t("common.search.label")}
             value={filtersSearchQuery}
             onChange={(e) => setFiltersSearchQuery(e.target.value)}
             autoFocus={!isMobile}

@@ -77,6 +77,8 @@ export const StickySearch = observer(function StickySearch() {
         <SearchIcon className="size-3.5 shrink-0" />
         <input
           ref={inputRef}
+          name="stickies-search"
+          aria-label={t("stickies.search_placeholder")}
           className="w-full max-w-[234px] border-none bg-transparent text-13 text-primary placeholder:text-placeholder focus:outline-none"
           placeholder={t("stickies.search_placeholder")}
           value={searchQuery}

@@ -683,6 +683,8 @@
   "saved": "Saved",
   "saving_ellipsis": "Saving...",
   "select_at_least_one_work_item": "Please select at least one work item.",
+  "select_work_item": "Select work item",
+  "select_work_items_to_delete": "Select work items to delete",
   "select_language": "Select a language",
   "selected": "selected",
   "selected_items_will_always_stay_visible": "Selected items will always stay visible in your sidebar. You can still find the others anytime from the More menu. These changes are personal to you and won't affect anyone else on your workspace.",

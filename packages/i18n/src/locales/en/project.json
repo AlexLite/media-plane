@@ -25,6 +25,12 @@
     "in_your_timezone": "In your timezone",
     "transfer_work_items": "Transfer {count} work items",
     "transfer": {
+      "completed_cycles_read_only": "Completed cycles can't be edited.",
+      "error_message": "Failed to transfer work items. Please try again.",
+      "load_error_message": "Failed to load cycle details",
+      "search_cycle_placeholder": "Search cycle...",
+      "success_message": "Work items transferred successfully",
+      "title": "Transfer work items",
       "no_cycles_available": "No other cycles available to transfer work items to."
     },
     "date_range": "Date range",

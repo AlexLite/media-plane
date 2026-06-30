@@ -43,6 +43,8 @@ export const ProjectFiltersSelection = observer(function ProjectFiltersSelection
           <SearchIcon className="text-placeholder" width={12} height={12} strokeWidth={2} />
           <input
             type="text"
+            name="project-filters-search"
+            aria-label={t("common.search.label")}
             className="w-full bg-surface-2 outline-none placeholder:text-placeholder"
             placeholder={t("common.search.label")}
             value={filtersSearchQuery}
