@@ -8,6 +8,18 @@
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
 import axios from "axios";
 
+const ensureAPIErrorPayload = (error: any) => {
+  const fallbackError = error ?? new Error("API request failed");
+
+  if (!fallbackError.response) {
+    fallbackError.response = { data: fallbackError };
+  } else if (fallbackError.response.data == null) {
+    fallbackError.response.data = fallbackError;
+  }
+
+  return fallbackError;
+};
+
 export abstract class APIService {
   protected baseURL: string;
   private axiosInstance: AxiosInstance;
@@ -26,11 +38,13 @@ export abstract class APIService {
     this.axiosInstance.interceptors.response.use(
       (response) => response,
       (error) => {
-        if (error.response && error.response.status === 401) {
+        const normalizedError = ensureAPIErrorPayload(error);
+
+        if (normalizedError.response && normalizedError.response.status === 401) {
           const currentPath = window.location.pathname;
           window.location.replace(`/${currentPath ? `?next_path=${currentPath}` : ``}`);
         }
-        return Promise.reject(error);
+        return Promise.reject(normalizedError);
       }
     );
   }
