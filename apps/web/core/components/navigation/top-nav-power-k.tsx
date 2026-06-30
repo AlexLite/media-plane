@@ -228,6 +228,9 @@ export const TopNavPowerK = observer(() => {
           <SearchIcon className="mr-2 size-3.5 shrink-0 text-placeholder" />
           <input
             ref={inputRef}
+            id="top-nav-command-search"
+            name="top-nav-command-search"
+            aria-label={t("power_k.page_placeholders.default")}
             type="text"
             value={searchTerm}
             onChange={(e) => {
