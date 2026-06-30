@@ -177,6 +177,7 @@ export class TranslationStore {
     makeAutoObservable(this);
     // Initialize with core translations immediately
     this.translations = this.coreTranslations;
+    (Object.keys(this.coreTranslations) as TLanguage[]).forEach((language) => this.loadedLanguages.add(language));
     // Initialize language
     this.initializeLanguage();
     // Load all the translations
@@ -215,8 +216,6 @@ export class TranslationStore {
       });
       // Load current and fallback languages in parallel
       await this.loadPrimaryLanguages();
-      // Load all remaining languages in parallel
-      this.loadRemainingLanguages();
     } catch (error) {
       console.error("Failed in translation initialization:", error);
       runInAction(() => {
@@ -248,16 +247,6 @@ export class TranslationStore {
     }
   }
 
-  private loadRemainingLanguages(): void {
-    const remainingLanguages = SUPPORTED_LANGUAGES.map((lang) => lang.value).filter(
-      (lang) => !this.loadedLanguages.has(lang) && lang !== this.currentLocale && lang !== FALLBACK_LANGUAGE
-    );
-    // Load all remaining languages in parallel
-    Promise.all(remainingLanguages.map((lang) => this.loadLanguageTranslations(lang))).catch((error) => {
-      console.error("Failed to load some remaining languages:", error);
-    });
-  }
-
   private async loadLanguageTranslations(language: TLanguage): Promise<void> {
     // Skip if already loaded
     if (this.loadedLanguages.has(language)) return;
@@ -284,14 +273,16 @@ export class TranslationStore {
    * @returns Promise that resolves to merged translations
    */
   private async importAndMergeFiles(language: TLanguage, files: string[]) {
-    try {
-      const importPromises = files.map((file) => import(`../locales/${language}/${file}.json`));
-      const modules = await Promise.all(importPromises);
-      const merged = modules.reduce((acc: any, module: any) => merge(acc, module.default), {});
-      return { default: merged };
-    } catch (error) {
-      throw new Error(`Failed to import and merge files for ${language}: ${error}`, { cause: error });
-    }
+    const modules = await Promise.all(
+      files.map((file) =>
+        import(`../locales/${language}/${file}.json`).catch((error: unknown) => {
+          console.warn(`Skipping missing translation namespace ${language}/${file}:`, error);
+          return { default: {} };
+        })
+      )
+    );
+    const merged = modules.reduce((acc: any, module: any) => merge(acc, module.default), {});
+    return { default: merged };
   }
 
   /**
