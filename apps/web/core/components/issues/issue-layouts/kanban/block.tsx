@@ -23,7 +23,12 @@ import { ControlLink, DropIndicator } from "@plane/ui";
 import { cn, generateWorkItemLink, getDate } from "@plane/utils";
 // components
 import RenderIfVisible from "@/components/core/render-if-visible-HOC";
-import { HIGHLIGHT_CLASS, getIssueBlockId } from "@/components/issues/issue-layouts/utils";
+import {
+  HIGHLIGHT_CLASS,
+  ISSUE_DEADLINE_OVERDUE_BACKGROUND,
+  ISSUE_PIPELINE_OVERDUE_BACKGROUND,
+  getIssueBlockId,
+} from "@/components/issues/issue-layouts/utils";
 // helpers
 // hooks
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
@@ -294,10 +299,17 @@ export const KanbanIssueBlock = observer(function KanbanIssueBlock(props: IssueB
             { "border border-accent-strong hover:border-accent-strong": getIsIssuePeeked(issue.id) },
             { "z-[100] bg-layer-1": isCurrentBlockDragging },
             {
-              "!border-orange-200/80 !bg-[#f7cfb5] hover:!border-orange-300/80": hasOnlyPipelineOverdue,
-              "!border-red-200/80 !bg-[#f9c1c1] hover:!border-red-300/80": isIssueDeadlineOverdue,
+              "!border-orange-200/80 hover:!border-orange-300/80": hasOnlyPipelineOverdue,
+              "!border-red-200/80 hover:!border-red-300/80": isIssueDeadlineOverdue,
             }
           )}
+          style={
+            hasOnlyPipelineOverdue
+              ? { backgroundColor: ISSUE_PIPELINE_OVERDUE_BACKGROUND }
+              : isIssueDeadlineOverdue
+                ? { backgroundColor: ISSUE_DEADLINE_OVERDUE_BACKGROUND }
+                : undefined
+          }
           onClick={() => handleIssuePeekOverview(issue)}
           disabled={!!issue?.tempId}
         >
