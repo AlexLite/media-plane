@@ -9,6 +9,7 @@ import type { SuggestionProps } from "@tiptap/suggestion";
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { debounce } from "lodash-es";
+import { useTranslation } from "@plane/i18n";
 // plane utils
 import { useOutsideClickDetector } from "@plane/hooks";
 import { cn } from "@plane/utils";
@@ -24,6 +25,7 @@ export type MentionsListDropdownProps = SuggestionProps<TMentionSection, TMentio
 
 export const MentionsListDropdown = forwardRef(function MentionsListDropdown(props: MentionsListDropdownProps, ref) {
   const { command, query, searchCallback, onClose } = props;
+  const { t } = useTranslation();
   // states
   const [sections, setSections] = useState<TMentionSection[]>([]);
   const [selectedIndex, setSelectedIndex] = useState({
@@ -158,7 +160,7 @@ export const MentionsListDropdown = forwardRef(function MentionsListDropdown(pro
         }}
       >
         {isLoading ? (
-          <div className="text-center text-13 text-placeholder">Loading...</div>
+          <div className="text-center text-13 text-placeholder">{t("common.loading")}</div>
         ) : sections.length ? (
           sections.map((section, sectionIndex) => (
             <div key={section.key} className="space-y-2">
@@ -200,7 +202,7 @@ export const MentionsListDropdown = forwardRef(function MentionsListDropdown(pro
             </div>
           ))
         ) : (
-          <div className="text-center text-13 text-placeholder">No results</div>
+          <div className="text-center text-13 text-placeholder">{t("common.no_results")}</div>
         )}
       </div>
     </>

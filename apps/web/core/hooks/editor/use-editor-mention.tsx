@@ -5,6 +5,7 @@
  */
 
 import { useCallback } from "react";
+import { useTranslation } from "@plane/i18n";
 // plane editor
 import type { TMentionSection, TMentionSuggestion } from "@plane/editor";
 // plane types
@@ -23,6 +24,7 @@ type TArgs = {
 
 export const useEditorMention = (args: TArgs) => {
   const { enableAdvancedMentions = false, searchEntity } = args;
+  const { t } = useTranslation();
   // additional mentions
   const { editorMentionTypes, updateAdditionalSections } = useAdditionalEditorMention({
     enableAdvancedMentions,
@@ -59,7 +61,7 @@ export const useEditorMention = (args: TArgs) => {
             }));
             suggestionSections.push({
               key: "users",
-              title: "Users",
+              title: t("common.users"),
               items,
             });
           }
@@ -73,7 +75,7 @@ export const useEditorMention = (args: TArgs) => {
         throw error;
       }
     },
-    [editorMentionTypes, searchEntity, updateAdditionalSections]
+    [editorMentionTypes, searchEntity, t, updateAdditionalSections]
   );
 
   return {
