@@ -5,6 +5,11 @@
     "key_created": "Key created",
     "copy_key": "Copy and save this secret key in Plane Pages. You can't see this key after you hit Close. A CSV file containing the key has been downloaded.",
     "token_copied": "Token copied to clipboard.",
+    "categories": {
+      "administration": "Administration",
+      "features": "Features",
+      "developer": "Developer"
+    },
     "settings": {
       "general": {
         "title": "General",

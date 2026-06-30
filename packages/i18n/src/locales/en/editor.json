@@ -61,5 +61,24 @@
       "use_this": "Use this",
       "refine": "Refine"
     }
+  },
+  "editor": {
+    "block_menu": {
+      "delete": "Delete",
+      "duplicate": "Duplicate"
+    },
+    "table_menu": {
+      "header_row": "Header row",
+      "header_column": "Header column",
+      "color": "Color",
+      "background_color": "Background color",
+      "insert_above": "Insert above",
+      "insert_below": "Insert below",
+      "insert_left": "Insert left",
+      "insert_right": "Insert right",
+      "duplicate": "Duplicate",
+      "clear_contents": "Clear contents",
+      "delete": "Delete"
+    }
   }
 }

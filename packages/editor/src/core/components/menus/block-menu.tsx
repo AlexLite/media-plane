@@ -17,6 +17,7 @@ import {
 import type { Editor } from "@tiptap/react";
 import type { LucideIcon } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "@plane/i18n";
 import { CopyIcon, TrashIcon } from "@plane/propel/icons";
 import type { ISvgIcons } from "@plane/propel/icons";
 import { cn } from "@plane/utils";
@@ -43,6 +44,7 @@ export type BlockMenuOption = {
 
 export function BlockMenu(props: Props) {
   const { editor } = props;
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimatedIn, setIsAnimatedIn] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -152,7 +154,7 @@ export function BlockMenu(props: Props) {
     {
       icon: TrashIcon,
       key: "delete",
-      label: "Delete",
+      label: t("editor.block_menu.delete"),
       onClick: (_e) => {
         // Execute the delete action
         editor.chain().deleteSelection().focus().run();
@@ -161,7 +163,7 @@ export function BlockMenu(props: Props) {
     {
       icon: CopyIcon,
       key: "duplicate",
-      label: "Duplicate",
+      label: t("editor.block_menu.duplicate"),
       isDisabled:
         editor.state.selection.content().content.firstChild?.type.name === CORE_EXTENSIONS.IMAGE ||
         editor.isActive(CORE_EXTENSIONS.CUSTOM_IMAGE),

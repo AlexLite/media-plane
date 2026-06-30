@@ -61,5 +61,24 @@
       "use_this": "Использовать это",
       "refine": "Уточнить"
     }
+  },
+  "editor": {
+    "block_menu": {
+      "delete": "Удалить",
+      "duplicate": "Дублировать"
+    },
+    "table_menu": {
+      "header_row": "Строка заголовка",
+      "header_column": "Столбец заголовка",
+      "color": "Цвет",
+      "background_color": "Цвет фона",
+      "insert_above": "Вставить выше",
+      "insert_below": "Вставить ниже",
+      "insert_left": "Вставить слева",
+      "insert_right": "Вставить справа",
+      "duplicate": "Дублировать",
+      "clear_contents": "Очистить содержимое",
+      "delete": "Удалить"
+    }
   }
 }

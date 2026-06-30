@@ -111,5 +111,18 @@
       "success_message": "Page removed from collection.",
       "error_message": "Page could not be removed from the collection. Please try again."
     }
+  },
+  "pages_list": {
+    "tabs": {
+      "public": "Public",
+      "private": "Private",
+      "archived": "Archived"
+    },
+    "order_by": {
+      "name": "Name",
+      "created_at": "Created at",
+      "updated_at": "Updated at"
+    },
+    "owned_by": "Owned by"
   }
 }

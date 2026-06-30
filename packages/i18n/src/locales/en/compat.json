@@ -509,9 +509,6 @@
     "content_limit_message": "Content limit reached and live sync is off. Create a new page or use nested pages to continue syncing.",
     "syncing_tooltip": "Your changes are being synced with the server. You can continue making changes."
   },
-  "pages_list": {
-    "owned_by": "Owned by"
-  },
   "please_enter_first_name": "Please enter first name",
   "power_k": {
     "shortcut": {
