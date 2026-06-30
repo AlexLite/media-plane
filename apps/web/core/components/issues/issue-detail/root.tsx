@@ -221,10 +221,10 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
     ["issue-detail-refresh", workspaceSlug, projectId, issueId],
     () => fetchIssue(workspaceSlug, projectId, issueId),
     {
-      refreshInterval: 15000,
+      refreshInterval: 60000,
       refreshWhenHidden: false,
       refreshWhenOffline: false,
-      revalidateOnFocus: true,
+      revalidateOnFocus: false,
     }
   );
 

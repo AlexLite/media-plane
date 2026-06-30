@@ -167,6 +167,7 @@ export const DescriptionInput = observer(function DescriptionInput(props: Props)
   // reset form values
   useEffect(() => {
     if (!entityId) return;
+    if (hasUnsavedChanges.current) return;
     const normalizedValue = initialValue?.trim() === "" ? "<p></p>" : (initialValue ?? "<p></p>");
     // Update last saved content when entity/initialValue changes
     lastSavedContent.current = normalizedValue;
