@@ -54,6 +54,7 @@ const IGNORE_LINE_PATTERNS = [
   /^\s*export\s+type\b/,
   /^\s*type\s+\w+/,
   /^\s*interface\s+\w+/,
+  /\bPromise\s*</,
   /\bclassName\s*=/,
   /\b(?:href|src|url|path|icon|image|avatar|logo|testId|data-testid)\s*[:=]/,
   /\.(png|svg|jpg|jpeg|webp|ico|woff2?|css|mjs|js)\b/i,

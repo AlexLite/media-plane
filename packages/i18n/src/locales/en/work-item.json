@@ -84,6 +84,13 @@
         "calendar": "Calendar Layout",
         "spreadsheet": "Table Layout",
         "gantt": "Timeline Layout"
+      },
+      "toasts": {
+        "move_disabled": {
+          "title": "Cannot move work item",
+          "no_permission": "You are not allowed to move this work item",
+          "grouping_disabled": "Drag and drop is disabled for the current grouping"
+        }
       }
     },
     "states": {
