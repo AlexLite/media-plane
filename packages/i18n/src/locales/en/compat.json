@@ -157,6 +157,7 @@
     "custom": "Custom",
     "date": "Date",
     "date_range": "Date range",
+    "delete": "Delete",
     "drop_here": "Drop here...",
     "drop_here_to_delete": "Drop here to delete the work item.",
     "due_date": "Due date",
@@ -185,6 +186,7 @@
     "offline_tooltip_content": "You can continue making changes. They will be synced when you are back online.",
     "offline_tooltip_heading": "You are offline.",
     "pro_feature": "Pro feature",
+    "restore": "Restore",
     "save_view": "Save view",
     "search_results_for": "Search results for",
     "skip": "Skip",
@@ -504,6 +506,13 @@
     "title": "What brings you to Plane?"
   },
   "oops_something_went_wrong": "Oops! Something went wrong.",
+  "here": "here",
+  "page": {
+    "version": {
+      "restore_success": "Page version restored.",
+      "restore_failed": "Failed to restore page version."
+    }
+  },
   "page_modals": {
     "create": {
       "creating": "Creating",

@@ -3,6 +3,20 @@
     "title": "Join project",
     "description": "You are about to join {name}."
   },
+  "integration": {
+    "github": {
+      "description": "Select GitHub repository to enable sync."
+    },
+    "slack": {
+      "description": "Get regular updates and control which notification you want to receive."
+    }
+  },
+  "publish": {
+    "layouts": {
+      "list": "List",
+      "kanban": "Kanban"
+    }
+  },
   "project_view": {
     "sort_by": {
       "created_at": "Created at",

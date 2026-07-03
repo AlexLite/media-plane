@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import useSWR from "swr";
 import { EyeIcon, TriangleAlert } from "lucide-react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TPageVersion } from "@plane/types";
@@ -40,6 +41,7 @@ export const PageVersionsMainContent = observer(function PageVersionsMainContent
     restoreEnabled,
     storeType,
   } = props;
+  const { t } = useTranslation();
   // states
   const [isRestoring, setIsRestoring] = useState(false);
   const [isRetrying, setIsRetrying] = useState(false);
@@ -60,14 +62,14 @@ export const PageVersionsMainContent = observer(function PageVersionsMainContent
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Page version restored.",
+          title: t("page.version.restore_success"),
         });
         handleClose();
       })
       .catch(() =>
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Failed to restore page version.",
+          title: t("page.version.restore_failed"),
         })
       )
       .finally(() => setIsRestoring(false));

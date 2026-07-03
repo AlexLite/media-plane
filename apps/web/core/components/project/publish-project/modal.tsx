@@ -42,10 +42,10 @@ const defaultValues: Partial<TProjectPublishSettings> = {
 
 const VIEW_OPTIONS: {
   key: TProjectPublishLayouts;
-  label: string;
+  labelTranslationKey: string;
 }[] = [
-  { key: "list", label: "List" },
-  { key: "kanban", label: "Kanban" },
+  { key: "list", labelTranslationKey: "project.publish.layouts.list" },
+  { key: "kanban", labelTranslationKey: "project.publish.layouts.kanban" },
 ];
 
 export const PublishProjectModal = observer(function PublishProjectModal(props: Props) {
@@ -253,7 +253,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                     <CustomSelect
                       value={value}
                       label={VIEW_OPTIONS.filter((o) => selectedLayouts.includes(o.key))
-                        .map((o) => o.label)
+                        .map((o) => t(o.labelTranslationKey))
                         .join(", ")}
                       onChange={(val: TProjectPublishLayouts) => {
                         if (selectedLayouts.length === 1 && selectedLayouts[0] === val) return;
@@ -271,7 +271,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                           value={option.key}
                           className="flex items-center justify-between gap-2"
                         >
-                          {option.label}
+                          {t(option.labelTranslationKey)}
                           {selectedLayouts.includes(option.key) && <CheckIcon className="size-3.5 flex-shrink-0" />}
                         </CustomSelect.Option>
                       ))}

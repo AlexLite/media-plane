@@ -6,6 +6,7 @@
 
 import { observer } from "mobx-react";
 import { Clock, FileStack, MoreHorizontal, PanelLeft, MoveRight } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 import { IconButton, getIconButtonStyling } from "@plane/propel/icon-button";
 import {
   LinkIcon,
@@ -56,6 +57,7 @@ type Props = {
 };
 
 export const InboxIssueActionsMobileHeader = observer(function InboxIssueActionsMobileHeader(props: Props) {
+  const { t } = useTranslation();
   const {
     inboxIssue,
     isSubmitting,
@@ -116,14 +118,14 @@ export const InboxIssueActionsMobileHeader = observer(function InboxIssueActions
             variant="secondary"
             size="lg"
             icon={ChevronUpIcon}
-            aria-label="Previous work item"
+            aria-label={t("inbox_issue.actions.previous")}
             onClick={() => handleInboxIssueNavigation("prev")}
           />
           <IconButton
             variant="secondary"
             size="lg"
             icon={ChevronDownIcon}
-            aria-label="Next work item"
+            aria-label={t("inbox_issue.actions.next")}
             onClick={() => handleInboxIssueNavigation("next")}
           />
         </div>
@@ -143,7 +145,7 @@ export const InboxIssueActionsMobileHeader = observer(function InboxIssueActions
               <CustomMenu.MenuItem onClick={handleCopyIssueLink}>
                 <div className="flex items-center gap-2">
                   <LinkIcon width={14} height={14} strokeWidth={2} />
-                  Copy work item link
+                  {t("inbox_issue.actions.copy")}
                 </div>
               </CustomMenu.MenuItem>
             )}

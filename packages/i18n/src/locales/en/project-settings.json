@@ -75,10 +75,22 @@
       "heading": "Estimates",
       "description": "Set up estimation systems to track and communicate the effort required for each work item.",
       "label": "Estimates",
+      "search": "Estimate search",
       "title": "Enable estimates for my project",
       "enable_description": "They help you in communicating complexity and workload of the team.",
       "no_estimate": "No estimate",
       "new": "New estimate system",
+      "list_title": "Estimates list",
+      "delete": {
+        "title": "Delete estimate system",
+        "description_prefix": "Deleting the estimate",
+        "description_suffix": "system will remove it from all work items permanently. This action cannot be undone. If you add estimates again, you will need to update all the work items.",
+        "confirm": "Delete estimate"
+      },
+      "archived": {
+        "title": "Archived estimates",
+        "description": "Estimates have gone through a change, these are the estimates you had in your older versions which were not in use. Read more about them"
+      },
       "create": {
         "custom": "Custom",
         "start_from_scratch": "Start from scratch",
@@ -100,7 +112,11 @@
           }
         },
         "deleted": {
+          "success": {
+            "title": "Estimate deleted"
+          },
           "error": {
+            "title": "Estimate deletion failed",
             "message": "Error deleting estimate"
           }
         },

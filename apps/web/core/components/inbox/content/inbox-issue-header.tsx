@@ -217,7 +217,7 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
     else {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Permission denied",
+        title: t("inbox_issue.errors.permission_denied_title"),
         message: errorMessage,
       });
     }
@@ -311,14 +311,14 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
                 variant="secondary"
                 size="lg"
                 icon={ChevronUpIcon}
-                aria-label="Previous work item"
+                aria-label={t("inbox_issue.actions.previous")}
                 onClick={() => handleInboxIssueNavigation("prev")}
               />
               <IconButton
                 variant="secondary"
                 size="lg"
                 icon={ChevronDownIcon}
-                aria-label="Next work item"
+                aria-label={t("inbox_issue.actions.next")}
                 onClick={() => handleInboxIssueNavigation("next")}
               />
             </div>

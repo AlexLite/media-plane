@@ -1,4 +1,8 @@
 {
+  "version": {
+    "restore_success": "Page version restored.",
+    "restore_failed": "Failed to restore page version."
+  },
   "page_navigation_pane": {
     "tabs": {
       "outline": {

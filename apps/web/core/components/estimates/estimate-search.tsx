@@ -5,10 +5,11 @@
  */
 
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 
 export const EstimateSearch = observer(function EstimateSearch() {
   // hooks
-  const {} = {};
+  const { t } = useTranslation();
 
-  return <div>Estimate Search</div>;
+  return <div>{t("project_settings.estimates.search")}</div>;
 });

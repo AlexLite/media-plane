@@ -34,6 +34,7 @@
       }
     },
     "errors": {
+      "permission_denied_title": "Permission denied",
       "snooze_permission": "Only project admins can snooze/Un-snooze work items",
       "accept_permission": "Only project admins can accept work items",
       "decline_permission": "Only project admins can deny work items",
@@ -46,6 +47,8 @@
       "snooze": "Snooze",
       "unsnooze": "Un snooze",
       "copy": "Copy work item link",
+      "previous": "Previous work item",
+      "next": "Next work item",
       "delete": "Delete",
       "open": "Open work item",
       "mark_as_duplicate": "Mark as duplicate",

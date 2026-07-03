@@ -46,7 +46,7 @@ export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: 
       setButtonLoader(false);
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Estimate deleted",
+        title: t("project_settings.estimates.toasts.deleted.success.title"),
         message: t("estimate_operations.deleted"),
       });
       handleClose();
@@ -54,7 +54,7 @@ export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: 
       setButtonLoader(false);
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Estimate creation failed",
+        title: t("project_settings.estimates.toasts.deleted.error.title"),
         message: t("estimate_operations.delete_failed"),
       });
     }
@@ -65,24 +65,24 @@ export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: 
       <div className="relative space-y-6 py-5">
         {/* heading */}
         <div className="relative flex items-center justify-between gap-2 px-5">
-          <div className="text-18 font-medium text-primary">Delete Estimate System</div>
+          <div className="text-18 font-medium text-primary">{t("project_settings.estimates.delete.title")}</div>
         </div>
 
         {/* estimate steps */}
         <div className="px-5">
           <div className="text-14 text-secondary">
-            Deleting the estimate <span className="font-bold text-primary">{estimate?.name}</span>
-            &nbsp;system will remove it from all work items permanently. This action cannot be undone. If you add
-            estimates again, you will need to update all the work items.
+            {t("project_settings.estimates.delete.description_prefix")}{" "}
+            <span className="font-bold text-primary">{estimate?.name}</span>
+            &nbsp;{t("project_settings.estimates.delete.description_suffix")}
           </div>
         </div>
 
         <div className="relative flex items-center justify-end gap-3 border-t border-subtle px-5 pt-5">
           <Button variant="secondary" size="lg" onClick={handleClose} disabled={buttonLoader}>
-            Cancel
+            {t("cancel")}
           </Button>
           <Button variant="error-fill" size="lg" onClick={handleDeleteEstimate} disabled={buttonLoader}>
-            {buttonLoader ? "Deleting" : "Delete Estimate"}
+            {buttonLoader ? t("deleting") : t("project_settings.estimates.delete.confirm")}
           </Button>
         </div>
       </div>

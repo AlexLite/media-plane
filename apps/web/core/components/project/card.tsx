@@ -156,14 +156,14 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
     {
       key: "restore",
       action: () => setRestoreProject(true),
-      title: "Restore",
+      title: t("common.restore"),
       icon: ArchiveRestoreIcon,
       shouldRender: isArchived && hasAdminRole,
     },
     {
       key: "delete",
       action: () => setDeleteProjectModal(true),
-      title: "Delete",
+      title: t("common.delete"),
       icon: TrashIcon,
       shouldRender: isArchived && hasAdminRole,
     },
