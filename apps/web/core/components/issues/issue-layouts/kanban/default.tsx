@@ -18,6 +18,7 @@ import type {
   TIssueGroupByOptions,
   TIssueOrderByOptions,
 } from "@plane/types";
+import { useTranslation } from "@plane/i18n";
 // constants
 import { ContentWrapper } from "@plane/ui";
 // components
@@ -98,6 +99,7 @@ export const KanBan = observer(function KanBan(props: IKanBan) {
     isEpic = false,
   } = props;
   // i18n
+  const { t } = useTranslation();
   // store hooks
   const storeType = useIssueStoreType();
   const issueKanBanView = useKanbanView();
@@ -157,6 +159,7 @@ export const KanBan = observer(function KanBan(props: IKanBan) {
             : ((groupedIssueIds as TGroupedIssues)?.[subList.id] ?? []);
           const issueLength = issueIds?.length;
           const groupHeight = issueLength * approximateCardHeight;
+          const groupTitle = subList.nameTranslationKey ? t(subList.nameTranslationKey) : subList.name;
 
           return (
             <div
@@ -172,7 +175,7 @@ export const KanBan = observer(function KanBan(props: IKanBan) {
                     group_by={group_by}
                     column_id={subList.id}
                     icon={subList.icon}
-                    title={subList.name}
+                    title={groupTitle}
                     count={getGroupIssueCount(subList.id, undefined, false) ?? 0}
                     issuePayload={subList.payload}
                     disableIssueCreation={

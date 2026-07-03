@@ -20,20 +20,23 @@ import { createCopyMenuWithDuplication } from "@/plane-web/components/issues/iss
 // Overload for functions without parameters
 export function handleOptionalAction(
   optionalFn: (() => void) | (() => Promise<void>) | undefined,
-  actionName: string
+  unavailableTitle: string,
+  unavailableMessage: string
 ): void;
 
 // Overload for functions with one parameter
 export function handleOptionalAction<T>(
   optionalFn: ((param: T) => void) | ((param: T) => Promise<void>) | undefined,
-  actionName: string,
+  unavailableTitle: string,
+  unavailableMessage: string,
   param: T
 ): void;
 
 // Implementation
 export function handleOptionalAction<T>(
   optionalFn: (() => void) | (() => Promise<void>) | ((param: T) => void) | ((param: T) => Promise<void>) | undefined,
-  actionName: string,
+  unavailableTitle: string,
+  unavailableMessage: string,
   param?: T
 ): void {
   if (optionalFn) {
@@ -45,8 +48,8 @@ export function handleOptionalAction<T>(
   } else {
     setToast({
       type: TOAST_TYPE.ERROR,
-      title: t("work_item_operations.action_not_available"),
-      message: `${actionName} action is not implemented.`,
+      title: unavailableTitle,
+      message: unavailableMessage,
     });
   }
 }
@@ -82,6 +85,7 @@ export interface MenuItemFactoryProps {
 
 // Common action handlers hook
 export const useIssueActionHandlers = (props: MenuItemFactoryProps) => {
+  const { t } = useTranslation();
   const { issue, workspaceSlug, projectIdentifier, handleRestore } = props;
 
   const workItemLink = useMemo(
@@ -100,7 +104,7 @@ export const useIssueActionHandlers = (props: MenuItemFactoryProps) => {
     copyUrlToClipboard(workItemLink).then(() =>
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Link copied",
+        title: t("common.link_copied"),
         message: t("common.copied_to_clipboard"),
       })
     );
@@ -109,7 +113,7 @@ export const useIssueActionHandlers = (props: MenuItemFactoryProps) => {
 
   const handleIssueRestore = async () => {
     if (!handleRestore) {
-      handleOptionalAction(handleRestore, "Restore");
+      handleOptionalAction(handleRestore, t("work_item_operations.action_not_available"), t("common.error.message"));
       return;
     }
     await handleRestore()
@@ -207,17 +211,19 @@ export const useMenuItemFactory = (props: MenuItemFactoryProps) => {
 
   const createRemoveFromCycleMenuItem = (): TContextMenuItem => ({
     key: "remove-from-cycle",
-    title: "Remove from cycle",
+    title: t("work_item_operations.remove_from_cycle"),
     icon: XCircle,
-    action: () => handleOptionalAction(handleRemoveFromView, "Remove from cycle"),
+    action: () =>
+      handleOptionalAction(handleRemoveFromView, t("work_item_operations.action_not_available"), t("common.error.message")),
     shouldRender: isEditingAllowed,
   });
 
   const createRemoveFromModuleMenuItem = (): TContextMenuItem => ({
     key: "remove-from-module",
-    title: "Remove from module",
+    title: t("work_item_operations.remove_from_module"),
     icon: XCircle,
-    action: () => handleOptionalAction(handleRemoveFromView, "Remove from module"),
+    action: () =>
+      handleOptionalAction(handleRemoveFromView, t("work_item_operations.action_not_available"), t("common.error.message")),
     shouldRender: isEditingAllowed,
   });
 
@@ -228,14 +234,20 @@ export const useMenuItemFactory = (props: MenuItemFactoryProps) => {
     icon: ArchiveIcon,
     className: "items-start",
     iconClassName: "mt-1",
-    action: () => handleOptionalAction(setArchiveIssueModal, "Archive", true),
+    action: () =>
+      handleOptionalAction(
+        setArchiveIssueModal,
+        t("work_item_operations.action_not_available"),
+        t("common.error.message"),
+        true
+      ),
     disabled: !isInArchivableGroup,
     shouldRender: isArchivingAllowed,
   });
 
   const createRestoreMenuItem = (): TContextMenuItem => ({
     key: "restore",
-    title: "Restore",
+    title: t("common.actions.restore"),
     icon: ArchiveRestoreIcon,
     action: actionHandlers.handleIssueRestore,
     shouldRender: isRestoringAllowed,

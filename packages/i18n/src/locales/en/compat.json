@@ -157,6 +157,7 @@
     "joined": "Joined",
     "link_count": "{count, plural, one {# link} other {# links}}",
     "locked": "Locked",
+    "new_issue": "New work item",
     "no_member_yet": "No members yet",
     "offline": "Offline",
     "offline_tooltip_content": "You can continue making changes. They will be synced when you are back online.",
@@ -265,6 +266,18 @@
   "join": "Join",
   "join_project": "Join Project",
   "joining": "Joining...",
+  "issue_layouts": {
+    "go_to_all_work_items": "Go to all work items",
+    "project_view_empty": {
+      "description": "Work items help you track individual pieces of work. With work items, keep track of what's going on, who is working on it, and what's done.",
+      "title": "View work items will appear here"
+    },
+    "save_as": "Save as",
+    "view_not_found": {
+      "description": "The view you are looking for does not exist or you don't have permission to view it.",
+      "title": "View does not exist"
+    }
+  },
   "label": {
     "delete_label": "Delete Label"
   },
@@ -493,21 +506,29 @@
   },
   "page_not_found_description": "Sorry, the page you are looking for cannot be found. It may have been removed, had its name changed, or is temporarily unavailable.",
   "page_operations": {
+    "access_change_failed": "The page couldn't be marked {access}. Please try again.",
+    "access_changed": "The page has been marked {access} and moved to the {access} section.",
     "add_to_favorites_failed": "Page could not be added to favorites. Please try again later.",
     "added_to_favorites": "Page added to favorites.",
     "archive_failed": "Page could not be archived. Please try again later.",
     "archived": "Page archived successfully.",
     "delete_failed": "Page could not be deleted. Please try again.",
     "deleted": "Page deleted successfully.",
+    "deleted_by_user": "Page deleted by {user}",
+    "deleted_title": "Page deleted",
     "duplicate_failed": "Page could not be duplicated. Please try again later.",
     "duplicated": "Page duplicated successfully.",
     "link_copied": "Page link copied to clipboard.",
+    "load_failed": "Failed to load page",
     "lock_failed": "Page could not be locked. Please try again later.",
     "locked": "Page locked successfully.",
+    "make_private_failed": "Page could not be made private. Please try again later.",
+    "make_public_failed": "Page could not be made public. Please try again later.",
     "remove_from_favorites_failed": "Page could not be removed from favorites. Please try again later.",
     "removed_from_favorites": "Page removed from favorites.",
     "restore_failed": "Page could not be restored. Please try again later.",
     "restored": "Page restored successfully.",
+    "save_failed": "Failed to save page",
     "unlock_failed": "Page could not be unlocked. Please try again later.",
     "unlocked": "Page unlocked successfully."
   },
@@ -724,13 +745,21 @@
     "deleted": "Webhook deleted successfully."
   },
   "work_item_operations": {
+    "action_failed": "Failed to perform this action",
     "action_not_available": "Action not available",
     "bulk_deleted": "Work items deleted successfully!",
+    "cannot_move": "Cannot move work item",
     "date_update_failed": "Error while updating work item dates, please try again later.",
     "delete_failed": "Work item delete failed",
     "deleted": "Work item deleted successfully",
+    "drag_disabled_for_grouping": "Drag and drop is disabled for the current grouping",
     "due_date_before_start": "Due date cannot be before the start date of the work item.",
     "move_failed": "Failed to move work item to project. Please try again.",
+    "move_not_allowed": "You are not allowed to move this work item",
+    "only_current_project_selectable_line_1": "Only work items within the current",
+    "only_current_project_selectable_line_2": "project can be selected.",
+    "remove_from_cycle": "Remove from cycle",
+    "remove_from_module": "Remove from module",
     "restore_failed": "Work item could not be restored. Please try again.",
     "restore_success_title": "Restore success",
     "restored": "Your work item can be found in project work items.",

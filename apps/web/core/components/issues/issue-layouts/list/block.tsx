@@ -10,6 +10,7 @@ import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
 import { draggable } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
+import { useTranslation } from "@plane/i18n";
 import { ChevronRightIcon } from "@plane/propel/icons";
 // types
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -82,6 +83,7 @@ export const IssueBlock = observer(function IssueBlock(props: IssueBlockProps) {
   const workspaceSlug = routerWorkspaceSlug?.toString();
   const projectId = routerProjectId?.toString();
   // hooks
+  const { t } = useTranslation();
   const { sidebarCollapsed: isSidebarCollapsed } = useAppTheme();
   const { getProjectIdentifierById, currentProjectNextSequenceId } = useProject();
   const {
@@ -202,10 +204,10 @@ export const IssueBlock = observer(function IssueBlock(props: IssueBlockProps) {
           if (!isDraggingAllowed) {
             setToast({
               type: TOAST_TYPE.WARNING,
-              title: "Cannot move work item",
+              title: t("work_item_operations.cannot_move"),
               message: !canEditIssueProperties
-                ? "You are not allowed to move this work item"
-                : "Drag and drop is disabled for the current grouping",
+                ? t("work_item_operations.move_not_allowed")
+                : t("work_item_operations.drag_disabled_for_grouping"),
             });
           }
         }}
@@ -218,9 +220,9 @@ export const IssueBlock = observer(function IssueBlock(props: IssueBlockProps) {
                 <Tooltip
                   tooltipContent={
                     <>
-                      Only work items within the current
+                      {t("work_item_operations.only_current_project_selectable_line_1")}
                       <br />
-                      project can be selected.
+                      {t("work_item_operations.only_current_project_selectable_line_2")}
                     </>
                   }
                   disabled={issue.project_id === projectId}

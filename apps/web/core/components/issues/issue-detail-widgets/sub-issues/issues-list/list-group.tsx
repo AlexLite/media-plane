@@ -8,6 +8,7 @@ import { useState } from "react";
 import { observer } from "mobx-react";
 import { CircleDashed } from "lucide-react";
 import { ALL_ISSUES } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { ChevronRightIcon } from "@plane/propel/icons";
 import type { IGroupByColumn, TIssue, TIssueServiceType, TSubIssueOperations } from "@plane/types";
 import { EIssuesStoreType } from "@plane/types";
@@ -51,6 +52,8 @@ export const SubIssuesListGroup = observer(function SubIssuesListGroup(props: TS
   } = props;
 
   const isAllIssues = group.id === ALL_ISSUES;
+  const { t } = useTranslation();
+  const groupTitle = group.nameTranslationKey ? t(group.nameTranslationKey) : group.name;
 
   // states
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(true);
@@ -74,7 +77,7 @@ export const SubIssuesListGroup = observer(function SubIssuesListGroup(props: TS
               <div className="grid flex-shrink-0 place-items-center overflow-hidden">
                 {group.icon ?? <CircleDashed className="size-3.5" strokeWidth={2} />}
               </div>
-              <span className="text-13 font-medium text-primary">{group.name}</span>
+              <span className="text-13 font-medium text-primary">{groupTitle}</span>
               <span className="text-13 text-placeholder">{workItemIds.length}</span>
             </div>
           )

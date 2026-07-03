@@ -136,6 +136,7 @@ export type TGetColumns = {
 export interface IGroupByColumn {
   id: string;
   name: string;
+  nameTranslationKey?: string;
   icon?: React.ReactElement | undefined;
   payload: Partial<TIssue>;
   isDropDisabled?: boolean;

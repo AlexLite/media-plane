@@ -7,6 +7,7 @@
 import type { MutableRefObject } from "react";
 import { observer } from "mobx-react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import type {
   GroupByColumnTypes,
   IGroupByColumn,
@@ -69,6 +70,7 @@ const SubGroupSwimlaneHeader = observer(function SubGroupSwimlaneHeader({
   showEmptyGroup,
   sub_group_by,
 }: ISubGroupSwimlaneHeader) {
+  const { t } = useTranslation();
   const { getIsWorkflowWorkItemCreationDisabled } = useWorkFlowFDragNDrop(group_by, sub_group_by);
 
   return (
@@ -77,6 +79,7 @@ const SubGroupSwimlaneHeader = observer(function SubGroupSwimlaneHeader({
         list.length > 0 &&
         list.map((_list: IGroupByColumn) => {
           const groupCount = getGroupIssueCount(_list?.id, undefined, false) ?? 0;
+          const groupTitle = _list.nameTranslationKey ? t(_list.nameTranslationKey) : _list.name;
 
           const subGroupByVisibilityToggle = visibilitySubGroupByGroupCount(groupCount, showEmptyGroup);
 
@@ -89,7 +92,7 @@ const SubGroupSwimlaneHeader = observer(function SubGroupSwimlaneHeader({
                 group_by={group_by}
                 column_id={_list.id}
                 icon={_list.icon}
-                title={_list.name}
+                title={groupTitle}
                 count={groupCount}
                 collapsedGroups={collapsedGroups}
                 handleCollapsedGroups={handleCollapsedGroups}
@@ -155,6 +158,7 @@ const SubGroupSwimlane = observer(function SubGroupSwimlane(props: ISubGroupSwim
     sub_group_by,
     updateIssue,
   } = props;
+  const { t } = useTranslation();
 
   const visibilitySubGroupBy = (
     _list: IGroupByColumn,
@@ -179,6 +183,7 @@ const SubGroupSwimlane = observer(function SubGroupSwimlane(props: ISubGroupSwim
         list.length > 0 &&
         list.map((_list: IGroupByColumn, subGroupIndex) => {
           const issueCount = getGroupIssueCount(undefined, _list.id, true) ?? 0;
+          const groupTitle = _list.nameTranslationKey ? t(_list.nameTranslationKey) : _list.name;
           const subGroupByVisibilityToggle = visibilitySubGroupBy(_list, issueCount);
           if (subGroupByVisibilityToggle.showGroup === false) return <></>;
           return (
@@ -188,7 +193,7 @@ const SubGroupSwimlane = observer(function SubGroupSwimlane(props: ISubGroupSwim
                   <HeaderSubGroupByCard
                     column_id={_list.id}
                     icon={_list.icon}
-                    title={_list.name}
+                    title={groupTitle}
                     count={issueCount}
                     collapsedGroups={collapsedGroups}
                     handleCollapsedGroups={handleCollapsedGroups}

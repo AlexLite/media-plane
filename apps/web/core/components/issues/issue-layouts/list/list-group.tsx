@@ -119,6 +119,7 @@ export const ListGroup = observer(function ListGroup(props: Props) {
   const isWorkflowIssueCreationDisabled = getIsWorkflowWorkItemCreationDisabled(group.id);
 
   const groupIssueCount = getGroupIssueCount(group.id, undefined, false) ?? 0;
+  const groupTitle = group.nameTranslationKey ? t(group.nameTranslationKey) : group.name;
   const nextPageResults = getPaginationData(group.id, undefined)?.nextPageResults;
   const isPaginating = !!getIssueLoader(group.id);
 
@@ -270,7 +271,7 @@ export const ListGroup = observer(function ListGroup(props: Props) {
           groupID={group.id}
           groupBy={group_by}
           icon={group.icon}
-          title={group.name}
+          title={groupTitle}
           count={groupIssueCount}
           issuePayload={group.payload}
           canEditProperties={canEditProperties}
