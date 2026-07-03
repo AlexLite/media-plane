@@ -191,7 +191,9 @@ const getCycleColumns = (): IGroupByColumn[] | undefined => {
       icon: <CycleGroupIcon cycleGroup={cycleStatus} className="h-3.5 w-3.5" />,
       payload: { cycle_id: cycle.id },
       isDropDisabled,
-      dropErrorMessage: isDropDisabled ? "Рабочий элемент нельзя переместить в завершенный цикл" : undefined,
+      dropErrorMessageTranslationKey: isDropDisabled
+        ? "work_item_operations.cannot_move_to_completed_cycle"
+        : undefined,
     });
   });
   cycles.push({

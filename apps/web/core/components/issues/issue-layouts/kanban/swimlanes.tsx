@@ -184,6 +184,9 @@ const SubGroupSwimlane = observer(function SubGroupSwimlane(props: ISubGroupSwim
         list.map((_list: IGroupByColumn, subGroupIndex) => {
           const issueCount = getGroupIssueCount(undefined, _list.id, true) ?? 0;
           const groupTitle = _list.nameTranslationKey ? t(_list.nameTranslationKey) : _list.name;
+          const dropErrorMessage = _list.dropErrorMessageTranslationKey
+            ? t(_list.dropErrorMessageTranslationKey)
+            : _list.dropErrorMessage;
           const subGroupByVisibilityToggle = visibilitySubGroupBy(_list, issueCount);
           if (subGroupByVisibilityToggle.showGroup === false) return <></>;
           return (
@@ -228,7 +231,7 @@ const SubGroupSwimlane = observer(function SubGroupSwimlane(props: ISubGroupSwim
                     handleOnDrop={handleOnDrop}
                     orderBy={orderBy}
                     isDropDisabled={_list.isDropDisabled}
-                    dropErrorMessage={_list.dropErrorMessage}
+                    dropErrorMessage={dropErrorMessage}
                     isEpic={isEpic}
                   />
                 </div>

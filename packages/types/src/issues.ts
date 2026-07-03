@@ -141,6 +141,7 @@ export interface IGroupByColumn {
   payload: Partial<TIssue>;
   isDropDisabled?: boolean;
   dropErrorMessage?: string;
+  dropErrorMessageTranslationKey?: string;
 }
 
 export interface IIssueMap {

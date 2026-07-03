@@ -160,6 +160,9 @@ export const KanBan = observer(function KanBan(props: IKanBan) {
           const issueLength = issueIds?.length;
           const groupHeight = issueLength * approximateCardHeight;
           const groupTitle = subList.nameTranslationKey ? t(subList.nameTranslationKey) : subList.name;
+          const subListDropErrorMessage = subList.dropErrorMessageTranslationKey
+            ? t(subList.dropErrorMessageTranslationKey)
+            : subList.dropErrorMessage;
 
           return (
             <div
@@ -220,7 +223,7 @@ export const KanBan = observer(function KanBan(props: IKanBan) {
                     sub_group_id={sub_group_id}
                     isDragDisabled={isDragDisabled}
                     isDropDisabled={!!subList.isDropDisabled || !!isDropDisabled}
-                    dropErrorMessage={subList.dropErrorMessage ?? dropErrorMessage}
+                    dropErrorMessage={subListDropErrorMessage ?? dropErrorMessage}
                     updateIssue={updateIssue}
                     quickActions={quickActions}
                     enableQuickIssueCreate={enableQuickIssueCreate}

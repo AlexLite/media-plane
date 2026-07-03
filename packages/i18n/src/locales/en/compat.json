@@ -926,6 +926,7 @@
     "action_not_available": "Action not available",
     "bulk_deleted": "Work items deleted successfully!",
     "cannot_move": "Cannot move work item",
+    "cannot_move_to_completed_cycle": "Work item cannot be moved to a completed cycle",
     "date_update_failed": "Error while updating work item dates, please try again later.",
     "delete_failed": "Work item delete failed",
     "deleted": "Work item deleted successfully",

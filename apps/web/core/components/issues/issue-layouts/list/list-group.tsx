@@ -120,6 +120,9 @@ export const ListGroup = observer(function ListGroup(props: Props) {
 
   const groupIssueCount = getGroupIssueCount(group.id, undefined, false) ?? 0;
   const groupTitle = group.nameTranslationKey ? t(group.nameTranslationKey) : group.name;
+  const dropErrorMessage = group.dropErrorMessageTranslationKey
+    ? t(group.dropErrorMessageTranslationKey)
+    : group.dropErrorMessage;
   const nextPageResults = getPaginationData(group.id, undefined)?.nextPageResults;
   const isPaginating = !!getIssueLoader(group.id);
 
@@ -218,11 +221,11 @@ export const ListGroup = observer(function ListGroup(props: Props) {
           if (!source || !destination) return;
 
           if (isWorkflowDropDisabled || group.isDropDisabled) {
-            if (group.dropErrorMessage)
+            if (dropErrorMessage)
               setToast({
                 type: TOAST_TYPE.WARNING,
                 title: t("common.warning"),
-                message: group.dropErrorMessage,
+                message: dropErrorMessage,
               });
             return;
           }
@@ -291,7 +294,7 @@ export const ListGroup = observer(function ListGroup(props: Props) {
             canOverlayBeVisible={canOverlayBeVisible}
             isDropDisabled={isDropDisabled}
             workflowDisabledSource={workflowDisabledSource}
-            dropErrorMessage={group.dropErrorMessage}
+            dropErrorMessage={dropErrorMessage}
             orderBy={orderBy}
             isDraggingOverColumn={isDraggingOverColumn}
             isEpic={isEpic}
