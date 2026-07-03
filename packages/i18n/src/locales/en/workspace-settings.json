@@ -142,6 +142,13 @@
         "exporting_projects": "Exporting project",
         "format": "Format",
         "filters_info": "Apply filters to export specific work items based on your criteria.",
+        "table": {
+          "exported_by": "Exported by",
+          "exported_on": "Exported on",
+          "exported_projects": "Exported projects",
+          "format": "Format",
+          "status": "Status"
+        },
         "modal": {
           "title": "Export to",
           "toasts": {

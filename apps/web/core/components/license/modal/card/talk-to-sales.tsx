@@ -7,6 +7,7 @@
 import { observer } from "mobx-react";
 // types
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { getButtonStyling } from "@plane/propel/button";
 import type { EProductSubscriptionEnum, IPaymentProduct, TSubscriptionPrice } from "@plane/types";
 import { Loader } from "@plane/ui";
@@ -44,11 +45,12 @@ export const TalkToSalesCard = observer(function TalkToSalesCard(props: TalkToSa
     isTrialAllowed,
     renderTrialButton,
   } = props;
+  const { t } = useTranslation();
 
   const renderPriceContent = (price: TSubscriptionPrice) => (
     <>
-      {price.recurring === "month" && "Monthly"}
-      {price.recurring === "year" && "Yearly"}
+      {price.recurring === "month" && t("common.monthly")}
+      {price.recurring === "year" && t("common.yearly")}
     </>
   );
 
@@ -61,10 +63,10 @@ export const TalkToSalesCard = observer(function TalkToSalesCard(props: TalkToSa
               <Loader.Item height="36px" width="4rem" />
             </Loader>
           ) : (
-            <>Quote on request</>
+            <>{t("common.quote_on_request")}</>
           )}
         </div>
-        <div className="text-caption-md-medium text-tertiary">per user per month</div>
+        <div className="text-caption-md-medium text-tertiary">{t("common.per_user_per_month")}</div>
       </div>
       {isLoading ? (
         <Loader className="flex flex-col items-center justify-center">
@@ -73,7 +75,7 @@ export const TalkToSalesCard = observer(function TalkToSalesCard(props: TalkToSa
       ) : (
         <div className="flex w-full flex-col items-center justify-center">
           <a href={href} target="_blank" className={cn(getButtonStyling("primary", "lg"), "w-56")} rel="noreferrer">
-            Talk to Sales
+            {t("common.upgrade_cta.talk_to_sales")}
           </a>
           {isTrialAllowed && !isSelfHosted && (
             <div className="mt-4 h-4">

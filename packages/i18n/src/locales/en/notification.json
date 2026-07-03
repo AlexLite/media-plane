@@ -52,7 +52,17 @@
       "5_days": "5 days",
       "1_week": "1 week",
       "2_weeks": "2 weeks",
-      "custom": "Custom"
+      "custom": "Custom",
+      "modal": {
+        "title": "Customize snooze time",
+        "pick_date": "Pick a date",
+        "pick_time": "Pick a time",
+        "select_date": "Select date",
+        "select_time": "Select a time",
+        "select_date_required": "Please select a date",
+        "select_time_required": "Please select a time",
+        "no_available_time": "No available time for this date."
+      }
     }
   }
 }

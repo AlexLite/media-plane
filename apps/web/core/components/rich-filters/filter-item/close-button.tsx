@@ -6,6 +6,7 @@
 
 import React from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 // plane imports
 import { CloseIcon } from "@plane/propel/icons";
 import type { IFilterInstance } from "@plane/shared-state";
@@ -21,6 +22,7 @@ export const FilterItemCloseButton = observer(function FilterItemCloseButton<
   E extends TExternalFilter,
 >(props: FilterItemCloseButtonProps<P, E>) {
   const { conditionId, filter } = props;
+  const { t } = useTranslation();
 
   const handleRemoveFilter = () => {
     filter.removeCondition(conditionId);
@@ -31,7 +33,7 @@ export const FilterItemCloseButton = observer(function FilterItemCloseButton<
       onClick={handleRemoveFilter}
       className="bg-layer-transparent px-1.5 text-placeholder hover:bg-layer-transparent-hover hover:text-tertiary focus:outline-none"
       type="button"
-      aria-label="Remove filter"
+      aria-label={t("rich_filters.remove_filter")}
     >
       <CloseIcon className="size-3.5" />
     </button>

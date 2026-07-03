@@ -130,11 +130,11 @@ export const useGanttResizable = (
         const blockUpdates = getUpdatedPositionAfterDrag(block.id, shouldUpdateHalfBlock);
         if (updateBlockDates) updateBlockDates(blockUpdates);
       } catch {
-        setToast({
-          type: TOAST_TYPE.ERROR,
-          title: "Error",
-          message: t("gantt_block_dates_update_failed"),
-        });
+      setToast({
+        type: TOAST_TYPE.ERROR,
+        title: t("common.error.label"),
+        message: t("gantt_block_dates_update_failed"),
+      });
       }
 
       setIsDragging(false);

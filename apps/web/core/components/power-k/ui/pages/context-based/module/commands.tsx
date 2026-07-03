@@ -52,7 +52,7 @@ export const usePowerKModuleContextBasedActions = (): TPowerKCommandConfig[] => 
         }
       );
     },
-    [moduleDetails, projectId, updateModuleDetails, workspaceSlug]
+    [moduleDetails, projectId, t, updateModuleDetails, workspaceSlug]
   );
 
   const handleUpdateMember = useCallback(
@@ -76,10 +76,10 @@ export const usePowerKModuleContextBasedActions = (): TPowerKCommandConfig[] => 
     } catch {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Some error occurred",
+        title: t("common.error.label"),
       });
     }
-  }, [addModuleToFavorites, removeModuleFromFavorites, workspaceSlug, moduleDetails, isFavorite]);
+  }, [addModuleToFavorites, removeModuleFromFavorites, workspaceSlug, moduleDetails, isFavorite, t]);
 
   const copyModuleUrlToClipboard = useCallback(() => {
     const url = new URL(window.location.href);

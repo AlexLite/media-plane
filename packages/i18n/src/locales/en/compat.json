@@ -608,6 +608,7 @@
   "page_sync": {
     "connection_lost_tooltip": "We're having trouble connecting to the websocket server. Your changes will be synced and saved every 10 seconds.",
     "content_limit_message": "Content limit reached and live sync is off. Create a new page or use nested pages to continue syncing.",
+    "dismiss_content_limit_warning": "Dismiss content limit warning",
     "syncing_tooltip": "Your changes are being synced with the server. You can continue making changes."
   },
   "please_enter_first_name": "Please enter first name",
@@ -839,6 +840,13 @@
   "remove_parent_work_item": "Remove parent work item",
   "rename_folder": "Rename Folder",
   "repository_sync_failed": "Repository could not be synced with the project. Please try again.",
+  "rich_filters": {
+    "invalid_filter": {
+      "label": "Invalid filter",
+      "tooltip": "This filter condition is no longer valid. The property may have been deleted or your access to it may have changed."
+    },
+    "remove_filter": "Remove filter"
+  },
   "roles": "Roles",
   "saved": "Saved",
   "saving_ellipsis": "Saving...",

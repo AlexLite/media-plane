@@ -44,7 +44,7 @@ export const WorkspaceViewQuickActions = observer(function WorkspaceViewQuickAct
     await copyUrlToClipboard(viewLink);
     setToast({
       type: TOAST_TYPE.SUCCESS,
-      title: "Link Copied!",
+      title: t("common.link_copied"),
       message: t("view_link_copied_to_clipboard"),
     });
   };

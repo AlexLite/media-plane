@@ -37,13 +37,13 @@ type Props = {
 const integrationDetails: { [key: string]: any } = {
   github: {
     logo: GithubLogo,
-    installed: "Activate GitHub on individual projects to sync with specific repositories.",
-    notInstalled: "Connect with GitHub with your Plane workspace to sync project work items.",
+    installed: "integrations.cards.github.installed",
+    notInstalled: "integrations.cards.github.not_installed",
   },
   slack: {
     logo: SlackLogo,
-    installed: "Activate Slack on individual projects to sync with specific channels.",
-    notInstalled: "Connect with Slack with your Plane workspace to sync project work items.",
+    installed: "integrations.cards.slack.installed",
+    notInstalled: "integrations.cards.slack.not_installed",
   },
 };
 
@@ -91,8 +91,8 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
 
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Deleted successfully!",
-          message: `${integration.title} integration deleted successfully.`,
+          title: t("integrations.toast.delete.success.title"),
+          message: t("integrations.toast.delete.success.message", { title: integration.title }),
         });
       })
       .catch(() => {
@@ -101,7 +101,7 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: `${integration.title} integration could not be deleted. Please try again.`,
+          message: t("integrations.toast.delete.error.message", { title: integration.title }),
         });
       });
   };
@@ -115,7 +115,7 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
           <img
             src={integrationDetails[integration.provider].logo}
             className="h-full w-full object-cover"
-            alt={`${integration.title} Logo`}
+            alt={t("integrations.logo_alt", { title: integration.title })}
           />
         </div>
         <div>
@@ -128,9 +128,9 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
           <p className="text-body-xs-regular text-secondary">
             {workspaceIntegrations
               ? isInstalled
-                ? integrationDetails[integration.provider].installed
-                : integrationDetails[integration.provider].notInstalled
-              : "Loading..."}
+                ? t(integrationDetails[integration.provider].installed)
+                : t(integrationDetails[integration.provider].notInstalled)
+              : t("loading")}
           </p>
         </div>
       </div>
@@ -140,7 +140,7 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
           <Tooltip
             isMobile={isMobile}
             disabled={isUserAdmin}
-            tooltipContent={!isUserAdmin ? "You don't have permission to perform this" : null}
+            tooltipContent={!isUserAdmin ? t("common.no_permission_to_perform_this") : null}
           >
             <Button
               className={`${!isUserAdmin ? "hover:cursor-not-allowed" : ""}`}
@@ -152,14 +152,14 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
               disabled={!isUserAdmin}
               loading={deletingIntegration}
             >
-              {deletingIntegration ? "Uninstalling..." : "Uninstall"}
+              {deletingIntegration ? t("common.uninstalling") : t("common.uninstall")}
             </Button>
           </Tooltip>
         ) : (
           <Tooltip
             isMobile={isMobile}
             disabled={isUserAdmin}
-            tooltipContent={!isUserAdmin ? "You don't have permission to perform this" : null}
+            tooltipContent={!isUserAdmin ? t("common.no_permission_to_perform_this") : null}
           >
             <Button
               className={`${!isUserAdmin ? "hover:cursor-not-allowed" : ""}`}
@@ -170,7 +170,7 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
               }}
               loading={isInstalling}
             >
-              {isInstalling ? "Installing..." : "Install"}
+              {isInstalling ? t("common.installing") : t("common.install")}
             </Button>
           </Tooltip>
         )

@@ -5,6 +5,7 @@
  */
 
 import { Download } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 import type { IExportData } from "@plane/types";
 import { getDate, getFileURL, renderFormattedDate } from "@plane/utils";
 
@@ -17,10 +18,11 @@ const checkExpiry = (inputDateString: string) => {
   return expiryDate > currentDate;
 };
 export const useExportColumns = () => {
+  const { t } = useTranslation();
   const columns = [
     {
       key: "Exported By",
-      content: "Exported By",
+      content: t("workspace_settings.settings.exports.table.exported_by"),
       tdRender: (rowData: RowData) => {
         const { avatar_url, display_name, email } = rowData.initiated_by_detail;
         return (
@@ -47,18 +49,22 @@ export const useExportColumns = () => {
     },
     {
       key: "Exported On",
-      content: "Exported On",
+      content: t("workspace_settings.settings.exports.table.exported_on"),
       tdRender: (rowData: RowData) => <span>{renderFormattedDate(rowData.created_at)}</span>,
     },
 
     {
       key: "Exported projects",
-      content: "Exported projects",
-      tdRender: (rowData: RowData) => <div className="text-13">{rowData.project.length} project(s)</div>,
+      content: t("workspace_settings.settings.exports.table.exported_projects"),
+      tdRender: (rowData: RowData) => (
+        <div className="text-13">
+          {rowData.project.length} {t(rowData.project.length === 1 ? "common.project" : "common.projects").toLowerCase()}
+        </div>
+      ),
     },
     {
       key: "Format",
-      content: "Format",
+      content: t("workspace_settings.settings.exports.table.format"),
       tdRender: (rowData: RowData) => (
         <span className="text-13">
           {rowData.provider === "csv"
@@ -73,7 +79,7 @@ export const useExportColumns = () => {
     },
     {
       key: "Status",
-      content: "Status",
+      content: t("workspace_settings.settings.exports.table.status"),
       tdRender: (rowData: RowData) => (
         <span
           className={`rounded-sm px-2 py-1 text-11 capitalize ${
@@ -102,7 +108,7 @@ export const useExportColumns = () => {
               <a target="_blank" href={rowData?.url} rel="noopener noreferrer">
                 <button className="flex w-full items-center gap-1 font-medium text-accent-primary">
                   <Download className="h-4 w-4" />
-                  <div>Download</div>
+                  <div>{t("common.download")}</div>
                 </button>
               </a>
             ) : (
@@ -110,7 +116,7 @@ export const useExportColumns = () => {
             )}
           </>
         ) : (
-          <div className="text-11 text-danger-primary">Expired</div>
+          <div className="text-11 text-danger-primary">{t("common.expired")}</div>
         ),
     },
   ];

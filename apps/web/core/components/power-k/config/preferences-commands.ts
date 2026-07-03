@@ -34,7 +34,7 @@ export const usePowerKPreferencesCommands = (): TPowerKCommandConfig[] => {
         .then(() => {
           setToast({
             type: TOAST_TYPE.SUCCESS,
-            title: "Theme updated",
+            title: t("power_k.preferences_actions.toast.theme.success"),
             message: t("reloading_to_apply_changes"),
           });
           // reload the page after showing the toast
@@ -51,7 +51,7 @@ export const usePowerKPreferencesCommands = (): TPowerKCommandConfig[] => {
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setTheme, updateUserTheme]
+    [setTheme, t, updateUserTheme]
   );
 
   const handleUpdateTimezone = useCallback(
@@ -75,7 +75,7 @@ export const usePowerKPreferencesCommands = (): TPowerKCommandConfig[] => {
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [updateCurrentUser]
+    [t, updateCurrentUser]
   );
 
   const handleUpdateUserProfile = useCallback(
@@ -99,7 +99,7 @@ export const usePowerKPreferencesCommands = (): TPowerKCommandConfig[] => {
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [updateUserProfile]
+    [t, updateUserProfile]
   );
 
   return [

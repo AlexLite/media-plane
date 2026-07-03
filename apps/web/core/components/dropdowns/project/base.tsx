@@ -64,7 +64,7 @@ export const ProjectDropdownBase = observer(function ProjectDropdownBase(props: 
     multiple,
     onChange,
     onClose,
-    placeholder = "Project",
+    placeholder,
     placement,
     projectIds,
     renderByDefault = true,
@@ -84,6 +84,7 @@ export const ProjectDropdownBase = observer(function ProjectDropdownBase(props: 
   const [isOpen, setIsOpen] = useState(false);
   // plane hooks
   const { t } = useTranslation();
+  const resolvedPlaceholder = placeholder ?? t("common.project");
   // popper-js init
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: placement ?? "bottom-start",
@@ -142,7 +143,11 @@ export const ProjectDropdownBase = observer(function ProjectDropdownBase(props: 
   const getDisplayName = (value: string | string[] | null, placeholder: string = "") => {
     if (Array.isArray(value)) {
       const firstProject = getProjectById(value[0]);
-      return value.length ? (value.length === 1 ? firstProject?.name : `${value.length} projects`) : placeholder;
+      return value.length
+        ? value.length === 1
+          ? firstProject?.name
+          : `${value.length} ${t("common.projects").toLowerCase()}`
+        : placeholder;
     } else {
       return value ? (getProjectById(value)?.name ?? placeholder) : placeholder;
     }
@@ -205,14 +210,18 @@ export const ProjectDropdownBase = observer(function ProjectDropdownBase(props: 
             className={buttonClassName}
             isActive={isOpen}
             tooltipHeading={t("common.project")}
-            tooltipContent={value?.length ? `${value.length} project${value.length !== 1 ? "s" : ""}` : placeholder}
+            tooltipContent={
+              value?.length
+                ? `${value.length} ${t(value.length === 1 ? "common.project" : "common.projects").toLowerCase()}`
+                : resolvedPlaceholder
+            }
             showTooltip={showTooltip}
             variant={buttonVariant}
             renderToolTipByDefault={renderByDefault}
           >
             {!hideIcon && getProjectIcon(value)}
             {BUTTON_VARIANTS_WITH_TEXT.includes(buttonVariant) && (
-              <span className="max-w-40 truncate">{getDisplayName(value, placeholder)}</span>
+              <span className="max-w-40 truncate">{getDisplayName(value, resolvedPlaceholder)}</span>
             )}
             {dropdownArrow && (
               <ChevronDownIcon className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)} aria-hidden="true" />
