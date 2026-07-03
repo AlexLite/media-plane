@@ -206,22 +206,22 @@ export const TOOLBAR_ITEMS: {
 
 export const EDITOR_FONT_STYLES: {
   key: TEditorFontStyle;
-  label: string;
+  labelTranslationKey: string;
   icon: any;
 }[] = [
   {
     key: "sans-serif",
-    label: "Sans serif",
+    labelTranslationKey: "editor.font.sans_serif",
     icon: SansSerifIcon,
   },
   {
     key: "serif",
-    label: "Serif",
+    labelTranslationKey: "editor.font.serif",
     icon: SerifIcon,
   },
   {
     key: "monospace",
-    label: "Mono",
+    labelTranslationKey: "editor.font.mono",
     icon: MonospaceIcon,
   },
 ];

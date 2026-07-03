@@ -6,6 +6,7 @@
 
 import { useCallback, useMemo } from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 import { GANTT_TIMELINE_TYPE } from "@plane/types";
 import type {
   IBaseLayoutsGanttItem,
@@ -39,7 +40,7 @@ export const BaseGanttLayout = observer(function BaseGanttLayout<T extends IBase
     showAllBlocks = false,
     showToday = true,
     border = false,
-    title = "Items",
+    title,
     loaderTitle = "items",
     quickAdd,
     loadMoreItems,
@@ -47,6 +48,7 @@ export const BaseGanttLayout = observer(function BaseGanttLayout<T extends IBase
     className,
     timelineType: timelineTypeKey = GANTT_TIMELINE_TYPE.ISSUE,
   } = props;
+  const { t } = useTranslation();
 
   // Flatten all grouped item IDs into a single array for gantt
   // Gantt doesn't typically show groups, it shows all items on a timeline
@@ -120,7 +122,7 @@ export const BaseGanttLayout = observer(function BaseGanttLayout<T extends IBase
       <div className={cn("h-full w-full", className)}>
         <GanttChartRoot
           border={border}
-          title={title}
+          title={title ?? t("common.items")}
           loaderTitle={loaderTitle}
           blockIds={blockIds}
           blockUpdateHandler={handleBlockUpdate}

@@ -46,7 +46,7 @@ export const OnboardingRoot = observer(function OnboardingRoot({ invitations = [
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Failed",
+        title: t("common.failed"),
         message: t("onboarding_failed"),
       });
     }

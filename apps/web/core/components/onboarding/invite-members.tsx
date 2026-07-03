@@ -149,7 +149,7 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
             rules={{
               pattern: {
                 value: emailRegex,
-                message: "Invalid Email ID",
+                message: t("onboarding_invite_members.errors.invalid_email"),
               },
             }}
             render={({ field: { value, onChange, ref } }) => (
@@ -254,7 +254,9 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
       {email && !emailRegex.test(email) && (
         <div className="mx-8 my-1">
           <span className="text-13">🤥</span>{" "}
-          <span className="mt-1 text-11 text-danger-primary">That doesn{"'"}t look like an email address.</span>
+          <span className="mt-1 text-11 text-danger-primary">
+            {t("onboarding_invite_members.errors.invalid_email_hint")}
+          </span>
         </div>
       )}
     </div>
@@ -263,6 +265,7 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
 
 export function InviteMembers(props: Props) {
   const { finishOnboarding, workspace } = props;
+  const { t } = useTranslation();
 
   const [isInvitationDisabled, setIsInvitationDisabled] = useState(true);
 
@@ -300,15 +303,15 @@ export function InviteMembers(props: Props) {
       .then(async () => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success!",
-          message: "Invitations sent successfully.",
+          title: t("common.success"),
+          message: t("onboarding_invite_members.toast.success.message"),
         });
         await nextStep();
       })
       .catch((err) => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: err?.error,
         });
       });

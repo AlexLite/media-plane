@@ -101,7 +101,7 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
     } catch {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error",
+        title: t("common.error.label"),
         message: t("user_update_failed"),
       });
     }

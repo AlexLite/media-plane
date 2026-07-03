@@ -6,6 +6,7 @@
 
 import type { Dispatch, ReactElement, SetStateAction } from "react";
 import React, { useCallback, useEffect, useState, useRef } from "react";
+import { useTranslation } from "@plane/i18n";
 // helpers
 import { usePlatformOS } from "@plane/hooks";
 import { cn } from "@plane/utils";
@@ -57,6 +58,7 @@ export function ResizableSidebar({
   const initialWidthRef = useRef<number>(0);
   const initialMouseXRef = useRef<number>(0);
   // hooks
+  const { t } = useTranslation();
   const { isMobile } = usePlatformOS();
   // handlers
   const setShowPeek = useCallback(
@@ -192,7 +194,7 @@ export function ResizableSidebar({
           maxWidth: `${isCollapsed ? 0 : width}px`,
         }}
         role="complementary"
-        aria-label="Main sidebar"
+        aria-label={t("sidebar.aria.main_sidebar")}
         data-prevent-outside-click={isMobile}
       >
         <aside
@@ -215,7 +217,7 @@ export function ResizableSidebar({
             onDoubleClick={() => toggleCollapsed()}
             onMouseDown={(e) => startResizing(e)}
             role="separator"
-            aria-label="Resize sidebar"
+            aria-label={t("sidebar.aria.resize_sidebar")}
           />
         </aside>
       </div>
@@ -235,7 +237,7 @@ export function ResizableSidebar({
         onMouseEnter={handlePeekEnter}
         onMouseLeave={handlePeekLeave}
         role="complementary"
-        aria-label="Sidebar peek view"
+        aria-label={t("sidebar.aria.peek_view")}
       >
         <aside
           className={cn(
@@ -257,7 +259,7 @@ export function ResizableSidebar({
             onDoubleClick={() => toggleCollapsed()}
             onMouseDown={(e) => startResizing(e)}
             role="separator"
-            aria-label="Resize sidebar"
+            aria-label={t("sidebar.aria.resize_sidebar")}
           />
         </aside>
       </div>

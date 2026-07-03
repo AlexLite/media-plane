@@ -110,19 +110,15 @@ export const DAYS_LIST: {
 export const CALENDAR_LAYOUTS: {
   [layout in TCalendarLayouts]: {
     key: TCalendarLayouts;
-    title: string;
   };
 } = {
   day: {
     key: "day",
-    title: "Day layout",
   },
   month: {
     key: "month",
-    title: "Month layout",
   },
   week: {
     key: "week",
-    title: "Week layout",
   },
 };

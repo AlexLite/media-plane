@@ -118,9 +118,7 @@ export const WorkspaceCreateStep = observer(function WorkspaceCreateStep({
     return (
       <div className="flex flex-col gap-10">
         <span className="text-center text-14 text-tertiary">
-          You don&apos;t seem to have any invites to a workspace and your instance admin has restricted creation of new
-          workspaces. Please ask a workspace owner or admin to invite you to a workspace first and come back to this
-          screen to join.
+          {t("workspace_creation.errors.creation_disabled.no_invites_description")}
         </span>
       </div>
     );
@@ -132,7 +130,10 @@ export const WorkspaceCreateStep = observer(function WorkspaceCreateStep({
         void handleSubmit(handleCreateWorkspace)(e);
       }}
     >
-      <CommonOnboardingHeader title="Create your workspace" description="All your work — unified." />
+      <CommonOnboardingHeader
+        title={t("workspace_creation.heading")}
+        description={t("workspace_creation.subheading")}
+      />
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-2">
           <label
@@ -166,7 +167,7 @@ export const WorkspaceCreateStep = observer(function WorkspaceCreateStep({
                       shouldValidate: true,
                     });
                   }}
-                  placeholder="Enter workspace name"
+                  placeholder={t("workspace_creation.form.name.placeholder")}
                   ref={ref}
                   className={cn(
                     "w-full rounded-md border border-strong bg-surface-1 px-3 py-2 text-secondary transition-all duration-200 placeholder:text-placeholder focus:border-transparent focus:ring-2 focus:ring-accent-strong focus:outline-none",

@@ -130,6 +130,11 @@
       "terms_of_service": "Terms of Service"
     }
   },
+  "base_layouts": {
+    "board": "Board Layout",
+    "gantt": "Gantt Layout",
+    "list": "List Layout"
+  },
   "change_parent_work_item": "Change parent work item",
   "chart": {
     "completion": "Completion",
@@ -159,6 +164,7 @@
     "end_date": "End date",
     "end_time": "End time",
     "failed": "Failed",
+    "items": "Items",
     "in_project": "in project:",
     "in_workspace": "in workspace:",
     "joined": "Joined",
@@ -220,6 +226,11 @@
   "display_name_required": "Display name is required.",
   "drag_drop_manual_only": "Drag and drop is only enabled when sorted by manual",
   "editor": {
+    "font": {
+      "mono": "Mono",
+      "sans_serif": "Sans serif",
+      "serif": "Serif"
+    },
     "sticky": {
       "background_colors": "Background colors"
     }
@@ -804,6 +815,13 @@
     "contact_support": "Contact Support",
     "startup_failed_description": "Some services might have failed to start. Please check your container logs to identify and resolve the issue. If you're stuck, reach out to our support team for more help.",
     "startup_failed_title": "🚧 Looks like Plane didn't start up correctly!"
+  },
+  "sidebar": {
+    "aria": {
+      "main_sidebar": "Main sidebar",
+      "peek_view": "Sidebar peek view",
+      "resize_sidebar": "Resize sidebar"
+    }
   },
   "some_error_occurred": "Some error occurred",
   "syncing_ellipsis": "Syncing...",
