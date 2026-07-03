@@ -1,4 +1,7 @@
 {
+  "sticky": {
+    "background_colors": "Background colors"
+  },
   "attachmentComponent": {
     "uploader": {
       "drag_and_drop": "Drop files here or click to upload"

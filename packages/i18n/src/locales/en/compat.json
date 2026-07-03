@@ -213,6 +213,11 @@
   },
   "display_name_required": "Display name is required.",
   "drag_drop_manual_only": "Drag and drop is only enabled when sorted by manual",
+  "editor": {
+    "sticky": {
+      "background_colors": "Background colors"
+    }
+  },
   "editor_still_processing": "Editor is still processing changes. Please wait before proceeding.",
   "email_is_required": "Email is required.",
   "enter_valid_hex_code": "Enter a valid hex code",

@@ -209,6 +209,11 @@
                      },
     "display_name_required":  "Отображаемое имя обязательно.",
     "drag_drop_manual_only":  "Перетаскивание доступно только при сортировке вручную",
+    "editor":  {
+                   "sticky":  {
+                                  "background_colors":  "Цвет фона"
+                              }
+               },
     "editor_still_processing":  "Редактор ещё обрабатывает изменения. Подождите перед продолжением.",
     "email_is_required":  "Email обязателен.",
     "enter_valid_hex_code":  "Введите корректный HEX-код",
