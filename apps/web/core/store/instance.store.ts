@@ -12,7 +12,7 @@ import { InstanceService } from "@/services/instance.service";
 
 type TError = {
   status: string;
-  message: string;
+  messageKey: string;
   data?: {
     is_activated: boolean;
     is_setup_done: boolean;
@@ -69,7 +69,7 @@ export class InstanceStore implements IInstanceStore {
         this.isLoading = false;
         this.error = {
           status: "error",
-          message: "Failed to fetch instance info",
+          messageKey: "instance.toasts.fetch_info.error.message",
         };
       });
       throw error;

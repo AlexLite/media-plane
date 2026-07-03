@@ -99,6 +99,16 @@
             "message": "We were unable to create the new estimate, please try again."
           }
         },
+        "deleted": {
+          "error": {
+            "message": "Error deleting estimate"
+          }
+        },
+        "fetch": {
+          "error": {
+            "message": "Error fetching estimates"
+          }
+        },
         "updated": {
           "success": {
             "title": "Estimate modified",

@@ -20,7 +20,7 @@ import type { CoreRootStore } from "../root.store";
 type TEstimateLoader = "init-loader" | "mutation-loader" | undefined;
 type TErrorCodes = {
   status: string;
-  message?: string;
+  messageKey?: string;
 };
 
 export interface IProjectEstimateStore {
@@ -205,7 +205,7 @@ export class ProjectEstimateStore implements IProjectEstimateStore {
       this.loader = undefined;
       this.error = {
         status: "error",
-        message: "Error fetching estimates",
+        messageKey: "project_settings.estimates.toasts.fetch.error.message",
       };
       throw error;
     }
@@ -245,7 +245,7 @@ export class ProjectEstimateStore implements IProjectEstimateStore {
       this.loader = undefined;
       this.error = {
         status: "error",
-        message: "Error fetching estimates",
+        messageKey: "project_settings.estimates.toasts.fetch.error.message",
       };
       throw error;
     }
@@ -292,7 +292,7 @@ export class ProjectEstimateStore implements IProjectEstimateStore {
     } catch (error) {
       this.error = {
         status: "error",
-        message: "Error creating estimate",
+        messageKey: "project_settings.estimates.toasts.created.error.message",
       };
       throw error;
     }
@@ -311,7 +311,7 @@ export class ProjectEstimateStore implements IProjectEstimateStore {
     } catch (error) {
       this.error = {
         status: "error",
-        message: "Error deleting estimate",
+        messageKey: "project_settings.estimates.toasts.deleted.error.message",
       };
       throw error;
     }

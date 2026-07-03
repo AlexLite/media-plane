@@ -26,7 +26,7 @@ import { UserSettingsStore } from "./settings.store";
 
 type TUserErrorStatus = {
   status: string;
-  message: string;
+  messageKey: string;
 };
 
 export interface IUserStore {
@@ -140,7 +140,7 @@ export class UserStore implements IUserStore {
         this.isAuthenticated = false;
         this.error = {
           status: "user-fetch-error",
-          message: "Failed to fetch current user",
+          messageKey: "user.toasts.fetch.error.message",
         };
       });
       throw error;
@@ -173,7 +173,7 @@ export class UserStore implements IUserStore {
       runInAction(() => {
         this.error = {
           status: "user-update-error",
-          message: "Failed to update current user",
+          messageKey: "user.toasts.update.error.message",
         };
       });
       throw error;
@@ -199,7 +199,7 @@ export class UserStore implements IUserStore {
       runInAction(() => {
         this.error = {
           status: "user-update-error",
-          message: "Failed to update current user",
+          messageKey: "user.toasts.update.error.message",
         };
       });
       throw error;

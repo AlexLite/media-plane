@@ -16,7 +16,7 @@ import type { CoreRootStore } from "../root.store";
 
 type TError = {
   status: string;
-  message: string;
+  messageKey: string;
 };
 
 export interface IUserProfileStore {
@@ -114,7 +114,7 @@ export class ProfileStore implements IUserProfileStore {
         this.isLoading = false;
         this.error = {
           status: "user-profile-fetch-error",
-          message: "Failed to fetch user profile",
+          messageKey: "profile_settings.toasts.fetch.error.message",
         };
       });
       throw error;
@@ -141,7 +141,7 @@ export class ProfileStore implements IUserProfileStore {
       runInAction(() => {
         this.error = {
           status: "user-profile-update-error",
-          message: "Failed to update user profile",
+          messageKey: "profile_settings.toasts.update.error.message",
         };
       });
     }
@@ -184,7 +184,7 @@ export class ProfileStore implements IUserProfileStore {
       runInAction(() => {
         this.error = {
           status: "user-profile-onboard-finish-error",
-          message: "Failed to finish user onboarding",
+          messageKey: "profile_settings.toasts.finish_onboarding.error.message",
         };
       });
       throw error;
@@ -206,7 +206,7 @@ export class ProfileStore implements IUserProfileStore {
         this.mutateUserProfile({ is_tour_completed: isUserProfileTourCompleted });
         this.error = {
           status: "user-profile-tour-complete-error",
-          message: "Failed to update user profile is_tour_completed",
+          messageKey: "profile_settings.toasts.update_tour.error.message",
         };
       });
       throw error;
@@ -238,7 +238,7 @@ export class ProfileStore implements IUserProfileStore {
         });
         this.error = {
           status: "user-profile-theme-update-error",
-          message: "Failed to update user profile theme",
+          messageKey: "profile_settings.toasts.update_theme.error.message",
         };
       });
       throw error;

@@ -152,6 +152,7 @@
     "due_time": "Due time",
     "end_date": "End date",
     "end_time": "End time",
+    "failed": "Failed",
     "in_project": "in project:",
     "in_workspace": "in workspace:",
     "joined": "Joined",
@@ -276,6 +277,15 @@
     "view_not_found": {
       "description": "The view you are looking for does not exist or you don't have permission to view it.",
       "title": "View does not exist"
+    }
+  },
+  "instance": {
+    "toasts": {
+      "fetch_info": {
+        "error": {
+          "message": "Failed to fetch instance info"
+        }
+      }
     }
   },
   "label": {
@@ -512,12 +522,15 @@
     "added_to_favorites": "Page added to favorites.",
     "archive_failed": "Page could not be archived. Please try again later.",
     "archived": "Page archived successfully.",
+    "create_failed": "Failed to create a page. Please try again later.",
     "delete_failed": "Page could not be deleted. Please try again.",
     "deleted": "Page deleted successfully.",
     "deleted_by_user": "Page deleted by {user}",
     "deleted_title": "Page deleted",
     "duplicate_failed": "Page could not be duplicated. Please try again later.",
     "duplicated": "Page duplicated successfully.",
+    "fetch_page_failed": "Failed to fetch the page. Please try again later.",
+    "fetch_pages_failed": "Failed to fetch the pages. Please try again later.",
     "link_copied": "Page link copied to clipboard.",
     "load_failed": "Failed to load page",
     "lock_failed": "Page could not be locked. Please try again later.",
@@ -557,6 +570,35 @@
   },
   "profile_picture_delete_failed": "There was some error in deleting your profile picture. Please try again.",
   "profile_picture_deleted_successfully": "Profile picture deleted successfully.",
+  "profile_settings": {
+    "toasts": {
+      "fetch": {
+        "error": {
+          "message": "Failed to fetch user profile"
+        }
+      },
+      "finish_onboarding": {
+        "error": {
+          "message": "Failed to finish user onboarding"
+        }
+      },
+      "update": {
+        "error": {
+          "message": "Failed to update user profile"
+        }
+      },
+      "update_theme": {
+        "error": {
+          "message": "Failed to update user profile theme"
+        }
+      },
+      "update_tour": {
+        "error": {
+          "message": "Failed to update user profile tour"
+        }
+      }
+    }
+  },
   "profile_update_failed": "There was some error in updating your profile. Please try again.",
   "profile_updated_successfully": "Profile updated successfully.",
   "progress": "Progress",
@@ -736,6 +778,29 @@
   },
   "timezone_updated_successfully": "Timezone updated successfully",
   "url_copied_to_clipboard": "The URL has been successfully copied to your clipboard",
+  "user": {
+    "toasts": {
+      "fetch": {
+        "error": {
+          "message": "Failed to fetch current user"
+        }
+      },
+      "update": {
+        "error": {
+          "message": "Failed to update current user"
+        }
+      }
+    }
+  },
+  "user_settings": {
+    "toasts": {
+      "fetch": {
+        "error": {
+          "message": "Failed to fetch user settings"
+        }
+      }
+    }
+  },
   "user_update_failed": "User details update failed. Please try again.",
   "view_delete_failed": "Failed to delete the view. Please try again.",
   "visit_profile": "Visit Profile",

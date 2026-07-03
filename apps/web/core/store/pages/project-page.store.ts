@@ -25,7 +25,7 @@ import { ProjectPage } from "./project-page";
 
 type TLoader = "init-loader" | "mutation-loader" | undefined;
 
-type TError = { title: string; description: string };
+type TError = { titleKey: string; descriptionKey: string };
 
 export const ROLE_PERMISSIONS_TO_CREATE_PAGE = [
   EUserPermissions.ADMIN,
@@ -240,8 +240,8 @@ export class ProjectPageStore implements IProjectPageStore {
       runInAction(() => {
         this.loader = undefined;
         this.error = {
-          title: "Failed",
-          description: "Failed to fetch the pages, Please try again later.",
+          titleKey: "common.failed",
+          descriptionKey: "page_operations.fetch_pages_failed",
         };
       });
       throw error;
@@ -283,8 +283,8 @@ export class ProjectPageStore implements IProjectPageStore {
       runInAction(() => {
         this.loader = undefined;
         this.error = {
-          title: "Failed",
-          description: "Failed to fetch the page, Please try again later.",
+          titleKey: "common.failed",
+          descriptionKey: "page_operations.fetch_page_failed",
         };
       });
       throw error;
@@ -316,8 +316,8 @@ export class ProjectPageStore implements IProjectPageStore {
       runInAction(() => {
         this.loader = undefined;
         this.error = {
-          title: "Failed",
-          description: "Failed to create a page, Please try again later.",
+          titleKey: "common.failed",
+          descriptionKey: "page_operations.create_failed",
         };
       });
       throw error;
@@ -342,8 +342,8 @@ export class ProjectPageStore implements IProjectPageStore {
       runInAction(() => {
         this.loader = undefined;
         this.error = {
-          title: "Failed",
-          description: "Failed to delete a page, Please try again later.",
+          titleKey: "common.failed",
+          descriptionKey: "page_operations.delete_failed",
         };
       });
       throw error;

@@ -12,7 +12,7 @@ import { UserService } from "@/services/user.service";
 
 type TError = {
   status: string;
-  message: string;
+  messageKey: string;
 };
 
 export interface IUserSettingsStore {
@@ -98,7 +98,7 @@ export class UserSettingsStore implements IUserSettingsStore {
         this.isLoading = false;
         this.error = {
           status: "error",
-          message: "Failed to fetch user settings",
+          messageKey: "user_settings.toasts.fetch.error.message",
         };
       });
       throw error;
