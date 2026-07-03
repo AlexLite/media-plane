@@ -90,6 +90,7 @@ export const usePageOperations = (
       openInNewTab: () => window.open(pageLink, "_blank"),
       toggleAccess: async () => {
         const changedPageType = access === EPageAccess.PUBLIC ? "private" : "public";
+        const changedPageTypeLabel = t(`common.${changedPageType}`);
         try {
           if (access === EPageAccess.PUBLIC)
             await executeCollaborativeAction({ type: "sendMessageToServer", message: "make-private" });
@@ -97,13 +98,13 @@ export const usePageOperations = (
           setToast({
             type: TOAST_TYPE.SUCCESS,
             title: t("common.success"),
-            message: `The page has been marked ${changedPageType} and moved to the ${changedPageType} section.`,
+            message: t("page_operations.access_changed", { access: changedPageTypeLabel }),
           });
         } catch (_error) {
           setToast({
             type: TOAST_TYPE.ERROR,
             title: t("common.error.label"),
-            message: `The page couldn't be marked ${changedPageType}. Please try again.`,
+            message: t("page_operations.access_change_failed", { access: changedPageTypeLabel }),
           });
         }
       },
@@ -219,6 +220,7 @@ export const usePageOperations = (
     is_locked,
     isFavoriteMenuOpen,
     removePageFromFavorites,
+    t,
     toggleFavoriteMenu,
   ]);
   return {

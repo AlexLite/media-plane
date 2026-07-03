@@ -55,6 +55,7 @@ const IGNORE_LINE_PATTERNS = [
   /^\s*type\s+\w+/,
   /^\s*interface\s+\w+/,
   /\bPromise\s*</,
+  /\b(?:Partial|Record|Readonly|Pick|Omit|Parameters|ReturnType|Exclude|Extract|NonNullable|Required)\s*</,
   /\bclassName\s*=/,
   /\b(?:href|src|url|path|icon|image|avatar|logo|testId|data-testid)\s*[:=]/,
   /\.(png|svg|jpg|jpeg|webp|ico|woff2?|css|mjs|js)\b/i,
@@ -68,17 +69,17 @@ if (args.help) {
   process.exit(0);
 }
 
-const files = args.changed ? getChangedFiles(args.base) : getAllFiles(args.searchDirs);
-const results = auditFiles(files);
-const totalCount = Object.values(results).reduce((sum, matches) => sum + matches.length, 0);
+const candidateFiles = args.changed ? getChangedFiles(args.base) : getAllFiles(args.searchDirs);
+const auditResults = auditFiles(candidateFiles);
+const findingCount = Object.values(auditResults).reduce((sum, matches) => sum + matches.length, 0);
 
 if (args.json) {
-  console.log(JSON.stringify(results, null, 2));
+  console.log(JSON.stringify(auditResults, null, 2));
 } else {
-  printReport(results, totalCount, files.length, args.changed);
+  printReport(auditResults, findingCount, candidateFiles.length, args.changed);
 }
 
-if (args.ci && totalCount > 0) {
+if (args.ci && findingCount > 0) {
   process.exitCode = 1;
 }
 
@@ -136,27 +137,27 @@ Add // i18n-hardcoded-ok on a line for intentional literals.`);
 }
 
 function getAllFiles(searchDirs) {
-  const files = [];
+  const foundFiles = [];
 
   for (const searchDir of searchDirs) {
     if (!existsSync(searchDir)) continue;
-    walk(searchDir, files);
+    walk(searchDir, foundFiles);
   }
 
-  return files.filter(isCandidateFile).sort();
+  return foundFiles.filter(isCandidateFile).toSorted();
 }
 
-function walk(dir, files) {
+function walk(dir, foundFiles) {
   for (const entry of readdirSync(dir)) {
     const fullPath = path.join(dir, entry);
     const stat = statSync(fullPath);
 
     if (stat.isDirectory()) {
-      if (!shouldIgnoreFile(toPosix(fullPath))) walk(fullPath, files);
+      if (!shouldIgnoreFile(toPosix(fullPath))) walk(fullPath, foundFiles);
       continue;
     }
 
-    files.push(toPosix(fullPath));
+    foundFiles.push(toPosix(fullPath));
   }
 }
 
@@ -181,7 +182,7 @@ function getChangedFiles(base) {
     .filter((file) => DEFAULT_SEARCH_DIRS.some((dir) => file === dir || file.startsWith(`${dir}/`)))
     .filter((file) => existsSync(file))
     .filter(isCandidateFile)
-    .sort();
+    .toSorted();
 }
 
 function isCandidateFile(file) {
@@ -192,10 +193,10 @@ function shouldIgnoreFile(file) {
   return IGNORE_FILE_PATTERNS.some((pattern) => pattern.test(file));
 }
 
-function auditFiles(files) {
+function auditFiles(filesToAudit) {
   const findings = {};
 
-  for (const file of files) {
+  for (const file of filesToAudit) {
     const content = readFileSync(file, "utf8");
     const matches = [];
 
@@ -244,8 +245,8 @@ function isLikelyUiString(value) {
   return /[A-Za-z]/.test(value);
 }
 
-function printReport(results, totalCount, scannedCount, changedOnly) {
-  const fileList = Object.entries(results).sort(([, a], [, b]) => b.length - a.length);
+function printReport(results, reportFindingCount, scannedCount, changedOnly) {
+  const fileList = Object.entries(results).toSorted(([, a], [, b]) => b.length - a.length);
 
   console.log("=".repeat(70));
   console.log("HARDCODED ENGLISH UI STRINGS AUDIT");
@@ -265,7 +266,7 @@ function printReport(results, totalCount, scannedCount, changedOnly) {
 
   console.log("\n" + "=".repeat(70));
   console.log(`Files with findings: ${fileList.length}`);
-  console.log(`Total findings: ${totalCount}`);
+  console.log(`Total findings: ${reportFindingCount}`);
   console.log("=".repeat(70));
 }
 

@@ -70,7 +70,7 @@ export const InboxIssueRoot = observer(function InboxIssueRoot(props: TInboxIssu
     return (
       <div className="relative flex h-full w-full flex-col items-center justify-center gap-3">
         <IntakeIcon className="size-[60px]" strokeWidth={1.5} />
-        <div className="text-secondary">{error?.message}</div>
+        <div className="text-secondary">{t(error.messageKey)}</div>
       </div>
     );
 

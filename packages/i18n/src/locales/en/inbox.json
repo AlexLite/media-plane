@@ -36,7 +36,9 @@
     "errors": {
       "snooze_permission": "Only project admins can snooze/Un-snooze work items",
       "accept_permission": "Only project admins can accept work items",
-      "decline_permission": "Only project admins can deny work items"
+      "decline_permission": "Only project admins can deny work items",
+      "fetch_failed": "Error fetching the intake work items. Please try again later.",
+      "fetch_paginated_failed": "Error fetching more intake work items. Please try again later."
     },
     "actions": {
       "accept": "Accept",

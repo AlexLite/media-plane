@@ -96,7 +96,7 @@ export const useGroupIssuesDragNDrop = (
       delete data[moduleKey];
     }
 
-    updateIssue && updateIssue(projectId, issueId, data).catch(() => setToast(errorToastProps));
+    if (updateIssue) updateIssue(projectId, issueId, data).catch(() => setToast(errorToastProps));
   };
 
   const handleOnDrop = async (source: GroupDropLocation, destination: GroupDropLocation) => {
@@ -121,7 +121,7 @@ export const useGroupIssuesDragNDrop = (
       setToast({
         title: t("common.error.label"),
         type: TOAST_TYPE.ERROR,
-        message: err?.detail ?? "Failed to perform this action",
+        message: err?.detail ?? t("work_item_operations.action_failed"),
       });
     });
   };

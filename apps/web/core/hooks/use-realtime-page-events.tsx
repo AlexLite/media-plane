@@ -7,6 +7,7 @@
 import { useCallback, useMemo } from "react";
 // plane imports
 import type { EventToPayloadMap } from "@plane/editor";
+import { useTranslation } from "@plane/i18n";
 import { setToast, TOAST_TYPE } from "@plane/propel/toast";
 // types
 import type { IUserLite } from "@plane/types";
@@ -48,19 +49,20 @@ export const useRealtimePageEvents = ({
   handlers,
 }: UsePageEventsProps) => {
   const router = useAppRouter();
+  const { t } = useTranslation();
   const { removePage, getPageById } = usePageStore(storeType);
 
   const { data: currentUser } = useUser();
 
-  // Helper function to safely get user display text
-  const getUserDisplayText = useCallback(
+  // Helper function to safely get user display name
+  const getUserDisplayName = useCallback(
     (userId: string | undefined) => {
-      if (!userId) return "";
+      if (!userId) return undefined;
       try {
         const userDetails = getUserDetails(userId);
-        return userDetails?.display_name ? ` by ${userDetails.display_name}` : "";
+        return userDetails?.display_name;
       } catch {
-        return "";
+        return undefined;
       }
     },
     [getUserDetails]
@@ -117,10 +119,13 @@ export const useRealtimePageEvents = ({
             if (pageItem) {
               removePage({ pageId, shouldSync: false });
               if (page.id === pageId && data?.user_id !== currentUser?.id) {
+                const deletedByUser = getUserDisplayName(data.user_id);
                 setToast({
                   type: TOAST_TYPE.ERROR,
-                  title: "Page deleted",
-                  message: `Page deleted${getUserDisplayText(data.user_id)}`,
+                  title: t("page_operations.deleted_title"),
+                  message: deletedByUser
+                    ? t("page_operations.deleted_by_user", { user: deletedByUser })
+                    : t("page_operations.deleted_title"),
                 });
                 router.push(handlers.getRedirectionLink());
               } else if (page.id === pageId) {
@@ -141,14 +146,14 @@ export const useRealtimePageEvents = ({
 
         error: ({ pageIds, data }: { pageIds: string[]; data: EventToPayloadMap["error"] }) => {
           const errorType = data.error_type;
-          const errorMessage = data.error_message || "An error occurred";
+          const errorMessage = data.error_message || t("common.error.message");
           const errorCode = data.error_code;
 
           if (page.id && pageIds.includes(page.id)) {
             // Show toast notification
             setToast({
               type: TOAST_TYPE.ERROR,
-              title: errorType === "fetch" ? "Failed to load page" : "Failed to save page",
+              title: errorType === "fetch" ? t("page_operations.load_failed") : t("page_operations.save_failed"),
               message: errorMessage,
             });
 
@@ -173,7 +178,7 @@ export const useRealtimePageEvents = ({
         ...customRealtimeEventHandlers,
       };
     },
-    [getPageById, removePage, page, currentUser, getUserDisplayText, router, handlers, customRealtimeEventHandlers]
+    [getPageById, removePage, page, currentUser, getUserDisplayName, router, handlers, customRealtimeEventHandlers, t]
   );
 
   // The main function that will be returned from this hook
