@@ -27,7 +27,7 @@ type Props = TDropdownProps & {
   tabIndex?: number;
 };
 
-function DurationDropdown({ placeholder = "Duration", onChange, value }: Props) {
+function DurationDropdown({ placeholder, onChange, value }: Props) {
   const { t } = useTranslation();
 
   const options = ANALYTICS_DURATION_FILTER_OPTIONS.map((option) => ({
@@ -39,7 +39,7 @@ function DurationDropdown({ placeholder = "Duration", onChange, value }: Props) 
       </div>
     ),
   }));
-  const selectedName = value ? t(`workspace_analytics.duration.${value}`) : placeholder;
+  const selectedName = value ? t(`workspace_analytics.duration.${value}`) : (placeholder ?? t("common.duration"));
   return (
     <CustomSearchSelect
       value={value ? [value] : []}
