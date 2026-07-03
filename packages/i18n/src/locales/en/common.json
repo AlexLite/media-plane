@@ -31,6 +31,7 @@
   "adding": "Adding",
   "remove": "Remove",
   "add_new": "Add new",
+  "date": "Date",
   "remove_selected": "Remove selected",
   "first_name": "First name",
   "last_name": "Last name",
@@ -524,10 +525,16 @@
       "updated_on": "Updated on"
     },
     "sort": {
+      "a_to_z": "A",
       "asc": "Ascending",
+      "higher": "Higher",
+      "lower": "Lower",
+      "newest": "Newest",
+      "oldest": "Oldest",
       "desc": "Descending",
       "created_on": "Created on",
-      "updated_on": "Updated on"
+      "updated_on": "Updated on",
+      "z_to_a": "Z"
     },
     "comments": "Comments",
     "updates": "Updates",

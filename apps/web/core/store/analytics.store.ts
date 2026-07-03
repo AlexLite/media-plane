@@ -20,7 +20,7 @@ export interface IBaseAnalyticsStore {
   isPeekView?: boolean;
   isEpic?: boolean;
   //computed
-  selectedDurationLabel: DurationType | null;
+  selectedDurationLabel: string | null;
 
   //actions
   updateSelectedProjects: (projects: string[]) => void;
@@ -63,7 +63,7 @@ export abstract class BaseAnalyticsStore implements IBaseAnalyticsStore {
   }
 
   get selectedDurationLabel() {
-    return ANALYTICS_DURATION_FILTER_OPTIONS.find((item) => item.value === this.selectedDuration)?.name ?? null;
+    return ANALYTICS_DURATION_FILTER_OPTIONS.find((item) => item.value === this.selectedDuration)?.i18n_name ?? null;
   }
 
   updateSelectedProjects = (projects: string[]) => {

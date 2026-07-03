@@ -14,12 +14,14 @@ export interface PasswordStrengthIndicatorProps {
   password: string;
   showCriteria?: boolean;
   isFocused?: boolean;
+  translate?: (key: string, fallback: string) => string;
 }
 
 export function PasswordStrengthIndicator({
   password,
   showCriteria = true,
   isFocused = false,
+  translate,
 }: PasswordStrengthIndicatorProps) {
   const strength = getPasswordStrength(password);
   const criteria = getPasswordCriteria(password);
@@ -70,7 +72,7 @@ export function PasswordStrengthIndicator({
                   "text-primary": !criterion.isValid,
                 })}
               >
-                {criterion.label}
+                {translate ? translate(criterion.labelTranslationKey, criterion.label) : criterion.label}
               </span>
             </div>
           ))}

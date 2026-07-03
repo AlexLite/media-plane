@@ -123,7 +123,7 @@ export const SecurityProfileSettings = observer(function SecurityProfileSettings
 
   const passwordSupport = password.length > 0 &&
     getPasswordStrength(password) != E_PASSWORD_STRENGTH.STRENGTH_VALID && (
-      <PasswordStrengthIndicator password={password} isFocused={isPasswordInputFocused} />
+      <PasswordStrengthIndicator password={password} isFocused={isPasswordInputFocused} translate={(key) => t(key)} />
     );
 
   const renderPasswordMatchError = !isRetryPasswordInputFocused || confirmPassword.length >= password.length;

@@ -82,7 +82,7 @@ function BorderButton(props: ButtonProps) {
   return (
     <Tooltip
       tooltipHeading={t("priority")}
-      tooltipContent={priorityDetails ? t(priorityDetails.key) : t("common.none")}
+      tooltipContent={priorityDetails ? t(priorityDetails.titleTranslationKey) : t("common.none")}
       disabled={!showTooltip}
       isMobile={isMobile}
       renderByDefault={renderToolTipByDefault}
@@ -132,7 +132,7 @@ function BorderButton(props: ButtonProps) {
               "text-placeholder": !priority || priority === "none",
             })}
           >
-            {priorityDetails ? t(priorityDetails.key) : placeholder}
+            {priorityDetails ? t(priorityDetails.titleTranslationKey) : placeholder}
           </span>
         )}
         {dropdownArrow && (
@@ -173,7 +173,7 @@ function BackgroundButton(props: ButtonProps) {
   return (
     <Tooltip
       tooltipHeading={t("priority")}
-      tooltipContent={t(priorityDetails?.key ?? "none")}
+      tooltipContent={priorityDetails ? t(priorityDetails.titleTranslationKey) : t("common.none")}
       disabled={!showTooltip}
       isMobile={isMobile}
       renderByDefault={renderToolTipByDefault}
@@ -223,7 +223,7 @@ function BackgroundButton(props: ButtonProps) {
               "text-placeholder": !priority || priority === "none",
             })}
           >
-            {priorityDetails ? t(priorityDetails.key) : (placeholder ?? t("common.priority"))}
+            {priorityDetails ? t(priorityDetails.titleTranslationKey) : (placeholder ?? t("common.priority"))}
           </span>
         )}
         {dropdownArrow && (
@@ -257,7 +257,7 @@ function TransparentButton(props: ButtonProps) {
   return (
     <Tooltip
       tooltipHeading={t("priority")}
-      tooltipContent={priorityDetails ? t(priorityDetails.key) : t("common.none")}
+      tooltipContent={priorityDetails ? t(priorityDetails.titleTranslationKey) : t("common.none")}
       disabled={!showTooltip}
       isMobile={isMobile}
       renderByDefault={renderToolTipByDefault}
@@ -307,7 +307,7 @@ function TransparentButton(props: ButtonProps) {
               "text-placeholder": !priority || priority === "none",
             })}
           >
-            {priorityDetails ? t(priorityDetails.key) : (placeholder ?? t("common.priority"))}
+            {priorityDetails ? t(priorityDetails.titleTranslationKey) : (placeholder ?? t("common.priority"))}
           </span>
         )}
         {dropdownArrow && (
@@ -369,7 +369,7 @@ export function PriorityDropdown(props: Props) {
     content: (
       <div className="flex items-center gap-2">
         <PriorityIcon priority={priority.key} size={14} withContainer />
-        <span className="flex-grow truncate">{t(priority.key)}</span>
+        <span className="flex-grow truncate">{t(priority.titleTranslationKey)}</span>
       </div>
     ),
   }));

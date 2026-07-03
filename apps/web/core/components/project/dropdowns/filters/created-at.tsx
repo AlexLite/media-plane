@@ -31,7 +31,7 @@ export const FilterCreatedDate = observer(function FilterCreatedDate(props: Prop
   // derived values
   const appliedFiltersCount = appliedFilters?.length ?? 0;
   const filteredOptions = PROJECT_CREATED_AT_FILTER_OPTIONS.filter((d) =>
-    d.name.toLowerCase().includes(searchQuery.toLowerCase())
+    t(d.i18n_name).toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const isCustomDateSelected = () => {
@@ -69,7 +69,7 @@ export const FilterCreatedDate = observer(function FilterCreatedDate(props: Prop
                   key={option.value}
                   isChecked={appliedFilters?.includes(option.value) ? true : false}
                   onClick={() => handleUpdate(option.value)}
-                  title={option.name}
+                  title={t(option.i18n_name)}
                   multiple={false}
                 />
               ))}

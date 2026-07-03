@@ -86,9 +86,9 @@ export function HeaderColumn(props: Props) {
         >
           <div className="flex items-center gap-2">
             <ArrowDownWideNarrow className="h-3 w-3 stroke-[1.5]" />
-            <span>{propertyDetails.ascendingOrderTitle}</span>
+            <span>{t(propertyDetails.ascendingOrderI18nKey)}</span>
             <MoveRight className="h-3 w-3" />
-            <span>{propertyDetails.descendingOrderTitle}</span>
+            <span>{t(propertyDetails.descendingOrderI18nKey)}</span>
           </div>
 
           {selectedMenuItem === `${propertyDetails.ascendingOrderKey}_${property}` && <CheckIcon className="h-3 w-3" />}
@@ -104,9 +104,9 @@ export function HeaderColumn(props: Props) {
         >
           <div className="flex items-center gap-2">
             <ArrowUpNarrowWide className="h-3 w-3 stroke-[1.5]" />
-            <span>{propertyDetails.descendingOrderTitle}</span>
+            <span>{t(propertyDetails.descendingOrderI18nKey)}</span>
             <MoveRight className="h-3 w-3" />
-            <span>{propertyDetails.ascendingOrderTitle}</span>
+            <span>{t(propertyDetails.ascendingOrderI18nKey)}</span>
           </div>
 
           {selectedMenuItem === `${propertyDetails.descendingOrderKey}_${property}` && (

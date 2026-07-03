@@ -32,7 +32,7 @@ function DurationDropdown({ placeholder = "Duration", onChange, value }: Props) 
 
   const options = ANALYTICS_DURATION_FILTER_OPTIONS.map((option) => ({
     value: option.value,
-    query: option.name,
+    query: t(option.i18n_name),
     content: (
       <div className="flex max-w-[300px] items-center gap-2">
         <span className="flex-grow truncate">{t(`workspace_analytics.duration.${option.value}`)}</span>

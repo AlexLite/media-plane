@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { observer } from "mobx-react";
 // plane imports
 import { DATE_AFTER_FILTER_OPTIONS } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { isInDateFormat } from "@plane/utils";
 // components
 import { DateFilterModal } from "@/components/core/filters/date-filter-modal";
@@ -21,6 +22,7 @@ type Props = {
 
 export const FilterEndDate = observer(function FilterEndDate(props: Props) {
   const { appliedFilters, handleUpdate, searchQuery } = props;
+  const { t } = useTranslation();
 
   const [previewEnabled, setPreviewEnabled] = useState(true);
   const [isDateFilterModalOpen, setIsDateFilterModalOpen] = useState(false);
@@ -28,7 +30,7 @@ export const FilterEndDate = observer(function FilterEndDate(props: Props) {
   const appliedFiltersCount = appliedFilters?.length ?? 0;
 
   const filteredOptions = DATE_AFTER_FILTER_OPTIONS.filter((d) =>
-    d.name.toLowerCase().includes(searchQuery.toLowerCase())
+    t(d.i18n_name).toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const isCustomDateSelected = () => {
@@ -49,11 +51,11 @@ export const FilterEndDate = observer(function FilterEndDate(props: Props) {
           handleClose={() => setIsDateFilterModalOpen(false)}
           isOpen={isDateFilterModalOpen}
           onSelect={(val) => handleUpdate(val)}
-          title="Срок выполнения"
+          title={t("common.order_by.due_date")}
         />
       )}
       <FilterHeader
-        title={`Срок выполнения${appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : ""}`}
+        title={`${t("common.order_by.due_date")}${appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : ""}`}
         isPreviewEnabled={previewEnabled}
         handleIsPreviewEnabled={() => setPreviewEnabled(!previewEnabled)}
       />
@@ -66,14 +68,19 @@ export const FilterEndDate = observer(function FilterEndDate(props: Props) {
                   key={option.value}
                   isChecked={appliedFilters?.includes(option.value) ? true : false}
                   onClick={() => handleUpdate(option.value)}
-                  title={option.name}
+                  title={t(option.i18n_name)}
                   multiple
                 />
               ))}
-              <FilterOption isChecked={isCustomDateSelected()} onClick={handleCustomDate} title="Произвольная дата" multiple />
+              <FilterOption
+                isChecked={isCustomDateSelected()}
+                onClick={handleCustomDate}
+                title={t("common.custom")}
+                multiple
+              />
             </>
           ) : (
-            <p className="text-11 text-placeholder italic">Совпадений не найдено</p>
+            <p className="text-11 text-placeholder italic">{t("common.search.no_matches_found")}</p>
           )}
         </div>
       )}

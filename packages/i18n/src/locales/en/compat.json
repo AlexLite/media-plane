@@ -196,10 +196,17 @@
     }
   },
   "date_filters": {
+    "1_month_ago": "1 month ago",
     "1_month_from_now": "1 month from now",
+    "1_week_ago": "1 week ago",
     "1_week_from_now": "1 week from now",
+    "2_weeks_ago": "2 weeks ago",
     "2_months_from_now": "2 months from now",
-    "2_weeks_from_now": "2 weeks from now"
+    "2_weeks_from_now": "2 weeks from now",
+    "last_30_days": "Last 30 days",
+    "last_7_days": "Last 7 days",
+    "today": "Today",
+    "yesterday": "Yesterday"
   },
   "display_name_required": "Display name is required.",
   "drag_drop_manual_only": "Drag and drop is only enabled when sorted by manual",

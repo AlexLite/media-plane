@@ -5,8 +5,11 @@
  */
 
 import type { TLoginMediums } from "@plane/types";
-import { CORE_LOGIN_MEDIUM_LABELS } from "./core";
+import { CORE_LOGIN_MEDIUM_I18N_LABELS, CORE_LOGIN_MEDIUM_LABELS } from "./core";
 import { EXTENDED_LOGIN_MEDIUM_LABELS } from "./extended";
+
+export { CORE_LOGIN_MEDIUM_I18N_LABELS, CORE_LOGIN_MEDIUM_LABELS } from "./core";
+export { EXTENDED_LOGIN_MEDIUM_LABELS } from "./extended";
 
 export enum E_PASSWORD_STRENGTH {
   EMPTY = "empty",
@@ -20,22 +23,26 @@ export const PASSWORD_MIN_LENGTH = 8;
 export const SPACE_PASSWORD_CRITERIA = [
   {
     key: "min_8_char",
-    label: "Минимум 8 символов",
+    label: "Minimum 8 characters",
+    labelTranslationKey: "auth.password.criteria.min_8_char",
     isCriteriaValid: (password: string) => password.length >= PASSWORD_MIN_LENGTH,
   },
   // {
   //   key: "min_1_upper_case",
-  //   label: "Минимум 1 заглавная буква",
+  //   label: "Minimum 1 uppercase letter",
+  //   labelTranslationKey: "auth.password.criteria.min_1_upper_case",
   //   isCriteriaValid: (password: string) => PASSWORD_NUMBER_REGEX.test(password),
   // },
   // {
   //   key: "min_1_number",
-  //   label: "Минимум 1 цифра",
+  //   label: "Minimum 1 number",
+  //   labelTranslationKey: "auth.password.criteria.min_1_number",
   //   isCriteriaValid: (password: string) => PASSWORD_CHAR_CAPS_REGEX.test(password),
   // },
   // {
   //   key: "min_1_special_char",
-  //   label: "Минимум 1 специальный символ",
+  //   label: "Minimum 1 special character",
+  //   labelTranslationKey: "auth.password.criteria.min_1_special_char",
   //   isCriteriaValid: (password: string) => PASSWORD_SPECIAL_CHAR_REGEX.test(password),
   // },
 ];
@@ -171,4 +178,8 @@ export enum EAuthErrorCodes {
 export const LOGIN_MEDIUM_LABELS: Record<TLoginMediums, string> = {
   ...CORE_LOGIN_MEDIUM_LABELS,
   ...EXTENDED_LOGIN_MEDIUM_LABELS,
+} as const;
+
+export const LOGIN_MEDIUM_I18N_LABELS: Partial<Record<TLoginMediums, string>> = {
+  ...CORE_LOGIN_MEDIUM_I18N_LABELS,
 } as const;

@@ -7,7 +7,12 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
-import { EUserPermissions, EUserPermissionsLevel, LOGIN_MEDIUM_LABELS } from "@plane/constants";
+import {
+  EUserPermissions,
+  EUserPermissionsLevel,
+  LOGIN_MEDIUM_I18N_LABELS,
+  LOGIN_MEDIUM_LABELS,
+} from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import { renderFormattedDate } from "@plane/utils";
 import { MemberHeaderColumn } from "@/components/project/member-header-column";
@@ -128,7 +133,9 @@ export const useMemberColumns = () => {
         if (isSuspended(rowData)) return null;
         const loginMedium = rowData.member.last_login_medium;
         if (!loginMedium) return null;
-        return <div>{LOGIN_MEDIUM_LABELS[loginMedium]}</div>;
+        const loginMediumLabelKey = LOGIN_MEDIUM_I18N_LABELS[loginMedium];
+
+        return <div>{loginMediumLabelKey ? t(loginMediumLabelKey) : LOGIN_MEDIUM_LABELS[loginMedium]}</div>;
       },
     },
 

@@ -415,7 +415,11 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                         </div>
                       )}
                     />
-                    <PasswordStrengthIndicator password={watch("password") ?? ""} isFocused={isPasswordInputFocused} />
+                    <PasswordStrengthIndicator
+                      password={watch("password") ?? ""}
+                      isFocused={isPasswordInputFocused}
+                      translate={(key) => t(key)}
+                    />
                   </div>
                   <div className="space-y-1">
                     <label className="text-13 font-medium text-tertiary" htmlFor="confirm_password">

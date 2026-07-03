@@ -92,7 +92,7 @@ const CreatedVsResolved = observer(function CreatedVsResolved() {
   return (
     <AnalyticsSectionWrapper
       title={t("workspace_analytics.created_vs_resolved")}
-      subtitle={selectedDurationLabel}
+      subtitle={selectedDurationLabel ? t(selectedDurationLabel) : null}
       className="col-span-1"
     >
       {isCreatedVsResolvedLoading ? (
@@ -104,7 +104,7 @@ const CreatedVsResolved = observer(function CreatedVsResolved() {
           areas={areas}
           xAxis={{
             key: "name",
-            label: "Дата",
+            label: t("common.date"),
           }}
           yAxis={{
             key: "count",

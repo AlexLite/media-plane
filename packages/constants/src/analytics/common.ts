@@ -104,19 +104,23 @@ export const ANALYTICS_INSIGHTS_FIELDS: Record<TAnalyticsTabsBase, IInsightField
 
 export const ANALYTICS_DURATION_FILTER_OPTIONS = [
   {
-    name: "Вчера",
+    name: "Yesterday",
+    i18n_name: "workspace_analytics.duration.yesterday",
     value: "yesterday",
   },
   {
-    name: "Последние 7 дней",
+    name: "Last 7 days",
+    i18n_name: "workspace_analytics.duration.last_7_days",
     value: "last_7_days",
   },
   {
-    name: "Последние 30 дней",
+    name: "Last 30 days",
+    i18n_name: "workspace_analytics.duration.last_30_days",
     value: "last_30_days",
   },
   {
-    name: "Последние 3 месяца",
+    name: "Last 3 months",
+    i18n_name: "workspace_analytics.duration.last_3_months",
     value: "last_3_months",
   },
 ];

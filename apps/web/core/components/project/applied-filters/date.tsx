@@ -6,6 +6,7 @@
 
 import { observer } from "mobx-react";
 import { PROJECT_CREATED_AT_FILTER_OPTIONS } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { CloseIcon } from "@plane/propel/icons";
 // helpers
 import { renderFormattedDate, capitalizeFirstLetter } from "@plane/utils";
@@ -19,13 +20,14 @@ type Props = {
 
 export const AppliedDateFilters = observer(function AppliedDateFilters(props: Props) {
   const { editable, handleRemove, values } = props;
+  const { t } = useTranslation();
 
   const getDateLabel = (value: string): string => {
     let dateLabel = "";
 
     const dateDetails = PROJECT_CREATED_AT_FILTER_OPTIONS.find((d) => d.value === value);
 
-    if (dateDetails) dateLabel = dateDetails.name;
+    if (dateDetails) dateLabel = t(dateDetails.i18n_name);
     else {
       const dateParts = value.split(";");
 

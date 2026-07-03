@@ -48,6 +48,7 @@ export const getPasswordStrength = (password: string): E_PASSWORD_STRENGTH => {
 export type PasswordCriteria = {
   key: string;
   label: string;
+  labelTranslationKey: string;
   isValid: boolean;
 };
 
@@ -57,27 +58,32 @@ export type PasswordCriteria = {
 export const getPasswordCriteria = (password: string): PasswordCriteria[] => [
   {
     key: "length",
-    label: "Минимум 8 символов",
+    label: "Minimum 8 characters",
+    labelTranslationKey: "auth.password.criteria.min_8_char",
     isValid: password.length >= 8,
   },
   {
     key: "uppercase",
-    label: "Минимум 1 заглавная буква",
+    label: "Minimum 1 uppercase letter",
+    labelTranslationKey: "auth.password.criteria.min_1_upper_case",
     isValid: /[A-Z]/.test(password),
   },
   {
     key: "lowercase",
-    label: "Минимум 1 строчная буква",
+    label: "Minimum 1 lowercase letter",
+    labelTranslationKey: "auth.password.criteria.min_1_lower_case",
     isValid: /[a-z]/.test(password),
   },
   {
     key: "number",
-    label: "Минимум 1 цифра",
+    label: "Minimum 1 number",
+    labelTranslationKey: "auth.password.criteria.min_1_number",
     isValid: /[0-9]/.test(password),
   },
   {
     key: "special",
-    label: "Минимум 1 специальный символ",
+    label: "Minimum 1 special character",
+    labelTranslationKey: "auth.password.criteria.min_1_special_char",
     isValid: /[!@#$%^&*()\-_+=\[\]{}|;:'",.<>?/]/.test(password),
   },
 ];

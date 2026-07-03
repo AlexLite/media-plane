@@ -35,7 +35,7 @@ const ActiveProjects = observer(function ActiveProjects() {
   return (
     <AnalyticsSectionWrapper
       title={`${t("workspace_analytics.active_projects")}`}
-      subtitle={selectedDurationLabel}
+      subtitle={selectedDurationLabel ? t(selectedDurationLabel) : null}
       className="md:col-span-2"
     >
       <div className="flex h-[350px] flex-col gap-4 overflow-auto">
