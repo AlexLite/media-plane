@@ -269,9 +269,11 @@ export function GptAssistantPopover(props: Props) {
                 value={value}
                 onChange={onChange}
                 ref={ref}
-                placeholder={`${
-                  prompt && prompt !== "" ? "Tell AI what action to perform on this content..." : "Ask AI anything..."
-                }`}
+                placeholder={
+                  prompt && prompt !== ""
+                    ? t("gpt_assistant.prompt_with_context")
+                    : t("gpt_assistant.prompt_anything")
+                }
                 className="w-full"
                 autoFocus
               />
@@ -284,13 +286,13 @@ export function GptAssistantPopover(props: Props) {
               <>
                 <div className="flex items-start justify-center gap-2 text-13 text-accent-primary">
                   <AlertCircle className="h-4 w-4" />
-                  <p>By using this feature, you consent to sharing the message with a 3rd party service. </p>
+                  <p>{t("gpt_assistant.third_party_consent")}</p>
                 </div>
               </>
             )}
             <div className="flex items-center gap-2">
               <Button variant="secondary" onClick={onClose}>
-                Close
+                {t("close")}
               </Button>
               <Button variant="primary" onClick={handleSubmit(handleAIResponse)} loading={isSubmitting}>
                 {generateResponseButtonText}

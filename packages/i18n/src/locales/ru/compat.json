@@ -143,7 +143,9 @@
     "common":  {
                    "access":  {
                                   "archived":  "Архивный",
-                                  "label":  "Доступ"
+                                  "label":  "Доступ",
+                                  "private":  "Приватный",
+                                  "public":  "Публичный"
                               },
                    "add_page":  "Добавить страницу",
                    "clear_filters":  "Сбросить фильтры",
@@ -185,6 +187,7 @@
                    "start_date":  "Дата начала",
                    "sub_group_by":  "Подгруппировать по",
                    "target_date":  "Целевая дата",
+                   "toggle_workspace_level_search":  "Переключить поиск по рабочему пространству",
                    "update_view":  "Обновить вид",
                    "view_all":  "Показать все",
                    "view_less":  "Свернуть",
@@ -267,6 +270,11 @@
     "gantt_block_dates_update_failed":  "Ошибка при обновлении дат блока",
     "go_to_home":  "Перейти на главную",
     "gpt_enter_task":  "Введите задачу для получения помощи ИИ.",
+    "gpt_assistant":  {
+                          "prompt_anything":  "Спросите AI о чём угодно...",
+                          "prompt_with_context":  "Опишите, что AI должен сделать с этим содержимым...",
+                          "third_party_consent":  "Используя эту функцию, вы соглашаетесь на передачу сообщения стороннему сервису."
+                      },
     "image_picker":  {
                          "drag_drop_image_here":  "Перетащите изображение сюда",
                          "drop_image_here_to_upload":  "Отпустите изображение для загрузки",
@@ -277,6 +285,11 @@
                          "no_images_found":  "Изображения не найдены.",
                          "search_for_images":  "Поиск изображений",
                          "supported_formats":  "Поддерживаемые форматы: .jpeg, .jpg, .png, .webp",
+                         "tabs":  {
+                                      "images":  "Изображения",
+                                      "unsplash":  "Unsplash",
+                                      "upload":  "Загрузить"
+                                  },
                          "upload_and_save":  "Загрузить и сохранить",
                          "uploading":  "Загрузка..."
                      },
@@ -851,6 +864,7 @@
     "theme_operations":  {
                              "download_failed":  "Не удалось загрузить конфигурацию темы.",
                              "downloaded":  "Конфигурация темы успешно загружена.",
+                             "import_failed":  "Не удалось импортировать конфигурацию темы",
                              "imported":  "Конфигурация темы успешно импортирована"
                          },
     "timezone_updated_successfully":  "Часовой пояс успешно обновлен",

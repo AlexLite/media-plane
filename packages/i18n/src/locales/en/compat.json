@@ -146,7 +146,9 @@
   "common": {
     "access": {
       "archived": "Archived",
-      "label": "Access"
+      "label": "Access",
+      "private": "Private",
+      "public": "Public"
     },
     "add_page": "Add page",
     "clear_filters": "Clear filters",
@@ -194,6 +196,7 @@
     "sub_group_by": "Sub-group by",
     "submit": "Submit",
     "target_date": "Target date",
+    "toggle_workspace_level_search": "Toggle workspace level search",
     "update_view": "Update view",
     "uploading": "Uploading",
     "view_all": "View all",
@@ -273,6 +276,11 @@
   "gantt_block_dates_update_failed": "Something went wrong while updating block dates",
   "go_to_home": "Go to Home",
   "gpt_enter_task": "Please enter some task to get AI assistance.",
+  "gpt_assistant": {
+    "prompt_anything": "Ask AI anything...",
+    "prompt_with_context": "Tell AI what action to perform on this content...",
+    "third_party_consent": "By using this feature, you consent to sharing the message with a 3rd party service."
+  },
   "image_picker": {
     "drag_drop_image_here": "Drag & drop image here",
     "drop_image_here_to_upload": "Drop image here to upload",
@@ -283,6 +291,11 @@
     "no_images_found": "No images found.",
     "search_for_images": "Search for images",
     "supported_formats": "File formats supported- .jpeg, .jpg, .png, .webp",
+    "tabs": {
+      "images": "Images",
+      "unsplash": "Unsplash",
+      "upload": "Upload"
+    },
     "upload_and_save": "Upload & Save",
     "uploading": "Uploading"
   },
@@ -858,6 +871,7 @@
   "theme_operations": {
     "download_failed": "Failed to download theme configuration.",
     "downloaded": "Theme configuration downloaded successfully.",
+    "import_failed": "Failed to import theme configuration",
     "imported": "Theme configuration imported successfully"
   },
   "timezone_updated_successfully": "Timezone updated successfully",
