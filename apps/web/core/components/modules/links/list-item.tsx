@@ -44,7 +44,7 @@ export const ModulesLinksListItem = observer(function ModulesLinksListItem(props
     copyTextToClipboard(text).then(() =>
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Copied to clipboard",
+        title: t("common.copied_to_clipboard"),
         message: t("url_copied_to_clipboard"),
       })
     );

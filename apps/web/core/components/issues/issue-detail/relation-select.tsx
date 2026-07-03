@@ -139,7 +139,7 @@ export const IssueRelationSelect = observer(function IssueRelationSelect(props: 
                       </Link>
                     </Tooltip>
                     {!disabled && (
-                      <Tooltip tooltipContent="Remove" position="bottom" isMobile={isMobile}>
+                      <Tooltip tooltipContent={t("common.remove")} position="bottom" isMobile={isMobile}>
                         <span
                           onClick={(e) => {
                             e.preventDefault();

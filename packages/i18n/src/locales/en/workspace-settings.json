@@ -170,7 +170,9 @@
         },
         "secret_key": {
           "title": "Secret key",
-          "message": "Generate a token to sign-in to the webhook payload"
+          "message": "Generate a token to sign-in to the webhook payload",
+          "view": "View secret key",
+          "copy": "Copy secret key"
         },
         "options": {
           "all": "Send me everything",
@@ -216,6 +218,21 @@
         "add_token": "Add access token",
         "create_token": "Create token",
         "never_expires": "Never expires",
+        "set_expiration_date": "Set expiration date",
+        "set_date": "Set date",
+        "expires_at": "Expires {date} at {time}",
+        "expired_ago": "Expired {time}",
+        "copy_secret_key": "Copy secret key",
+        "expiry_options": {
+          "1_week": "1 week",
+          "1_month": "1 month",
+          "3_months": "3 months",
+          "1_year": "1 year"
+        },
+        "status": {
+          "active": "Active",
+          "expired": "Expired"
+        },
         "generate_token": "Generate token",
         "generating": "Generating",
         "delete": {

@@ -568,6 +568,8 @@
       "restricted_entity": "{entity} is restricted"
     },
     "update_link": "Update link",
+    "updating_link": "Updating link",
+    "adding_link": "Adding link",
     "attach": "Attach",
     "create_new": "Create new",
     "add_existing": "Add existing",
@@ -582,6 +584,7 @@
     "close_peek_view": "Close the peek view",
     "toggle_peek_view_layout": "Toggle peek view layout",
     "options": "Options",
+    "click_to_copy": "Click to copy",
     "duration": "Duration",
     "today": "Today",
     "week": "Week",

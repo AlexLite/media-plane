@@ -568,6 +568,8 @@
       "restricted_entity": "{entity} ограничен"
     },
     "update_link": "обновить ссылку",
+    "updating_link": "Обновление ссылки",
+    "adding_link": "Добавление ссылки",
     "attach": "Прикрепить",
     "create_new": "Создать новый",
     "add_existing": "Добавить существующий",
@@ -582,6 +584,7 @@
     "close_peek_view": "Закрыть просмотр",
     "toggle_peek_view_layout": "Переключить макет просмотра",
     "options": "Опции",
+    "click_to_copy": "Нажмите, чтобы скопировать",
     "duration": "Продолжительность",
     "today": "Сегодня",
     "week": "Неделя",

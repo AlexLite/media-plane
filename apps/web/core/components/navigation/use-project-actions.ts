@@ -32,13 +32,13 @@ export const useProjectActions = ({ workspaceSlug, projectId, activeItem }: UseP
       await copyUrlToClipboard(pathToCopy);
       setToast({
         type: TOAST_TYPE.INFO,
-        title: "Link copied!",
+        title: t("common.link_copied"),
         message: t("project_link_copied_to_clipboard"),
       });
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Copy failed",
+        title: t("link_copy_failed"),
         message: t("link_copy_failed"),
       });
     }

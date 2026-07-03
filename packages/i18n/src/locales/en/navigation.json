@@ -6,6 +6,12 @@
       }
     }
   },
+  "app_rail": {
+    "icon_only": "Icon only",
+    "icon_with_name": "Icon with name",
+    "dock": "Dock App Rail",
+    "undock": "Undock App Rail"
+  },
   "sidebar": {
     "stickies": "Stickies",
     "your_work": "Your work",

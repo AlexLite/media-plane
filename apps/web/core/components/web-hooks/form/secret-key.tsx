@@ -94,8 +94,18 @@ export const WebhookSecretKey = observer(function WebhookSecretKey(props: Props)
   const toggleShowKey = () => setShouldShowKey((prevState) => !prevState);
 
   const SECRET_KEY_OPTIONS = [
-    { label: "View secret key", Icon: shouldShowKey ? EyeOff : Eye, onClick: toggleShowKey, key: "eye" },
-    { label: "Copy secret key", Icon: CopyIcon, onClick: handleCopySecretKey, key: "copy" },
+    {
+      label: t("workspace_settings.settings.webhooks.secret_key.view"),
+      Icon: shouldShowKey ? EyeOff : Eye,
+      onClick: toggleShowKey,
+      key: "eye",
+    },
+    {
+      label: t("workspace_settings.settings.webhooks.secret_key.copy"),
+      Icon: CopyIcon,
+      onClick: handleCopySecretKey,
+      key: "copy",
+    },
   ];
 
   return (

@@ -168,9 +168,18 @@
     "in_project": "in project:",
     "in_workspace": "in workspace:",
     "joined": "Joined",
-    "link_count": "{count, plural, one {# link} other {# links}}",
-    "locked": "Locked",
-    "new_issue": "New work item",
+      "link_count": "{count, plural, one {# link} other {# links}}",
+      "locked": "Locked",
+      "click_to_copy": "Click to copy",
+      "adding_link": "Adding link",
+      "updating_link": "Updating link",
+      "issue": {
+        "id_copied_to_clipboard": "Work item ID copied to clipboard"
+      },
+      "entity": {
+        "link_copied_to_clipboard": "{entity} link copied to clipboard"
+      },
+      "new_issue": "New work item",
     "no_member_yet": "No members yet",
     "offline": "Offline",
     "offline_tooltip_content": "You can continue making changes. They will be synced when you are back online.",
@@ -348,6 +357,12 @@
   "more": "more",
   "name_within_50_chars": "Name must be within 50 characters.",
   "navigation": {
+    "app_rail": {
+      "dock": "Dock App Rail",
+      "icon_only": "Icon only",
+      "icon_with_name": "Icon with name",
+      "undock": "Undock App Rail"
+    },
     "toasts": {
       "default_tab_update_failed": "Failed to update default tab. Please try again later.",
       "default_tab_updated": "Default tab updated successfully.",
@@ -837,7 +852,7 @@
     "imported": "Theme configuration imported successfully"
   },
   "timezone_updated_successfully": "Timezone updated successfully",
-  "url_copied_to_clipboard": "The URL has been successfully copied to your clipboard",
+    "url_copied_to_clipboard": "The URL has been successfully copied to your clipboard",
   "user": {
     "toasts": {
       "fetch": {

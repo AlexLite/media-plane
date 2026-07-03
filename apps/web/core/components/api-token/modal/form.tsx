@@ -29,22 +29,22 @@ type Props = {
 const EXPIRY_DATE_OPTIONS = [
   {
     key: "1_week",
-    label: "1 week",
+    labelTranslationKey: "workspace_settings.settings.api_tokens.expiry_options.1_week",
     value: { weeks: 1 },
   },
   {
     key: "1_month",
-    label: "1 month",
+    labelTranslationKey: "workspace_settings.settings.api_tokens.expiry_options.1_month",
     value: { months: 1 },
   },
   {
     key: "3_months",
-    label: "3 months",
+    labelTranslationKey: "workspace_settings.settings.api_tokens.expiry_options.3_months",
     value: { months: 3 },
   },
   {
     key: "1_year",
-    label: "1 year",
+    labelTranslationKey: "workspace_settings.settings.api_tokens.expiry_options.1_year",
     value: { years: 1 },
   },
 ];
@@ -189,10 +189,10 @@ export function CreateApiTokenForm(props: Props) {
                         >
                           <Calendar className="h-3 w-3" />
                           {value === "custom"
-                            ? "Custom date"
+                            ? t("custom_date")
                             : selectedOption
-                              ? selectedOption.label
-                              : "Set expiration date"}
+                              ? t(selectedOption.labelTranslationKey)
+                              : t("workspace_settings.settings.api_tokens.set_expiration_date")}
                         </div>
                       }
                       value={value}
@@ -201,10 +201,10 @@ export function CreateApiTokenForm(props: Props) {
                     >
                       {EXPIRY_DATE_OPTIONS.map((option) => (
                         <CustomSelect.Option key={option.key} value={option.key}>
-                          {option.label}
+                          {t(option.labelTranslationKey)}
                         </CustomSelect.Option>
                       ))}
-                      <CustomSelect.Option value="custom">Custom</CustomSelect.Option>
+                      <CustomSelect.Option value="custom">{t("custom_date")}</CustomSelect.Option>
                     </CustomSelect>
                   );
                 }}
@@ -217,7 +217,7 @@ export function CreateApiTokenForm(props: Props) {
                     minDate={tomorrow}
                     icon={<Calendar className="h-3 w-3" />}
                     buttonVariant="border-with-text"
-                    placeholder="Set date"
+                    placeholder={t("workspace_settings.settings.api_tokens.set_date")}
                     disabled={neverExpires}
                   />
                 </div>
@@ -227,10 +227,16 @@ export function CreateApiTokenForm(props: Props) {
               <span className="text-11 text-placeholder">
                 {expiredAt === "custom"
                   ? customDate
-                    ? `Expires ${renderFormattedDate(customDateFormatted ?? "")} at ${renderFormattedTime(customDateFormatted ?? "")}`
+                    ? t("workspace_settings.settings.api_tokens.expires_at", {
+                        date: renderFormattedDate(customDateFormatted ?? ""),
+                        time: renderFormattedTime(customDateFormatted ?? ""),
+                      })
                     : null
                   : expiredAt
-                    ? `Expires ${renderFormattedDate(expiryDate ?? "")} at ${renderFormattedTime(expiryDate ?? "")}`
+                    ? t("workspace_settings.settings.api_tokens.expires_at", {
+                        date: renderFormattedDate(expiryDate ?? ""),
+                        time: renderFormattedTime(expiryDate ?? ""),
+                      })
                     : null}
               </span>
             )}

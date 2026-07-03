@@ -8,6 +8,7 @@
 import { observer } from "mobx-react";
 import { useParams, usePathname } from "next/navigation";
 import { SettingsIcon } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 import { ContextMenu } from "@plane/propel/context-menu";
 import { CheckIcon } from "@plane/propel/icons";
 import { cn } from "@plane/utils";
@@ -22,6 +23,7 @@ import { DesktopSidebarWorkspaceMenu } from "@/plane-web/components/desktop";
 import { AppSidebarItemsRoot } from "./items-root";
 
 export const AppRailRoot = observer(() => {
+  const { t } = useTranslation();
   // router
   const { workspaceSlug, projectId } = useParams();
   const pathname = usePathname();
@@ -55,7 +57,7 @@ export const AppRailRoot = observer(() => {
               <div className="mx-2 border-t border-strong" />
               <AppSidebarItem
                 item={{
-                  label: "Settings",
+                  label: t("settings"),
                   icon: <SettingsIcon className="size-5" />,
                   href: `/${workspaceSlug}/settings`,
                   isActive: isWorkspaceSettingsPath,
@@ -69,19 +71,21 @@ export const AppRailRoot = observer(() => {
           <ContextMenu.Content positionerClassName="z-30" className="outline-none">
             <ContextMenu.Item onClick={() => updateDisplayMode("icon_only")}>
               <div className="flex w-full items-center justify-between gap-2">
-                <span className="text-11">Icon only</span>
+                <span className="text-11">{t("navigation.app_rail.icon_only")}</span>
                 {preferences.displayMode === "icon_only" && <CheckIcon className="size-3.5" />}
               </div>
             </ContextMenu.Item>
             <ContextMenu.Item onClick={() => updateDisplayMode("icon_with_label")}>
               <div className="flex w-full items-center justify-between gap-2">
-                <span className="text-11">Icon with name</span>
+                <span className="text-11">{t("navigation.app_rail.icon_with_name")}</span>
                 {preferences.displayMode === "icon_with_label" && <CheckIcon className="size-3.5" />}
               </div>
             </ContextMenu.Item>
             <ContextMenu.Separator />
             <ContextMenu.Item onClick={toggleAppRail}>
-              <span className="text-11">{isCollapsed ? "Dock App Rail" : "Undock App Rail"}</span>
+              <span className="text-11">
+                {isCollapsed ? t("navigation.app_rail.dock") : t("navigation.app_rail.undock")}
+              </span>
             </ContextMenu.Item>
           </ContextMenu.Content>
         </ContextMenu.Portal>
