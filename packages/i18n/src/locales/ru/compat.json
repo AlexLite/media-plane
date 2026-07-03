@@ -552,9 +552,14 @@
                   },
     "please_enter_first_name":  "Введите имя",
     "power_k":  {
+                    "clear_context_backspace":  "Очистить контекст (Backspace)",
                     "shortcut":  {
                                      "sequence_separator":  "+"
-                                 }
+                                 },
+                    "shortcuts":  {
+                                      "search_placeholder":  "Поиск сочетаний клавиш",
+                                      "title":  "Сочетания клавиш"
+                                  }
                 },
     "profile":  {
                     "completion_percentage":  "Процент выполненных работ",

@@ -558,8 +558,13 @@
   },
   "please_enter_first_name": "Please enter first name",
   "power_k": {
+    "clear_context_backspace": "Clear context (Backspace)",
     "shortcut": {
       "sequence_separator": "then"
+    },
+    "shortcuts": {
+      "search_placeholder": "Search for shortcuts",
+      "title": "Keyboard shortcuts"
     }
   },
   "profile": {

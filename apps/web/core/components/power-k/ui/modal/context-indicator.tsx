@@ -25,6 +25,7 @@ export function PowerKModalContextIndicator(props: Props) {
   const { t } = useTranslation();
   // derived values
   const contextEntity = activeContext ? CONTEXT_ENTITY_MAP[activeContext] : null;
+  const clearContextLabel = t("power_k.clear_context_backspace");
 
   if (!activeContext || !contextEntity) return null;
 
@@ -40,8 +41,8 @@ export function PowerKModalContextIndicator(props: Props) {
           type="button"
           onClick={handleClearContext}
           className="grid shrink-0 place-items-center p-1 text-secondary transition-colors hover:text-primary"
-          title="Clear context (Backspace)"
-          aria-label="Clear context (Backspace)"
+          title={clearContextLabel}
+          aria-label={clearContextLabel}
           tabIndex={-1}
         >
           <X className="size-2.5" />
