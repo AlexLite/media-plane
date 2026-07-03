@@ -283,7 +283,6 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
       getSubscriberFilterConfig<TWorkItemFilterProperty>("subscriber_id")({
         isEnabled: isFilterEnabled("subscriber_id") && members !== undefined,
         filterIcon: MembersPropertyIcon,
-        label: t("subscribers"),
         members: members ?? [],
         getOptionIcon: (memberDetails) => (
           <Avatar
@@ -361,7 +360,6 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
       getProjectFilterConfig<TWorkItemFilterProperty>("project_id")({
         isEnabled: isFilterEnabled("project_id") && projects !== undefined,
         filterIcon: Briefcase,
-        label: t("common.projects"),
         projects: projects,
         getOptionIcon: (project) => <Logo logo={project.logo_props} size={12} />,
         ...operatorConfigs,

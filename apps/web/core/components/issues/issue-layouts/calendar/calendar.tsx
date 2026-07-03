@@ -188,7 +188,7 @@ export const CalendarChart = observer(function CalendarChart(props: Props) {
                               getGroupIssueCount={getGroupIssueCount}
                               isDragDisabled
                               addIssuesToView={addIssuesToView}
-                              disableIssueCreation={disableIssueCreation}
+                              disableIssueCreation={!enableIssueCreation}
                               enableQuickIssueCreate={hour === 0 ? enableQuickAdd : false}
                               quickAddCallback={quickAddCallback}
                               readOnly={readOnly}

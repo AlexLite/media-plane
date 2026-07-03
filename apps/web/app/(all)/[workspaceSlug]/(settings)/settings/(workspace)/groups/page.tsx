@@ -429,7 +429,7 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
             </div>
           </div>
           <div className="mt-4 flex items-center justify-end gap-2">
-            <Button variant="neutral-primary" size="lg" onClick={resetForm} disabled={isSubmitting}>
+            <Button variant="secondary" size="lg" onClick={resetForm} disabled={isSubmitting}>
               {t("cancel")}
             </Button>
             <Button variant="primary" size="lg" onClick={handleSubmit} disabled={isSubmitting}>

@@ -445,7 +445,7 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
               render={({ field: { value, onChange } }) => (
                 <CustomSelect
                   value={value ?? ""}
-                  onChange={(nextValue) => onChange(nextValue || null)}
+                  onChange={(nextValue: string) => onChange(nextValue || null)}
                   label={
                     <div className="flex items-center gap-1">
                       {value ? <span>{value}</span> : <span className="text-placeholder">{t("common.none")}</span>}
