@@ -45,14 +45,14 @@ export const useAttachmentOperations = (
         if (!workspaceSlug || !projectId || !issueId) throw new Error("Missing required fields");
         const attachmentUploadPromise = createAttachment(workspaceSlug, projectId, issueId, file);
         setPromiseToast(attachmentUploadPromise, {
-          loading: "Uploading attachment...",
+          loading: t("attachment_operations.uploading"),
           success: {
-            title: "Attachment uploaded",
-            message: () => "The attachment has been successfully uploaded",
+            title: t("attachment_operations.uploaded_title"),
+            message: () => t("attachment_operations.uploaded"),
           },
           error: {
-            title: "Attachment not uploaded",
-            message: () => "The attachment could not be uploaded",
+            title: t("attachment_operations.upload_failed_title"),
+            message: () => t("attachment_operations.upload_failed"),
           },
         });
 
@@ -65,18 +65,18 @@ export const useAttachmentOperations = (
           setToast({
             message: t("attachment_operations.removed"),
             type: TOAST_TYPE.SUCCESS,
-            title: "Attachment removed",
+            title: t("attachment_operations.removed_title"),
           });
         } catch (_error) {
           setToast({
             message: t("attachment_operations.remove_failed"),
             type: TOAST_TYPE.ERROR,
-            title: "Attachment not removed",
+            title: t("attachment_operations.remove_failed_title"),
           });
         }
       },
     }),
-    [workspaceSlug, projectId, issueId, createAttachment, removeAttachment]
+    [workspaceSlug, projectId, issueId, createAttachment, removeAttachment, t]
   );
   const attachmentsUploadStatus = getAttachmentsUploadStatusByIssueId(issueId);
 

@@ -89,8 +89,14 @@
   },
   "attachment_operations": {
     "remove_failed": "The attachment could not be removed",
+    "remove_failed_title": "Attachment not removed",
     "removed": "The attachment has been successfully removed",
-    "upload_failed": "File could not be attached. Try uploading again."
+    "removed_title": "Attachment removed",
+    "upload_failed": "File could not be attached. Try uploading again.",
+    "upload_failed_title": "Attachment not uploaded",
+    "uploaded": "The attachment has been successfully uploaded",
+    "uploaded_title": "Attachment uploaded",
+    "uploading": "Uploading attachment..."
   },
   "auth": {
     "common": {
@@ -844,6 +850,12 @@
   "webhook_operations": {
     "delete_failed": "Webhook could not be deleted. Please try again.",
     "deleted": "Webhook deleted successfully."
+  },
+  "work_item": {
+    "peek_error": {
+      "description": "The work item you are looking for does not exist, has been archived, or has been deleted.",
+      "title": "Work item does not exist"
+    }
   },
   "work_item_operations": {
     "action_failed": "Failed to perform this action",
