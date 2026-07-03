@@ -30,16 +30,16 @@ type TCycleAnalyticsProgress = {
 };
 type Options = {
   value: string;
-  label: string;
+  labelTranslationKey: string;
 };
 
 export const cycleEstimateOptions: Options[] = [
-  { value: "issues", label: "Work items" },
-  { value: "points", label: "Estimates" },
+  { value: "issues", labelTranslationKey: "common.work_items" },
+  { value: "points", labelTranslationKey: "common.estimates" },
 ];
 export const cycleChartOptions: Options[] = [
-  { value: "burndown", label: "Burn-down" },
-  { value: "burnup", label: "Burn-up" },
+  { value: "burndown", labelTranslationKey: "project_cycles.chart.burn_down" },
+  { value: "burnup", labelTranslationKey: "project_cycles.chart.burn_up" },
 ];
 
 export const validateCycleSnapshot = (cycleDetails: ICycle | null): ICycle | null => {

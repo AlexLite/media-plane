@@ -612,8 +612,33 @@
     "unpublish_failed": "Something went wrong while unpublishing the project."
   },
   "project_cycles": {
+    "archive_modal": {
+      "archiving": "Archiving",
+      "description": "Are you sure you want to archive the cycle? All your archives can be restored later.",
+      "error_message": "Cycle could not be archived. Please try again.",
+      "success_message": "Your archives can be found in project archives.",
+      "success_title": "Archive success",
+      "title": "Archive cycle {cycle}"
+    },
+    "chart": {
+      "burn_down": "Burn-down",
+      "burn_up": "Burn-up"
+    },
+    "delete_modal": {
+      "description_prefix": "Are you sure you want to delete cycle",
+      "description_suffix": "All of the data related to the cycle will be permanently removed. This action cannot be undone.",
+      "title": "Delete cycle"
+    },
     "filters": {
       "status_of_cycle": "Status of the cycle{count}"
+    },
+    "toasts": {
+      "create_failed": "Error in creating cycle. Please try again.",
+      "created": "Cycle created successfully.",
+      "date_conflict": "You already have a cycle on the given dates, if you want to create a draft cycle, remove the dates.",
+      "deleted": "Cycle deleted successfully.",
+      "update_failed": "Error in updating cycle. Please try again.",
+      "updated": "Cycle updated successfully."
     }
   },
   "project_members": {
