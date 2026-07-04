@@ -26,6 +26,8 @@ const IGNORE_FILE_PATTERNS = [
   /\.stories\.[tj]sx?$/,
   // Billing plan comparison is intentionally left as upstream English copy for now.
   /(^|\/)apps\/web\/core\/constants\/plans\.tsx$/,
+  // Exact upstream API strings used only as localization match keys.
+  /(^|\/)apps\/web\/core\/services\/api-error-localization\.ts$/,
   /(^|\/)__tests__(\/|$)/,
   /(^|\/)node_modules(\/|$)/,
   /(^|\/)\.next(\/|$)/,

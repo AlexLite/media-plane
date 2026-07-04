@@ -7,6 +7,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
 import axios from "axios";
+import { localizeAPIErrorPayload } from "./api-error-localization";
 
 const ensureAPIErrorPayload = (error: any) => {
   const fallbackError = error ?? new Error("API request failed");
@@ -16,6 +17,8 @@ const ensureAPIErrorPayload = (error: any) => {
   } else if (fallbackError.response.data == null) {
     fallbackError.response.data = fallbackError;
   }
+
+  localizeAPIErrorPayload(fallbackError.response.data);
 
   return fallbackError;
 };
