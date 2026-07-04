@@ -13,14 +13,18 @@ function CommandComponent({ className, ...props }: React.ComponentProps<typeof C
   return <CommandPrimitive data-slot="command" className={cn("", className)} {...props} />;
 }
 
-function CommandInput({ className, ...props }: React.ComponentProps<typeof CommandPrimitive.Input>) {
+function CommandInput({
+  className,
+  name = "command-search",
+  ...props
+}: React.ComponentProps<typeof CommandPrimitive.Input>) {
   return (
     <div
       data-slot="command-input-wrapper"
       className="flex items-center gap-1.5 rounded-sm border border-subtle bg-surface-2 px-2"
     >
       <SearchIcon className="size-3.5 flex-shrink-0 text-placeholder" strokeWidth={1.5} />
-      <CommandPrimitive.Input data-slot="command-input" className={cn(className)} {...props} />
+      <CommandPrimitive.Input data-slot="command-input" name={name} className={cn(className)} {...props} />
     </div>
   );
 }

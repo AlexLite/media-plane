@@ -14,7 +14,6 @@ import {
   Node,
   nodeInputRule,
   PasteRule,
-  removeDuplicates,
 } from "@tiptap/core";
 import type { EmojiStorage } from "@tiptap/extension-emoji";
 import { emojis, emojiToShortcode, shortcodeToEmoji } from "@tiptap/extension-emoji";
@@ -24,7 +23,6 @@ import { Plugin, PluginKey, TextSelection } from "@tiptap/pm/state";
 import type { SuggestionOptions } from "@tiptap/suggestion";
 import Suggestion from "@tiptap/suggestion";
 import emojiRegex from "emoji-regex";
-import { isEmojiSupported } from "is-emoji-supported";
 // helpers
 import { customFindSuggestionMatch } from "@/helpers/find-suggestion-match";
 
@@ -151,20 +149,10 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
 
   addStorage() {
     const { emojis } = this.options;
-    const supportMap: Record<number, boolean> = removeDuplicates(emojis.map((item) => item.version))
-      .filter((version) => typeof version === "number")
-      .reduce((versions, version) => {
-        const emoji = emojis.find((item) => item.version === version && item.emoji);
-
-        return {
-          ...versions,
-          [version]: emoji ? isEmojiSupported(emoji.emoji as string) : false,
-        };
-      }, {});
 
     return {
       emojis: this.options.emojis,
-      isSupported: (emojiItem) => (emojiItem.version ? supportMap[emojiItem.version] : false),
+      isSupported: () => true,
       forceOpen: false,
     };
   },

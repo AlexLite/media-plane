@@ -157,6 +157,7 @@ export function CustomSearchSelect(props: ICustomSearchSelectProps) {
                       <SearchIcon className="h-3.5 w-3.5 text-placeholder" strokeWidth={1.5} />
                       <Combobox.Input
                         className="w-full bg-transparent py-1 text-11 text-secondary placeholder:text-placeholder focus:outline-none"
+                        name="custom-search-select-search"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         placeholder="Поиск"

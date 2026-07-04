@@ -929,9 +929,6 @@ importers:
       highlight.js:
         specifier: ^11.8.0
         version: 11.11.1
-      is-emoji-supported:
-        specifier: ^0.0.5
-        version: 0.0.5
       jsx-dom-cjs:
         specifier: ^8.0.3
         version: 8.1.6
