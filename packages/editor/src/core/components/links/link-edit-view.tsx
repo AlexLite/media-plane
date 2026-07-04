@@ -7,12 +7,15 @@
 import type { Node } from "@tiptap/pm/model";
 import { Link2Off } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+// plane imports
+import { useTranslation } from "@plane/i18n";
 // components
 import type { LinkViewProps, LinkViews } from "@/components/links";
 // helpers
 import { isValidHttpUrl } from "@/helpers/common";
 
 type InputViewProps = {
+  id: string;
   label: string;
   value: string;
   placeholder: string;
@@ -20,11 +23,15 @@ type InputViewProps = {
   autoFocus?: boolean;
 };
 
-function InputView({ label, value, placeholder, onChange, autoFocus }: InputViewProps) {
+function InputView({ id, label, value, placeholder, onChange, autoFocus }: InputViewProps) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="inline-block text-11 font-semibold text-placeholder">{label}</label>
+      <label htmlFor={id} className="inline-block text-11 font-semibold text-placeholder">
+        {label}
+      </label>
       <input
+        id={id}
+        name={id}
         placeholder={placeholder}
         onClick={(e) => e.stopPropagation()}
         className="w-[280px] rounded-md border border-strong bg-layer-1 p-2 text-13 text-primary outline-none"
@@ -43,6 +50,7 @@ type LinkEditViewProps = {
 
 export function LinkEditView({ viewProps }: LinkEditViewProps) {
   const { editor, from, to, url: initialUrl, text: initialText, closeLinkView } = viewProps;
+  const { t } = useTranslation();
 
   // State
   const [positionRef] = useState({ from, to });
@@ -144,13 +152,26 @@ export function LinkEditView({ viewProps }: LinkEditViewProps) {
       }}
       tabIndex={0}
     >
-      <InputView label="URL" placeholder="Enter or paste URL" value={localUrl} onChange={setLocalUrl} autoFocus />
-      <InputView label="Text" placeholder="Enter Text to display" value={localText} onChange={handleTextChange} />
+      <InputView
+        id="editor-link-url"
+        label={t("editor.link_menu.url")}
+        placeholder={t("editor.link_menu.url_placeholder")}
+        value={localUrl}
+        onChange={setLocalUrl}
+        autoFocus
+      />
+      <InputView
+        id="editor-link-text"
+        label={t("editor.link_menu.text")}
+        placeholder={t("editor.link_menu.text_placeholder")}
+        value={localText}
+        onChange={handleTextChange}
+      />
       <div className="bg-strong mb-1 h-[1px] w-full gap-2" />
       <div className="flex items-center gap-2 text-13 text-secondary">
         <Link2Off size={14} className="inline-block" />
         <button onClick={removeLink} className="cursor-pointer transition-colors hover:text-placeholder">
-          Remove Link
+          {t("editor.link_menu.remove_link")}
         </button>
       </div>
     </div>

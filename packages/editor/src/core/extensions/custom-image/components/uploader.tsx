@@ -249,10 +249,10 @@ export function CustomImageUploader(props: CustomImageUploaderProps) {
               "hover:bg-danger-subtle-hover": selected,
             }
           )}
-          title="Retry duplication"
+          title={t("editor.image.retry_duplication")}
         >
           <RotateCcw className="size-3" />
-          <span className="text-11">Retry</span>
+          <span className="text-11">{t("editor.image.retry")}</span>
         </button>
       )}
       <input

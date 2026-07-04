@@ -70,6 +70,42 @@
       "delete": "Delete",
       "duplicate": "Duplicate"
     },
+    "code_block": {
+      "copy_code": "Copy code"
+    },
+    "image_toolbar": {
+      "align": "Align",
+      "align_left": "Left",
+      "align_center": "Center",
+      "align_right": "Right",
+      "close_image_viewer": "Close image viewer",
+      "download": "Download",
+      "download_image": "Download image",
+      "fullscreen_image_viewer": "Fullscreen image viewer",
+      "open_image_in_new_tab": "Open image in new tab",
+      "view_full_screen": "View in full screen",
+      "view_image_full_screen": "View image in full screen",
+      "zoom_in": "Zoom in",
+      "zoom_out": "Zoom out"
+    },
+    "image": {
+      "add_image": "Add image",
+      "drop_here": "Drop image here",
+      "error_loading": "Unable to load image",
+      "retry": "Retry",
+      "retry_duplication": "Retry duplication",
+      "uploading": "Uploading image"
+    },
+    "link_menu": {
+      "remove_link": "Remove link",
+      "text": "Text",
+      "text_placeholder": "Enter text to display",
+      "url": "URL",
+      "url_placeholder": "Enter or paste URL"
+    },
+    "table_options": {
+      "fit_to_width": "Fit to width"
+    },
     "table_menu": {
       "header_row": "Header row",
       "header_column": "Header column",

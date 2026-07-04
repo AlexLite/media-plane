@@ -10,6 +10,8 @@ import ts from "highlight.js/lib/languages/typescript";
 import { common, createLowlight } from "lowlight";
 import { CheckIcon } from "lucide-react";
 import { useState } from "react";
+// plane imports
+import { useTranslation } from "@plane/i18n";
 import { CopyIcon } from "@plane/propel/icons";
 // ui
 import { Tooltip } from "@plane/propel/tooltip";
@@ -29,6 +31,7 @@ type Props = {
 
 export function CodeBlockComponent({ node }: Props) {
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslation();
   // derived values
   const attrs = node.attrs as TCodeBlockAttributes;
 
@@ -46,7 +49,7 @@ export function CodeBlockComponent({ node }: Props) {
 
   return (
     <NodeViewWrapper key={attrs[ECodeBlockAttributeNames.ID]} className="code-block group/code relative">
-      <Tooltip tooltipContent="Copy code">
+      <Tooltip tooltipContent={t("editor.code_block.copy_code")}>
         <button
           type="button"
           className={cn(

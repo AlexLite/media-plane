@@ -6,6 +6,7 @@
 
 import { Download } from "lucide-react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { Tooltip } from "@plane/propel/tooltip";
 
 type Props = {
@@ -14,14 +15,15 @@ type Props = {
 
 export function ImageDownloadAction(props: Props) {
   const { src } = props;
+  const { t } = useTranslation();
 
   return (
-    <Tooltip tooltipContent="Download">
+    <Tooltip tooltipContent={t("editor.image_toolbar.download")}>
       <button
         type="button"
         onClick={() => window.open(src, "_blank")}
         className="grid h-full flex-shrink-0 place-items-center text-white/60 transition-colors hover:text-white"
-        aria-label="Download image"
+        aria-label={t("editor.image_toolbar.download_image")}
       >
         <Download className="size-3" />
       </button>

@@ -9,6 +9,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { NewTabIcon, PlusIcon, CloseIcon } from "@plane/propel/icons";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { cn } from "@plane/utils";
 
 const MIN_ZOOM = 0.5;
@@ -28,6 +29,7 @@ type Props = {
 
 function ImageFullScreenModalWithoutPortal(props: Props) {
   const { aspectRatio, isFullScreenEnabled, isTouchDevice, downloadSrc, src, toggleFullScreenMode, width } = props;
+  const { t } = useTranslation();
   // refs
   const dragStart = useRef({ x: 0, y: 0 });
   const dragOffset = useRef({ x: 0, y: 0 });
@@ -206,7 +208,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
       })}
       role="dialog"
       aria-modal="true"
-      aria-label="Fullscreen image viewer"
+      aria-label={t("editor.image_toolbar.fullscreen_image_viewer")}
     >
       <div
         ref={modalRef}
@@ -217,7 +219,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
           type="button"
           onClick={handleClose}
           className="absolute top-10 right-10 grid size-8 place-items-center"
-          aria-label="Close image viewer"
+          aria-label={t("editor.image_toolbar.close_image_viewer")}
         >
           <CloseIcon className="size-8 text-white/60 transition-colors hover:text-white" />
         </button>
@@ -250,7 +252,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
               }}
               className="grid size-6 place-items-center text-white/60 transition-colors duration-200 hover:text-white disabled:text-white/30"
               disabled={magnification <= MIN_ZOOM}
-              aria-label="Zoom out"
+              aria-label={t("editor.image_toolbar.zoom_out")}
             >
               <Minus className="size-4" />
             </button>
@@ -266,7 +268,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
               }}
               className="grid size-6 place-items-center text-white/60 transition-colors duration-200 hover:text-white disabled:text-white/30"
               disabled={magnification >= MAX_ZOOM}
-              aria-label="Zoom in"
+              aria-label={t("editor.image_toolbar.zoom_in")}
             >
               <PlusIcon className="size-4" />
             </button>
@@ -276,7 +278,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
               type="button"
               onClick={() => window.open(downloadSrc, "_blank")}
               className="grid size-8 flex-shrink-0 place-items-center text-white/60 transition-colors duration-200 hover:text-white"
-              aria-label="Download image"
+              aria-label={t("editor.image_toolbar.download_image")}
             >
               <Download className="size-4" />
             </button>
@@ -286,7 +288,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
               type="button"
               onClick={() => window.open(src, "_blank")}
               className="grid size-8 flex-shrink-0 place-items-center text-white/60 transition-colors duration-200 hover:text-white"
-              aria-label="Open image in new tab"
+              aria-label={t("editor.image_toolbar.open_image_in_new_tab")}
             >
               <NewTabIcon className="size-4" />
             </button>

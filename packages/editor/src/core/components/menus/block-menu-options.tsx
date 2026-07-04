@@ -8,6 +8,8 @@ import type { Node as ProseMirrorNode } from "@tiptap/pm/model";
 import { TableMap } from "@tiptap/pm/tables";
 import type { Editor } from "@tiptap/react";
 import { MoveHorizontal } from "lucide-react";
+// plane imports
+import { translationStore } from "@plane/i18n";
 // constants
 import { CORE_EXTENSIONS } from "@/constants/extension";
 // types
@@ -86,7 +88,7 @@ export const getNodeOptions = (editor: Editor): BlockMenuOption[] => [
   {
     icon: MoveHorizontal,
     key: "table-full-width",
-    label: "Fit to width",
+    label: translationStore.t("editor.table_options.fit_to_width"),
     isDisabled: !editor.isActive(CORE_EXTENSIONS.TABLE),
     onClick: () => setTableToFullWidth(editor),
   },

@@ -70,6 +70,42 @@
       "delete": "Удалить",
       "duplicate": "Дублировать"
     },
+    "code_block": {
+      "copy_code": "Копировать код"
+    },
+    "image_toolbar": {
+      "align": "Выровнять",
+      "align_left": "Слева",
+      "align_center": "По центру",
+      "align_right": "Справа",
+      "close_image_viewer": "Закрыть просмотр изображения",
+      "download": "Скачать",
+      "download_image": "Скачать изображение",
+      "fullscreen_image_viewer": "Полноэкранный просмотр изображения",
+      "open_image_in_new_tab": "Открыть изображение в новой вкладке",
+      "view_full_screen": "Открыть на весь экран",
+      "view_image_full_screen": "Открыть изображение на весь экран",
+      "zoom_in": "Увеличить",
+      "zoom_out": "Уменьшить"
+    },
+    "image": {
+      "add_image": "Добавить изображение",
+      "drop_here": "Перетащите изображение сюда",
+      "error_loading": "Не удалось загрузить изображение",
+      "retry": "Повторить",
+      "retry_duplication": "Повторить дублирование",
+      "uploading": "Загрузка изображения"
+    },
+    "link_menu": {
+      "remove_link": "Удалить ссылку",
+      "text": "Текст",
+      "text_placeholder": "Введите текст для отображения",
+      "url": "URL",
+      "url_placeholder": "Введите или вставьте URL"
+    },
+    "table_options": {
+      "fit_to_width": "По ширине"
+    },
     "table_menu": {
       "header_row": "Строка заголовка",
       "header_column": "Столбец заголовка",
