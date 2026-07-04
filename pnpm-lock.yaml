@@ -119,6 +119,11 @@ overrides:
   follow-redirects: 1.16.0
   uuid: 14.0.0
 
+patchedDependencies:
+  is-emoji-supported@0.0.5:
+    hash: a442ca8829b4b812bd85b0d3e752fbf1040dcc0ef1eb8db5bdd4f7183eddea6f
+    path: patches/is-emoji-supported@0.0.5.patch
+
 importers:
 
   .:
@@ -11225,7 +11230,7 @@ snapshots:
       '@tiptap/suggestion': 2.26.1(@tiptap/core@2.26.3(@tiptap/pm@2.26.1))(@tiptap/pm@2.26.1)
       emoji-regex: 10.5.0
       emojibase-data: 15.3.2(emojibase@16.0.0)
-      is-emoji-supported: 0.0.5
+      is-emoji-supported: 0.0.5(patch_hash=a442ca8829b4b812bd85b0d3e752fbf1040dcc0ef1eb8db5bdd4f7183eddea6f)
     transitivePeerDependencies:
       - emojibase
 
@@ -13537,7 +13542,7 @@ snapshots:
 
   is-docker@2.2.1: {}
 
-  is-emoji-supported@0.0.5: {}
+  is-emoji-supported@0.0.5(patch_hash=a442ca8829b4b812bd85b0d3e752fbf1040dcc0ef1eb8db5bdd4f7183eddea6f): {}
 
   is-extglob@2.1.1: {}
 
