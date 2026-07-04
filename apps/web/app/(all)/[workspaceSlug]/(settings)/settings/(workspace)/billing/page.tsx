@@ -4,38 +4,19 @@
  * See the LICENSE file for details.
  */
 
-import { observer } from "mobx-react";
-// component
-import { EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
-import { NotAuthorizedView } from "@/components/auth-screens/not-authorized-view";
-import { PageHead } from "@/components/core/page-title";
-import { SettingsContentWrapper } from "@/components/settings/content-wrapper";
-// hooks
-import { useWorkspace } from "@/hooks/store/use-workspace";
-import { useUserPermissions } from "@/hooks/store/user";
-// plane web components
-import { BillingRoot } from "@/plane-web/components/workspace/billing";
-// local imports
-import { BillingWorkspaceSettingsHeader } from "./header";
+import { useEffect } from "react";
+// router
+import { useParams, useRouter } from "next/navigation";
 
 function BillingSettingsPage() {
-  // store hooks
-  const { workspaceUserInfo, allowPermissions } = useUserPermissions();
-  const { currentWorkspace } = useWorkspace();
-  // derived values
-  const canPerformWorkspaceAdminActions = allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.WORKSPACE);
-  const pageTitle = currentWorkspace?.name ? `${currentWorkspace.name} - Биллинг и тарифы` : undefined;
+  const { workspaceSlug } = useParams();
+  const router = useRouter();
 
-  if (workspaceUserInfo && !canPerformWorkspaceAdminActions) {
-    return <NotAuthorizedView section="settings" className="h-auto" />;
-  }
+  useEffect(() => {
+    if (typeof workspaceSlug === "string") router.replace(`/${workspaceSlug}/settings/`);
+  }, [router, workspaceSlug]);
 
-  return (
-    <SettingsContentWrapper header={<BillingWorkspaceSettingsHeader />} hugging>
-      <PageHead title={pageTitle} />
-      <BillingRoot />
-    </SettingsContentWrapper>
-  );
+  return null;
 }
 
-export default observer(BillingSettingsPage);
+export default BillingSettingsPage;
