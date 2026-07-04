@@ -55,12 +55,12 @@ class ExportIssuesEndpoint(BaseAPIView):
                 slug=slug,
             )
             return Response(
-                {"message": "Once the export is ready you will be able to download it"},
+                {"message": "Когда экспорт будет готов, вы сможете его скачать"},
                 status=status.HTTP_200_OK,
             )
         else:
             return Response(
-                {"error": f"Provider '{provider}' not found."},
+                {"error": f"Провайдер '{provider}' не найден."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -79,6 +79,6 @@ class ExportIssuesEndpoint(BaseAPIView):
             )
         else:
             return Response(
-                {"error": "per_page and cursor are required"},
+                {"error": "Параметры per_page и cursor обязательны"},
                 status=status.HTTP_400_BAD_REQUEST,
             )

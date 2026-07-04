@@ -54,7 +54,7 @@ class WorkspaceInvitationsViewset(BaseViewSet):
         emails = request.data.get("emails", [])
         # Check if email is provided
         if not emails:
-            return Response({"error": "Emails are required"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Укажите email-адреса"}, status=status.HTTP_400_BAD_REQUEST)
 
         # check for role level of the requesting user
         requesting_user = WorkspaceMember.objects.get(workspace__slug=slug, member=request.user, is_active=True)
@@ -62,7 +62,7 @@ class WorkspaceInvitationsViewset(BaseViewSet):
         # Check if any invited user has an higher role
         if len([email for email in emails if int(email.get("role", 5)) > requesting_user.role]):
             return Response(
-                {"error": "You cannot invite a user with higher role"},
+                {"error": "Нельзя пригласить пользователя с ролью выше вашей"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -79,7 +79,7 @@ class WorkspaceInvitationsViewset(BaseViewSet):
         if workspace_members:
             return Response(
                 {
-                    "error": "Some users are already member of workspace",
+                    "error": "Некоторые пользователи уже состоят в рабочем пространстве",
                     "workspace_users": WorkSpaceMemberSerializer(workspace_members, many=True).data,
                 },
                 status=status.HTTP_400_BAD_REQUEST,
@@ -105,7 +105,7 @@ class WorkspaceInvitationsViewset(BaseViewSet):
             except ValidationError:
                 return Response(
                     {
-                        "error": f"Invalid email - {email} provided a valid email address is required to send the invite"  # noqa: E501
+                        "error": f"Некорректный email: {email}. Для отправки приглашения нужен действительный email-адрес"  # noqa: E501
                     },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
@@ -139,7 +139,7 @@ class WorkspaceInvitationsViewset(BaseViewSet):
                 },
             )
 
-        return Response({"message": "Emails sent successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Приглашения успешно отправлены"}, status=status.HTTP_200_OK)
 
     def destroy(self, request, slug, pk):
         workspace_member_invite = WorkspaceMemberInvite.objects.get(pk=pk, workspace__slug=slug)
@@ -170,7 +170,7 @@ class WorkspaceJoinEndpoint(BaseAPIView):
         # otherwise allow the invitation id itself to authorize the response.
         if email and invite_email != email:
             return Response(
-                {"error": "You do not have permission to join the workspace"},
+                {"error": "У вас нет прав для присоединения к рабочему пространству"},
                 status=status.HTTP_403_FORBIDDEN,
             )
         email = invite_email
@@ -223,18 +223,18 @@ class WorkspaceJoinEndpoint(BaseAPIView):
                     workspace_invite.delete()
 
                 return Response(
-                    {"message": "Workspace Invitation Accepted"},
+                    {"message": "Приглашение в рабочее пространство принято"},
                     status=status.HTTP_200_OK,
                 )
 
             # Workspace invitation rejected
             return Response(
-                {"message": "Workspace Invitation was not accepted"},
+                {"message": "Приглашение в рабочее пространство не принято"},
                 status=status.HTTP_200_OK,
             )
 
         return Response(
-            {"error": "You have already responded to the invitation request"},
+            {"error": "Вы уже ответили на это приглашение"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 

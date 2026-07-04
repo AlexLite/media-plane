@@ -56,7 +56,7 @@ class ProjectInvitationsViewset(BaseViewSet):
 
         # Check if email is provided
         if not emails:
-            return Response({"error": "Emails are required"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Укажите email-адреса"}, status=status.HTTP_400_BAD_REQUEST)
 
         for email in emails:
             workspace_role = WorkspaceMember.objects.filter(
@@ -64,7 +64,7 @@ class ProjectInvitationsViewset(BaseViewSet):
             ).role
 
             if workspace_role in [5, 20] and workspace_role != email.get("role", 5):
-                return Response({"error": "You cannot invite a user with different role than workspace role"})
+                return Response({"error": "Нельзя пригласить пользователя с ролью, отличной от роли в рабочем пространстве"})
 
         workspace = Workspace.objects.get(slug=slug)
 
@@ -89,7 +89,7 @@ class ProjectInvitationsViewset(BaseViewSet):
             except ValidationError:
                 return Response(
                     {
-                        "error": f"Invalid email - {email} provided a valid email address is required to send the invite"  # noqa: E501
+                        "error": f"Некорректный email: {email}. Для отправки приглашения нужен действительный email-адрес"  # noqa: E501
                     },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
@@ -110,7 +110,7 @@ class ProjectInvitationsViewset(BaseViewSet):
                 request.user.email,
             )
 
-        return Response({"message": "Email sent successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Приглашение успешно отправлено"}, status=status.HTTP_200_OK)
 
 
 class UserProjectInvitationsViewset(BaseViewSet):
@@ -138,7 +138,7 @@ class UserProjectInvitationsViewset(BaseViewSet):
         for project in projects:
             if project.network == ProjectNetwork.SECRET.value and workspace_member.role != ROLE.ADMIN.value:
                 return Response(
-                    {"error": "Only workspace admins can join private project"},
+                    {"error": "Только администраторы рабочего пространства могут присоединяться к приватному проекту"},
                     status=status.HTTP_403_FORBIDDEN,
                 )
 
@@ -177,7 +177,7 @@ class UserProjectInvitationsViewset(BaseViewSet):
             ignore_conflicts=True,
         )
 
-        return Response({"message": "Projects joined successfully"}, status=status.HTTP_201_CREATED)
+        return Response({"message": "Вы успешно присоединились к проектам"}, status=status.HTTP_201_CREATED)
 
 
 class ProjectJoinEndpoint(BaseAPIView):
@@ -190,7 +190,7 @@ class ProjectJoinEndpoint(BaseAPIView):
 
         if email == "" or project_invite.email != email:
             return Response(
-                {"error": "You do not have permission to join the project"},
+                {"error": "У вас нет прав для присоединения к проекту"},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -234,17 +234,17 @@ class ProjectJoinEndpoint(BaseAPIView):
                     project_member.save()
 
                 return Response(
-                    {"message": "Project Invitation Accepted"},
+                    {"message": "Приглашение в проект принято"},
                     status=status.HTTP_200_OK,
                 )
 
             return Response(
-                {"message": "Project Invitation was not accepted"},
+                {"message": "Приглашение в проект не принято"},
                 status=status.HTTP_200_OK,
             )
 
         return Response(
-            {"error": "You have already responded to the invitation request"},
+            {"error": "Вы уже ответили на это приглашение"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
