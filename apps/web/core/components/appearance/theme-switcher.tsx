@@ -44,21 +44,21 @@ export const ThemeSwitcher = observer(function ThemeSwitcher(props: {
         setTheme(themeOption.value);
         const updatePromise = updateUserTheme({ theme: themeOption.value });
         setPromiseToast(updatePromise, {
-          loading: "Updating theme...",
+          loading: t("updating_theme"),
           success: {
-            title: t("common.success"),
-            message: () => "Theme updated successfully!",
+            title: t("success"),
+            message: () => t("theme_updated_successfully"),
           },
           error: {
             title: t("common.error.label"),
-            message: () => "Failed to update the theme",
+            message: () => t("failed_to_update_the_theme"),
           },
         });
       } catch (error) {
         console.error("Error updating theme:", error);
       }
     },
-    [updateUserTheme]
+    [setTheme, t, updateUserTheme]
   );
 
   if (!userProfile) return null;
