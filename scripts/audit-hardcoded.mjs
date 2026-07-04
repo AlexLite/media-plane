@@ -24,6 +24,8 @@ const IGNORE_FILE_PATTERNS = [
   /\.test\.[tj]sx?$/,
   /\.spec\.[tj]sx?$/,
   /\.stories\.[tj]sx?$/,
+  // Billing plan comparison is intentionally left as upstream English copy for now.
+  /(^|\/)apps\/web\/core\/constants\/plans\.tsx$/,
   /(^|\/)__tests__(\/|$)/,
   /(^|\/)node_modules(\/|$)/,
   /(^|\/)\.next(\/|$)/,
@@ -54,6 +56,7 @@ const IGNORE_LINE_PATTERNS = [
   /^\s*export\s+type\b/,
   /^\s*type\s+\w+/,
   /^\s*interface\s+\w+/,
+  /\bReact\.ComponentType\b/,
   /\bPromise\s*</,
   /\b(?:Partial|Record|Readonly|Pick|Omit|Parameters|ReturnType|Exclude|Extract|NonNullable|Required)\s*</,
   /\bclassName\s*=/,
@@ -199,8 +202,17 @@ function auditFiles(filesToAudit) {
   for (const file of filesToAudit) {
     const content = readFileSync(file, "utf8");
     const matches = [];
+    let isInsideBlockComment = false;
 
     content.split(/\r?\n/).forEach((line, index) => {
+      if (isInsideBlockComment) {
+        if (line.includes("*/")) isInsideBlockComment = false;
+        return;
+      }
+      if (line.includes("/*")) {
+        if (!line.includes("*/")) isInsideBlockComment = true;
+        return;
+      }
       if (shouldIgnoreLine(line)) return;
 
       for (const { kind, pattern } of UI_STRING_PATTERNS) {
