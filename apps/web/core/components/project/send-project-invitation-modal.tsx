@@ -37,6 +37,18 @@ type FormValues = {
   members: member[];
 };
 
+const getWorkspaceRoleLabel = (role: number, t: (key: string) => string): string => {
+  switch (role) {
+    case EUserPermissions.ADMIN:
+      return t("workspace_member_roles.admin");
+    case EUserPermissions.MEMBER:
+      return t("workspace_member_roles.member");
+    case EUserPermissions.GUEST:
+    default:
+      return t("workspace_member_roles.guest");
+  }
+};
+
 const defaultValues: FormValues = {
   members: [
     {
@@ -189,7 +201,7 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
                   <Controller
                     control={control}
                     name={`members.${index}.member_id`}
-                    rules={{ required: "Please select a member" }}
+                    rules={{ required: t("project_settings.members.invite_members.errors.select_member") }}
                     render={({ field: { value, onChange } }) => {
                       const selectedMember = getWorkspaceMemberDetails(value);
                       return (
@@ -206,7 +218,9 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
                                   {selectedMember?.member.display_name}
                                 </div>
                               ) : (
-                                <div className="flex items-center gap-2 py-0.5">Select co-worker</div>
+                                <div className="flex items-center gap-2 py-0.5">
+                                  {t("project_settings.members.invite_members.select_co_worker")}
+                                </div>
                               )}
                               <ChevronDownIcon className="h-3 w-3" aria-hidden="true" />
                             </button>
@@ -240,25 +254,29 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
                     <Controller
                       name={`members.${index}.role`}
                       control={control}
-                      rules={{ required: "Select Role" }}
+                      rules={{ required: t("project_settings.members.invite_members.errors.select_role") }}
                       render={({ field }) => (
                         <CustomSelect
                           {...field}
                           customButton={
                             <div className="shadow-sm flex w-24 items-center justify-between gap-1 rounded-md border border-subtle px-3 py-2.5 text-left text-13 text-secondary duration-300 hover:bg-layer-1 hover:text-primary focus:outline-none">
-                              <span className="capitalize">{field.value ? ROLE[field.value] : "Select role"}</span>
+                              <span className="capitalize">
+                                {field.value
+                                  ? getWorkspaceRoleLabel(Number(field.value), t)
+                                  : t("project_settings.members.invite_members.select_role")}
+                              </span>
                               <ChevronDownIcon className="h-3 w-3" aria-hidden="true" />
                             </div>
                           }
                           input
                         >
                           {Object.entries(checkCurrentOptionWorkspaceRole(watch(`members.${index}.member_id`))).map(
-                            ([key, label]) => {
+                            ([key]) => {
                               if (parseInt(key) > (currentProjectRole ?? EUserPermissions.GUEST)) return null;
 
                               return (
                                 <CustomSelect.Option key={key} value={key}>
-                                  {label}
+                                  {getWorkspaceRoleLabel(Number(key), t)}
                                 </CustomSelect.Option>
                               );
                             }

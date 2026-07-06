@@ -42,7 +42,12 @@
       "invite_members": {
         "title": "Invite members",
         "sub_heading": "Invite members to work on your project.",
-        "select_co_worker": "Select co-worker"
+        "select_co_worker": "Select co-worker",
+        "select_role": "Select role",
+        "errors": {
+          "select_member": "Please select a member",
+          "select_role": "Select a role"
+        }
       }
     },
     "states": {

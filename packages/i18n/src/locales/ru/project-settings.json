@@ -42,7 +42,12 @@
       "invite_members": {
         "title": "Пригласить участников",
         "sub_heading": "Пригласите коллег для работы над проектом.",
-        "select_co_worker": "Выберите сотрудника"
+        "select_co_worker": "Выберите сотрудника",
+        "select_role": "Выберите роль",
+        "errors": {
+          "select_member": "Выберите участника",
+          "select_role": "Выберите роль"
+        }
       }
     },
     "states": {
