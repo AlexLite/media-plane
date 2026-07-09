@@ -30,6 +30,15 @@
     "cycle": "Cycle",
     "update_cycle": "Update cycle",
     "create_cycle": "Create cycle",
+    "empty_state": {
+      "not_found": {
+        "title": "Cycle does not exist",
+        "description": "The cycle you are looking for does not exist or has been deleted.",
+        "primary_button": {
+          "text": "View other cycles"
+        }
+      }
+    },
     "no_matching_cycles": "No matching cycles",
     "remove_filters_to_see_all_cycles": "Remove the filters to see all cycles",
     "remove_search_criteria_to_see_all_cycles": "Remove the search criteria to see all cycles",
@@ -162,6 +171,13 @@
   },
   "project_views": {
     "empty_state": {
+      "not_found": {
+        "title": "View does not exist",
+        "description": "The view you are looking for does not exist or you don't have permission to view it.",
+        "primary_button": {
+          "text": "View other views"
+        }
+      },
       "general": {
         "title": "Save filtered views for your project. Create as many as you need",
         "description": "Views are a set of saved filters that you use frequently or want easy access to. All your colleagues in a project can see everyone's views and choose whichever suits their needs best.",
@@ -361,6 +377,15 @@
     }
   },
   "project_modules": {
+    "empty_state": {
+      "not_found": {
+        "title": "Module does not exist",
+        "description": "The module you are looking for does not exist or has been deleted.",
+        "primary_button": {
+          "text": "View other modules"
+        }
+      }
+    },
     "status": {
       "backlog": "Backlog",
       "planned": "Planned",
