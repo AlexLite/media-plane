@@ -214,18 +214,28 @@ const localizeAPIErrorText = (value: string) => {
 };
 
 export const localizeAPIErrorPayload = (payload: unknown): unknown => {
-  if (!payload || typeof payload !== "object") return payload;
+  const visited = new WeakSet<object>();
 
-  if (Array.isArray(payload)) return payload.map(localizeAPIErrorPayload);
+  const localize = (value: unknown): unknown => {
+    if (!value || typeof value !== "object" || visited.has(value)) return value;
+    visited.add(value);
 
-  Object.entries(payload as Record<string, unknown>).forEach(([key, value]) => {
-    if (LOCALIZABLE_ERROR_FIELDS.has(key) && typeof value === "string") {
-      (payload as Record<string, unknown>)[key] = localizeAPIErrorText(value);
-      return;
+    if (Array.isArray(value)) {
+      value.forEach(localize);
+      return value;
     }
 
-    if (value && typeof value === "object") localizeAPIErrorPayload(value);
-  });
+    Object.entries(value as Record<string, unknown>).forEach(([key, nestedValue]) => {
+      if (LOCALIZABLE_ERROR_FIELDS.has(key) && typeof nestedValue === "string") {
+        (value as Record<string, unknown>)[key] = localizeAPIErrorText(nestedValue);
+        return;
+      }
 
-  return payload;
+      localize(nestedValue);
+    });
+
+    return value;
+  };
+
+  return localize(payload);
 };

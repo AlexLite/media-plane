@@ -10,12 +10,13 @@ import axios from "axios";
 import { localizeAPIErrorPayload } from "./api-error-localization";
 
 const ensureAPIErrorPayload = (error: any) => {
-  const fallbackError = error ?? new Error("API request failed");
+  const fallbackError = error && typeof error === "object" ? error : new Error(error || "API request failed");
+  const fallbackData = { message: fallbackError.message || "API request failed" };
 
   if (!fallbackError.response) {
-    fallbackError.response = { data: fallbackError };
+    fallbackError.response = { data: fallbackData };
   } else if (fallbackError.response.data == null) {
-    fallbackError.response.data = fallbackError;
+    fallbackError.response.data = fallbackData;
   }
 
   localizeAPIErrorPayload(fallbackError.response.data);
