@@ -307,261 +307,262 @@ const errorCodeMessages: {
 } = {
   // global
   [EAuthenticationErrorCodes.INSTANCE_NOT_CONFIGURED]: {
-    title: `Instance not configured`,
-    message: () => `Instance not configured. Please contact your administrator.`,
+    title: `Инстанс не настроен`,
+    message: () => `Инстанс не настроен. Пожалуйста, обратитесь к администратору.`,
   },
   [EAuthenticationErrorCodes.INVALID_EMAIL]: {
-    title: `Invalid email`,
-    message: () => `Invalid email. Please try again.`,
+    title: `Некорректный email`,
+    message: () => `Некорректный email. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.EMAIL_REQUIRED]: {
-    title: `Email required`,
-    message: () => `Email required. Please try again.`,
+    title: `Требуется email`,
+    message: () => `Требуется email. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.SIGNUP_DISABLED]: {
-    title: `Sign up disabled`,
-    message: () => `Sign up disabled. Please contact your administrator.`,
+    title: `Регистрация отключена`,
+    message: () => `Регистрация отключена. Пожалуйста, обратитесь к администратору.`,
   },
   [EAuthenticationErrorCodes.MAGIC_LINK_LOGIN_DISABLED]: {
-    title: `Magic link login disabled`,
-    message: () => `Magic link login disabled. Please contact your administrator.`,
+    title: `Вход по magic link отключен`,
+    message: () => `Вход по magic link отключен. Пожалуйста, обратитесь к администратору.`,
   },
   [EAuthenticationErrorCodes.PASSWORD_LOGIN_DISABLED]: {
-    title: `Password login disabled`,
-    message: () => `Password login disabled. Please contact your administrator.`,
+    title: `Вход по паролю отключен`,
+    message: () => `Вход по паролю отключен. Пожалуйста, обратитесь к администратору.`,
   },
   [EAuthenticationErrorCodes.USER_ACCOUNT_DEACTIVATED]: {
-    title: `User account deactivated`,
-    message: () => `User account deactivated. Please contact ${SUPPORT_EMAIL ? SUPPORT_EMAIL : "administrator"}.`,
+    title: `Учетная запись пользователя деактивирована`,
+    message: () =>
+      `Учетная запись пользователя деактивирована. Пожалуйста, обратитесь к ${SUPPORT_EMAIL ? SUPPORT_EMAIL : "администратору"}.`,
   },
   [EAuthenticationErrorCodes.INVALID_PASSWORD]: {
-    title: `Invalid password`,
-    message: () => `Invalid password. Please try again.`,
+    title: `Неверный пароль`,
+    message: () => `Неверный пароль. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.PASSWORD_TOO_WEAK]: {
-    title: `Password too weak`,
-    message: () => `Please use a stronger password.`,
+    title: `Пароль слишком слабый`,
+    message: () => `Пожалуйста, используйте более надежный пароль.`,
   },
   [EAuthenticationErrorCodes.SMTP_NOT_CONFIGURED]: {
-    title: `SMTP not configured`,
-    message: () => `SMTP not configured. Please contact your administrator.`,
+    title: `SMTP не настроен`,
+    message: () => `SMTP не настроен. Пожалуйста, обратитесь к администратору.`,
   },
 
   // sign up
   [EAuthenticationErrorCodes.USER_ALREADY_EXIST]: {
-    title: `User already exists`,
+    title: `Пользователь уже существует`,
     message: (email = undefined) => (
       <div>
-        Your account is already registered.&nbsp;
+        Ваша учетная запись уже зарегистрирована.&nbsp;
         <Link
           className="font-medium underline underline-offset-4 transition-all hover:font-bold"
           href={`/sign-in${email ? `?email=${encodeURIComponent(email)}` : ``}`}
         >
-          Sign In
+          Войти
         </Link>
-        &nbsp;now.
+        &nbsp;сейчас.
       </div>
     ),
   },
   [EAuthenticationErrorCodes.REQUIRED_EMAIL_PASSWORD_SIGN_UP]: {
-    title: `Email and password required`,
-    message: () => `Email and password required. Please try again.`,
+    title: `Требуются email и пароль`,
+    message: () => `Требуются email и пароль. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.AUTHENTICATION_FAILED_SIGN_UP]: {
-    title: `Authentication failed`,
-    message: () => `Authentication failed. Please try again.`,
+    title: `Ошибка аутентификации`,
+    message: () => `Ошибка аутентификации. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.INVALID_EMAIL_SIGN_UP]: {
-    title: `Invalid email`,
-    message: () => `Invalid email. Please try again.`,
+    title: `Некорректный email`,
+    message: () => `Некорректный email. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.MAGIC_SIGN_UP_EMAIL_CODE_REQUIRED]: {
-    title: `Email and code required`,
-    message: () => `Email and code required. Please try again.`,
+    title: `Требуются email и код`,
+    message: () => `Требуются email и код. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.INVALID_EMAIL_MAGIC_SIGN_UP]: {
-    title: `Invalid email`,
-    message: () => `Invalid email. Please try again.`,
+    title: `Некорректный email`,
+    message: () => `Некорректный email. Попробуйте еще раз.`,
   },
 
   [EAuthenticationErrorCodes.USER_DOES_NOT_EXIST]: {
-    title: `User does not exist`,
+    title: `Пользователь не существует`,
     message: (email = undefined) => (
       <div>
-        No account found.&nbsp;
+        Аккаунт не найден.&nbsp;
         <Link
           className="font-medium underline underline-offset-4 transition-all hover:font-bold"
           href={`/${email ? `?email=${encodeURIComponent(email)}` : ``}`}
         >
-          Create one
+          Создать
         </Link>
-        &nbsp;to get started.
+        &nbsp;чтобы начать.
       </div>
     ),
   },
   [EAuthenticationErrorCodes.REQUIRED_EMAIL_PASSWORD_SIGN_IN]: {
-    title: `Email and password required`,
-    message: () => `Email and password required. Please try again.`,
+    title: `Требуются email и пароль`,
+    message: () => `Требуются email и пароль. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.AUTHENTICATION_FAILED_SIGN_IN]: {
-    title: `Authentication failed`,
-    message: () => `Authentication failed. Please try again.`,
+    title: `Ошибка аутентификации`,
+    message: () => `Ошибка аутентификации. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.INVALID_EMAIL_SIGN_IN]: {
-    title: `Invalid email`,
-    message: () => `Invalid email. Please try again.`,
+    title: `Некорректный email`,
+    message: () => `Некорректный email. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.MAGIC_SIGN_IN_EMAIL_CODE_REQUIRED]: {
-    title: `Email and code required`,
-    message: () => `Email and code required. Please try again.`,
+    title: `Требуются email и код`,
+    message: () => `Требуются email и код. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.INVALID_EMAIL_MAGIC_SIGN_IN]: {
-    title: `Invalid email`,
-    message: () => `Invalid email. Please try again.`,
+    title: `Некорректный email`,
+    message: () => `Некорректный email. Попробуйте еще раз.`,
   },
 
   // Both Sign in and Sign up
   [EAuthenticationErrorCodes.INVALID_MAGIC_CODE_SIGN_IN]: {
-    title: `Authentication failed`,
-    message: () => `Invalid magic code. Please try again.`,
+    title: `Ошибка аутентификации`,
+    message: () => `Неверный magic code. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.INVALID_MAGIC_CODE_SIGN_UP]: {
-    title: `Authentication failed`,
-    message: () => `Invalid magic code. Please try again.`,
+    title: `Ошибка аутентификации`,
+    message: () => `Неверный magic code. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.EXPIRED_MAGIC_CODE_SIGN_IN]: {
-    title: `Expired magic code`,
-    message: () => `Expired magic code. Please try again.`,
+    title: `Истекший magic code`,
+    message: () => `Истекший magic code. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.EXPIRED_MAGIC_CODE_SIGN_UP]: {
-    title: `Expired magic code`,
-    message: () => `Expired magic code. Please try again.`,
+    title: `Истекший magic code`,
+    message: () => `Истекший magic code. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.EMAIL_CODE_ATTEMPT_EXHAUSTED_SIGN_IN]: {
-    title: `Expired magic code`,
-    message: () => `Expired magic code. Please try again.`,
+    title: `Истекший magic code`,
+    message: () => `Истекший magic code. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.EMAIL_CODE_ATTEMPT_EXHAUSTED_SIGN_UP]: {
-    title: `Expired magic code`,
-    message: () => `Expired magic code. Please try again.`,
+    title: `Истекший magic code`,
+    message: () => `Истекший magic code. Попробуйте еще раз.`,
   },
 
   // Oauth
   [EAuthenticationErrorCodes.OAUTH_NOT_CONFIGURED]: {
-    title: `OAuth not configured`,
-    message: () => `OAuth not configured. Please contact your administrator.`,
+    title: `OAuth не настроен`,
+    message: () => `OAuth не настроен. Пожалуйста, обратитесь к администратору.`,
   },
   [EAuthenticationErrorCodes.GOOGLE_NOT_CONFIGURED]: {
-    title: `Google not configured`,
-    message: () => `Google not configured. Please contact your administrator.`,
+    title: `Google не настроен`,
+    message: () => `Google не настроен. Пожалуйста, обратитесь к администратору.`,
   },
   [EAuthenticationErrorCodes.GITHUB_NOT_CONFIGURED]: {
-    title: `GitHub not configured`,
-    message: () => `GitHub not configured. Please contact your administrator.`,
+    title: `GitHub не настроен`,
+    message: () => `GitHub не настроен. Пожалуйста, обратитесь к администратору.`,
   },
   [EAuthenticationErrorCodes.GITLAB_NOT_CONFIGURED]: {
-    title: `GitLab not configured`,
-    message: () => `GitLab not configured. Please contact your administrator.`,
+    title: `GitLab не настроен`,
+    message: () => `GitLab не настроен. Пожалуйста, обратитесь к администратору.`,
   },
   [EAuthenticationErrorCodes.GOOGLE_OAUTH_PROVIDER_ERROR]: {
-    title: `Google OAuth provider error`,
-    message: () => `Google OAuth provider error. Please try again.`,
+    title: `Ошибка провайдера Google OAuth`,
+    message: () => `Ошибка провайдера Google OAuth. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.GITHUB_OAUTH_PROVIDER_ERROR]: {
-    title: `GitHub OAuth provider error`,
-    message: () => `GitHub OAuth provider error. Please try again.`,
+    title: `Ошибка провайдера GitHub OAuth`,
+    message: () => `Ошибка провайдера GitHub OAuth. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.GITLAB_OAUTH_PROVIDER_ERROR]: {
-    title: `GitLab OAuth provider error`,
-    message: () => `GitLab OAuth provider error. Please try again.`,
+    title: `Ошибка провайдера GitLab OAuth`,
+    message: () => `Ошибка провайдера GitLab OAuth. Попробуйте еще раз.`,
   },
 
   // Reset Password
   [EAuthenticationErrorCodes.INVALID_PASSWORD_TOKEN]: {
-    title: `Invalid password token`,
-    message: () => `Invalid password token.`,
+    title: `Недействительный токен пароля`,
+    message: () => `Недействительный токен пароля.`,
   },
   [EAuthenticationErrorCodes.EXPIRED_PASSWORD_TOKEN]: {
-    title: `Expired password token`,
-    message: () => `Expired password token. Please try again.`,
+    title: `Токен пароля истек`,
+    message: () => `Токен пароля истек. Попробуйте еще раз.`,
   },
 
   // Change password
   [EAuthenticationErrorCodes.MISSING_PASSWORD]: {
-    title: `Password required`,
-    message: () => `Password required. Please try again.`,
+    title: `Требуется пароль`,
+    message: () => `Требуется пароль. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.INCORRECT_OLD_PASSWORD]: {
-    title: `Incorrect old password`,
-    message: () => `Incorrect old password. Please try again.`,
+    title: `Неверный старый пароль`,
+    message: () => `Неверный старый пароль. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.INVALID_NEW_PASSWORD]: {
-    title: `Invalid new password`,
-    message: () => `Invalid new password. Please try again.`,
+    title: `Новый пароль недействителен`,
+    message: () => `Новый пароль недействителен. Попробуйте еще раз.`,
   },
 
   // set password
   [EAuthenticationErrorCodes.PASSWORD_ALREADY_SET]: {
-    title: `Password already set`,
-    message: () => `Password already set. Please try again.`,
+    title: `Пароль уже задан`,
+    message: () => `Пароль уже задан. Попробуйте еще раз.`,
   },
 
   // admin
   [EAuthenticationErrorCodes.ADMIN_ALREADY_EXIST]: {
-    title: `Admin already exists`,
-    message: () => `Admin already exists. Please try again.`,
+    title: `Администратор уже существует`,
+    message: () => `Администратор уже существует. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.REQUIRED_ADMIN_EMAIL_PASSWORD_FIRST_NAME]: {
-    title: `Email, password and first name required`,
-    message: () => `Email, password and first name required. Please try again.`,
+    title: `Требуются email, пароль и имя`,
+    message: () => `Требуются email, пароль и имя. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.INVALID_ADMIN_EMAIL]: {
-    title: `Invalid admin email`,
-    message: () => `Invalid admin email. Please try again.`,
+    title: `Некорректный email администратора`,
+    message: () => `Некорректный email администратора. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.INVALID_ADMIN_PASSWORD]: {
-    title: `Invalid admin password`,
-    message: () => `Invalid admin password. Please try again.`,
+    title: `Некорректный пароль администратора`,
+    message: () => `Некорректный пароль администратора. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.REQUIRED_ADMIN_EMAIL_PASSWORD]: {
-    title: `Email and password required`,
-    message: () => `Email and password required. Please try again.`,
+    title: `Требуются email и пароль`,
+    message: () => `Требуются email и пароль. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.ADMIN_AUTHENTICATION_FAILED]: {
-    title: `Authentication failed`,
-    message: () => `Authentication failed. Please try again.`,
+    title: `Ошибка аутентификации`,
+    message: () => `Ошибка аутентификации. Попробуйте еще раз.`,
   },
   [EAuthenticationErrorCodes.ADMIN_USER_ALREADY_EXIST]: {
-    title: `Admin user already exists`,
+    title: `Пользователь администратора уже существует`,
     message: () => (
       <div>
-        Admin user already exists.&nbsp;
+        Пользователь администратора уже существует.&nbsp;
         <Link className="font-medium underline underline-offset-4 transition-all hover:font-bold" href={`/admin`}>
-          Sign In
+          Войти
         </Link>
-        &nbsp;now.
+        &nbsp;сейчас.
       </div>
     ),
   },
   [EAuthenticationErrorCodes.ADMIN_USER_DOES_NOT_EXIST]: {
-    title: `Admin user does not exist`,
+    title: `Пользователь администратора не существует`,
     message: () => (
       <div>
-        Admin user does not exist.&nbsp;
+        Пользователь администратора не существует.&nbsp;
         <Link className="font-medium underline underline-offset-4 transition-all hover:font-bold" href={`/admin`}>
-          Sign In
+          Войти
         </Link>
-        &nbsp;now.
+        &nbsp;сейчас.
       </div>
     ),
   },
   [EAuthenticationErrorCodes.ADMIN_USER_DEACTIVATED]: {
-    title: `Admin user deactivated`,
-    message: () => <div>Your account is deactivated</div>,
+    title: `Администратор деактивирован`,
+    message: () => <div>Ваша учетная запись деактивирована</div>,
   },
   [EAuthenticationErrorCodes.RATE_LIMIT_EXCEEDED]: {
     title: "",
-    message: () => `Rate limit exceeded. Please try again later.`,
+    message: () => `Превышен лимит запросов. Попробуйте еще раз позже.`,
   },
 };
 
@@ -631,9 +632,9 @@ export const authErrorHandler = (
   ];
 
   if (bannerAlertErrorCodes.includes(errorCode)) {
-    const fallbackTitle = errorCodeMessages[errorCode]?.title || "Error";
-    const fallbackMessageNode = errorCodeMessages[errorCode]?.message(email) || "Something went wrong. Please try again.";
-    const fallbackMessage = typeof fallbackMessageNode === "string" ? fallbackMessageNode : "Something went wrong. Please try again.";
+    const fallbackTitle = errorCodeMessages[errorCode]?.title || "Ошибка";
+    const fallbackMessageNode = errorCodeMessages[errorCode]?.message(email) || "Что-то пошло не так. Попробуйте еще раз.";
+    const fallbackMessage = typeof fallbackMessageNode === "string" ? fallbackMessageNode : "Что-то пошло не так. Попробуйте еще раз.";
     const i18nKeys = AUTH_ERROR_I18N_KEYS[errorCode];
 
     if (errorCode === EAuthenticationErrorCodes.USER_ALREADY_EXIST) {
@@ -643,14 +644,14 @@ export const authErrorHandler = (
         title: tt("auth.error_codes.user_already_exist.title", fallbackTitle),
         message: (
           <div>
-            {tt("auth.error_codes.user_already_exist.message_prefix", "Your account is already registered.")}&nbsp;
+            {tt("auth.error_codes.user_already_exist.message_prefix", "Ваша учетная запись уже зарегистрирована.")}&nbsp;
             <Link
               className="font-medium underline underline-offset-4 transition-all hover:font-bold"
               href={`/sign-in${email ? `?email=${encodeURIComponent(email)}` : ``}`}
             >
-              {tt("auth.error_codes.common.sign_in_link", "Sign In")}
+              {tt("auth.error_codes.common.sign_in_link", "Войти")}
             </Link>
-            &nbsp;{tt("auth.error_codes.common.now_suffix", "now.")}
+            &nbsp;{tt("auth.error_codes.common.now_suffix", "сейчас.")}
           </div>
         ),
       };
@@ -663,14 +664,14 @@ export const authErrorHandler = (
         title: tt("auth.error_codes.user_does_not_exist.title", fallbackTitle),
         message: (
           <div>
-            {tt("auth.error_codes.user_does_not_exist.message_prefix", "No account found.")}&nbsp;
+            {tt("auth.error_codes.user_does_not_exist.message_prefix", "Аккаунт не найден.")}&nbsp;
             <Link
               className="font-medium underline underline-offset-4 transition-all hover:font-bold"
               href={`/${email ? `?email=${encodeURIComponent(email)}` : ``}`}
             >
-              {tt("auth.error_codes.user_does_not_exist.create_one_link", "Create one")}
+              {tt("auth.error_codes.user_does_not_exist.create_one_link", "Создать")}
             </Link>
-            &nbsp;{tt("auth.error_codes.user_does_not_exist.message_suffix", "to get started.")}
+            &nbsp;{tt("auth.error_codes.user_does_not_exist.message_suffix", "чтобы начать.")}
           </div>
         ),
       };
