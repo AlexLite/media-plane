@@ -1,8 +1,9 @@
 ## Plane RU Fork
 
-This repository is a self-host Plane fork developed for a video production team
-workflow. The fork is still in active development, so a complete description of
-the final product scope will be added later.
+This is an unofficial fork of Plane, based on makeplane/plane v1.3.1.
+It is not affiliated with or endorsed by Plane / makeplane.
+Modified versions and release notes are documented in CHANGELOG.md.
+Licensed under GNU AGPLv3.
 
 ### What is different
 
