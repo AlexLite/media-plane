@@ -184,6 +184,7 @@
     "payload_not_valid": "The payload is not valid",
     "permission_denied": "Permission denied",
     "pipeline_item_not_found": "Pipeline item not found",
+    "pipeline_item_target_after_parent": "Pipeline item target date cannot be later than the parent work item target date",
     "pipeline_item_wrong_issue": "Pipeline item does not belong to this work item",
     "pipeline_parent_only": "Pipeline can only be initialized on a parent work item",
     "provide_valid_detail": "Please provide valid detail",

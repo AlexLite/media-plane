@@ -22,7 +22,7 @@ def get_issue_pipeline_queryset(slug, project_id, issue_id):
             project_id=project_id,
             parent_issue_id=issue_id,
         )
-        .select_related("child_issue", "pipeline_state", "completed_by")
+        .select_related("pipeline_state", "completed_by")
         .order_by("sort_order", "created_at")
     )
 
@@ -46,6 +46,10 @@ def parse_pipeline_time(value):
 def validate_pipeline_item_dates(item, start_date, target_date):
     if start_date and target_date and start_date > target_date:
         return "Start date cannot exceed target date"
+
+    parent_target_date = item.parent_issue.target_date
+    if target_date and parent_target_date and target_date > parent_target_date:
+        return "Pipeline item target date cannot be later than the parent issue target date"
 
     previous_item = (
         IssuePipelineItem.objects.filter(
@@ -106,10 +110,9 @@ def sync_issue_pipeline_for_parent_state(parent_issue, actor):
                 next_completed_at = now
         elif index == active_index:
             next_status = IssuePipelineItem.StatusChoices.ACTIVE
-            if item.status != IssuePipelineItem.StatusChoices.COMPLETED:
-                next_auto_completed = False
-                next_completed_by_id = None
-                next_completed_at = None
+            next_auto_completed = False
+            next_completed_by_id = None
+            next_completed_at = None
         else:
             if item.status == IssuePipelineItem.StatusChoices.ACTIVE:
                 next_status = IssuePipelineItem.StatusChoices.PENDING

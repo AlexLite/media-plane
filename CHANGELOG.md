@@ -30,6 +30,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - Analytics CSV exports sent by email now use Russian column labels.
 - API error fallback handling now avoids cyclic payload traversal after network-level failures.
 - Analytics CSV module segments now resolve module names from the correct dataset.
+- Pipeline stages now use a metadata-only contract: no hidden child work items, bounded stage deadlines, and consistent completion metadata after a state rollback.
 
 ### Removed
 

@@ -1025,44 +1025,6 @@ class IssueListDetailSerializer(serializers.Serializer):
 
 
 class IssuePipelineItemSerializer(BaseSerializer):
-    child_issue_detail = serializers.SerializerMethodField()
-
-    def get_child_issue_detail(self, obj):
-        child_issue = obj.child_issue
-        if not child_issue:
-            return {
-                "id": obj.id,
-                "name": obj.name or obj.state_name_snapshot,
-                "state_id": obj.pipeline_state_id,
-                "sort_order": obj.sort_order,
-                "priority": "none",
-                "start_date": obj.start_date,
-                "target_date": obj.target_date,
-                "target_time": obj.target_time,
-                "sequence_id": None,
-                "project_id": obj.project_id,
-                "parent_id": obj.parent_issue_id,
-                "assignee_ids": obj.assignee_ids,
-            }
-        return {
-            "id": obj.id,
-            "name": obj.name or child_issue.name,
-            "state_id": obj.pipeline_state_id or child_issue.state_id,
-            "sort_order": obj.sort_order,
-            "priority": child_issue.priority,
-            "start_date": obj.start_date,
-            "target_date": obj.target_date,
-            "target_time": obj.target_time,
-            "sequence_id": None,
-            "project_id": obj.project_id,
-            "parent_id": obj.parent_issue_id,
-            "assignee_ids": list(
-                child_issue.issue_assignee.filter(deleted_at__isnull=True).values_list("assignee_id", flat=True)
-            )
-            if not obj.assignee_ids
-            else obj.assignee_ids,
-        }
-
     class Meta:
         model = IssuePipelineItem
         fields = [
@@ -1070,7 +1032,6 @@ class IssuePipelineItemSerializer(BaseSerializer):
             "workspace_id",
             "project_id",
             "parent_issue_id",
-            "child_issue_id",
             "pipeline_state_id",
             "state_name_snapshot",
             "name",
@@ -1086,7 +1047,6 @@ class IssuePipelineItemSerializer(BaseSerializer):
             "completed_at",
             "created_at",
             "updated_at",
-            "child_issue_detail",
         ]
         read_only_fields = fields
 
