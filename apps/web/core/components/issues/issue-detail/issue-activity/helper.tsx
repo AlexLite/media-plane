@@ -154,7 +154,7 @@ export const useWorkItemCommentOperations = (
           });
           return res;
         } catch {
-          throw new Error("Asset duplication failed. Please try again later.");
+          throw new Error(t("issue.comments.duplicate.error"));
         }
       },
       addCommentReaction: async (commentId, reaction) => {
