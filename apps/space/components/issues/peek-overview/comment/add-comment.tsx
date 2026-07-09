@@ -7,6 +7,7 @@
 import React, { useRef, useState } from "react";
 import { observer } from "mobx-react";
 import { useForm, Controller } from "react-hook-form";
+import { useTranslation } from "@plane/i18n";
 // plane imports
 import type { EditorRefApi } from "@plane/editor";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -32,6 +33,7 @@ type Props = {
 
 export const AddComment = observer(function AddComment(props: Props) {
   const { anchor } = props;
+  const { t } = useTranslation();
   // states
   const [uploadedAssetIds, setUploadAssetIds] = useState<string[]>([]);
   // refs
@@ -66,8 +68,8 @@ export const AddComment = observer(function AddComment(props: Props) {
       .catch(() =>
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
-          message: "Comment could not be posted. Please try again.",
+          title: t("space_issue.comment_post_failed_title"),
+          message: t("space_issue.comment_post_failed_message"),
         })
       );
   };
@@ -96,7 +98,7 @@ export const AddComment = observer(function AddComment(props: Props) {
               }
               onChange={(comment_json, comment_html) => onChange(comment_html)}
               isSubmitting={isSubmitting}
-              placeholder="Add comment..."
+              placeholder={t("space_issue.add_comment")}
               uploadFile={async (blockId, file) => {
                 const { asset_id } = await uploadCommentAsset(file, anchor);
                 setUploadAssetIds((prev) => [...prev, asset_id]);

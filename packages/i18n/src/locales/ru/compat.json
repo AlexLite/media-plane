@@ -841,6 +841,23 @@
                          },
     "profile_update_failed":  "Не удалось обновить профиль. Попробуйте снова.",
     "profile_updated_successfully":  "Профиль успешно обновлен.",
+    "space_issue":  {
+                         "add_comment":  "Добавить комментарий...",
+                         "comment_post_failed_message":  "Не удалось опубликовать комментарий. Попробуйте снова.",
+                         "comment_post_failed_title":  "Ошибка!",
+                         "due_date":  "Срок выполнения",
+                         "empty":  "Нет значения",
+                         "labels":  "Метки",
+                         "labels_count":  "{count, plural, one {# метка} few {# метки} many {# меток} other {# метки}}",
+                         "link_copied_message":  "Ссылка на рабочий элемент скопирована в буфер обмена.",
+                         "link_copied_title":  "Ссылка скопирована!",
+                         "no_labels":  "Нет меток",
+                         "peek_full_screen":  "Полный экран",
+                         "peek_modal":  "Модальное окно",
+                         "peek_side":  "Боковая панель",
+                         "priority":  "Приоритет",
+                         "state":  "Статус"
+                     },
     "project_archive":  {
                             "archive_failed":  "Не удалось заархивировать проект. Попробуйте снова.",
                             "archive_title":  "Архивировано",

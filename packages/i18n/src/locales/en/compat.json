@@ -848,6 +848,23 @@
   "profile_update_failed": "There was some error in updating your profile. Please try again.",
   "profile_updated_successfully": "Profile updated successfully.",
   "progress": "Progress",
+  "space_issue": {
+    "add_comment": "Add comment...",
+    "comment_post_failed_message": "Comment could not be posted. Please try again.",
+    "comment_post_failed_title": "Error!",
+    "due_date": "Due date",
+    "empty": "Empty",
+    "labels": "Labels",
+    "labels_count": "{count, plural, one {# label} other {# labels}}",
+    "link_copied_message": "Work item link copied to clipboard.",
+    "link_copied_title": "Link copied!",
+    "no_labels": "No labels",
+    "peek_full_screen": "Full screen",
+    "peek_modal": "Modal",
+    "peek_side": "Side peek",
+    "priority": "Priority",
+    "state": "State"
+  },
   "project_archive": {
     "archive_failed": "Project could not be archived. Please try again.",
     "archive_title": "Archive success",

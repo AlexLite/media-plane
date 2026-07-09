@@ -6,6 +6,7 @@
 
 import React from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 import { MoveRight } from "lucide-react";
 import { Listbox, Transition } from "@headlessui/react";
 // ui
@@ -27,23 +28,24 @@ type Props = {
 const PEEK_MODES: {
   key: IPeekMode;
   icon: any;
-  label: string;
+  labelTranslationKey: string;
 }[] = [
-  { key: "side", icon: SidePanelIcon, label: "Side Peek" },
+  { key: "side", icon: SidePanelIcon, labelTranslationKey: "space_issue.peek_side" },
   {
     key: "modal",
     icon: CenterPanelIcon,
-    label: "Modal",
+    labelTranslationKey: "space_issue.peek_modal",
   },
   {
     key: "full",
     icon: FullScreenPanelIcon,
-    label: "Full Screen",
+    labelTranslationKey: "space_issue.peek_full_screen",
   },
 ];
 
 export const PeekOverviewHeader = observer(function PeekOverviewHeader(props: Props) {
   const { handleClose } = props;
+  const { t } = useTranslation();
 
   const { peekMode, setPeekMode } = useIssueDetails();
   const isClipboardWriteAllowed = useClipboardWritePermission();
@@ -54,8 +56,8 @@ export const PeekOverviewHeader = observer(function PeekOverviewHeader(props: Pr
     copyTextToClipboard(urlToCopy).then(() => {
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Link copied!",
-        message: "Work item link copied to clipboard.",
+        title: t("space_issue.link_copied_title"),
+        message: t("space_issue.link_copied_message"),
       });
     });
   };
@@ -106,7 +108,7 @@ export const PeekOverviewHeader = observer(function PeekOverviewHeader(props: Pr
                     >
                       <div className="flex items-center gap-1.5">
                         <mode.icon className="-my-1 h-4 w-4 flex-shrink-0" />
-                        {mode.label}
+                        {t(mode.labelTranslationKey)}
                       </div>
                     </Listbox.Option>
                   ))}
