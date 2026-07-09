@@ -8,6 +8,7 @@ import { observer } from "mobx-react";
 // icons
 import { ListFilter } from "lucide-react";
 import { ChevronDownIcon } from "@plane/propel/icons";
+import { useTranslation } from "@plane/i18n";
 // components
 import { Row } from "@plane/ui";
 import { FiltersDropdown } from "@/components/issues/issue-layouts/filters";
@@ -18,6 +19,7 @@ import { useMember } from "@/hooks/store/use-member";
 import { useProjectView } from "@/hooks/store/use-project-view";
 
 export const ViewMobileHeader = observer(function ViewMobileHeader() {
+  const { t } = useTranslation();
   // store hooks
   const { filters, updateFilters } = useProjectView();
   const {
@@ -41,12 +43,12 @@ export const ViewMobileHeader = observer(function ViewMobileHeader() {
         <div className="flex flex-grow items-center justify-center border-l border-subtle text-13 text-secondary">
           <FiltersDropdown
             icon={<ListFilter className="h-3 w-3" />}
-            title="Filters"
+            title={t("common.entity.filters")}
             placement="bottom-end"
             isFiltersApplied={false}
             menuButton={
               <Row className="flex items-center text-13 text-secondary">
-                Filters
+                {t("common.entity.filters")}
                 <ChevronDownIcon className="ml-2 h-4 w-4 text-secondary" strokeWidth={2} />
               </Row>
             }

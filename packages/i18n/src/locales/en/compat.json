@@ -857,6 +857,11 @@
     "select_layout": "Please select at least one view layout to publish the project.",
     "unpublish_failed": "Something went wrong while unpublishing the project."
   },
+  "project_archives": {
+    "archived_issue_notice": "This work item has been archived. Visit the Archives section to restore it.",
+    "go_to_archives": "Go to archives",
+    "issue_count": "{count, plural, one {There is # work item in the project archive} other {There are # work items in the project archive}}"
+  },
   "project_cycles": {
     "archive_modal": {
       "archiving": "Archiving",
