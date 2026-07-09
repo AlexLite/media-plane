@@ -27,6 +27,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - Web nginx now returns 404 for missing hashed assets instead of serving the SPA shell, preventing stale frontend chunks from breaking client-side navigation after deploys.
 - Remaining low-risk search fields now expose stable form names/accessibility labels, and cycle transfer/member search UI strings use locale keys instead of hardcoded text.
 - Common backend API error responses now map to localized frontend messages instead of showing raw English strings.
+- SMTP configuration errors now map to localized frontend messages while keeping the backend API contract unchanged.
 - Editor asset errors, link validation, and state/module/page creation fallbacks now use locale keys.
 - Analytics CSV exports sent by email now use Russian column labels.
 - API error fallback handling now avoids cyclic payload traversal after network-level failures.
