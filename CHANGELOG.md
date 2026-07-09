@@ -25,6 +25,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - CodeQL alerts for locale audit parsing, toast key normalization, and API token log identifiers.
 - Web nginx now returns 404 for missing hashed assets instead of serving the SPA shell, preventing stale frontend chunks from breaking client-side navigation after deploys.
 - Remaining low-risk search fields now expose stable form names/accessibility labels, and cycle transfer/member search UI strings use locale keys instead of hardcoded text.
+- Common backend API error responses now map to localized frontend messages instead of showing raw English strings.
 
 ### Removed
 
