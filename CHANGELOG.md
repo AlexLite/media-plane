@@ -9,6 +9,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 ### Added
 
 - Plane2 frontend deploy helper that rolls `web` and `web-ru` one at a time.
+- Plane2 build helper for source-stamped RU Space images.
 - Changed-file i18n key existence check for web and constants usage.
 - Changed-file hardcoded UI string audit for frontend i18n regressions.
 
