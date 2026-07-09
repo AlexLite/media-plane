@@ -320,9 +320,7 @@
   "common": {
     "access": {
       "archived": "Archived",
-      "label": "Access",
-      "private": "Private",
-      "public": "Public"
+      "label": "Access"
     },
     "add_page": "Add page",
     "clear_filters": "Clear filters",
@@ -333,7 +331,6 @@
     "custom": "Custom",
     "date": "Date",
     "date_range": "Date range",
-    "delete": "Delete",
     "drop_here": "Drop here...",
     "drop_here_to_delete": "Drop here to delete the work item.",
     "due_date": "Due date",
@@ -347,9 +344,6 @@
     "joined": "Joined",
       "link_count": "{count, plural, one {# link} other {# links}}",
       "locked": "Locked",
-      "click_to_copy": "Click to copy",
-      "adding_link": "Adding link",
-      "updating_link": "Updating link",
       "issue": {
         "id_copied_to_clipboard": "Work item ID copied to clipboard"
       },
