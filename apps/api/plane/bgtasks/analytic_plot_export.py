@@ -27,19 +27,19 @@ from plane.utils.issue_filters import issue_filters
 from plane.utils.csv_utils import sanitize_csv_row
 
 row_mapping = {
-    "state__name": "State",
-    "state__group": "State Group",
-    "labels__id": "Label",
-    "assignees__id": "Assignee Name",
-    "start_date": "Start Date",
-    "target_date": "Due Date",
-    "completed_at": "Completed At",
-    "created_at": "Created At",
-    "issue_count": "Issue Count",
-    "priority": "Priority",
-    "estimate": "Estimate",
-    "issue_cycle__cycle_id": "Cycle",
-    "issue_module__module_id": "Module",
+    "state__name": "Статус",
+    "state__group": "Группа статуса",
+    "labels__id": "Метка",
+    "assignees__id": "Исполнитель",
+    "start_date": "Дата начала",
+    "target_date": "Срок выполнения",
+    "completed_at": "Дата завершения",
+    "created_at": "Дата создания",
+    "issue_count": "Количество задач",
+    "priority": "Приоритет",
+    "estimate": "Оценка",
+    "issue_cycle__cycle_id": "Цикл",
+    "issue_module__module_id": "Модуль",
 }
 
 ASSIGNEE_ID = "assignees__id"
@@ -202,8 +202,8 @@ def generate_segmented_rows(
     segmented = segment
 
     row_zero = [
-        row_mapping.get(x_axis, "X-Axis"),
-        row_mapping.get(y_axis, "Y-Axis"),
+        row_mapping.get(x_axis, "Ось X"),
+        row_mapping.get(y_axis, "Ось Y"),
     ] + segment_zero
 
     rows = []
@@ -342,7 +342,7 @@ def generate_non_segmented_rows(
 
         rows.append(tuple(row))
 
-    row_zero = [row_mapping.get(x_axis, "X-Axis"), row_mapping.get(y_axis, "Y-Axis")]
+    row_zero = [row_mapping.get(x_axis, "Ось X"), row_mapping.get(y_axis, "Ось Y")]
     return [tuple(row_zero)] + rows
 
 
