@@ -574,7 +574,16 @@ export const authErrorHandler = (
   const tt = (key: string, fallback: string, params?: Record<string, unknown>) => {
     if (!t) return fallback;
     const translated = t(key, params);
-    return translated === key ? fallback : translated;
+    if (translated !== key) return translated;
+
+    const genericKey = key.endsWith(".title")
+      ? "auth.error_codes.generic.title"
+      : key.endsWith(".message")
+        ? "auth.error_codes.generic.message"
+        : undefined;
+    if (!genericKey) return fallback;
+    const genericTranslation = t(genericKey);
+    return genericTranslation === genericKey ? fallback : genericTranslation;
   };
 
   const bannerAlertErrorCodes = [
@@ -633,8 +642,10 @@ export const authErrorHandler = (
 
   if (bannerAlertErrorCodes.includes(errorCode)) {
     const fallbackTitle = errorCodeMessages[errorCode]?.title || "Ошибка";
-    const fallbackMessageNode = errorCodeMessages[errorCode]?.message(email) || "Что-то пошло не так. Попробуйте еще раз.";
-    const fallbackMessage = typeof fallbackMessageNode === "string" ? fallbackMessageNode : "Что-то пошло не так. Попробуйте еще раз.";
+    const fallbackMessageNode =
+      errorCodeMessages[errorCode]?.message(email) || "Что-то пошло не так. Попробуйте еще раз.";
+    const fallbackMessage =
+      typeof fallbackMessageNode === "string" ? fallbackMessageNode : "Что-то пошло не так. Попробуйте еще раз.";
     const i18nKeys = AUTH_ERROR_I18N_KEYS[errorCode];
 
     if (errorCode === EAuthenticationErrorCodes.USER_ALREADY_EXIST) {
@@ -644,7 +655,8 @@ export const authErrorHandler = (
         title: tt("auth.error_codes.user_already_exist.title", fallbackTitle),
         message: (
           <div>
-            {tt("auth.error_codes.user_already_exist.message_prefix", "Ваша учетная запись уже зарегистрирована.")}&nbsp;
+            {tt("auth.error_codes.user_already_exist.message_prefix", "Ваша учетная запись уже зарегистрирована.")}
+            &nbsp;
             <Link
               className="font-medium underline underline-offset-4 transition-all hover:font-bold"
               href={`/sign-in${email ? `?email=${encodeURIComponent(email)}` : ``}`}
