@@ -66,7 +66,7 @@ export const PROJECT_AUTOMATION_MONTHS = [
   { i18n_label: "workspace_projects.common.months_count", value: 12 },
 ];
 
-export const PROJECT_AUTOMATION_ARCHIVE_DAYS = [30, 21, 14, 7];
+export const PROJECT_AUTOMATION_ARCHIVE_WEEKS = [3, 2, 1];
 
 export const PROJECT_ORDER_BY_OPTIONS: {
   key: TProjectOrderByOptions;
