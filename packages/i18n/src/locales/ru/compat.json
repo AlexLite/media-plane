@@ -992,8 +992,11 @@
                              "automations":  {
                                                  "select_month_modal":  {
                                                                             "errors":  {
-                                                                                           "month_range":  "Выберите значение от 1 до 12 месяцев."
+                                                                                           "month_range":  "Выберите значение от 1 до 12 месяцев.",
+                                                                                           "day_range": "Введите период от 7 до 365 дней."
                                                                                        },
+                                                                            "days_label": "Дни",
+                                                                            "days_placeholder": "Введите количество дней",
                                                                             "months_label":  "Месяцы",
                                                                             "months_placeholder":  "Введите количество месяцев",
                                                                             "submitting":  "Отправка...",

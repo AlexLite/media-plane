@@ -115,6 +115,9 @@ class Project(BaseModel):
     )
     estimate = models.ForeignKey("db.Estimate", on_delete=models.SET_NULL, related_name="projects", null=True)
     archive_in = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(12)])
+    # ``archive_in`` is retained for projects configured before day-level archive periods.
+    # A non-null value here takes precedence and is expressed in whole days.
+    archive_in_days = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(7), MaxValueValidator(365)])
     close_in = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(12)])
     logo_props = models.JSONField(default=dict)
     default_state = models.ForeignKey("db.State", on_delete=models.SET_NULL, null=True, related_name="default_state")

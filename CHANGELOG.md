@@ -8,6 +8,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Added
 
+- Project auto-archive now supports custom periods from 7 to 365 days while preserving legacy month-based settings.
 - Plane2 frontend deploy helper that rolls `web` and `web-ru` one at a time.
 - Plane2 build helper for source-stamped RU Space images.
 - Changed-file i18n key existence check for web and constants usage.
@@ -17,6 +18,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- Workspace notification cards now show an exact local time for today's events and a date with time for older events.
 - Proxy now load-balances UI traffic across `web` and `web-ru` to avoid asset 502s during frontend restarts.
 - Missing RU labels for project/profile settings categories and pipeline aliases.
 - Missing JSON locale keys used by the web UI now load from a committed compat namespace instead of falling back to raw key names.

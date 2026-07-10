@@ -9,7 +9,7 @@ import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { ArchiveRestore } from "lucide-react";
 // plane imports
-import { PROJECT_AUTOMATION_MONTHS, EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
+import { PROJECT_AUTOMATION_ARCHIVE_DAYS, EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import type { IProject } from "@plane/types";
 import { CustomSelect, Loader, ToggleSwitch } from "@plane/ui";
@@ -24,7 +24,7 @@ type Props = {
   handleChange: (formData: Partial<IProject>) => Promise<void>;
 };
 
-const initialValues: Partial<IProject> = { archive_in: 1 };
+const initialValues: Partial<IProject> = { archive_in_days: 7 };
 
 export const AutoArchiveAutomation = observer(function AutoArchiveAutomation(props: Props) {
   const { handleChange } = props;
@@ -46,15 +46,15 @@ export const AutoArchiveAutomation = observer(function AutoArchiveAutomation(pro
   );
 
   const autoArchiveStatus = useMemo(() => {
-    if (currentProjectDetails?.archive_in === undefined) return false;
-    return currentProjectDetails.archive_in !== 0;
+    if (currentProjectDetails?.archive_in_days) return true;
+    return (currentProjectDetails?.archive_in ?? 0) !== 0;
   }, [currentProjectDetails]);
 
   const handleToggleArchive = async () => {
-    if (currentProjectDetails?.archive_in === 0) {
-      await handleChange({ archive_in: 1 });
+    if (!autoArchiveStatus) {
+      await handleChange({ archive_in_days: 7 });
     } else {
-      await handleChange({ archive_in: 0 });
+      await handleChange({ archive_in: 0, archive_in_days: null });
     }
   };
 
@@ -62,7 +62,11 @@ export const AutoArchiveAutomation = observer(function AutoArchiveAutomation(pro
     <>
       <SelectMonthModal
         type="auto-archive"
-        initialValues={initialValues}
+        initialValues={{
+          archive_in_days: currentProjectDetails
+            ? (currentProjectDetails.archive_in_days ?? currentProjectDetails.archive_in * 30)
+            : initialValues.archive_in_days,
+        }}
         isOpen={monthModal}
         handleClose={() => setmonthModal(false)}
         handleChange={handleChange}
@@ -89,18 +93,18 @@ export const AutoArchiveAutomation = observer(function AutoArchiveAutomation(pro
                 </div>
                 <div className="w-1/2">
                   <CustomSelect
-                    value={currentProjectDetails?.archive_in}
-                    label={t("workspace_projects.common.months_count", {
-                      months: currentProjectDetails?.archive_in,
+                    value={currentProjectDetails.archive_in_days ?? currentProjectDetails.archive_in * 30}
+                    label={t("workspace_projects.common.days_count", {
+                      days: currentProjectDetails.archive_in_days ?? currentProjectDetails.archive_in * 30,
                     })}
-                    onChange={(val: number) => void handleChange({ archive_in: val })}
+                    onChange={(val: number) => void handleChange({ archive_in_days: val })}
                     input
                     disabled={!isAdmin}
                   >
                     <>
-                      {PROJECT_AUTOMATION_MONTHS.map((month) => (
-                        <CustomSelect.Option key={month.i18n_label} value={month.value}>
-                          <span className="text-13">{t(month.i18n_label, { months: month.value })}</span>
+                      {PROJECT_AUTOMATION_ARCHIVE_DAYS.map((days) => (
+                        <CustomSelect.Option key={days} value={days}>
+                          <span className="text-13">{t("workspace_projects.common.days_count", { days })}</span>
                         </CustomSelect.Option>
                       ))}
 

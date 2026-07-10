@@ -97,36 +97,36 @@ export function SelectMonthModal({ type, initialValues, isOpen, handleClose, han
                 <>
                   <Controller
                     control={control}
-                    name="archive_in"
+                    name="archive_in_days"
                     rules={{
-                      required: t("project_settings.automations.select_month_modal.errors.month_range"),
-                      min: 1,
-                      max: 12,
+                      required: t("project_settings.automations.select_month_modal.errors.day_range"),
+                      min: 7,
+                      max: 365,
                     }}
                     render={({ field: { value, onChange, ref } }) => (
                       <div className="relative flex w-full flex-col justify-center gap-1">
                         <Input
-                          id="archive_in"
-                          name="archive_in"
+                          id="archive_in_days"
+                          name="archive_in_days"
                           type="number"
                           value={value?.toString()}
                           onChange={onChange}
                           ref={ref}
-                          hasError={Boolean(errors.archive_in)}
-                          placeholder={t("project_settings.automations.select_month_modal.months_placeholder")}
+                          hasError={Boolean(errors.archive_in_days)}
+                          placeholder={t("project_settings.automations.select_month_modal.days_placeholder")}
                           className="w-full border-subtle"
-                          min={1}
-                          max={12}
+                          min={7}
+                          max={365}
                         />
                         <span className="absolute top-2.5 right-8 text-13 text-secondary">
-                          {t("project_settings.automations.select_month_modal.months_label")}
+                          {t("project_settings.automations.select_month_modal.days_label")}
                         </span>
                       </div>
                     )}
                   />
-                  {errors.archive_in && (
+                  {errors.archive_in_days && (
                     <span className="px-1 text-13 text-danger-primary">
-                      {t("project_settings.automations.select_month_modal.errors.month_range")}
+                      {t("project_settings.automations.select_month_modal.errors.day_range")}
                     </span>
                   )}
                 </>

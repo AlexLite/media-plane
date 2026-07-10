@@ -999,8 +999,11 @@
     "automations": {
       "select_month_modal": {
         "errors": {
-          "month_range": "Select a month between 1 and 12."
+          "month_range": "Select a month between 1 and 12.",
+          "day_range": "Enter a period from 7 to 365 days."
         },
+        "days_label": "Days",
+        "days_placeholder": "Enter days",
         "months_label": "Months",
         "months_placeholder": "Enter months",
         "submitting": "Submitting...",

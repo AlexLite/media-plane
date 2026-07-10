@@ -86,6 +86,7 @@ class ProjectCreateSerializer(BaseSerializer):
             "intake_view",
             "guest_view_all_features",
             "archive_in",
+            "archive_in_days",
             "close_in",
             "timezone",
             "default_target_time",

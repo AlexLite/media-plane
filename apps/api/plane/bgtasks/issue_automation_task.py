@@ -28,18 +28,18 @@ def archive_and_close_old_issues():
 def archive_old_issues():
     try:
         # Get all the projects whose archive_in is greater than 0
-        projects = Project.objects.filter(archive_in__gt=0)
+        projects = Project.objects.filter(Q(archive_in__gt=0) | Q(archive_in_days__isnull=False))
 
         for project in projects:
             project_id = project.id
-            archive_in = project.archive_in
+            archive_in_days = project.archive_in_days or project.archive_in * 30
 
-            # Get all the issues whose updated_at in less that the archive_in month
+            # Legacy projects keep their month-based period; new settings use exact days.
             issues = Issue.issue_objects.filter(
                 Q(
                     project=project_id,
                     archived_at__isnull=True,
-                    updated_at__lte=(timezone.now() - timedelta(days=archive_in * 30)),
+                    updated_at__lte=(timezone.now() - timedelta(days=archive_in_days)),
                     state__group__in=["completed", "cancelled"],
                 ),
                 Q(issue_cycle__isnull=True)
