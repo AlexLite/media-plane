@@ -7,7 +7,7 @@ from plane.db.models import Profile
 @pytest.mark.django_db
 @pytest.mark.parametrize("timestamp_display", ["exact", "relative"])
 def test_profile_serializer_accepts_supported_timestamp_display_values(create_user, timestamp_display):
-    profile = Profile.objects.get(user=create_user)
+    profile, _ = Profile.objects.get_or_create(user=create_user)
 
     serializer = ProfileSerializer(instance=profile, data={"timestamp_display": timestamp_display}, partial=True)
 
@@ -17,7 +17,7 @@ def test_profile_serializer_accepts_supported_timestamp_display_values(create_us
 
 @pytest.mark.django_db
 def test_profile_serializer_rejects_unsupported_timestamp_display_value(create_user):
-    profile = Profile.objects.get(user=create_user)
+    profile, _ = Profile.objects.get_or_create(user=create_user)
 
     serializer = ProfileSerializer(instance=profile, data={"timestamp_display": "compact"}, partial=True)
 
