@@ -14,6 +14,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - Day-based auto-archive settings retain a rounded legacy month value, so an application rollback does not silently disable archival.
 - Plane2 frontend deploy helper that rolls `web` and `web-ru` one at a time.
 - Plane2 build helper for source-stamped RU Space images.
+- Release image builders reject tracked and untracked worktree content, preventing a clean revision label from describing dirty source.
 - Changed-file i18n key existence check for web and constants usage.
 - Changed-file hardcoded UI string audit for frontend i18n regressions.
 - Documented RU-only locale ownership and the intentional `web`/`web-ru`
