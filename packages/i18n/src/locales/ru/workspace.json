@@ -209,7 +209,6 @@
     },
     "common": {
       "months_count": "{months, plural, one{# месяц} other{# месяцев}}",
-      "weeks_count": "{weeks, plural, one{# неделя} few{# недели} many{# недель} other{# недели}}",
       "days_count": "{days, plural, one{# день} other{# дней}}"
     },
     "empty_state": {

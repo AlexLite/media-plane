@@ -209,7 +209,6 @@
     },
     "common": {
       "months_count": "{months, plural, one{# month} other{# months}}",
-      "weeks_count": "{weeks, plural, one{# week} other{# weeks}}",
       "days_count": "{days, plural, one{# day} other{# days}}"
     },
     "empty_state": {
