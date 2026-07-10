@@ -63,7 +63,7 @@ export const BASE_NOTIFICATION_CONTENT_MAP: TNotificationContentMap = {
     showConnector: false,
   }),
   target_date: ({ newValue }) => ({
-    action: newValue !== "" ? "установил срок выполнения" : "удалил срок выполнения",
+    action: newValue !== "" ? "установил срок сдачи" : "удалил срок сдачи",
     value: renderFormattedDate(newValue),
     showConnector: false,
   }),

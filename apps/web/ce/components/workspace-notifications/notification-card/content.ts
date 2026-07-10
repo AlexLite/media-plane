@@ -16,7 +16,7 @@ const FIELD_LABELS: Record<string, string> = {
   attachment: "вложения",
   estimate_time: "оценку",
   start_date: "дату начала",
-  target_date: "срок выполнения",
+  target_date: "срок сдачи",
 };
 
 const VERB_LABELS: Record<string, string> = {
