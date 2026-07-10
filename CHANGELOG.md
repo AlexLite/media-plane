@@ -26,6 +26,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - Missing RU labels for project/profile settings categories and pipeline aliases.
 - Missing JSON locale keys used by the web UI now load from a committed compat namespace instead of falling back to raw key names.
 - i18n providers now wait for primary locale namespaces before rendering, preventing raw translation keys during startup.
+- New static translation calls are checked against the loaded EN namespaces in CI, and missing runtime keys are reported once per locale instead of silently appearing as raw keys.
 - i18n package builds now load JSON namespaces instead of removed legacy locale modules.
 - RU locale audits now distinguish intentional brand, placeholder, and protocol values from real untranslated UI strings.
 - i18n sync CI now requires the Russian locale to match English while leaving non-RU upstream locales as report-only checks.

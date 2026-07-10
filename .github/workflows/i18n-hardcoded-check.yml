@@ -22,6 +22,8 @@ on:
       - "packages/editor/**/*.ts"
       - "packages/editor/**/*.tsx"
       - "scripts/audit-hardcoded.mjs"
+      - "packages/i18n/src/locales/en/**/*.json"
+      - "packages/i18n/src/constants/namespaces.ts"
       - ".github/workflows/i18n-hardcoded-check.yml"
   push:
     branches:
@@ -38,6 +40,8 @@ on:
       - "packages/editor/**/*.ts"
       - "packages/editor/**/*.tsx"
       - "scripts/audit-hardcoded.mjs"
+      - "packages/i18n/src/locales/en/**/*.json"
+      - "packages/i18n/src/constants/namespaces.ts"
       - ".github/workflows/i18n-hardcoded-check.yml"
 
 concurrency:

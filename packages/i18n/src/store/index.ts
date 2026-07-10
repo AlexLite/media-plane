@@ -162,6 +162,7 @@ export class TranslationStore {
   private translations: ITranslations = {};
   // Cache for IntlMessageFormat instances
   private messageCache: Map<string, IntlMessageFormat> = new Map();
+  private missingKeyWarnings = new Set<string>();
   // Current language
   currentLocale: TLanguage = getDefaultLanguage();
   // Loading state
@@ -360,11 +361,23 @@ export class TranslationStore {
       }
 
       // Last resort: return the key itself
+      this.warnAboutMissingKey(key);
       return key;
     } catch (error) {
       console.error(`Translation error for key "${key}":`, error);
       return key;
     }
+  }
+
+  private warnAboutMissingKey(key: string): void {
+    const warningKey = `${this.currentLocale}:${key}`;
+    if (this.missingKeyWarnings.has(warningKey)) return;
+
+    this.missingKeyWarnings.add(warningKey);
+    console.error(
+      `Missing runtime translation key "${key}" for locale "${this.currentLocale}". ` +
+        "Add it to a loaded JSON namespace and keep the RU key synchronized with EN."
+    );
   }
 
   /**

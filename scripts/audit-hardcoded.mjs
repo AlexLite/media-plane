@@ -10,6 +10,9 @@ import { execFileSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 
+const LOCALES_DIR = "packages/i18n/src/locales";
+const NAMESPACES_FILE = "packages/i18n/src/constants/namespaces.ts";
+
 const DEFAULT_SEARCH_DIRS = [
   "apps/web",
   "apps/admin",
@@ -47,6 +50,8 @@ const UI_STRING_PATTERNS = [
   },
 ];
 
+const TRANSLATION_CALL_PATTERN = /(?:\b(?:t|translate)\s*\(|\.t\()\s*["']([A-Za-z0-9_.-]+)["']/g;
+
 const IGNORE_LINE_PATTERNS = [
   /i18n-hardcoded-ok/,
   /\bt\(/,
@@ -75,7 +80,8 @@ if (args.help) {
 }
 
 const candidateFiles = args.changed ? getChangedFiles(args.base) : getAllFiles(args.searchDirs);
-const auditResults = auditFiles(candidateFiles);
+const knownTranslationKeys = loadKnownTranslationKeys();
+const auditResults = auditFiles(candidateFiles, knownTranslationKeys);
 const findingCount = Object.values(auditResults).reduce((sum, matches) => sum + matches.length, 0);
 
 if (args.json) {
@@ -138,7 +144,41 @@ Options:
   --json             Print machine-readable findings.
   -h, --help         Show this help.
 
-Add // i18n-hardcoded-ok on a line for intentional literals.`);
+Add // i18n-hardcoded-ok on a line for intentional literals.
+Add // i18n-missing-key-ok on a line for an intentional non-runtime key.`);
+}
+
+function loadKnownTranslationKeys() {
+  const namespacesSource = readFileSync(NAMESPACES_FILE, "utf8");
+  const namespaceMatch = namespacesSource.match(/export const NAMESPACES = \[([\s\S]*?)\] as const;/);
+
+  if (!namespaceMatch) {
+    throw new Error(`Unable to read runtime i18n namespaces from ${NAMESPACES_FILE}`);
+  }
+
+  const namespaces = [...namespaceMatch[1].matchAll(/["']([^"']+)["']/g)].map((match) => match[1]);
+  const knownKeys = new Set();
+
+  for (const namespace of namespaces) {
+    const localeFile = path.join(LOCALES_DIR, "en", `${namespace}.json`);
+    if (!existsSync(localeFile)) continue;
+
+    const translations = JSON.parse(readFileSync(localeFile, "utf8"));
+    collectTranslationKeys(translations, "", knownKeys);
+  }
+
+  return knownKeys;
+}
+
+function collectTranslationKeys(value, prefix, keys) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    if (prefix) keys.add(prefix);
+    return;
+  }
+
+  for (const [key, child] of Object.entries(value)) {
+    collectTranslationKeys(child, prefix ? `${prefix}.${key}` : key, keys);
+  }
 }
 
 function getAllFiles(searchDirs) {
@@ -198,7 +238,7 @@ function shouldIgnoreFile(file) {
   return IGNORE_FILE_PATTERNS.some((pattern) => pattern.test(file));
 }
 
-function auditFiles(filesToAudit) {
+function auditFiles(filesToAudit, knownTranslationKeys) {
   const findings = {};
 
   for (const file of filesToAudit) {
@@ -229,6 +269,23 @@ function auditFiles(filesToAudit) {
             kind,
             line: index + 1,
             match: value,
+            text: line.trim().slice(0, 160),
+          });
+        }
+      }
+
+      if (!line.includes("i18n-missing-key-ok")) {
+        TRANSLATION_CALL_PATTERN.lastIndex = 0;
+        let translationCall;
+
+        while ((translationCall = TRANSLATION_CALL_PATTERN.exec(line)) !== null) {
+          const key = translationCall[1];
+          if (knownTranslationKeys.has(key)) continue;
+
+          matches.push({
+            kind: "missing-translation-key",
+            line: index + 1,
+            match: key,
             text: line.trim().slice(0, 160),
           });
         }
