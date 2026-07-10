@@ -23,6 +23,15 @@ from plane.bgtasks.logger_task import process_logs
 
 api_logger = logging.getLogger("plane.api.request")
 
+SENSITIVE_HEADER_NAMES = {
+    "authorization",
+    "cookie",
+    "proxy-authorization",
+    "set-cookie",
+    "x-api-key",
+    "x-auth-token",
+}
+
 
 def build_token_identifier(api_key: str) -> str:
     """
@@ -36,6 +45,16 @@ def build_token_identifier(api_key: str) -> str:
         api_key.encode("utf-8"),
         hashlib.sha256,
     ).hexdigest()
+
+
+def sanitize_request_headers(request: Request | HttpRequest) -> str:
+    """Return request headers without credentials or session material."""
+    return str(
+        {
+            name: "[REDACTED]" if name.lower() in SENSITIVE_HEADER_NAMES else value
+            for name, value in request.headers.items()
+        }
+    )
 
 
 class RequestLoggerMiddleware:
@@ -142,7 +161,7 @@ class APITokenLogMiddleware:
                 "path": request.path,
                 "method": request.method,
                 "query_params": request.META.get("QUERY_STRING", ""),
-                "headers": str(request.headers),
+                "headers": sanitize_request_headers(request),
                 "body": self._safe_decode_body(request_body) if request_body else None,
                 "response_body": self._safe_decode_body(response.content) if response.content else None,
                 "response_code": response.status_code,

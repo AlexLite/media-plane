@@ -52,6 +52,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - API error localization now preserves original response payloads and prefers stable error codes when available.
 - Analytics CSV exports now resolve axis and segment labels through lookup maps instead of repeated linear searches.
 - OAuth authentication logs no longer include access-token headers or email addresses.
+- External API activity logs redact credential and session headers, and GitHub OAuth membership failures no longer log user or organization identifiers.
 - Space image healthchecks now use the bundled Node runtime, avoiding Alpine mirror DNS failures during builds.
 
 ### Removed

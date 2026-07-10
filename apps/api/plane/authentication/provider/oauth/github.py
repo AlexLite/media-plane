@@ -151,13 +151,7 @@ class GitHubOAuthProvider(OauthAdapter):
 
         if self.organization_id:
             if not self.is_user_in_organization(user_info_response.get("login")):
-                self.logger.warning(
-                    "User is not in organization",
-                    extra={
-                        "organization_id": self.organization_id,
-                        "user_login": user_info_response.get("login"),
-                    },
-                )
+                self.logger.warning("GitHub organization membership validation failed")
                 raise AuthenticationException(
                     error_code=AUTHENTICATION_ERROR_CODES["GITHUB_USER_NOT_IN_ORG"],
                     error_message="GITHUB_USER_NOT_IN_ORG",
