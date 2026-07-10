@@ -30,6 +30,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - Common backend API error responses now map to localized frontend messages instead of showing raw English strings.
 - SMTP configuration errors now map to localized frontend messages while keeping the backend API contract unchanged.
 - Project archive breadcrumbs, archive notices, and navigation tooltips now use locale keys.
+- Member sorting, avatar counts, and project automation month ranges now use locale keys.
 - Published Space work item labels, peek controls, and comment feedback now use locale keys.
 - Published Space work item properties and sign-in prompts now use locale keys.
 - Editor asset errors, link validation, and state/module/page creation fallbacks now use locale keys.

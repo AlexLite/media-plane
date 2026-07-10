@@ -234,6 +234,7 @@
   "cycles_description": "Timebox work per project and adjust the time period as needed. One cycle can be 2 weeks, the next 1 week.",
   "modules_description": "Organize work into sub-projects with dedicated leads and assignees.",
   "views_description": "Save custom sorts, filters, and display options or share them with your team.",
+  "total_count": "{count, plural, one {# member} other {# members}}",
   "pages_description": "Create and edit free-form content; notes, docs, anything.",
   "intake_description": "Let non-members share bugs, feedback, and suggestions; without disrupting your workflow.",
   "time_tracking_description": "Log time spent on work items and projects.",
@@ -531,10 +532,14 @@
       "updated_on": "Updated on"
     },
     "sort": {
+      "admin_to_guest": "Admin to Guest",
       "a_to_z": "A",
       "asc": "Ascending",
+      "guest_to_admin": "Guest to Admin",
       "higher": "Higher",
       "lower": "Lower",
+      "new_to_old": "New to Old",
+      "old_to_new": "Old to New",
       "newest": "Newest",
       "oldest": "Oldest",
       "desc": "Descending",
