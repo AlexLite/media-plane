@@ -44,6 +44,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - Pipeline deadline API validation messages now localize in the web client.
 - API error localization now preserves original response payloads and prefers stable error codes when available.
 - Analytics CSV exports now resolve axis and segment labels through lookup maps instead of repeated linear searches.
+- OAuth authentication logs no longer include access-token headers or email addresses.
 - Space image healthchecks now use the bundled Node runtime, avoiding Alpine mirror DNS failures during builds.
 
 ### Removed

@@ -164,12 +164,7 @@ class GitHubOAuthProvider(OauthAdapter):
                 )
 
         email = self.__get_email(headers=headers)
-        self.logger.debug(
-            "Email found",
-            extra={
-                "email": email,
-            },
-        )
+        self.logger.debug("GitHub user email resolved")
         super().set_user_data({
             "email": email,
             "user": {
