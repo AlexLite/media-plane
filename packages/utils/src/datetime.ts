@@ -4,7 +4,7 @@
  * See the LICENSE file for details.
  */
 
-import { differenceInDays, format, isAfter, isEqual, isToday, isValid, parseISO } from "date-fns";
+import { differenceInDays, format, formatDistanceToNow, isAfter, isEqual, isToday, isValid, parseISO } from "date-fns";
 import { ru } from "date-fns/locale";
 import { isNumber } from "lodash-es";
 
@@ -210,13 +210,14 @@ export const findHowManyDaysLeft = (
  * @param {string | Date} time
  * @example calculateTimeAgo("2023-01-01") // 1 year ago
  */
-export const calculateTimeAgo = (time: string | number | Date | null): string => {
+export const calculateTimeAgo = (time: string | number | Date | null, relative = false): string => {
   if (!time) return "";
   // Parse the time to check if it is valid
   const parsedTime =
     typeof time === "number" ? new Date(time) : typeof time === "string" ? parseISO(String(time)) : time;
   // return if undefined
   if (!parsedTime) return ""; // Return empty string for invalid dates
+  if (relative) return formatDistanceToNow(parsedTime, { addSuffix: true, locale: ru });
   return isToday(parsedTime) ? renderFormattedTime(parsedTime) : (renderFormattedDate(parsedTime) ?? "");
 };
 

@@ -30,6 +30,7 @@ export type TUserProfile = {
   billing_address: string | undefined;
   has_billing_address: boolean;
   has_marketing_email_consent: boolean;
+  timestamp_display: "exact" | "relative";
 
   created_at: Date | string;
   updated_at: Date | string;

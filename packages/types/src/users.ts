@@ -79,6 +79,7 @@ export type TUserProfile = {
   has_billing_address: boolean;
   has_marketing_email_consent: boolean;
   language: string;
+  timestamp_display: "exact" | "relative";
   created_at: Date | string;
   updated_at: Date | string;
   start_of_the_week: EStartOfTheWeek;

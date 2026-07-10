@@ -14,6 +14,7 @@ import type { TWorkspaceBaseActivity } from "@plane/types";
 import { renderFormattedTime, renderFormattedDate, calculateTimeAgo } from "@plane/utils";
 // hooks
 import { usePlatformOS } from "@/hooks/use-platform-os";
+import { useUserProfile } from "@/hooks/store/user";
 // local components
 import { User } from "./user";
 
@@ -29,6 +30,7 @@ export function ActivityBlockComponent(props: TActivityBlockComponent) {
   const { icon: Icon, activity, ends, children, customUserName } = props;
   // hooks
   const { isMobile } = usePlatformOS();
+  const { data: userProfile } = useUserProfile();
 
   if (!activity) return <></>;
   return (
@@ -50,7 +52,7 @@ export function ActivityBlockComponent(props: TActivityBlockComponent) {
             tooltipContent={`${renderFormattedDate(activity.created_at)}, ${renderFormattedTime(activity.created_at)}`}
           >
             <span className="cursor-help font-medium whitespace-nowrap text-tertiary">
-              {calculateTimeAgo(activity.created_at)}
+              {calculateTimeAgo(activity.created_at, userProfile?.timestamp_display === "relative")}
             </span>
           </Tooltip>
         </div>

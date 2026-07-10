@@ -62,6 +62,10 @@ export const ProfileSettingsLanguageAndTimezonePreferencesList = observer(
       }
     };
 
+    const handleTimestampDisplayChange = async (value: "exact" | "relative") => {
+      await updateUserProfile({ timestamp_display: value });
+    };
+
     const getLanguageLabel = (value: string) => {
       const selectedLanguage = SUPPORTED_LANGUAGES.find((l) => l.value === value);
       if (!selectedLanguage) return value;
@@ -70,6 +74,24 @@ export const ProfileSettingsLanguageAndTimezonePreferencesList = observer(
 
     return (
       <div className="flex flex-col gap-y-1">
+        <SettingsControlItem
+          title={t("timestamp_display")}
+          description={t("timestamp_display_setting")}
+          control={
+            <CustomSelect
+              value={profile?.timestamp_display ?? "exact"}
+              label={t(`timestamp_display_options.${profile?.timestamp_display ?? "exact"}`)}
+              onChange={handleTimestampDisplayChange}
+              buttonClassName="border border-subtle-1"
+              className="rounded-md"
+              input
+              placement="bottom-end"
+            >
+              <CustomSelect.Option value="exact">{t("timestamp_display_options.exact")}</CustomSelect.Option>
+              <CustomSelect.Option value="relative">{t("timestamp_display_options.relative")}</CustomSelect.Option>
+            </CustomSelect>
+          }
+        />
         <SettingsControlItem
           title={t("timezone")}
           description={t("timezone_setting")}

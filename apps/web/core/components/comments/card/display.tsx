@@ -24,6 +24,7 @@ import { CommentCardEditForm } from "./edit-form";
 import { EmojiReactionButton, EmojiReactionPicker } from "@plane/propel/emoji-reaction";
 import { Avatar, Tooltip } from "@plane/ui";
 import { useMember } from "@/hooks/store/use-member";
+import { useUserProfile } from "@/hooks/store/user";
 
 export type TCommentCardDisplayProps = {
   activityOperations: TCommentsOperations;
@@ -62,6 +63,7 @@ export const CommentCardDisplay = observer(function CommentCardDisplay(props: TC
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   // store hooks
   const { getUserDetails } = useMember();
+  const { data: userProfile } = useUserProfile();
   const { t } = useTranslation();
   // derived values
   const userDetails = getUserDetails(comment?.actor);
@@ -129,7 +131,7 @@ export const CommentCardDisplay = observer(function CommentCardDisplay(props: TC
               position="bottom"
             >
               <span className="text-tertiary">
-                {calculateTimeAgo(comment.created_at)}
+                {calculateTimeAgo(comment.created_at, userProfile?.timestamp_display === "relative")}
                 {comment.edited_at && ` (${t("edited")})`}
               </span>
             </Tooltip>

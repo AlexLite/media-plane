@@ -11,6 +11,7 @@ import { Tooltip } from "@plane/propel/tooltip";
 import { renderFormattedTime, renderFormattedDate, calculateTimeAgo } from "@plane/utils";
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 import { usePlatformOS } from "@/hooks/use-platform-os";
+import { useUserProfile } from "@/hooks/store/user";
 // plane web imports
 import { IssueCreatorDisplay } from "@/plane-web/components/issues/issue-details/issue-creator";
 // local imports
@@ -33,6 +34,7 @@ export function IssueActivityBlockComponent(props: TIssueActivityBlockComponent)
 
   const activity = getActivityById(activityId);
   const { isMobile } = usePlatformOS();
+  const { data: userProfile } = useUserProfile();
   if (!activity) return <></>;
   return (
     <div
@@ -56,7 +58,9 @@ export function IssueActivityBlockComponent(props: TIssueActivityBlockComponent)
             isMobile={isMobile}
             tooltipContent={`${renderFormattedDate(activity.created_at)}, ${renderFormattedTime(activity.created_at)}`}
           >
-            <span className="whitespace-nowrap text-tertiary"> {calculateTimeAgo(activity.created_at)}</span>
+            <span className="whitespace-nowrap text-tertiary">
+              {calculateTimeAgo(activity.created_at, userProfile?.timestamp_display === "relative")}
+            </span>
           </Tooltip>
         </span>
       </div>
