@@ -62,6 +62,7 @@ export class ProfileStore implements IUserProfileStore {
     created_at: "",
     updated_at: "",
     language: "",
+    timestamp_display: "exact",
     start_of_the_week: EStartOfTheWeek.SUNDAY,
   };
 

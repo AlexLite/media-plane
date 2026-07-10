@@ -63,6 +63,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - Profile timestamp display validation now accepts only exact and relative values in the API schema.
 - Changed-file UI audits now include staged and unstaged frontend changes and flag likely Cyrillic hardcodes.
 - Space release builds now reject tracked and untracked dirty source just like backend and web release builds.
+- Notification cards and profile preferences now satisfy the frontend type contract for localized timestamps and archive settings.
 - Space image healthchecks now use the bundled Node runtime, avoiding Alpine mirror DNS failures during builds.
 
 ### Removed

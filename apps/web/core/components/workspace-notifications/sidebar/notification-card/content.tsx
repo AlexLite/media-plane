@@ -47,7 +47,7 @@ export type TNotificationContentMap = {
 };
 
 // Base notification content map for core fields
-export const getBaseNotificationContentMap = (): TNotificationContentMap => ({
+export const getBaseNotificationContentMap = (renderCommentBox: boolean): TNotificationContentMap => ({
   duplicate: ({ verb }, t) => ({
     action:
       verb === "created"
@@ -164,13 +164,14 @@ export const getBaseNotificationContentMap = (): TNotificationContentMap => ({
 // Helper to get content details from maps
 const getNotificationContentDetails = (
   fieldData: TNotificationFieldData,
-  t: (key: string) => string
+  t: (key: string) => string,
+  renderCommentBox: boolean
 ): TNotificationContentDetails | null => {
   const { field } = fieldData;
   if (!field) return null;
 
   // Check base map first
-  const baseHandler = getBaseNotificationContentMap()[field];
+  const baseHandler = getBaseNotificationContentMap(renderCommentBox)[field];
   if (baseHandler) {
     return baseHandler(fieldData, t);
   }
@@ -218,7 +219,7 @@ export function NotificationContent({
   );
 
   // Get content details from map
-  const contentDetails = getNotificationContentDetails(fieldData, t);
+  const contentDetails = getNotificationContentDetails(fieldData, t, renderCommentBox);
 
   // Render action - use map value if defined, otherwise fall through to default handler
   // Note: undefined = fall through to default, null = explicitly no action text

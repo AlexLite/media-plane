@@ -9,7 +9,12 @@ import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { ArchiveRestore } from "lucide-react";
 // plane imports
-import { PROJECT_AUTOMATION_ARCHIVE_WEEKS, PROJECT_AUTOMATION_MONTHS, EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
+import {
+  PROJECT_AUTOMATION_ARCHIVE_WEEKS,
+  PROJECT_AUTOMATION_MONTHS,
+  EUserPermissions,
+  EUserPermissionsLevel,
+} from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import type { IProject } from "@plane/types";
 import { CustomSelect, Loader, ToggleSwitch } from "@plane/ui";
@@ -64,7 +69,7 @@ export const AutoArchiveAutomation = observer(function AutoArchiveAutomation(pro
         type="auto-archive"
         initialValues={{
           archive_in_days: currentProjectDetails
-            ? (currentProjectDetails.archive_in_days ?? currentProjectDetails.archive_in * 30)
+            ? (currentProjectDetails.archive_in_days ?? (currentProjectDetails.archive_in ?? 0) * 30)
             : initialValues.archive_in_days,
         }}
         isOpen={monthModal}
