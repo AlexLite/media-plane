@@ -73,3 +73,24 @@ class TestAPITokenLogMiddleware:
         with patch("plane.middleware.logger.process_logs") as process_logs:
             middleware.process_request(request, HttpResponse(b"{}"), request_body=b"")
             assert not process_logs.delay.called
+
+    def test_sensitive_query_and_body_values_are_redacted(self, middleware, request_factory):
+        request = request_factory.post(
+            "/api/v1/workspaces/?access_token=query-secret&filter=active",
+            data='{"password":"request-secret","name":"Visible"}',
+            content_type="application/json",
+            HTTP_X_API_KEY=self.API_KEY,
+            HTTP_X_CLIENT_SECRET="header-secret",
+        )
+        request.user = AnonymousUser()
+        response = HttpResponse(b'{"refresh_token":"response-secret","status":"ok"}', content_type="application/json")
+
+        with patch("plane.middleware.logger.process_logs") as process_logs:
+            middleware.process_request(request, response, request_body=request.body)
+            log_data = process_logs.delay.call_args.kwargs["log_data"]
+
+        for secret in ("query-secret", "request-secret", "response-secret", "header-secret"):
+            assert secret not in str(log_data)
+        assert "filter=active" in log_data["query_params"]
+        assert "Visible" in log_data["body"]
+        assert "status" in log_data["response_body"]

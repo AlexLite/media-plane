@@ -6,7 +6,9 @@
 import logging
 import hashlib
 import hmac
+import json
 import time
+from urllib.parse import parse_qsl, urlencode
 
 # Django imports
 from django.conf import settings
@@ -31,6 +33,14 @@ SENSITIVE_HEADER_NAMES = {
     "x-api-key",
     "x-auth-token",
 }
+SENSITIVE_VALUE_NAMES = {"access_token", "api_key", "authorization", "code", "cookie", "password", "refresh_token", "secret", "token"}
+
+
+def is_sensitive_name(name: str) -> bool:
+    normalized_name = name.lower().replace("-", "_")
+    return normalized_name in SENSITIVE_VALUE_NAMES or any(
+        sensitive_name in normalized_name for sensitive_name in SENSITIVE_VALUE_NAMES
+    )
 
 
 def build_token_identifier(api_key: str) -> str:
@@ -51,10 +61,35 @@ def sanitize_request_headers(request: Request | HttpRequest) -> str:
     """Return request headers without credentials or session material."""
     return str(
         {
-            name: "[REDACTED]" if name.lower() in SENSITIVE_HEADER_NAMES else value
+            name: "[REDACTED]" if name.lower() in SENSITIVE_HEADER_NAMES or is_sensitive_name(name) else value
             for name, value in request.headers.items()
         }
     )
+
+
+def sanitize_query_params(query_string: str) -> str:
+    return urlencode(
+        [(name, "[REDACTED]" if is_sensitive_name(name) else value) for name, value in parse_qsl(query_string, keep_blank_values=True)]
+    )
+
+
+def sanitize_body(content: bytes | None) -> str | None:
+    if not content:
+        return None
+
+    try:
+        payload = json.loads(content.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return "[REDACTED NON-JSON CONTENT]"
+
+    def redact(value):
+        if isinstance(value, dict):
+            return {key: "[REDACTED]" if is_sensitive_name(key) else redact(child) for key, child in value.items()}
+        if isinstance(value, list):
+            return [redact(child) for child in value]
+        return value
+
+    return json.dumps(redact(payload), ensure_ascii=False)
 
 
 class RequestLoggerMiddleware:
@@ -160,10 +195,10 @@ class APITokenLogMiddleware:
                 "token_identifier": build_token_identifier(api_key),
                 "path": request.path,
                 "method": request.method,
-                "query_params": request.META.get("QUERY_STRING", ""),
+                "query_params": sanitize_query_params(request.META.get("QUERY_STRING", "")),
                 "headers": sanitize_request_headers(request),
-                "body": self._safe_decode_body(request_body) if request_body else None,
-                "response_body": self._safe_decode_body(response.content) if response.content else None,
+                "body": sanitize_body(request_body),
+                "response_body": sanitize_body(response.content),
                 "response_code": response.status_code,
                 "ip_address": get_client_ip(request=request),
                 "user_agent": request.META.get("HTTP_USER_AGENT", None),
