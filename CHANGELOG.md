@@ -62,6 +62,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - Workspace selector rows again provide native keyboard activation while retaining separate Settings and Invite links.
 - Profile timestamp display validation now accepts only exact and relative values in the API schema.
 - Changed-file UI audits now include staged and unstaged frontend changes and flag likely Cyrillic hardcodes.
+- Space release builds now reject tracked and untracked dirty source just like backend and web release builds.
 - Space image healthchecks now use the bundled Node runtime, avoiding Alpine mirror DNS failures during builds.
 
 ### Removed

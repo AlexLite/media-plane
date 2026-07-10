@@ -8,12 +8,8 @@ GIT_REVISION="$(git rev-parse HEAD)"
 GIT_SHA="$(git rev-parse --short=12 HEAD)"
 DEFAULT_SPACE_IMAGE_TAG="plane-space-ru:${RELEASE_VERSION_VALUE}-${GIT_SHA}"
 
-if [ "${ALLOW_DIRTY_BUILD:-0}" != "1" ] && ! git diff --quiet; then
-  echo "Refusing to build from a dirty worktree. Commit or stash tracked changes, or set ALLOW_DIRTY_BUILD=1." >&2
-  exit 1
-fi
-if [ "${ALLOW_DIRTY_BUILD:-0}" != "1" ] && ! git diff --cached --quiet; then
-  echo "Refusing to build with staged changes. Commit or unstage them, or set ALLOW_DIRTY_BUILD=1." >&2
+if [ -n "$(git status --porcelain --untracked-files=all)" ]; then
+  echo "Refusing to build a release image from a dirty worktree, including untracked files." >&2
   exit 1
 fi
 
