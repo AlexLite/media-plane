@@ -4,9 +4,8 @@
  * See the LICENSE file for details.
  */
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useId, useMemo } from "react";
 import { observer } from "mobx-react";
-import { v4 as uuidv4 } from "uuid";
 // plane imports
 import type { TSaveViewOptions, TUpdateViewOptions } from "@plane/constants";
 import type { IWorkItemFilterInstance } from "@plane/shared-state";
@@ -62,10 +61,11 @@ const WorkItemFilterRoot = observer(function WorkItemFilterRoot(props: TWorkItem
   } = props;
   // store hooks
   const { getOrCreateFilter, deleteFilter } = useWorkItemFilters();
+  const temporaryId = useId();
   // derived values
   const workItemEntityID = useMemo(
-    () => (isTemporary ? `TEMP-${entityId ?? uuidv4()}` : entityId),
-    [isTemporary, entityId]
+    () => (isTemporary ? `TEMP-${entityId ?? temporaryId}` : entityId),
+    [isTemporary, entityId, temporaryId]
   );
   // memoize initial values to prevent re-computations when reference changes
   const initialUserFilters = useMemo(() => initialWorkItemFilters.richFilters, [initialWorkItemFilters]);
