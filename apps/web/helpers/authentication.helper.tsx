@@ -689,6 +689,42 @@ export const authErrorHandler = (
       };
     }
 
+    if (errorCode === EAuthenticationErrorCodes.ADMIN_USER_ALREADY_EXIST) {
+      return {
+        type: EErrorAlertType.BANNER_ALERT,
+        code: errorCode,
+        title: tt("auth.error_codes.admin_user_already_exist.title", "Administrator account already exists"),
+        message: (
+          <div>
+            {tt("auth.error_codes.admin_user_already_exist.message_prefix", "An administrator account already exists.")}
+            &nbsp;
+            <Link className="font-medium underline underline-offset-4 transition-all hover:font-bold" href="/admin">
+              {tt("auth.error_codes.admin_user_already_exist.sign_in_link", "Sign in")}
+            </Link>
+            &nbsp;{tt("auth.error_codes.admin_user_already_exist.now_suffix", "now.")}
+          </div>
+        ),
+      };
+    }
+
+    if (errorCode === EAuthenticationErrorCodes.ADMIN_USER_DOES_NOT_EXIST) {
+      return {
+        type: EErrorAlertType.BANNER_ALERT,
+        code: errorCode,
+        title: tt("auth.error_codes.admin_user_does_not_exist.title", "Administrator account not found"),
+        message: (
+          <div>
+            {tt("auth.error_codes.admin_user_does_not_exist.message_prefix", "An administrator account was not found.")}
+            &nbsp;
+            <Link className="font-medium underline underline-offset-4 transition-all hover:font-bold" href="/admin">
+              {tt("auth.error_codes.admin_user_does_not_exist.sign_in_link", "Sign in")}
+            </Link>
+            &nbsp;{tt("auth.error_codes.admin_user_does_not_exist.now_suffix", "now.")}
+          </div>
+        ),
+      };
+    }
+
     const title = i18nKeys ? tt(i18nKeys.title, fallbackTitle) : fallbackTitle;
     const message = i18nKeys
       ? tt(i18nKeys.message, fallbackMessage, { support_email: SUPPORT_EMAIL ? SUPPORT_EMAIL : "administrator" })
