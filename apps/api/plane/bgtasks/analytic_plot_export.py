@@ -49,6 +49,20 @@ CYCLE_ID = "issue_cycle__cycle_id"
 MODULE_ID = "issue_module__module_id"
 
 
+def build_detail_name_lookups(assignee_details, label_details, state_details, cycle_details, module_details):
+    """Build constant-time lookups for CSV axis and segment labels."""
+    return {
+        ASSIGNEE_ID: {
+            str(item[ASSIGNEE_ID]): f"{item['assignees__first_name']} {item['assignees__last_name']}"
+            for item in assignee_details
+        },
+        LABEL_ID: {str(item[LABEL_ID]): item["labels__name"] for item in label_details},
+        STATE_ID: {str(item[STATE_ID]): item["state__name"] for item in state_details},
+        CYCLE_ID: {str(item[CYCLE_ID]): item["issue_cycle__cycle__name"] for item in cycle_details},
+        MODULE_ID: {str(item[MODULE_ID]): item["issue_module__module__name"] for item in module_details},
+    }
+
+
 def send_export_email(email, slug, csv_buffer, rows):
     """Helper function to send export email."""
     subject = "Экспорт готов"
@@ -198,8 +212,9 @@ def generate_segmented_rows(
     module_details,
 ):
     segment_zero = list(set(item.get("segment") for sublist in distribution.values() for item in sublist))
-
-    segmented = segment
+    detail_name_lookups = build_detail_name_lookups(
+        assignee_details, label_details, state_details, cycle_details, module_details
+    )
 
     row_zero = [
         row_mapping.get(x_axis, "Ось X"),
@@ -208,84 +223,28 @@ def generate_segmented_rows(
 
     rows = []
     for item, data in distribution.items():
+        values_by_segment = {}
+        for entry in data:
+            values_by_segment.setdefault(entry.get("segment"), entry.get(key, "0"))
         generated_row = [
             item,
             sum(obj.get(key) for obj in data if obj.get(key) is not None),
         ]
 
-        for segment in segment_zero:
-            value = next((x.get(key) for x in data if x.get("segment") == segment), "0")
-            generated_row.append(value)
+        generated_row.extend(values_by_segment.get(segment, "0") for segment in segment_zero)
 
-        if x_axis == ASSIGNEE_ID:
-            assignee = next(
-                (user for user in assignee_details if str(user[ASSIGNEE_ID]) == str(item)),
-                None,
-            )
-            if assignee:
-                generated_row[0] = f"{assignee['assignees__first_name']} {assignee['assignees__last_name']}"
-
-        if x_axis == LABEL_ID:
-            label = next((lab for lab in label_details if str(lab[LABEL_ID]) == str(item)), None)
-
-            if label:
-                generated_row[0] = f"{label['labels__name']}"
-
-        if x_axis == STATE_ID:
-            state = next((sta for sta in state_details if str(sta[STATE_ID]) == str(item)), None)
-
-            if state:
-                generated_row[0] = f"{state['state__name']}"
-
-        if x_axis == CYCLE_ID:
-            cycle = next((cyc for cyc in cycle_details if str(cyc[CYCLE_ID]) == str(item)), None)
-
-            if cycle:
-                generated_row[0] = f"{cycle['issue_cycle__cycle__name']}"
-
-        if x_axis == MODULE_ID:
-            module = next(
-                (mod for mod in module_details if str(mod[MODULE_ID]) == str(item)),
-                None,
-            )
-
-            if module:
-                generated_row[0] = f"{module['issue_module__module__name']}"
+        item_name = detail_name_lookups.get(x_axis, {}).get(str(item))
+        if item_name:
+            generated_row[0] = item_name
 
         rows.append(tuple(generated_row))
 
-    if segmented == ASSIGNEE_ID:
+    segment_name_lookup = detail_name_lookups.get(segment)
+    if segment_name_lookup:
         for index, segm in enumerate(row_zero[2:]):
-            assignee = next(
-                (user for user in assignee_details if str(user[ASSIGNEE_ID]) == str(segm)),
-                None,
-            )
-            if assignee:
-                row_zero[index + 2] = f"{assignee['assignees__first_name']} {assignee['assignees__last_name']}"
-
-    if segmented == LABEL_ID:
-        for index, segm in enumerate(row_zero[2:]):
-            label = next((lab for lab in label_details if str(lab[LABEL_ID]) == str(segm)), None)
-            if label:
-                row_zero[index + 2] = label["labels__name"]
-
-    if segmented == STATE_ID:
-        for index, segm in enumerate(row_zero[2:]):
-            state = next((sta for sta in state_details if str(sta[STATE_ID]) == str(segm)), None)
-            if state:
-                row_zero[index + 2] = state["state__name"]
-
-    if segmented == MODULE_ID:
-        for index, segm in enumerate(row_zero[2:]):
-            module = next((mod for mod in module_details if str(mod[MODULE_ID]) == str(segm)), None)
-            if module:
-                row_zero[index + 2] = module["issue_module__module__name"]
-
-    if segmented == CYCLE_ID:
-        for index, segm in enumerate(row_zero[2:]):
-            cycle = next((cyc for cyc in cycle_details if str(cyc[CYCLE_ID]) == str(segm)), None)
-            if cycle:
-                row_zero[index + 2] = cycle["issue_cycle__cycle__name"]
+            segment_name = segment_name_lookup.get(str(segm))
+            if segment_name:
+                row_zero[index + 2] = segment_name
 
     return [tuple(row_zero)] + rows
 
@@ -301,44 +260,15 @@ def generate_non_segmented_rows(
     cycle_details,
     module_details,
 ):
+    detail_name_lookups = build_detail_name_lookups(
+        assignee_details, label_details, state_details, cycle_details, module_details
+    )
     rows = []
     for item, data in distribution.items():
         row = [item, data[0].get("count" if y_axis == "issue_count" else "estimate")]
-
-        if x_axis == ASSIGNEE_ID:
-            assignee = next(
-                (user for user in assignee_details if str(user[ASSIGNEE_ID]) == str(item)),
-                None,
-            )
-            if assignee:
-                row[0] = f"{assignee['assignees__first_name']} {assignee['assignees__last_name']}"
-
-        if x_axis == LABEL_ID:
-            label = next((lab for lab in label_details if str(lab[LABEL_ID]) == str(item)), None)
-
-            if label:
-                row[0] = f"{label['labels__name']}"
-
-        if x_axis == STATE_ID:
-            state = next((sta for sta in state_details if str(sta[STATE_ID]) == str(item)), None)
-
-            if state:
-                row[0] = f"{state['state__name']}"
-
-        if x_axis == CYCLE_ID:
-            cycle = next((cyc for cyc in cycle_details if str(cyc[CYCLE_ID]) == str(item)), None)
-
-            if cycle:
-                row[0] = f"{cycle['issue_cycle__cycle__name']}"
-
-        if x_axis == MODULE_ID:
-            module = next(
-                (mod for mod in module_details if str(mod[MODULE_ID]) == str(item)),
-                None,
-            )
-
-            if module:
-                row[0] = f"{module['issue_module__module__name']}"
+        item_name = detail_name_lookups.get(x_axis, {}).get(str(item))
+        if item_name:
+            row[0] = item_name
 
         rows.append(tuple(row))
 

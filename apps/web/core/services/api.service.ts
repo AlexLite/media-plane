@@ -19,7 +19,7 @@ const ensureAPIErrorPayload = (error: any) => {
     fallbackError.response.data = fallbackData;
   }
 
-  localizeAPIErrorPayload(fallbackError.response.data);
+  fallbackError.response.data = localizeAPIErrorPayload(fallbackError.response.data);
 
   return fallbackError;
 };

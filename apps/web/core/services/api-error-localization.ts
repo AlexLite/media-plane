@@ -233,28 +233,44 @@ const localizeAPIErrorText = (value: string) => {
   return translated === resolvedTranslationKey ? value : translated;
 };
 
+const localizeAPIErrorCode = (value: unknown) => {
+  if (typeof value !== "string") return undefined;
+
+  const translationKey = `api_errors.${value.toLowerCase()}`;
+  const translated = translate(translationKey);
+  return translated === translationKey ? undefined : translated;
+};
+
 export const localizeAPIErrorPayload = (payload: unknown): unknown => {
-  const visited = new WeakSet<object>();
+  const visited = new WeakMap<object, unknown>();
 
   const localize = (value: unknown): unknown => {
-    if (!value || typeof value !== "object" || visited.has(value)) return value;
-    visited.add(value);
+    if (!value || typeof value !== "object") return value;
+
+    const cachedValue = visited.get(value);
+    if (cachedValue) return cachedValue;
 
     if (Array.isArray(value)) {
-      value.forEach(localize);
-      return value;
+      const localizedArray: unknown[] = [];
+      visited.set(value, localizedArray);
+      value.forEach((item) => localizedArray.push(localize(item)));
+      return localizedArray;
     }
+
+    const localizedPayload: Record<string, unknown> = {};
+    const errorCodeTranslation = localizeAPIErrorCode((value as Record<string, unknown>).error_code);
+    visited.set(value, localizedPayload);
 
     Object.entries(value as Record<string, unknown>).forEach(([key, nestedValue]) => {
       if (LOCALIZABLE_ERROR_FIELDS.has(key) && typeof nestedValue === "string") {
-        (value as Record<string, unknown>)[key] = localizeAPIErrorText(nestedValue);
+        localizedPayload[key] = errorCodeTranslation ?? localizeAPIErrorText(nestedValue);
         return;
       }
 
-      localize(nestedValue);
+      localizedPayload[key] = localize(nestedValue);
     });
 
-    return value;
+    return localizedPayload;
   };
 
   return localize(payload);
