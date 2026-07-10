@@ -25,4 +25,5 @@ export * from "./keymap";
 export * from "./quote";
 export * from "./side-menu";
 export * from "./text-align";
+export * from "./timecode";
 export * from "./utility";

@@ -8,7 +8,7 @@ import React, { useState } from "react";
 // plane constants
 import type { EIssueCommentAccessSpecifier } from "@plane/constants";
 // plane imports
-import { LiteTextEditorWithRef } from "@plane/editor";
+import { LiteTextEditorWithRef, TimecodeExtension } from "@plane/editor";
 import type { EditorRefApi, ILiteTextEditorProps, TFileHandler } from "@plane/editor";
 import { useTranslation } from "@plane/i18n";
 import type { MakeOptional } from "@plane/types";
@@ -168,6 +168,7 @@ export const LiteTextEditor = React.forwardRef(function LiteTextEditor(
               "p-2": !editable,
             })}
             extendedEditorProps={{}}
+            extensions={[TimecodeExtension]}
             editorClassName={editorClassName}
             {...rest}
           />

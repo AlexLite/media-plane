@@ -8,6 +8,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Added
 
+- Comment timecodes now render as semantic markers and are exposed to integrations without an FPS dependency.
 - Project auto-archive now supports custom periods from 7 to 365 days while preserving legacy month-based settings.
 - Plane2 frontend deploy helper that rolls `web` and `web-ru` one at a time.
 - Plane2 build helper for source-stamped RU Space images.

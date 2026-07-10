@@ -760,6 +760,7 @@ class IssueCommentSerializer(BaseSerializer):
     """
 
     is_member = serializers.BooleanField(read_only=True)
+    timecodes = serializers.SerializerMethodField()
 
     class Meta:
         model = IssueComment
@@ -774,6 +775,30 @@ class IssueCommentSerializer(BaseSerializer):
             "updated_at",
         ]
         exclude = ["comment_stripped", "comment_json"]
+
+    def get_timecodes(self, instance):
+        """Expose semantic comment timecodes without coupling API clients to HTML parsing."""
+        if not instance.comment_html:
+            return []
+
+        try:
+            parsed = html.fromstring(instance.comment_html)
+        except Exception:
+            return []
+
+        timecodes = []
+        for element in parsed.xpath(".//span[@data-plane-timecode]"):
+            value = element.get("data-plane-timecode")
+            if not value:
+                continue
+            parts = value.split(":")
+            if len(parts) not in (2, 3) or not all(part.isdigit() and len(part) == 2 for part in parts):
+                continue
+            hours, minutes, seconds = (0, *map(int, parts)) if len(parts) == 2 else map(int, parts)
+            if minutes > 59 or seconds > 59:
+                continue
+            timecodes.append({"value": value, "seconds": hours * 3600 + minutes * 60 + seconds})
+        return timecodes
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

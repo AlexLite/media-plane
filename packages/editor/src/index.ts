@@ -27,3 +27,4 @@ export * from "@/types";
 
 // additional exports
 export { TrailingNode } from "./core/extensions/trailing-node";
+export { TimecodeExtension, timecodeToSeconds } from "./core/extensions/timecode";
