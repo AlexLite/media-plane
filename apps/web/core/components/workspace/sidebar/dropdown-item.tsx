@@ -18,7 +18,6 @@ import { cn, getFileURL } from "@plane/utils";
 // plane web imports
 import { SubscriptionPill } from "@/plane-web/components/common/subscription/subscription-pill";
 
-
 const getTranslatedWorkspaceRole = (role: EUserPermissions | undefined, t: (key: string) => string) => {
   switch (role) {
     case EUserPermissions.ADMIN:
@@ -48,19 +47,16 @@ const SidebarDropdownItem = observer(function SidebarDropdownItem(props: TProps)
   const { t } = useTranslation();
 
   return (
-    <div
-      key={workspace.id}
-      onClick={() => {
-        handleWorkspaceNavigation(workspace);
-        handleItemClick();
-        router.push(`/${workspace.slug}`);
-      }}
-      className="w-full cursor-pointer"
-      id={workspace.id}
-    >
+    <div key={workspace.id} className="w-full" id={workspace.id}>
       <Menu.Item
-        as="div"
-        className={cn("px-4 py-2", {
+        as="button"
+        type="button"
+        onClick={() => {
+          handleWorkspaceNavigation(workspace);
+          handleItemClick();
+          router.push(`/${workspace.slug}`);
+        }}
+        className={cn("w-full px-4 py-2 text-left", {
           "bg-layer-transparent-active": workspace.id === activeWorkspace?.id,
           "hover:bg-layer-transparent-hover": workspace.id !== activeWorkspace?.id,
         })}
@@ -98,45 +94,35 @@ const SidebarDropdownItem = observer(function SidebarDropdownItem(props: TProps)
               </div>
             </div>
           </div>
-          {workspace.id !== activeWorkspace?.id && (
-            <SubscriptionPill workspace={workspace} />
+          {workspace.id !== activeWorkspace?.id && <SubscriptionPill workspace={workspace} />}
+        </div>
+      </Menu.Item>
+      {workspace.id === activeWorkspace?.id && (
+        <div className="mt-2 mb-1 flex gap-2 px-4">
+          {[EUserPermissions.ADMIN, EUserPermissions.MEMBER].includes(workspace?.role) && (
+            <Link
+              href={`/${workspace.slug}/settings`}
+              onClick={handleClose}
+              className="flex gap-1.5 rounded-md border border-strong bg-layer-2 px-2.5 py-1.5 text-secondary transition-colors hover:border-strong hover:text-secondary hover:shadow-raised-100"
+            >
+              <Settings className="my-auto h-4 w-4 flex-shrink-0" />
+              <span className="my-auto text-13 font-medium whitespace-nowrap">{t("settings")}</span>
+            </Link>
+          )}
+          {[EUserPermissions.ADMIN].includes(workspace?.role) && (
+            <Link
+              href={`/${workspace.slug}/settings/members`}
+              onClick={handleClose}
+              className="flex gap-1.5 rounded-md border border-strong bg-layer-2 px-2.5 py-1.5 text-secondary transition-colors hover:border-strong hover:text-secondary hover:shadow-raised-100"
+            >
+              <UserPlus className="my-auto h-4 w-4 flex-shrink-0" />
+              <span className="my-auto text-13 font-medium whitespace-nowrap">
+                {t("workspace_settings.settings.members.details.invite")}
+              </span>
+            </Link>
           )}
         </div>
-        {workspace.id === activeWorkspace?.id && (
-          <>
-            <div className="mt-2 mb-1 flex gap-2">
-              {[EUserPermissions.ADMIN, EUserPermissions.MEMBER].includes(workspace?.role) && (
-                <Link
-                  href={`/${workspace.slug}/settings`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleClose();
-                  }}
-                  className="flex gap-1.5 rounded-md border border-strong bg-layer-2 px-2.5 py-1.5 text-secondary transition-colors hover:border-strong hover:text-secondary hover:shadow-raised-100"
-                >
-                  <Settings className="my-auto h-4 w-4 flex-shrink-0" />
-                  <span className="my-auto text-13 font-medium whitespace-nowrap">{t("settings")}</span>
-                </Link>
-              )}
-              {[EUserPermissions.ADMIN].includes(workspace?.role) && (
-                <Link
-                  href={`/${workspace.slug}/settings/members`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleClose();
-                  }}
-                  className="flex gap-1.5 rounded-md border border-strong bg-layer-2 px-2.5 py-1.5 text-secondary transition-colors hover:border-strong hover:text-secondary hover:shadow-raised-100"
-                >
-                  <UserPlus className="my-auto h-4 w-4 flex-shrink-0" />
-                  <span className="my-auto text-13 font-medium whitespace-nowrap">
-                    {t("workspace_settings.settings.members.details.invite")}
-                  </span>
-                </Link>
-              )}
-            </div>
-          </>
-        )}
-      </Menu.Item>
+      )}
     </div>
   );
 });

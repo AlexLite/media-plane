@@ -59,6 +59,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - External API activity logs redact credential and session headers, and GitHub OAuth membership failures no longer log user or organization identifiers.
 - Workspace role labels now follow the active locale, and profile timestamp display accepts only exact or relative values.
 - Workspace notification cards now localize activity text and show snooze timestamps in a single locale-aware format.
+- Workspace selector rows again provide native keyboard activation while retaining separate Settings and Invite links.
 - Space image healthchecks now use the bundled Node runtime, avoiding Alpine mirror DNS failures during builds.
 
 ### Removed
