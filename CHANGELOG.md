@@ -11,6 +11,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - Premiere Pro UXP implementation brief for Plane work-item review and semantic timecode markers.
 - Comment timecodes now render as semantic markers and are exposed to integrations without an FPS dependency.
 - Project auto-archive keeps legacy month presets, adds weekly presets, and supports custom periods from 7 to 365 days.
+- Day-based auto-archive settings retain a rounded legacy month value, so an application rollback does not silently disable archival.
 - Plane2 frontend deploy helper that rolls `web` and `web-ru` one at a time.
 - Plane2 build helper for source-stamped RU Space images.
 - Changed-file i18n key existence check for web and constants usage.

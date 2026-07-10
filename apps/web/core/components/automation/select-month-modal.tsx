@@ -43,7 +43,8 @@ export function SelectMonthModal({ type, initialValues, isOpen, handleClose, han
   const onSubmit = (formData: Partial<IProject>) => {
     if (!workspaceSlug && !projectId) return;
     if (type === "auto-archive") {
-      void handleChange({ archive_in: 0, archive_in_days: Number(formData.archive_in_days) });
+      const archiveInDays = Number(formData.archive_in_days);
+      void handleChange({ archive_in: Math.ceil(archiveInDays / 30), archive_in_days: archiveInDays });
     } else {
       void handleChange(formData);
     }

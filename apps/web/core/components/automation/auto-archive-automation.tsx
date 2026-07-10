@@ -107,7 +107,8 @@ export const AutoArchiveAutomation = observer(function AutoArchiveAutomation(pro
                       const [unit, amount] = val.split(":");
                       const value = Number(amount);
                       if (unit === "months") void handleChange({ archive_in: value, archive_in_days: null });
-                      if (unit === "days") void handleChange({ archive_in: 0, archive_in_days: value });
+                      if (unit === "days")
+                        void handleChange({ archive_in: Math.ceil(value / 30), archive_in_days: value });
                     }}
                     input
                     disabled={!isAdmin}
