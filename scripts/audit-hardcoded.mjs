@@ -13,13 +13,7 @@ import path from "node:path";
 const LOCALES_DIR = "packages/i18n/src/locales";
 const NAMESPACES_FILE = "packages/i18n/src/constants/namespaces.ts";
 
-const DEFAULT_SEARCH_DIRS = [
-  "apps/web",
-  "apps/admin",
-  "apps/space",
-  "packages/ui",
-  "packages/editor",
-];
+const DEFAULT_SEARCH_DIRS = ["apps/web", "apps/admin", "apps/space", "packages/ui", "packages/editor"];
 
 const VALID_EXTENSIONS = new Set([".ts", ".tsx"]);
 const IGNORE_FILE_PATTERNS = [
@@ -47,6 +41,15 @@ const UI_STRING_PATTERNS = [
   {
     kind: "jsx-text",
     pattern: />\s*([A-Z][A-Za-z0-9 ',./:;!?()[\]&+-]{3,100})\s*</g,
+  },
+  {
+    kind: "cyrillic-prop",
+    pattern:
+      /(?:aria-label|label|title|heading|message|description|placeholder|tooltipContent|tooltipHeading|buttonText|emptyStateTitle|emptyStateDescription)\s*[:=]\s*["']([^"'\r\n]*[\u0400-\u04FF][^"'\r\n]*)["']/g,
+  },
+  {
+    kind: "cyrillic-jsx-text",
+    pattern: />\s*([^<\r\n]*[\u0400-\u04FF][^<\r\n]*)\s*</g,
   },
 ];
 
@@ -207,21 +210,25 @@ function walk(dir, foundFiles) {
 }
 
 function getChangedFiles(base) {
-  let output = "";
+  let committedOutput = "";
 
   try {
-    output = execFileSync("git", ["diff", "--name-only", "--diff-filter=ACMR", `${base}...HEAD`], {
+    committedOutput = execFileSync("git", ["diff", "--name-only", "--diff-filter=ACMR", `${base}...HEAD`], {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "pipe"],
     });
   } catch {
-    output = execFileSync("git", ["diff", "--name-only", "--diff-filter=ACMR", base, "HEAD"], {
+    committedOutput = execFileSync("git", ["diff", "--name-only", "--diff-filter=ACMR", base, "HEAD"], {
       encoding: "utf8",
     });
   }
 
-  return output
-    .split(/\r?\n/)
+  const workingTreeOutput = execFileSync("git", ["diff", "--name-only", "--diff-filter=ACMR"], { encoding: "utf8" });
+  const stagedOutput = execFileSync("git", ["diff", "--cached", "--name-only", "--diff-filter=ACMR"], {
+    encoding: "utf8",
+  });
+
+  return [...new Set(`${committedOutput}\n${workingTreeOutput}\n${stagedOutput}`.split(/\r?\n/))]
     .map((file) => file.trim())
     .filter(Boolean)
     .filter((file) => DEFAULT_SEARCH_DIRS.some((dir) => file === dir || file.startsWith(`${dir}/`)))
@@ -238,7 +245,7 @@ function shouldIgnoreFile(file) {
   return IGNORE_FILE_PATTERNS.some((pattern) => pattern.test(file));
 }
 
-function auditFiles(filesToAudit, knownTranslationKeys) {
+function auditFiles(filesToAudit, translationKeys) {
   const findings = {};
 
   for (const file of filesToAudit) {
@@ -280,7 +287,7 @@ function auditFiles(filesToAudit, knownTranslationKeys) {
 
         while ((translationCall = TRANSLATION_CALL_PATTERN.exec(line)) !== null) {
           const key = translationCall[1];
-          if (knownTranslationKeys.has(key)) continue;
+          if (translationKeys.has(key)) continue;
 
           matches.push({
             kind: "missing-translation-key",
