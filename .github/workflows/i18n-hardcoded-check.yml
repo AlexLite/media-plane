@@ -73,3 +73,6 @@ jobs:
         run: node scripts/audit-hardcoded.mjs --changed --base "$BASE_REF" --ci
         env:
           BASE_REF: ${{ github.event.pull_request.base.sha || github.event.before || 'HEAD~1' }}
+
+      - name: Test audit fixtures
+        run: node --test scripts/tests/audit-hardcoded.test.mjs

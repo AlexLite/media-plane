@@ -51,13 +51,17 @@ const UI_STRING_PATTERNS = [
     kind: "cyrillic-jsx-text",
     pattern: />\s*([^<\r\n]*[\u0400-\u04FF][^<\r\n]*)\s*</g,
   },
+  {
+    kind: "cyrillic-ui-value",
+    pattern:
+      /(?:action|value|label|title|message|description|placeholder|tooltipContent|tooltipHeading|buttonText)\s*[:=]\s*["']([^"'\r\n]*[\u0400-\u04FF][^"'\r\n]*)["']/g,
+  },
 ];
 
 const TRANSLATION_CALL_PATTERN = /(?:\b(?:t|translate)\s*\(|\.t\()\s*["']([A-Za-z0-9_.-]+)["']/g;
 
 const IGNORE_LINE_PATTERNS = [
   /i18n-hardcoded-ok/,
-  /\bt\(/,
   /<Trans\b/,
   /\bi18nKey=/,
   /^\s*\/\//,
@@ -320,7 +324,7 @@ function isLikelyUiString(value) {
   if (value.includes("{{")) return false;
   if (/^[A-Z][a-z]+\/[A-Z][a-z]+$/.test(value)) return false;
 
-  return /[A-Za-z]/.test(value);
+  return /[A-Za-z\u0400-\u04FF]/.test(value);
 }
 
 function printReport(results, reportFindingCount, scannedCount, changedOnly) {

@@ -65,6 +65,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - Space release builds now reject tracked and untracked dirty source just like backend and web release builds.
 - Notification cards and profile preferences now satisfy the frontend type contract for localized timestamps and archive settings.
 - Custom project auto-archive periods through 365 days now preserve a valid legacy month fallback for rollback compatibility.
+- i18n hardcode CI now verifies missing translation keys and Cyrillic UI literals with fixtures.
 - Space image healthchecks now use the bundled Node runtime, avoiding Alpine mirror DNS failures during builds.
 
 ### Removed
