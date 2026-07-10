@@ -6,7 +6,7 @@
 
 import { observer } from "mobx-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Settings, UserPlus } from "lucide-react";
 import { Menu } from "@headlessui/react";
 // plane imports
@@ -43,18 +43,19 @@ const SidebarDropdownItem = observer(function SidebarDropdownItem(props: TProps)
   const { workspace, activeWorkspace, handleItemClick, handleWorkspaceNavigation, handleClose } = props;
   // router
   const { workspaceSlug } = useParams();
+  const router = useRouter();
   // hooks
   const { t } = useTranslation();
 
   return (
-    <Link
+    <div
       key={workspace.id}
-      href={`/${workspace.slug}`}
       onClick={() => {
         handleWorkspaceNavigation(workspace);
         handleItemClick();
+        router.push(`/${workspace.slug}`);
       }}
-      className="w-full"
+      className="w-full cursor-pointer"
       id={workspace.id}
     >
       <Menu.Item
@@ -136,7 +137,7 @@ const SidebarDropdownItem = observer(function SidebarDropdownItem(props: TProps)
           </>
         )}
       </Menu.Item>
-    </Link>
+    </div>
   );
 });
 
