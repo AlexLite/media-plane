@@ -68,6 +68,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - i18n hardcode CI now verifies missing translation keys and Cyrillic UI literals with fixtures.
 - External API activity logs now redact sensitive query, body, response, and custom-header values.
 - Existing invalid profile timestamp display values are normalized to exact during migration.
+- English profile language selection now applies English UI and document locale instead of being forced to Russian.
 - Space image healthchecks now use the bundled Node runtime, avoiding Alpine mirror DNS failures during builds.
 
 ### Removed
