@@ -46,6 +46,50 @@
       "created": "Created by me",
       "subscribed": "Subscribed by me"
     },
+    "content": {
+      "actions": {
+        "marked_as_duplicate": "marked this work item as a duplicate",
+        "unmarked_as_duplicate": "removed the duplicate mark from this work item",
+        "added_assignee": "added an assignee",
+        "removed_assignee": "removed an assignee",
+        "set_start_date": "set the start date",
+        "removed_start_date": "removed the start date",
+        "set_due_date": "set the due date",
+        "removed_due_date": "removed the due date",
+        "changed_name_to": "changed the name to",
+        "changed_priority_to": "changed the priority to",
+        "removed_priority": "removed the priority",
+        "changed_state_to": "changed the state to",
+        "added_label": "added a label",
+        "removed_label": "removed a label",
+        "added_parent": "added a parent work item",
+        "removed_parent": "removed a parent work item",
+        "related_to": "related this work item to",
+        "commented": "commented",
+        "restored_work_item": "restored the work item",
+        "archived_work_item": "archived the work item",
+        "updated_attachments": "updated attachments",
+        "changed_description_to": "changed the description to",
+        "changed_estimate_to": "changed the estimate to"
+      },
+      "assigned_to_you": "work item and assigned you as an assignee.",
+      "connector": "to",
+      "verbs": {
+        "created": "added",
+        "updated": "changed",
+        "deleted": "removed"
+      },
+      "fields": {
+        "name": "name",
+        "priority": "priority",
+        "state": "state",
+        "description": "description",
+        "attachments": "attachments",
+        "estimate": "estimate",
+        "start_date": "start date",
+        "due_date": "Due date"
+      }
+    },
     "snooze": {
       "1_day": "1 day",
       "3_days": "3 days",

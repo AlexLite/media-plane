@@ -46,6 +46,50 @@
       "created": "Созданные мной",
       "subscribed": "Отслеживаемые мной"
     },
+    "content": {
+      "actions": {
+        "marked_as_duplicate": "отметил этот рабочий элемент как дубликат",
+        "unmarked_as_duplicate": "снял отметку дубликата с рабочего элемента",
+        "added_assignee": "добавил ответственного",
+        "removed_assignee": "удалил ответственного",
+        "set_start_date": "установил дату начала",
+        "removed_start_date": "удалил дату начала",
+        "set_due_date": "установил срок сдачи",
+        "removed_due_date": "удалил срок сдачи",
+        "changed_name_to": "изменил название на",
+        "changed_priority_to": "изменил приоритет на",
+        "removed_priority": "удалил приоритет",
+        "changed_state_to": "изменил статус на",
+        "added_label": "добавил метку",
+        "removed_label": "удалил метку",
+        "added_parent": "добавил родительский элемент",
+        "removed_parent": "удалил родительский элемент",
+        "related_to": "связал этот рабочий элемент с",
+        "commented": "прокомментировал",
+        "restored_work_item": "восстановил рабочий элемент",
+        "archived_work_item": "архивировал рабочий элемент",
+        "updated_attachments": "обновил вложения",
+        "changed_description_to": "изменил описание на",
+        "changed_estimate_to": "изменил оценку на"
+      },
+      "assigned_to_you": "рабочий элемент и назначил вас ответственным.",
+      "connector": "к",
+      "verbs": {
+        "created": "добавил",
+        "updated": "изменил",
+        "deleted": "удалил"
+      },
+      "fields": {
+        "name": "название",
+        "priority": "приоритет",
+        "state": "статус",
+        "description": "описание",
+        "attachments": "вложения",
+        "estimate": "оценку",
+        "start_date": "дату начала",
+        "due_date": "Срок сдачи"
+      }
+    },
     "snooze": {
       "1_day": "1 день",
       "3_days": "3 дня",

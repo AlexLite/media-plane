@@ -5,6 +5,7 @@
  */
 
 import type { ReactNode } from "react";
+import { useTranslation } from "@plane/i18n";
 // plane imports
 import type { TNotification } from "@plane/types";
 import {
@@ -36,133 +37,148 @@ export type TNotificationContentDetails = {
   showConnector?: boolean;
 };
 
-export type TNotificationContentHandler = (data: TNotificationFieldData) => TNotificationContentDetails | null;
+export type TNotificationContentHandler = (
+  data: TNotificationFieldData,
+  t: (key: string) => string
+) => TNotificationContentDetails | null;
 
 export type TNotificationContentMap = {
   [key: string]: TNotificationContentHandler;
 };
 
 // Base notification content map for core fields
-export const BASE_NOTIFICATION_CONTENT_MAP: TNotificationContentMap = {
-  duplicate: ({ verb }) => ({
+export const getBaseNotificationContentMap = (): TNotificationContentMap => ({
+  duplicate: ({ verb }, t) => ({
     action:
       verb === "created"
-        ? "отметил этот рабочий элемент как дубликат"
-        : "снял отметку дубликата с рабочего элемента",
+        ? t("notification.content.actions.marked_as_duplicate")
+        : t("notification.content.actions.unmarked_as_duplicate"),
     value: null,
     showConnector: false,
   }),
-  assignees: ({ newValue, oldValue }) => ({
-    action: newValue !== "" ? "добавил ответственного" : "удалил ответственного",
+  assignees: ({ newValue, oldValue }, t) => ({
+    action:
+      newValue !== ""
+        ? t("notification.content.actions.added_assignee")
+        : t("notification.content.actions.removed_assignee"),
     value: newValue !== "" ? newValue : oldValue,
     showConnector: false,
   }),
-  start_date: ({ newValue }) => ({
-    action: newValue !== "" ? "установил дату начала" : "удалил дату начала",
+  start_date: ({ newValue }, t) => ({
+    action:
+      newValue !== ""
+        ? t("notification.content.actions.set_start_date")
+        : t("notification.content.actions.removed_start_date"),
     value: renderFormattedDate(newValue),
     showConnector: false,
   }),
-  target_date: ({ newValue }) => ({
-    action: newValue !== "" ? "установил срок сдачи" : "удалил срок сдачи",
+  target_date: ({ newValue }, t) => ({
+    action:
+      newValue !== ""
+        ? t("notification.content.actions.set_due_date")
+        : t("notification.content.actions.removed_due_date"),
     value: renderFormattedDate(newValue),
     showConnector: false,
   }),
-  name: ({ newValue }) => ({
-    action: "изменил название на",
+  name: ({ newValue }, t) => ({
+    action: t("notification.content.actions.changed_name_to"),
     value: newValue,
     showConnector: false,
   }),
-  priority: ({ newValue }) => ({
-    action: newValue !== "" ? "изменил приоритет на" : "удалил приоритет",
+  priority: ({ newValue }, t) => ({
+    action:
+      newValue !== ""
+        ? t("notification.content.actions.changed_priority_to")
+        : t("notification.content.actions.removed_priority"),
     value: newValue,
     showConnector: false,
   }),
-  state: ({ newValue }) => ({
-    action: "изменил статус на",
+  state: ({ newValue }, t) => ({
+    action: t("notification.content.actions.changed_state_to"),
     value: newValue,
     showConnector: false,
   }),
-  state_id: ({ newValue }) => ({
-    action: "изменил статус на",
+  state_id: ({ newValue }, t) => ({
+    action: t("notification.content.actions.changed_state_to"),
     value: newValue,
     showConnector: false,
   }),
-  labels: ({ newValue, oldValue }) => ({
-    action: newValue !== "" ? "добавил метку" : "удалил метку",
+  labels: ({ newValue, oldValue }, t) => ({
+    action:
+      newValue !== "" ? t("notification.content.actions.added_label") : t("notification.content.actions.removed_label"),
     value: newValue !== "" ? newValue : oldValue,
     showConnector: false,
   }),
-  parent: ({ newValue, oldValue }) => ({
-    action: newValue !== "" ? "добавил родительский элемент" : "удалил родительский элемент",
+  parent: ({ newValue, oldValue }, t) => ({
+    action:
+      newValue !== ""
+        ? t("notification.content.actions.added_parent")
+        : t("notification.content.actions.removed_parent"),
     value: newValue !== "" ? newValue : oldValue,
     showConnector: false,
   }),
-  relates_to: () => ({
-    action: "связал этот рабочий элемент с",
+  relates_to: (_, t) => ({
+    action: t("notification.content.actions.related_to"),
     value: null,
     showConnector: true,
   }),
-  comment: ({ newValue }, renderCommentBox?: boolean) => ({
-    action: "прокомментировал",
+  comment: ({ newValue }, t) => ({
+    action: t("notification.content.actions.commented"),
     value: renderCommentBox ? null : sanitizeCommentForNotification(newValue),
     showConnector: false,
   }),
-  archived_at: ({ newValue }) => ({
-    action: newValue === "restore" ? "восстановил рабочий элемент" : "архивировал рабочий элемент",
+  archived_at: ({ newValue }, t) => ({
+    action:
+      newValue === "restore"
+        ? t("notification.content.actions.restored_work_item")
+        : t("notification.content.actions.archived_work_item"),
     value: null,
     showConnector: false,
   }),
-  None: () => ({
+  None: (_, t) => ({
     action: null,
-    value: "рабочий элемент и назначил вас ответственным.",
+    value: t("notification.content.assigned_to_you"),
     showConnector: false,
   }),
   // Fields below only define value - action falls through to default handler
-  attachment: () => ({
-    action: "обновил вложения",
+  attachment: (_, t) => ({
+    action: t("notification.content.actions.updated_attachments"),
     value: null,
     showConnector: false,
   }),
-  description: ({ newValue }) => ({
-    action: "изменил описание на",
+  description: ({ newValue }, t) => ({
+    action: t("notification.content.actions.changed_description_to"),
     value: stripAndTruncateHTML(newValue || "", 55),
     showConnector: false,
   }),
-  estimate_time: ({ newValue, oldValue }) => ({
-    action: "изменил оценку на",
+  estimate_time: ({ newValue, oldValue }, t) => ({
+    action: t("notification.content.actions.changed_estimate_to"),
     value:
       newValue !== ""
         ? convertMinutesToHoursMinutesString(Number(newValue))
         : convertMinutesToHoursMinutesString(Number(oldValue)),
     showConnector: false,
   }),
-};
+});
 
 // Helper to get content details from maps
 const getNotificationContentDetails = (
   fieldData: TNotificationFieldData,
-  renderCommentBox?: boolean
+  t: (key: string) => string
 ): TNotificationContentDetails | null => {
   const { field } = fieldData;
   if (!field) return null;
 
   // Check base map first
-  const baseHandler = BASE_NOTIFICATION_CONTENT_MAP[field];
+  const baseHandler = getBaseNotificationContentMap()[field];
   if (baseHandler) {
-    // Special case for comment field that needs renderCommentBox
-    if (field === "comment") {
-      return (baseHandler as (data: TNotificationFieldData, renderCommentBox?: boolean) => TNotificationContentDetails)(
-        fieldData,
-        renderCommentBox
-      );
-    }
-    return baseHandler(fieldData);
+    return baseHandler(fieldData, t);
   }
 
   // Check additional map from plane-web (EE extensions)
   const additionalHandler = ADDITIONAL_NOTIFICATION_CONTENT_MAP[field];
   if (additionalHandler) {
-    return additionalHandler(fieldData);
+    return additionalHandler(fieldData, t);
   }
 
   return null;
@@ -181,6 +197,7 @@ export function NotificationContent({
   projectId: string;
   renderCommentBox?: boolean;
 }) {
+  const { t } = useTranslation();
   const { data, triggered_by_details: triggeredBy } = notification;
   const notificationField = data?.issue_activity.field;
   const newValue = data?.issue_activity.new_value;
@@ -201,7 +218,7 @@ export function NotificationContent({
   );
 
   // Get content details from map
-  const contentDetails = getNotificationContentDetails(fieldData, renderCommentBox);
+  const contentDetails = getNotificationContentDetails(fieldData, t);
 
   // Render action - use map value if defined, otherwise fall through to default handler
   // Note: undefined = fall through to default, null = explicitly no action text
@@ -210,7 +227,7 @@ export function NotificationContent({
     // Check if action is explicitly defined in map (including null)
     if (contentDetails && "action" in contentDetails) return contentDetails.action;
     // Fallback to default action handler for fields not in map or without action defined
-    return renderAdditionalAction(notificationField, verb);
+    return renderAdditionalAction(notificationField, verb, t);
   };
 
   // Render value - use map value if defined, otherwise fall through to default handler
@@ -231,7 +248,7 @@ export function NotificationContent({
       <span className="text-tertiary">{renderAction()} </span>
       {verb !== "deleted" && (
         <>
-          {showConnector && <span className="text-tertiary">к </span>}
+          {showConnector && <span className="text-tertiary">{t("notification.content.connector")} </span>}
           <span className="font-medium text-primary">{renderValue()}</span>
           {notificationField === "comment" && renderCommentBox && (
             <div className="origin-left scale-75">

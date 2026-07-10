@@ -7,35 +7,40 @@
 import { replaceUnderscoreIfSnakeCase } from "@plane/utils";
 import type { TNotificationContentMap } from "@/components/workspace-notifications/sidebar/notification-card/content";
 
-const FIELD_LABELS: Record<string, string> = {
-  name: "название",
-  priority: "приоритет",
-  state: "статус",
-  state_id: "статус",
-  description: "описание",
-  attachment: "вложения",
-  estimate_time: "оценку",
-  start_date: "дату начала",
-  target_date: "срок сдачи",
+const FIELD_LABEL_KEYS: Record<string, string> = {
+  name: "notification.content.fields.name",
+  priority: "notification.content.fields.priority",
+  state: "notification.content.fields.state",
+  state_id: "notification.content.fields.state",
+  description: "notification.content.fields.description",
+  attachment: "notification.content.fields.attachments",
+  estimate_time: "notification.content.fields.estimate",
+  start_date: "notification.content.fields.start_date",
+  target_date: "notification.content.fields.due_date",
 };
 
-const VERB_LABELS: Record<string, string> = {
-  created: "добавил",
-  updated: "изменил",
-  deleted: "удалил",
+const VERB_LABEL_KEYS: Record<string, string> = {
+  created: "notification.content.verbs.created",
+  updated: "notification.content.verbs.updated",
+  deleted: "notification.content.verbs.deleted",
 };
 
 // Additional notification content map for CE (empty - EE extends this)
 export const ADDITIONAL_NOTIFICATION_CONTENT_MAP: TNotificationContentMap = {};
 
 // Fallback action renderer for fields not in the map
-export const renderAdditionalAction = (notificationField: string, verb: string | undefined) => {
+export const renderAdditionalAction = (
+  notificationField: string,
+  verb: string | undefined,
+  t: (key: string) => string
+) => {
   const baseAction = !["comment", "archived_at"].includes(notificationField)
     ? verb
-      ? VERB_LABELS[verb] || verb
+      ? t(VERB_LABEL_KEYS[verb] || verb)
       : ""
     : "";
-  return `${baseAction} ${FIELD_LABELS[notificationField] || replaceUnderscoreIfSnakeCase(notificationField)}`;
+  const fieldKey = FIELD_LABEL_KEYS[notificationField];
+  return `${baseAction} ${fieldKey ? t(fieldKey) : replaceUnderscoreIfSnakeCase(notificationField)}`;
 };
 
 // Fallback value renderer for fields not in the map
