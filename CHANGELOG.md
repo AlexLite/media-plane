@@ -8,6 +8,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Added
 
+- Premiere Pro UXP implementation brief for Plane work-item review and semantic timecode markers.
 - Comment timecodes now render as semantic markers and are exposed to integrations without an FPS dependency.
 - Project auto-archive keeps legacy month presets, adds weekly presets, and supports custom periods from 7 to 365 days.
 - Plane2 frontend deploy helper that rolls `web` and `web-ru` one at a time.
@@ -19,6 +20,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- Relative activity timestamps now show exact time today and exact date with time for older events.
 - Workspace notification cards now show an exact local time for today's events and a date with time for older events.
 - Proxy now load-balances UI traffic across `web` and `web-ru` to avoid asset 502s during frontend restarts.
 - Missing RU labels for project/profile settings categories and pipeline aliases.
