@@ -9,7 +9,7 @@ import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { ArchiveRestore } from "lucide-react";
 // plane imports
-import { PROJECT_AUTOMATION_ARCHIVE_DAYS, EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
+import { PROJECT_AUTOMATION_ARCHIVE_WEEKS, PROJECT_AUTOMATION_MONTHS, EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import type { IProject } from "@plane/types";
 import { CustomSelect, Loader, ToggleSwitch } from "@plane/ui";
@@ -24,7 +24,7 @@ type Props = {
   handleChange: (formData: Partial<IProject>) => Promise<void>;
 };
 
-const initialValues: Partial<IProject> = { archive_in_days: 7 };
+const initialValues: Partial<IProject> = { archive_in: 1, archive_in_days: null };
 
 export const AutoArchiveAutomation = observer(function AutoArchiveAutomation(props: Props) {
   const { handleChange } = props;
@@ -52,7 +52,7 @@ export const AutoArchiveAutomation = observer(function AutoArchiveAutomation(pro
 
   const handleToggleArchive = async () => {
     if (!autoArchiveStatus) {
-      await handleChange({ archive_in_days: 7 });
+      await handleChange(initialValues);
     } else {
       await handleChange({ archive_in: 0, archive_in_days: null });
     }
@@ -63,9 +63,8 @@ export const AutoArchiveAutomation = observer(function AutoArchiveAutomation(pro
       <SelectMonthModal
         type="auto-archive"
         initialValues={{
-          archive_in_days: currentProjectDetails
-            ? (currentProjectDetails.archive_in_days ?? currentProjectDetails.archive_in * 30)
-            : initialValues.archive_in_days,
+          archive_in: currentProjectDetails?.archive_in ?? initialValues.archive_in,
+          archive_in_days: currentProjectDetails?.archive_in_days ?? initialValues.archive_in_days,
         }}
         isOpen={monthModal}
         handleClose={() => setmonthModal(false)}
@@ -93,18 +92,34 @@ export const AutoArchiveAutomation = observer(function AutoArchiveAutomation(pro
                 </div>
                 <div className="w-1/2">
                   <CustomSelect
-                    value={currentProjectDetails.archive_in_days ?? currentProjectDetails.archive_in * 30}
-                    label={t("workspace_projects.common.days_count", {
-                      days: currentProjectDetails.archive_in_days ?? currentProjectDetails.archive_in * 30,
-                    })}
-                    onChange={(val: number) => void handleChange({ archive_in_days: val })}
+                    value={
+                      currentProjectDetails.archive_in_days
+                        ? `days:${currentProjectDetails.archive_in_days}`
+                        : `months:${currentProjectDetails.archive_in}`
+                    }
+                    label={
+                      currentProjectDetails.archive_in_days
+                        ? t("workspace_projects.common.days_count", { days: currentProjectDetails.archive_in_days })
+                        : t("workspace_projects.common.months_count", { months: currentProjectDetails.archive_in })
+                    }
+                    onChange={(val: string) => {
+                      const [unit, amount] = val.split(":");
+                      const value = Number(amount);
+                      if (unit === "months") void handleChange({ archive_in: value, archive_in_days: null });
+                      if (unit === "days") void handleChange({ archive_in: 0, archive_in_days: value });
+                    }}
                     input
                     disabled={!isAdmin}
                   >
                     <>
-                      {PROJECT_AUTOMATION_ARCHIVE_DAYS.map((days) => (
-                        <CustomSelect.Option key={days} value={days}>
-                          <span className="text-13">{t("workspace_projects.common.days_count", { days })}</span>
+                      {PROJECT_AUTOMATION_MONTHS.map((month) => (
+                        <CustomSelect.Option key={month.value} value={`months:${month.value}`}>
+                          <span className="text-13">{t(month.i18n_label, { months: month.value })}</span>
+                        </CustomSelect.Option>
+                      ))}
+                      {PROJECT_AUTOMATION_ARCHIVE_WEEKS.map((weeks) => (
+                        <CustomSelect.Option key={weeks} value={`days:${weeks * 7}`}>
+                          <span className="text-13">{t("workspace_projects.common.weeks_count", { weeks })}</span>
                         </CustomSelect.Option>
                       ))}
 
