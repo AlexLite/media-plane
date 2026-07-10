@@ -111,8 +111,16 @@ const API_ERROR_TRANSLATION_KEYS: Record<string, string> = {
   "Pipeline item does not belong to this issue": "api_errors.pipeline_item_wrong_issue",
   "Pipeline item target date cannot be later than the parent issue target date":
     "api_errors.pipeline_item_target_after_parent",
+  "Pipeline item start date cannot be earlier than the previous item target date":
+    "api_errors.pipeline_item_start_before_previous",
+  "Pipeline item target date cannot be later than the next item start date":
+    "api_errors.pipeline_item_target_after_next_start",
   "Pipeline can only be initialized on a parent issue": "api_errors.pipeline_parent_only",
   "Pipeline item not found": "api_errors.pipeline_item_not_found",
+  "Parent issue due date cannot be earlier than existing pipeline step due dates":
+    "api_errors.parent_issue_deadline_before_pipeline_step",
+  "Parent issue target date cannot be earlier than existing pipeline step due dates":
+    "api_errors.parent_issue_deadline_before_pipeline_step",
   "Please provide valid detail": "api_errors.provide_valid_detail",
   "Preference not found": "api_errors.preference_not_found",
   "Project ID is required": "api_errors.project_id_required",

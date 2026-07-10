@@ -39,6 +39,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - Analytics CSV module segments now resolve module names from the correct dataset.
 - Pipeline stages now use a metadata-only contract: no hidden child work items, bounded stage deadlines, and consistent completion metadata after a state rollback.
 - Parent issue deadlines can no longer precede metadata-only pipeline stage deadlines.
+- Pipeline deadline API validation messages now localize in the web client.
 - Space image healthchecks now use the bundled Node runtime, avoiding Alpine mirror DNS failures during builds.
 
 ### Removed
