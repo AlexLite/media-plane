@@ -60,6 +60,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - Workspace role labels now follow the active locale, and profile timestamp display accepts only exact or relative values.
 - Workspace notification cards now localize activity text and show snooze timestamps in a single locale-aware format.
 - Workspace selector rows again provide native keyboard activation while retaining separate Settings and Invite links.
+- Profile timestamp display validation now accepts only exact and relative values in the API schema.
 - Space image healthchecks now use the bundled Node runtime, avoiding Alpine mirror DNS failures during builds.
 
 ### Removed
