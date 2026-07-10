@@ -1064,6 +1064,11 @@
   "rename_folder": "Rename Folder",
   "repository_sync_failed": "Repository could not be synced with the project. Please try again.",
   "rich_filters": {
+    "operators": {
+      "is": "is",
+      "is_any_of": "is any of",
+      "between": "between"
+    },
     "invalid_filter": {
       "label": "Invalid filter",
       "tooltip": "This filter condition is no longer valid. The property may have been deleted or your access to it may have changed."
