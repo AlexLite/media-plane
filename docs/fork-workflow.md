@@ -52,3 +52,7 @@ localization and a small set of fork-specific patches.
   deployment adjustment.
 - Use `scripts/check-sync.sh` whenever you need a quick answer to "do local,
   deploy, and GitHub actually match right now?"
+- Russian is the only required locale for this fork. Keep non-RU locale
+  completeness report-only unless their maintainers explicitly adopt it.
+- Keep the `web` and `web-ru` zero-downtime frontend pair until measured
+  resource pressure justifies an approved topology cutover.

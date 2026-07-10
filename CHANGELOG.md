@@ -12,6 +12,8 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - Plane2 build helper for source-stamped RU Space images.
 - Changed-file i18n key existence check for web and constants usage.
 - Changed-file hardcoded UI string audit for frontend i18n regressions.
+- Documented RU-only locale ownership and the intentional `web`/`web-ru`
+  zero-downtime frontend topology.
 
 ### Fixed
 

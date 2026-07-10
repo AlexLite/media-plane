@@ -57,6 +57,14 @@ The fork CI requires RU to match English. To inspect every upstream locale as a
 report, omit `--locale ru`; non-RU upstream locales may still miss fork-specific
 keys that this fork does not own.
 
+### Supported Locale Policy
+
+Russian is the fork's only required localization target. CI must keep
+`ru` complete against English, while every other upstream locale remains
+report-only. Do not add English fallback values to non-RU locale files merely to
+make the global sync report pass; translating and maintaining those locales is
+outside this fork's scope unless their owners explicitly take it on.
+
 Use Turbo for package type checks so workspace dependencies are built before
 TypeScript resolves package `exports`:
 
@@ -86,6 +94,14 @@ docker compose ps
 curl -I http://127.0.0.1/
 curl -I http://127.0.0.1/api/instances/
 ```
+
+### Frontend Topology Policy
+
+`web` and `web-ru` intentionally run the same source-stamped frontend image.
+The proxy balances traffic across them so deploys can restart one service at a
+time without interrupting the UI. Keep this topology until resource measurements
+show that its small overhead is material and an approved cutover plan replaces
+the zero-downtime rollout.
 
 ## Sync Workflow
 
