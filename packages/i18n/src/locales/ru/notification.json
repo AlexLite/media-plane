@@ -46,6 +46,7 @@
       "created": "Созданные мной",
       "subscribed": "Отслеживаемые мной"
     },
+    "snoozed_until": "До {timestamp}",
     "content": {
       "actions": {
         "marked_as_duplicate": "отметил этот рабочий элемент как дубликат",

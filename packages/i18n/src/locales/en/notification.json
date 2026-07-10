@@ -46,6 +46,7 @@
       "created": "Created by me",
       "subscribed": "Subscribed by me"
     },
+    "snoozed_until": "Until {timestamp}",
     "content": {
       "actions": {
         "marked_as_duplicate": "marked this work item as a duplicate",

@@ -8,6 +8,7 @@ import { useState } from "react";
 import { observer } from "mobx-react";
 import { Clock } from "lucide-react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { Avatar, Row } from "@plane/ui";
 import { cn, calculateTimeAgo, renderFormattedDate, renderFormattedTime, getFileURL } from "@plane/utils";
 // hooks
@@ -36,6 +37,7 @@ export const NotificationItem = observer(function NotificationItem(props: TNotif
   const { getIsIssuePeeked, setPeekIssue } = useIssueDetail();
   const { getWorkspaceBySlug } = useWorkspace();
   const { data: userProfile } = useUserProfile();
+  const { t } = useTranslation();
   // states
   const [isSnoozeStateModalOpen, setIsSnoozeStateModalOpen] = useState(false);
   const [customSnoozeModal, setCustomSnoozeModal] = useState(false);
@@ -133,7 +135,11 @@ export const NotificationItem = observer(function NotificationItem(props: TNotif
               {notification?.snoozed_till ? (
                 <p className="flex flex-shrink-0 items-center justify-end gap-x-1 text-tertiary">
                   <Clock className="h-4 w-4" />
-                  <span>{formatNotificationSnoozedTimestamp(notification.snoozed_till)}</span>
+                  <span>
+                    {t("notification.snoozed_until", {
+                      timestamp: formatNotificationSnoozedTimestamp(notification.snoozed_till),
+                    })}
+                  </span>
                 </p>
               ) : (
                 <p className="mt-auto flex-shrink-0 text-tertiary">{notificationTimestamp}</p>
