@@ -283,6 +283,10 @@
   "issue_could_not_be_updated": "Work item could not be updated",
   "create_a_draft": "Create a draft",
   "save_to_drafts": "Save to Drafts",
+  "draft_confirmation": {
+    "title": "Save this draft?",
+    "description": "You can save this work item to Drafts so you can come back to it later."
+  },
   "save": "Save",
   "update": "Update",
   "updating": "Updating",

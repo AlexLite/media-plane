@@ -65,7 +65,7 @@ const SidebarDropdownItem = observer(function SidebarDropdownItem(props: TProps)
         })}
       >
         <div className="flex items-center justify-between gap-1 rounded-sm p-1 text-13 text-primary">
-          <div className="relative flex w-[80%] items-center justify-start gap-2.5">
+          <div className="relative flex min-w-0 flex-1 items-center justify-start gap-2.5">
             <span
               className={`relative flex h-8 w-8 flex-shrink-0 items-center justify-center border-subtle p-2 text-14 font-medium uppercase ${
                 !workspace?.logo_url && "rounded-md bg-[#026292] text-on-color"
@@ -82,10 +82,13 @@ const SidebarDropdownItem = observer(function SidebarDropdownItem(props: TProps)
               )}
             </span>
             <div className="w-[inherit]">
-              <div
-                className={`truncate text-left text-13 font-medium text-ellipsis ${workspaceSlug === workspace.slug ? "" : "text-secondary"}`}
-              >
-                {workspace.name}
+              <div className="flex min-w-0 items-center gap-1.5">
+                <div
+                  className={`truncate text-left text-13 font-medium text-ellipsis ${workspaceSlug === workspace.slug ? "" : "text-secondary"}`}
+                >
+                  {workspace.name}
+                </div>
+                {workspace.id === activeWorkspace?.id && <CheckIcon className="size-4 shrink-0 text-primary" />}
               </div>
               <div className="flex w-fit gap-2 text-13 text-tertiary">
                 <span>{getTranslatedWorkspaceRole(workspace.role)}</span>
@@ -94,11 +97,7 @@ const SidebarDropdownItem = observer(function SidebarDropdownItem(props: TProps)
               </div>
             </div>
           </div>
-          {workspace.id === activeWorkspace?.id ? (
-            <span className="flex-shrink-0 p-1">
-              <CheckIcon className="h-5 w-5 text-primary" />
-            </span>
-          ) : (
+          {workspace.id !== activeWorkspace?.id && (
             <SubscriptionPill workspace={workspace} />
           )}
         </div>
@@ -129,7 +128,7 @@ const SidebarDropdownItem = observer(function SidebarDropdownItem(props: TProps)
                 >
                   <UserPlus className="my-auto h-4 w-4 flex-shrink-0" />
                   <span className="my-auto text-13 font-medium whitespace-nowrap">
-                    {t("invite")}
+                    {t("editor.invite")}
                   </span>
                 </Link>
               )}

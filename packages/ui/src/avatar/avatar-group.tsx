@@ -73,7 +73,7 @@ export function AvatarGroup(props: Props) {
         </div>
       ))}
       {maxAvatarsToRender < totalAvatars && (
-        <Tooltip tooltipContent={t("common.total_count", { count: totalAvatars })} disabled={!showTooltip}>
+        <Tooltip tooltipContent={t("total_count", { count: totalAvatars })} disabled={!showTooltip}>
           <div
             className={cn(
               "grid place-items-center rounded-full border border-subtle-1 bg-accent-subtle text-9 text-accent-primary",
