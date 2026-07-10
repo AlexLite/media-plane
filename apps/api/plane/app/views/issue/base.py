@@ -73,6 +73,7 @@ from plane.utils.host import base_host
 from plane.utils.issue_filters import issue_filters
 from plane.utils.order_queryset import order_issue_queryset
 from plane.utils.paginator import GroupedOffsetPaginator, SubGroupedOffsetPaginator
+from plane.utils.pipeline import validate_parent_issue_pipeline_target_date
 from plane.utils.timezone_converter import user_timezone_converter
 
 from .. import BaseAPIView, BaseViewSet
@@ -1216,6 +1217,10 @@ class IssueBulkUpdateDateEndpoint(BaseAPIView):
 
         if IssuePipelineItem.objects.filter(parent_issue=issue, child_issue__target_date__gt=target_date).exists():
             return "Parent issue due date cannot be earlier than existing pipeline step due dates"
+
+        native_pipeline_date_error = validate_parent_issue_pipeline_target_date(issue, target_date)
+        if native_pipeline_date_error:
+            return native_pipeline_date_error
 
         return None
 

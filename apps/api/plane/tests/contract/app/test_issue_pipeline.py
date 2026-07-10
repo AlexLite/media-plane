@@ -77,6 +77,13 @@ def pipeline_item_url(workspace_slug, project_id, issue_id, pipeline_item_id):
     return f"{pipeline_url(workspace_slug, project_id, issue_id)}{pipeline_item_id}/"
 
 
+def issue_dates_url(workspace_slug, project_id):
+    return f"/api/workspaces/{workspace_slug}/projects/{project_id}/issue-dates/"
+
+
+PARENT_DEADLINE_ERROR = "Parent issue target date cannot be earlier than existing pipeline step due dates"
+
+
 @pytest.mark.contract
 class TestIssuePipelineAPI:
     @pytest.mark.django_db
@@ -201,3 +208,49 @@ class TestIssuePipelineAPI:
         )
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+    @pytest.mark.django_db
+    def test_due_date_validation_rejects_parent_date_before_native_pipeline_item(
+        self, session_client, workspace, project, parent_issue
+    ):
+        session_client.post(pipeline_initialize_url(workspace.slug, project.id, parent_issue.id), {}, format="json")
+        pipeline_item = IssuePipelineItem.objects.filter(parent_issue=parent_issue).first()
+        pipeline_target_date = parent_issue.target_date - timedelta(days=5)
+
+        pipeline_response = session_client.patch(
+            pipeline_item_url(workspace.slug, project.id, parent_issue.id, pipeline_item.id),
+            {"target_date": str(pipeline_target_date)},
+            format="json",
+        )
+        response = session_client.patch(
+            issue_detail_url(workspace.slug, project.id, parent_issue.id),
+            {"target_date": str(pipeline_target_date - timedelta(days=1))},
+            format="json",
+        )
+
+        assert pipeline_response.status_code == status.HTTP_200_OK
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert response.data["target_date"][0] == PARENT_DEADLINE_ERROR
+
+    @pytest.mark.django_db
+    def test_bulk_due_date_validation_rejects_parent_date_before_native_pipeline_item(
+        self, session_client, workspace, project, parent_issue
+    ):
+        session_client.post(pipeline_initialize_url(workspace.slug, project.id, parent_issue.id), {}, format="json")
+        pipeline_item = IssuePipelineItem.objects.filter(parent_issue=parent_issue).first()
+        pipeline_target_date = parent_issue.target_date - timedelta(days=5)
+
+        pipeline_response = session_client.patch(
+            pipeline_item_url(workspace.slug, project.id, parent_issue.id, pipeline_item.id),
+            {"target_date": str(pipeline_target_date)},
+            format="json",
+        )
+        response = session_client.post(
+            issue_dates_url(workspace.slug, project.id),
+            {"updates": [{"id": str(parent_issue.id), "target_date": str(pipeline_target_date - timedelta(days=1))}]},
+            format="json",
+        )
+
+        assert pipeline_response.status_code == status.HTTP_200_OK
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert response.data["message"] == PARENT_DEADLINE_ERROR

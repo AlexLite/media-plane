@@ -48,6 +48,7 @@ from plane.utils.content_validator import (
     validate_html_content,
     validate_binary_data,
 )
+from plane.utils.pipeline import validate_parent_issue_pipeline_target_date
 
 
 class IssueFlatSerializer(BaseSerializer):
@@ -240,6 +241,10 @@ class IssueCreateSerializer(BaseSerializer):
                 raise serializers.ValidationError(
                     {"target_date": "Parent issue due date cannot be earlier than existing pipeline step due dates"}
                 )
+
+            pipeline_date_error = validate_parent_issue_pipeline_target_date(instance, target_date)
+            if pipeline_date_error:
+                raise serializers.ValidationError({"target_date": pipeline_date_error})
 
         return attrs
 
