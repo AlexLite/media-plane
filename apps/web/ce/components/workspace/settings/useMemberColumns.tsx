@@ -135,7 +135,7 @@ export const useMemberColumns = () => {
         if (!loginMedium) return null;
         const loginMediumLabelKey = LOGIN_MEDIUM_I18N_LABELS[loginMedium];
 
-        if (loginMedium === "magic_code") {
+        if (loginMedium === "magic-code") {
           return <div>{t("workspace_settings.settings.members.details.email_code")}</div>;
         }
         return <div>{loginMediumLabelKey ? t(loginMediumLabelKey) : LOGIN_MEDIUM_LABELS[loginMedium]}</div>;

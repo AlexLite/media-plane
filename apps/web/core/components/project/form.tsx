@@ -337,7 +337,7 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
                   },
                   maxLength: {
                     value: 10,
-                    message: t("project_id_max_char"),
+                    message: t("project_id_max_char", { max: 10 }),
                   },
                 }}
                 render={({ field: { value, ref } }) => (
