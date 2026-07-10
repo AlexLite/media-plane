@@ -6,7 +6,7 @@
 
 // ui
 import { observer } from "mobx-react";
-import { ArrowDownWideNarrow, ArrowUpNarrowWide, CheckIcon, ChevronDownIcon, Eraser, MoveRight } from "lucide-react";
+import { ArrowDownWideNarrow, ArrowUpNarrowWide, CheckIcon, ChevronDownIcon, Eraser } from "lucide-react";
 // constants
 import type { IProjectMemberDisplayProperties, TMemberOrderByOptions } from "@plane/constants";
 import { MEMBER_PROPERTY_DETAILS } from "@plane/constants";
@@ -80,8 +80,6 @@ export const MemberHeaderColumn = observer(function MemberHeaderColumn(props: Pr
               <div className="flex items-center gap-2">
                 <ArrowDownWideNarrow className="h-3 w-3 stroke-[1.5]" />
                 <span>{t(propertyDetails.ascendingOrderI18nKey)}</span>
-                <MoveRight className="h-3 w-3" />
-                <span>{t(propertyDetails.descendingOrderI18nKey)}</span>
               </div>
               {activeSortingProperty === propertyDetails.ascendingOrderKey && <CheckIcon className="h-3 w-3" />}
             </div>
@@ -98,8 +96,6 @@ export const MemberHeaderColumn = observer(function MemberHeaderColumn(props: Pr
               <div className="flex items-center gap-2">
                 <ArrowUpNarrowWide className="h-3 w-3 stroke-[1.5]" />
                 <span>{t(propertyDetails.descendingOrderI18nKey)}</span>
-                <MoveRight className="h-3 w-3" />
-                <span>{t(propertyDetails.ascendingOrderI18nKey)}</span>
               </div>
               {activeSortingProperty === propertyDetails.descendingOrderKey && <CheckIcon className="h-3 w-3" />}
             </div>
