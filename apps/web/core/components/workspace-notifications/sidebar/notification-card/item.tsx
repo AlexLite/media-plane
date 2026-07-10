@@ -5,11 +5,12 @@
  */
 
 import { useState } from "react";
+import { isToday, parseISO } from "date-fns";
 import { observer } from "mobx-react";
 import { Clock } from "lucide-react";
 // plane imports
 import { Avatar, Row } from "@plane/ui";
-import { cn, calculateTimeAgo, renderFormattedDate, renderFormattedTime, getFileURL } from "@plane/utils";
+import { cn, renderFormattedDate, renderFormattedTime, getFileURL } from "@plane/utils";
 // hooks
 import { useWorkspaceNotifications } from "@/hooks/store/notifications";
 import { useNotification } from "@/hooks/store/notifications/use-notification";
@@ -42,6 +43,11 @@ export const NotificationItem = observer(function NotificationItem(props: TNotif
 
   const notificationField = notification?.data?.issue_activity.field || undefined;
   const notificationTriggeredBy = notification.triggered_by_details || undefined;
+  const notificationTimestamp = notification?.created_at
+    ? isToday(parseISO(notification.created_at))
+      ? renderFormattedTime(notification.created_at)
+      : `${renderFormattedDate(notification.created_at)} ${renderFormattedTime(notification.created_at)}`
+    : undefined;
 
   const handleNotificationIssuePeekOverview = async () => {
     if (workspaceSlug && projectId && issueId && !isSnoozeStateModalOpen && !customSnoozeModal) {
@@ -132,7 +138,7 @@ export const NotificationItem = observer(function NotificationItem(props: TNotif
                 </p>
               ) : (
                 <p className="mt-auto flex-shrink-0 text-tertiary">
-                  {notification.created_at && calculateTimeAgo(notification.created_at)}
+                  {notificationTimestamp}
                 </p>
               )}
             </div>
