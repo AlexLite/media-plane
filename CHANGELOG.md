@@ -22,6 +22,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 - Relative activity timestamps now show exact time today and exact date with time for older events.
 - Workspace notification cards now show an exact local time for today's events and a date with time for older events.
+- Shared date-only formatting no longer adds a midnight time, while exact timestamps and relative time use the active document locale.
 - Proxy now load-balances UI traffic across `web` and `web-ru` to avoid asset 502s during frontend restarts.
 - Missing RU labels for project/profile settings categories and pipeline aliases.
 - Missing JSON locale keys used by the web UI now load from a committed compat namespace instead of falling back to raw key names.

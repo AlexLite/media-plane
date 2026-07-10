@@ -5,8 +5,11 @@
  */
 
 import { differenceInDays, format, formatDistanceToNow, isAfter, isEqual, isToday, isValid, parseISO } from "date-fns";
-import { ru } from "date-fns/locale";
+import { enUS, ru } from "date-fns/locale";
 import { isNumber } from "lodash-es";
+
+const getDateLocale = () =>
+  typeof document !== "undefined" && document.documentElement.lang.toLowerCase().startsWith("en") ? enUS : ru;
 
 // Format Date Helpers
 /**
@@ -28,24 +31,13 @@ export const renderFormattedDate = (
   // Check if the parsed date is valid before formatting
   if (!isValid(parsedDate)) return; // Return null for invalid dates
 
-  if (!formatToken) {
-    const isDateOnlyString = typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date);
-    const sourceDate = isDateOnlyString ? parsedDate : new Date(date);
-    if (isValid(sourceDate)) {
-      const time = isDateOnlyString
-        ? "00:00"
-        : `${String(sourceDate.getHours()).padStart(2, "0")}:${String(sourceDate.getMinutes()).padStart(2, "0")}`;
-      return renderFormattedDateWithTime(parsedDate, time);
-    }
-  }
-
   let formattedDate;
   try {
     // Format the date in the format provided or default format (MMM dd, yyyy)
-    formattedDate = format(parsedDate, formatToken ?? "MMM dd, yyyy", { locale: ru });
+    formattedDate = format(parsedDate, formatToken ?? "MMM dd, yyyy", { locale: getDateLocale() });
   } catch (_e) {
     // Format the date in format (MMM dd, yyyy) in case of any error
-    formattedDate = format(parsedDate, "MMM dd, yyyy", { locale: ru });
+    formattedDate = format(parsedDate, "MMM dd, yyyy", { locale: getDateLocale() });
   }
   return formattedDate;
 };
@@ -64,7 +56,7 @@ export const renderFormattedDateWithoutYear = (date: string | Date): string => {
   // Check if the parsed date is valid before formatting
   if (!isValid(parsedDate)) return ""; // Return empty string for invalid dates
   // Format the date in short format (MMM dd)
-  const formattedDate = format(parsedDate, "MMM dd", { locale: ru });
+  const formattedDate = format(parsedDate, "MMM dd", { locale: getDateLocale() });
   return formattedDate;
 };
 
@@ -94,7 +86,7 @@ export const renderFormattedDateWithTime = (
   const isCurrentYear = dateWithTime.getFullYear() === new Date().getFullYear();
   const formatToken = isCurrentYear ? "dd MMM HH:mm" : "dd MMM yyyy HH:mm";
 
-  return format(dateWithTime, formatToken, { locale: ru }).replace(/\./g, "");
+  return format(dateWithTime, formatToken, { locale: getDateLocale() }).replace(/\./g, "");
 };
 
 /**
@@ -217,8 +209,10 @@ export const calculateTimeAgo = (time: string | number | Date | null, relative =
     typeof time === "number" ? new Date(time) : typeof time === "string" ? parseISO(String(time)) : time;
   // return if undefined
   if (!parsedTime) return ""; // Return empty string for invalid dates
-  if (relative) return formatDistanceToNow(parsedTime, { addSuffix: true, locale: ru });
-  return isToday(parsedTime) ? renderFormattedTime(parsedTime) : (renderFormattedDate(parsedTime) ?? "");
+  if (relative) return formatDistanceToNow(parsedTime, { addSuffix: true, locale: getDateLocale() });
+  return isToday(parsedTime)
+    ? renderFormattedTime(parsedTime)
+    : (renderFormattedDateWithTime(parsedTime, `${String(parsedTime.getHours()).padStart(2, "0")}:${String(parsedTime.getMinutes()).padStart(2, "0")}`) ?? "");
 };
 
 export function calculateTimeAgoShort(date: string | number | Date | null): string {
