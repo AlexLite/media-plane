@@ -19,16 +19,16 @@ import { cn, getFileURL } from "@plane/utils";
 import { SubscriptionPill } from "@/plane-web/components/common/subscription/subscription-pill";
 
 
-const getTranslatedWorkspaceRole = (role: EUserPermissions | undefined) => {
+const getTranslatedWorkspaceRole = (role: EUserPermissions | undefined, t: (key: string) => string) => {
   switch (role) {
     case EUserPermissions.ADMIN:
-      return "\u0410\u0434\u043c\u0438\u043d\u0438\u0441\u0442\u0440\u0430\u0442\u043e\u0440";
+      return t("workspace_member_roles.admin");
     case EUserPermissions.MEMBER:
-      return "\u0423\u0447\u0430\u0441\u0442\u043d\u0438\u043a";
+      return t("workspace_member_roles.member");
     case EUserPermissions.GUEST:
-      return "\u0413\u043e\u0441\u0442\u044c";
+      return t("workspace_member_roles.guest");
     default:
-      return "\u0413\u043e\u0441\u0442\u044c";
+      return t("workspace_member_roles.guest");
   }
 };
 
@@ -92,7 +92,7 @@ const SidebarDropdownItem = observer(function SidebarDropdownItem(props: TProps)
                 {workspace.id === activeWorkspace?.id && <CheckIcon className="size-4 shrink-0 text-primary" />}
               </div>
               <div className="flex w-fit gap-2 text-13 text-tertiary">
-                <span>{getTranslatedWorkspaceRole(workspace.role)}</span>
+                <span>{getTranslatedWorkspaceRole(workspace.role, t)}</span>
                 <div className="m-auto h-1 w-1 rounded-full bg-layer-1/50" />
                 <span className="capitalize">{t("member", { count: workspace.total_members || 0 })}</span>
               </div>
