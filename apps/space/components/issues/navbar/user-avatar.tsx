@@ -11,6 +11,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { usePopper } from "react-popper";
 import { LogOut } from "lucide-react";
 import { Popover, Transition } from "@headlessui/react";
+import { useTranslation } from "@plane/i18n";
 // plane imports
 import { API_BASE_URL } from "@plane/constants";
 import { Button } from "@plane/propel/button";
@@ -25,6 +26,7 @@ import { useUser } from "@/hooks/store/use-user";
 const authService = new AuthService();
 
 export const UserAvatar = observer(function UserAvatar() {
+  const { t } = useTranslation();
   const pathName = usePathname();
   const searchParams = useSearchParams();
   // query params
@@ -78,7 +80,7 @@ export const UserAvatar = observer(function UserAvatar() {
                   {currentUser?.display_name ||
                     `${currentUser?.first_name} ${currentUser?.first_name}` ||
                     currentUser?.email ||
-                    "User"}
+                    t("space_issue.user")}
                 </h6>
               </button>
             </Popover.Button>
@@ -107,7 +109,7 @@ export const UserAvatar = observer(function UserAvatar() {
                         className="flex min-w-36 cursor-pointer items-center gap-2 rounded-sm p-2 text-13 whitespace-nowrap hover:bg-layer-transparent-hover"
                       >
                         <LogOut size={12} className="shrink-0 text-danger-primary" />
-                        <div>Sign out</div>
+                        <div>{t("space_issue.sign_out")}</div>
                       </button>
                     </form>
                   )}
@@ -119,7 +121,7 @@ export const UserAvatar = observer(function UserAvatar() {
       ) : (
         <div className="flex-shrink-0">
           <Link to={`/?next_path=${pathName}?${queryParam}`}>
-            <Button variant="secondary">Sign in</Button>
+            <Button variant="secondary">{t("space_issue.sign_in")}</Button>
           </Link>
         </div>
       )}

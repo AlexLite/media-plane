@@ -5,6 +5,7 @@
  */
 
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 import { DueDatePropertyIcon } from "@plane/propel/icons";
 import { Tooltip } from "@plane/propel/tooltip";
 import { cn } from "@plane/utils";
@@ -22,6 +23,7 @@ type Props = {
 };
 
 export const IssueBlockDate = observer(function IssueBlockDate(props: Props) {
+  const { t } = useTranslation();
   const { due_date, stateId, shouldHighLight = true, shouldShowBorder = true } = props;
   const { getStateById } = useStates();
 
@@ -30,7 +32,7 @@ export const IssueBlockDate = observer(function IssueBlockDate(props: Props) {
   const formattedDate = renderFormattedDate(due_date);
 
   return (
-    <Tooltip tooltipHeading="Due Date" tooltipContent={formattedDate}>
+    <Tooltip tooltipHeading={t("space_issue.due_date")} tooltipContent={formattedDate}>
       <div
         className={cn("flex h-full items-center gap-1 rounded-sm px-2.5 py-1 text-11 text-primary", {
           "text-danger-primary": shouldHighLight && due_date && shouldHighlightIssueDueDate(due_date, state?.group),
@@ -38,7 +40,7 @@ export const IssueBlockDate = observer(function IssueBlockDate(props: Props) {
         })}
       >
         <DueDatePropertyIcon className="size-3 flex-shrink-0" />
-        {formattedDate ? formattedDate : "No Date"}
+        {formattedDate ? formattedDate : t("space_issue.no_date")}
       </div>
     </Tooltip>
   );
