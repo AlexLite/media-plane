@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 // react-hook-form
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "@plane/i18n";
+import { getLegacyArchiveInMonths } from "./archive-in.helper";
 import { Button } from "@plane/propel/button";
 import type { IProject } from "@plane/types";
 // ui
@@ -44,7 +45,7 @@ export function SelectMonthModal({ type, initialValues, isOpen, handleClose, han
     if (!workspaceSlug && !projectId) return;
     if (type === "auto-archive") {
       const archiveInDays = Number(formData.archive_in_days);
-      void handleChange({ archive_in: Math.ceil(archiveInDays / 30), archive_in_days: archiveInDays });
+      void handleChange({ archive_in: getLegacyArchiveInMonths(archiveInDays), archive_in_days: archiveInDays });
     } else {
       void handleChange(formData);
     }

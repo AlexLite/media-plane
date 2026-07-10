@@ -20,6 +20,7 @@ import type { IProject } from "@plane/types";
 import { CustomSelect, Loader, ToggleSwitch } from "@plane/ui";
 // component
 import { SelectMonthModal } from "@/components/automation";
+import { getLegacyArchiveInMonths } from "./archive-in.helper";
 import { SettingsControlItem } from "@/components/settings/control-item";
 // hooks
 import { useProject } from "@/hooks/store/use-project";
@@ -113,7 +114,7 @@ export const AutoArchiveAutomation = observer(function AutoArchiveAutomation(pro
                       const value = Number(amount);
                       if (unit === "months") void handleChange({ archive_in: value, archive_in_days: null });
                       if (unit === "days")
-                        void handleChange({ archive_in: Math.ceil(value / 30), archive_in_days: value });
+                        void handleChange({ archive_in: getLegacyArchiveInMonths(value), archive_in_days: value });
                     }}
                     input
                     disabled={!isAdmin}
