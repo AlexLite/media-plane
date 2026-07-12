@@ -24,6 +24,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- Theme-aware loading spinners now keep the server and initial client markup aligned before selecting the dark variant.
 - Space priority rendering now handles missing priority metadata safely.
 - API source now satisfies the enforced Ruff import and line-length checks.
 - Workspace analytics insight fields now cover the workload tab, restoring the TypeScript contract.
