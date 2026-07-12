@@ -46,6 +46,24 @@
     "of": "of",
     "relates_to": "relates to",
     "removed": "removed",
+    "relations": {
+      "blocking": {
+        "added": "marked this work item as blocking work item ",
+        "removed": "removed the blocking work item "
+      },
+      "blocked_by": {
+        "added": "marked this work item as being blocked by ",
+        "removed": "removed the blocking relation from "
+      },
+      "duplicate": {
+        "added": "marked this work item as duplicate of ",
+        "removed": "removed this work item as a duplicate of "
+      },
+      "relates_to": {
+        "added": "marked that this work item relates to ",
+        "removed": "removed the relation from "
+      }
+    },
     "removed_assignee": "removed the assignee",
     "removed_attachment": "removed an attachment",
     "removed_blocking_work_item": "removed the blocking work item",
