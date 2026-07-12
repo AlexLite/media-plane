@@ -88,7 +88,9 @@ const getToastTranslationKey = (value: string): string => {
 
 const translateToastText = (value?: string): string | undefined => {
   if (!value) return value;
-  const key = `toast_messages.${getToastTranslationKey(value)}`;
+  const translationKey = getToastTranslationKey(value);
+  if (!translationKey) return value;
+  const key = `toast_messages.${translationKey}`;
   const translated = translate(key);
   return translated === key ? value : translated;
 };

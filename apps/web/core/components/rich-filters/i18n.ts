@@ -26,6 +26,8 @@ const FILTER_LABEL_KEY_MAP: Record<string, string> = {
   "Created by": "common.created_by",
   Cycle: "common.cycle",
   Module: "common.module",
+  Projects: "projects",
+  Subscriber: "subscribers",
 };
 
 export const translateOperatorLabel = (t: TTranslate, label: string) => {
