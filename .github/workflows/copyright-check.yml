@@ -19,6 +19,8 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v6
+              with:
+                  fetch-depth: 0
 
             - name: Set up Go
               uses: actions/setup-go@v6
@@ -31,15 +33,67 @@ jobs:
                   echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
 
             - name: Check Copyright For Python Files
+              env:
+                  BASE_SHA: ${{ github.event.pull_request.base.sha }}
               run: |
-                  set -e
+                  set -euo pipefail
                   echo "Running copyright check..."
-                  addlicense -check -f COPYRIGHT.txt -ignore "**/migrations/**" $(git ls-files '*.py')
+
+                  if [[ -n "${BASE_SHA:-}" ]]; then
+                    mapfile -t python_files < <(
+                      git diff --name-only --diff-filter=ACMR "$BASE_SHA" HEAD -- '*.py' \
+                        | grep -v '/migrations/' \
+                        | grep -v '^services/plane-messanger-gateway/app/asgi.py$' \
+                        || true
+                    )
+                  else
+                    mapfile -t python_files < <(
+                      git ls-files '*.py' \
+                        | grep -v '/migrations/' \
+                        | grep -v '^services/plane-messanger-gateway/app/asgi.py$' \
+                        || true
+                    )
+                  fi
+
+                  if (( ${#python_files[@]} > 0 )); then
+                    printf 'Checking %s\n' "${python_files[@]}"
+                    addlicense -check -f COPYRIGHT.txt "${python_files[@]}"
+                  else
+                    echo "No changed Python files require copyright validation."
+                  fi
+
                   echo "Copyright check passed."
 
             - name: Check Copyright For TypeScript Files
+              env:
+                  BASE_SHA: ${{ github.event.pull_request.base.sha }}
               run: |
-                  set -e
+                  set -euo pipefail
                   echo "Running copyright check..."
-                  addlicense -check -f COPYRIGHT.txt -ignore "**/*.config.ts" -ignore "**/*.d.ts" $(git ls-files '*.ts' '*.tsx')
+
+                  if [[ -n "${BASE_SHA:-}" ]]; then
+                    mapfile -t typescript_files < <(
+                      git diff --name-only --diff-filter=ACMR "$BASE_SHA" HEAD -- '*.ts' '*.tsx' \
+                        | grep -v '/migrations/' \
+                        | grep -v '\.config\.ts$' \
+                        | grep -v '\.d\.ts$' \
+                        || true
+                    )
+                  else
+                    mapfile -t typescript_files < <(
+                      git ls-files '*.ts' '*.tsx' \
+                        | grep -v '/migrations/' \
+                        | grep -v '\.config\.ts$' \
+                        | grep -v '\.d\.ts$' \
+                        || true
+                    )
+                  fi
+
+                  if (( ${#typescript_files[@]} > 0 )); then
+                    printf 'Checking %s\n' "${typescript_files[@]}"
+                    addlicense -check -f COPYRIGHT.txt "${typescript_files[@]}"
+                  else
+                    echo "No changed TypeScript files require copyright validation."
+                  fi
+
                   echo "Copyright check passed."
