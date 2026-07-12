@@ -22,7 +22,7 @@ export function IssueBlockPriority({
 }) {
   // hooks
   const { t } = useTranslation();
-  const priority_detail = priority != null ? getIssuePriorityFilters(priority) : null;
+  const priorityDetail = priority != null ? getIssuePriorityFilters(priority) : null;
 
   const priorityClasses = {
     urgent: "bg-layer-2 text-priority-urgent border-priority-urgent px-1",
@@ -32,10 +32,10 @@ export function IssueBlockPriority({
     none: "bg-layer-2 text-priority-none border-priority-none",
   };
 
-  if (priority_detail === null || !priority_detail.titleTranslationKey) return <></>;
+  if (!priorityDetail?.titleTranslationKey) return <></>;
 
   return (
-    <Tooltip tooltipHeading={t("common.priority")} tooltipContent={t(priority_detail.titleTranslationKey)}>
+    <Tooltip tooltipHeading={t("common.priority")} tooltipContent={t(priorityDetail.titleTranslationKey)}>
       <div
         className={cn(
           "flex h-full items-center gap-1.5 rounded-sm border-[0.5px] px-2 py-0.5 text-11",
@@ -65,7 +65,7 @@ export function IssueBlockPriority({
         ) : (
           <SignalHigh className="size-3" />
         )}
-        {shouldShowName && <span className="pl-2 text-13">{t(priority_detail.titleTranslationKey)}</span>}
+        {shouldShowName && <span className="pl-2 text-13">{t(priorityDetail.titleTranslationKey)}</span>}
       </div>
     </Tooltip>
   );

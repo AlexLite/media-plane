@@ -23,6 +23,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- Space priority rendering now handles missing priority metadata safely.
 - API source now satisfies the enforced Ruff import and line-length checks.
 - Workspace analytics insight fields now cover the workload tab, restoring the TypeScript contract.
 - Request log messages now redact sensitive query-string values as well as structured external API logs.

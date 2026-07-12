@@ -18,7 +18,6 @@ export const getWorkItemTargetDatePayload = (
   target_time: targetDate ? currentTargetTime || defaultTargetTime || null : null,
 });
 
-
 export const getUpdateFormDataForReset = (projectId: string | null | undefined, formData: Partial<TIssue>) => ({
   ...DEFAULT_WORK_ITEM_FORM_VALUES,
   project_id: projectId,
