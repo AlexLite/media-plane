@@ -21,8 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: |
-      github.event.pull_request.draft == false &&
-      github.event.pull_request.requested_reviewers != null
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.draft == false && github.event.pull_request.requested_reviewers != null)
     env:
       TURBO_SCM_BASE: ${{ github.event.pull_request.base.sha }}
       TURBO_SCM_HEAD: ${{ github.sha }}
@@ -55,7 +55,12 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Check formatting
-        run: pnpm turbo run check:format --affected
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            pnpm turbo run check:format
+          else
+            pnpm turbo run check:format --affected
+          fi
 
   # Build packages - required for lint and type checks
   build:
@@ -63,8 +68,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     if: |
-      github.event.pull_request.draft == false &&
-      github.event.pull_request.requested_reviewers != null
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.draft == false && github.event.pull_request.requested_reviewers != null)
     env:
       TURBO_SCM_BASE: ${{ github.event.pull_request.base.sha }}
       TURBO_SCM_HEAD: ${{ github.sha }}
@@ -107,7 +112,12 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build packages
-        run: pnpm turbo run build --affected
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            pnpm turbo run build
+          else
+            pnpm turbo run build --affected
+          fi
 
       - name: Save Turbo cache
         uses: actions/cache/save@v5
@@ -121,8 +131,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: |
-      github.event.pull_request.draft == false &&
-      github.event.pull_request.requested_reviewers != null
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.draft == false && github.event.pull_request.requested_reviewers != null)
     env:
       TURBO_SCM_BASE: ${{ github.event.pull_request.base.sha }}
       TURBO_SCM_HEAD: ${{ github.sha }}
@@ -155,7 +165,12 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run check:lint
-        run: pnpm turbo run check:lint --affected
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            pnpm turbo run check:lint
+          else
+            pnpm turbo run check:lint --affected
+          fi
 
   # Type check depends on build artifacts
   check-types:
@@ -202,4 +217,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run check:types
-        run: pnpm turbo run check:types --affected
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            pnpm turbo run check:types
+          else
+            pnpm turbo run check:types --affected
+          fi
