@@ -1,6 +1,6 @@
-# Plane Messanger Gateway
+# Plane Messenger Gateway
 
-`services/plane-messanger-gateway` is an optional Plane sidecar. It currently supports the VK adapter.
+`services/plane-messenger-gateway` is an optional Plane sidecar. It currently supports the VK adapter.
 
 ## Security
 
@@ -17,13 +17,13 @@ The gateway currently reads Plane data directly and can create Plane API tokens.
 Plane must not use `127.0.0.1` as the webhook target because the webhook is sent by the Plane worker container. Use Docker service discovery instead:
 
 ```text
-http://plane-messanger-gateway:8083/plane/webhook
+http://plane-messenger-gateway:8083/plane/webhook
 ```
 
 Plane's SSRF protection rejects private targets unless explicitly trusted. The root overlay sets:
 
 ```text
-WEBHOOK_ALLOWED_HOSTS=plane-messanger-gateway
+WEBHOOK_ALLOWED_HOSTS=plane-messenger-gateway
 ```
 
 for both `api` and `worker`. The API validates the URL when it is saved, and the worker validates it again immediately before delivery.
@@ -31,12 +31,12 @@ for both `api` and `worker`. The API validates the URL when it is saved, and the
 ## Start
 
 ```bash
-cp services/plane-messanger-gateway/.env.example services/plane-messanger-gateway/.env
+cp services/plane-messenger-gateway/.env.example services/plane-messenger-gateway/.env
 # Replace all secret placeholders before continuing.
 docker compose \
   -f docker-compose.yml \
-  -f docker-compose.messanger-gateway.yml \
-  up -d --build api worker plane-messanger-gateway
+  -f docker-compose.messenger-gateway.yml \
+  up -d --build api worker plane-messenger-gateway
 ```
 
 Health check from the Docker host:

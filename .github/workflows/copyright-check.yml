@@ -43,14 +43,14 @@ jobs:
                     mapfile -t python_files < <(
                       git diff --name-only --diff-filter=ACMR "$BASE_SHA" HEAD -- '*.py' \
                         | grep -v '/migrations/' \
-                        | grep -v '^services/plane-messanger-gateway/app/asgi.py$' \
+                        | grep -v '^services/plane-messenger-gateway/app/asgi.py$' \
                         || true
                     )
                   else
                     mapfile -t python_files < <(
                       git ls-files '*.py' \
                         | grep -v '/migrations/' \
-                        | grep -v '^services/plane-messanger-gateway/app/asgi.py$' \
+                        | grep -v '^services/plane-messenger-gateway/app/asgi.py$' \
                         || true
                     )
                   fi

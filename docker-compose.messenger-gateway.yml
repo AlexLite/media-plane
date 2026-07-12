@@ -4,28 +4,28 @@ services:
       # Plane validates webhook URLs both when they are saved and when they are
       # delivered. Trust only the gateway's Docker DNS name, not an entire
       # private subnet.
-      WEBHOOK_ALLOWED_HOSTS: ${WEBHOOK_ALLOWED_HOSTS:-plane-messanger-gateway}
+      WEBHOOK_ALLOWED_HOSTS: ${WEBHOOK_ALLOWED_HOSTS:-plane-messenger-gateway}
 
   worker:
     environment:
-      WEBHOOK_ALLOWED_HOSTS: ${WEBHOOK_ALLOWED_HOSTS:-plane-messanger-gateway}
+      WEBHOOK_ALLOWED_HOSTS: ${WEBHOOK_ALLOWED_HOSTS:-plane-messenger-gateway}
 
-  plane-messanger-gateway:
+  plane-messenger-gateway:
     build:
-      context: ./services/plane-messanger-gateway
+      context: ./services/plane-messenger-gateway
       network: host
-    container_name: plane-messanger-gateway
+    container_name: plane-messenger-gateway
     restart: unless-stopped
     env_file:
-      - ./services/plane-messanger-gateway/.env
+      - ./services/plane-messenger-gateway/.env
     # Host-loopback publishing is only for a host-level reverse proxy and local
     # health checks. Plane reaches the gateway over Docker DNS instead.
     ports:
-      - "127.0.0.1:${PLANE_MESSANGER_GATEWAY_PORT:-8083}:8083"
+      - "127.0.0.1:${PLANE_MESSENGER_GATEWAY_PORT:-8083}:8083"
     volumes:
-      - plane-messanger-gateway-data:/data
+      - plane-messenger-gateway-data:/data
     networks:
       - default
 
 volumes:
-  plane-messanger-gateway-data:
+  plane-messenger-gateway-data:
