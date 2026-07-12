@@ -87,7 +87,11 @@ const detectMimeTypeFromSignature = async (file: File): Promise<string> => {
  * @param {File} file
  * @returns {Promise<string>} validated and detected MIME type
  */
-const GENERIC_SIGNATURE_MIME_TYPES = new Set(["application/zip", "application/x-zip-compressed", "application/octet-stream"]);
+const GENERIC_SIGNATURE_MIME_TYPES = new Set([
+  "application/zip",
+  "application/x-zip-compressed",
+  "application/octet-stream",
+]);
 
 const EXTENSION_MIME_TYPES: Record<string, string> = {
   doc: "application/msword",
