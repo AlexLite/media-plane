@@ -21,7 +21,7 @@ export const ProductUpdatesHeader = observer(function ProductUpdatesHeader() {
             "mx-2 rounded-full bg-accent-primary/20 px-2 py-0.5 text-center text-11 font-medium text-accent-primary"
           )}
         >
-          {t("version")}: v{packageJson.version}
+          {t("version.label")}: v{packageJson.version}
         </div>
       </div>
     </div>

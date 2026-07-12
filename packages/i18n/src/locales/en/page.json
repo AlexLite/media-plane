@@ -1,5 +1,6 @@
 {
   "version": {
+    "label": "Version",
     "restore_success": "Page version restored.",
     "restore_failed": "Failed to restore page version."
   },

@@ -12,7 +12,7 @@ export function PlaneVersionNumber() {
   const { t } = useTranslation();
   return (
     <span>
-      {t("version")}: v{packageJson.version}
+      {t("version.label")}: v{packageJson.version}
     </span>
   );
 }
