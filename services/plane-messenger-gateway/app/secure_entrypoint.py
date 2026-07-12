@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
-"""Runtime safety bootstrap for Plane Messanger Gateway."""
+"""Runtime safety bootstrap for Plane Messenger Gateway."""
 
 import os
 

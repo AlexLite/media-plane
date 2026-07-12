@@ -25,7 +25,7 @@ from cryptography.fernet import Fernet
 
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
-logger = logging.getLogger("plane-messanger-gateway")
+logger = logging.getLogger("plane-messenger-gateway")
 
 
 class Settings:
@@ -61,7 +61,7 @@ settings = Settings()
 CHANNEL_VK = "vk"
 CHANNEL_READ_FALLBACKS: dict[str, int] = {}
 VK_RESPONSE_TOKEN_LABEL = "vk-response"
-VK_RESPONSE_TOKEN_DESCRIPTION = "Auto-created by plane-messanger-gateway for VK replies."
+VK_RESPONSE_TOKEN_DESCRIPTION = "Auto-created by plane-messenger-gateway for VK replies."
 
 
 def validate_required_settings() -> None:
