@@ -10,6 +10,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 - Repository-wide web format baseline for the production CI gate.
 - Manual CI dispatch now runs full web format/build/lint/type checks and API lint on the selected release SHA.
+- Optional Plane Messanger Gateway deployment overlay with the existing VK adapter, isolated runtime storage, strict secret validation, and private-by-default host binding.
 - Premiere Pro UXP implementation brief for Plane work-item review and semantic timecode markers.
 - Comment timecodes now render as semantic markers and are exposed to integrations without an FPS dependency.
 - Project auto-archive keeps legacy month presets, adds weekly presets, and supports custom periods from 7 to 365 days.
@@ -29,6 +30,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - API source now satisfies the enforced Ruff import and line-length checks.
 - Workspace analytics insight fields now cover the workload tab, restoring the TypeScript contract.
 - Request log messages now redact sensitive query-string values as well as structured external API logs.
+- Plane Messanger Gateway now rejects placeholder secrets, installs its declared dependencies, binds the optional overlay to loopback, and routes startup through a hardened entrypoint.
 - Relative activity timestamps now show exact time today and exact date with time for older events.
 - Workspace notification cards now show an exact local time for today's events and a date with time for older events.
 - Shared date-only formatting no longer adds a midnight time, while exact timestamps and relative time use the active document locale.

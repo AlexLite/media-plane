@@ -1,0 +1,26 @@
+services:
+  plane-messanger-gateway:
+    build:
+      context: .
+      network: host
+    container_name: plane-messanger-gateway
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "${PORT:-8083}:${APP_PORT:-8083}"
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    extra_hosts:
+      - "api.vk.ru:87.240.129.140"
+      - "smtp.gmail.com:142.251.127.108"
+    volumes:
+      - ./data:/data
+      - ./app:/app/app:ro
+    networks:
+      - plane-app_default
+
+networks:
+  plane-app_default:
+    external: true
