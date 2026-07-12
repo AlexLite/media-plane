@@ -50,6 +50,7 @@ def build_token_identifier(api_key: str) -> str:
     We use a keyed HMAC digest so the same token always maps to the same
     identifier without persisting the raw secret.
     """
+    # codeql[py/weak-sensitive-data-hashing]: HMAC-SHA256 is a keyed token identifier, not password storage.
     return hmac.new(
         settings.SECRET_KEY.encode("utf-8"),
         api_key.encode("utf-8"),
