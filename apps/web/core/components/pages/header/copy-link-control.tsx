@@ -6,6 +6,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 
 import { LinkIcon, CheckIcon } from "@plane/propel/icons";
 // plane imports
@@ -22,6 +23,7 @@ type Props = {
 };
 
 export const PageCopyLinkControl = observer(function PageCopyLinkControl({ page }: Props) {
+  const { t } = useTranslation();
   const [isCopied, setIsCopied] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -57,13 +59,13 @@ export const PageCopyLinkControl = observer(function PageCopyLinkControl({ page 
   }, [pageOperations]);
 
   return (
-    <Tooltip tooltipContent={isCopied ? "Ссылка скопирована" : "Копировать ссылку"} position="bottom">
+    <Tooltip tooltipContent={t(isCopied ? "link_copied" : "copy_link")} position="bottom">
       <IconButton
         variant="ghost"
         size="lg"
         icon={isCopied ? CheckIcon : LinkIcon}
         onClick={handleCopy}
-        aria-label={isCopied ? "Ссылка скопирована" : "Копировать ссылку"}
+        aria-label={t(isCopied ? "link_copied" : "copy_link")}
         className={cn(isCopied && "text-success-primary")}
       />
     </Tooltip>

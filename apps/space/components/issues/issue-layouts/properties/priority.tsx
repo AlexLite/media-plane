@@ -32,10 +32,10 @@ export function IssueBlockPriority({
     none: "bg-layer-2 text-priority-none border-priority-none",
   };
 
-  if (priority_detail === null) return <></>;
+  if (priority_detail === null || !priority_detail.titleTranslationKey) return <></>;
 
   return (
-    <Tooltip tooltipHeading="Priority" tooltipContent={t(priority_detail?.titleTranslationKey || "")}>
+    <Tooltip tooltipHeading={t("common.priority")} tooltipContent={t(priority_detail.titleTranslationKey)}>
       <div
         className={cn(
           "flex h-full items-center gap-1.5 rounded-sm border-[0.5px] px-2 py-0.5 text-11",
@@ -65,7 +65,7 @@ export function IssueBlockPriority({
         ) : (
           <SignalHigh className="size-3" />
         )}
-        {shouldShowName && <span className="pl-2 text-13">{t(priority_detail?.titleTranslationKey || "")}</span>}
+        {shouldShowName && <span className="pl-2 text-13">{t(priority_detail.titleTranslationKey)}</span>}
       </div>
     </Tooltip>
   );
