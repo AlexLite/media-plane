@@ -259,8 +259,7 @@ export const ProfileSidebar = observer(function ProfileSidebar(props: TProfileSi
                               </div>
                               <div className="flex items-center justify-between gap-2">
                                 <div className="flex items-center gap-2">
-                                  <div className="h-2.5 w-2.5 rounded-xs bg-[#f59e0b]" />
-                                  К сроку
+                                  <div className="h-2.5 w-2.5 rounded-xs bg-[#f59e0b]" />К сроку
                                 </div>
                                 <div className="font-medium">
                                   {project.pending_issues} {t("common.work_items")}
