@@ -33,7 +33,6 @@ export interface IWorkspaceGroup {
   updated_at: string;
 }
 
-
 export interface IWorkspaceGroupNotificationRule {
   id: string;
   workspace_id: string;

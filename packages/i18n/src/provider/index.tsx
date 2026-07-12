@@ -19,6 +19,7 @@ export const TranslationProvider: React.FC<TranslationProviderProps> = ({ childr
     initPromise
       .then(() => {
         setIsReady(true);
+        return undefined;
       })
       .catch((err: unknown) => {
         console.error("Failed to initialize i18n:", err);

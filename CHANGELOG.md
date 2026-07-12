@@ -23,6 +23,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- Workspace analytics insight fields now cover the workload tab, restoring the TypeScript contract.
 - Request log messages now redact sensitive query-string values as well as structured external API logs.
 - Relative activity timestamps now show exact time today and exact date with time for older events.
 - Workspace notification cards now show an exact local time for today's events and a date with time for older events.
