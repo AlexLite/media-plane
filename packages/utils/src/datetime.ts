@@ -4,23 +4,12 @@
  * See the LICENSE file for details.
  */
 
-import {
-  differenceInDays,
-  format,
-  formatDistanceToNow,
-  isAfter,
-  isEqual,
-  isToday,
-  isValid,
-  parseISO,
-} from "date-fns";
+import { differenceInDays, format, formatDistanceToNow, isAfter, isEqual, isToday, isValid, parseISO } from "date-fns";
 import { enUS, ru } from "date-fns/locale";
 import { isNumber } from "lodash-es";
 
-const getDateLocale = () => {
-  const documentLocale = typeof document !== "undefined" ? document.documentElement.lang.toLowerCase() : "";
-  return documentLocale.startsWith("en") ? enUS : ru;
-};
+const getDateLocale = () =>
+  typeof document !== "undefined" && document.documentElement.lang.toLowerCase().startsWith("en") ? enUS : ru;
 
 // Format Date Helpers
 /**
