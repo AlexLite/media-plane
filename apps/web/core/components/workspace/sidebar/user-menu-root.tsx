@@ -17,10 +17,12 @@ import { getFileURL } from "@plane/utils";
 // components
 import { CoverImage } from "@/components/common/cover-image";
 import { AppSidebarItem } from "@/components/sidebar/sidebar-item";
+import { WorkspaceMemberGroups } from "@/components/workspace/member-groups";
 // hooks
 import { useAppTheme } from "@/hooks/store/use-app-theme";
 import { useCommandPalette } from "@/hooks/store/use-command-palette";
 import { useUser } from "@/hooks/store/user";
+import { useWorkspace } from "@/hooks/store/use-workspace";
 
 export const UserMenuRoot = observer(function UserMenuRoot() {
   // states
@@ -30,6 +32,7 @@ export const UserMenuRoot = observer(function UserMenuRoot() {
   // store hooks
   const { toggleAnySidebarDropdown } = useAppTheme();
   const { data: currentUser } = useUser();
+  const { currentWorkspace } = useWorkspace();
   const { signOut } = useUser();
   const { toggleProfileSettingsModal } = useCommandPalette();
   // derived values
@@ -103,6 +106,9 @@ export const UserMenuRoot = observer(function UserMenuRoot() {
                 {currentUser?.first_name} {currentUser?.last_name}
               </p>
               <p className="text-caption-md-regular">{currentUser?.email}</p>
+              {currentWorkspace?.slug && currentUser?.id ? (
+                <WorkspaceMemberGroups workspaceSlug={currentWorkspace.slug} userId={currentUser.id} className="mt-1" />
+              ) : null}
             </div>
           </div>
         </div>
