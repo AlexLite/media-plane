@@ -49,14 +49,14 @@ class StaticSafetyTests(unittest.TestCase):
         self.assertIn("from app.secure_entrypoint import app", legacy)
         self.assertNotIn("FastAPI(", legacy)
 
-    def test_codeql_sensitive_hashes_use_blake2(self):
+    def test_codeql_sensitive_hashes_use_checksum_and_kdf(self):
         asgi = (ROOT / "app" / "asgi.py").read_text(encoding="utf-8")
         send = asgi.split("async def send_vk_message_result", 1)[1].split("def token_encryption_secret", 1)[0]
         fingerprint = asgi.split("def token_hash", 1)[1].split("def get_user_api_token_row", 1)[0]
-        self.assertIn("hashlib.blake2s", send)
-        self.assertNotIn("hashlib.sha256", send)
-        self.assertIn("hashlib.blake2b", fingerprint)
-        self.assertIn("key=key", fingerprint)
+        self.assertIn("zlib.crc32", send)
+        self.assertNotIn("hashlib.", send)
+        self.assertIn("hashlib.pbkdf2_hmac", fingerprint)
+        self.assertIn("600_000", fingerprint)
 
 
 if __name__ == "__main__":

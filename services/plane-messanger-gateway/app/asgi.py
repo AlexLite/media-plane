@@ -11,6 +11,7 @@ import secrets
 import smtplib
 import sqlite3
 import time
+import zlib
 from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 from email.message import EmailMessage
@@ -1079,7 +1080,9 @@ async def send_vk_message_result(
     if not settings.vk_group_token:
         return False, "VK_GROUP_TOKEN is not configured", None
     random_id_src = f"{delivery_id or time.time_ns()}:{vk_user_id}"
-    random_id = int(hashlib.blake2s(random_id_src.encode(), digest_size=16).hexdigest()[:8], 16)
+    # VK requires a stable numeric id for request idempotency. This is not a
+    # security primitive, so use a fast checksum rather than a password hash.
+    random_id = zlib.crc32(random_id_src.encode("utf-8")) & 0x7FFFFFFF
     data = {
         "peer_id": vk_user_id,
         "message": message,
@@ -1228,14 +1231,13 @@ def decrypt_user_api_token(token_encrypted: str) -> str:
 
 
 def token_hash(token: str) -> str:
-    # This is an opaque identifier for diagnostics and idempotency, not a
-    # password verifier. Keying prevents offline fingerprint correlation if the
-    # SQLite database is exposed.
+    # This is an opaque identifier for diagnostics and idempotency. Use a slow
+    # KDF because the input is a credential and SQLite may be exposed.
     secret = token_encryption_secret()
     if not secret:
         raise RuntimeError("NOTIFIER_TOKEN_ENCRYPTION_KEY or SECRET_KEY is required to fingerprint user API tokens")
-    key = hashlib.blake2b(secret.encode("utf-8"), digest_size=32).digest()
-    return hashlib.blake2b(token.encode("utf-8"), key=key, digest_size=32).hexdigest()
+    application_salt = hashlib.blake2b(secret.encode("utf-8"), digest_size=32).digest()
+    return hashlib.pbkdf2_hmac("sha256", token.encode("utf-8"), application_salt, 600_000).hex()
 
 
 def get_user_api_token_row(vk_user_id: int) -> dict[str, Any] | None:
