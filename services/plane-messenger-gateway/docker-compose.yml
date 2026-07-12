@@ -1,9 +1,9 @@
 services:
-  plane-messanger-gateway:
+  plane-messenger-gateway:
     build:
       context: .
       network: host
-    container_name: plane-messanger-gateway
+    container_name: plane-messenger-gateway
     restart: unless-stopped
     env_file:
       - .env

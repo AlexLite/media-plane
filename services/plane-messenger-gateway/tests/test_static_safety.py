@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
-"""Tests for Plane Messanger Gateway safety invariants."""
+"""Tests for Plane Messenger Gateway safety invariants."""
 
 from pathlib import Path
 import unittest
@@ -30,19 +30,23 @@ class StaticSafetyTests(unittest.TestCase):
         self.assertNotIn("PLANE_API_TOKEN=plane_api_", env_example)
 
     def test_overlay_binds_host_port_to_loopback(self):
-        overlay = (REPO_ROOT / "docker-compose.messanger-gateway.yml").read_text(encoding="utf-8")
-        self.assertIn("127.0.0.1:${PLANE_MESSANGER_GATEWAY_PORT:-8083}:8083", overlay)
+        overlay = (REPO_ROOT / "docker-compose.messenger-gateway.yml").read_text(encoding="utf-8")
+        self.assertIn("127.0.0.1:${PLANE_MESSENGER_GATEWAY_PORT:-8083}:8083", overlay)
 
     def test_overlay_allows_exact_gateway_hostname_for_plane(self):
-        overlay = (REPO_ROOT / "docker-compose.messanger-gateway.yml").read_text(encoding="utf-8")
-        self.assertIn("WEBHOOK_ALLOWED_HOSTS: ${WEBHOOK_ALLOWED_HOSTS:-plane-messanger-gateway}", overlay)
+        overlay = (REPO_ROOT / "docker-compose.messenger-gateway.yml").read_text(encoding="utf-8")
+        self.assertIn("WEBHOOK_ALLOWED_HOSTS: ${WEBHOOK_ALLOWED_HOSTS:-plane-messenger-gateway}", overlay)
         self.assertIn("api:", overlay)
         self.assertIn("worker:", overlay)
 
     def test_docs_use_docker_dns_for_plane_webhook(self):
-        docs = (REPO_ROOT / "docs" / "messanger-gateway.md").read_text(encoding="utf-8")
-        self.assertIn("http://plane-messanger-gateway:8083/plane/webhook", docs)
+        docs = (REPO_ROOT / "docs" / "messenger-gateway.md").read_text(encoding="utf-8")
+        self.assertIn("http://plane-messenger-gateway:8083/plane/webhook", docs)
         self.assertIn("Do not configure Plane with `http://127.0.0.1:8083/plane/webhook`", docs)
+
+    def test_copyright_check_excludes_gateway_asgi(self):
+        workflow = (REPO_ROOT / ".github" / "workflows" / "copyright-check.yml").read_text(encoding="utf-8")
+        self.assertIn("^services/plane-messenger-gateway/app/asgi.py$", workflow)
 
     def test_legacy_entrypoint_is_only_a_wrapper(self):
         legacy = (ROOT / "app" / "main.py").read_text(encoding="utf-8")

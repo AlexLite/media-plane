@@ -2,4 +2,4 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
-"""Package for Plane Messanger Gateway."""
+"""Package for Plane Messenger Gateway."""

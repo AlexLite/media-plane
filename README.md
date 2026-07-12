@@ -31,17 +31,17 @@ use to keep GitHub, local development, and the deploy on `plane2` aligned.
 - `docker-compose.yml` is the main self-host stack
 - `docker-compose-local.yml` is for local development
 - `docker-compose-test.yml` is for the API test suite
-- `docker-compose.messanger-gateway.yml` adds the optional VK notification gateway
+- `docker-compose.messenger-gateway.yml` adds the optional VK notification gateway
 
 For the gateway, configure the Plane webhook with the internal Docker URL:
 
 ```text
-http://plane-messanger-gateway:8083/plane/webhook
+http://plane-messenger-gateway:8083/plane/webhook
 ```
 
 Do not use `127.0.0.1` as the Plane webhook target. The overlay adds the exact
 gateway hostname to `WEBHOOK_ALLOWED_HOSTS` for both API validation and worker
-delivery. See [docs/messanger-gateway.md](./docs/messanger-gateway.md).
+delivery. See [docs/messenger-gateway.md](./docs/messenger-gateway.md).
 
 <br /><br />
 
