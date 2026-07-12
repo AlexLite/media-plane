@@ -137,11 +137,11 @@ export const ISSUE_ORDER_BY_OPTIONS: {
   key: TIssueOrderByOptions;
   titleTranslationKey: string;
 }[] = [
-  { key: "sort_order", titleTranslationKey: "common.order_by.manual" },
-  { key: "-created_at", titleTranslationKey: "common.order_by.last_created" },
-  { key: "-updated_at", titleTranslationKey: "common.order_by.last_updated" },
-  { key: "start_date", titleTranslationKey: "common.order_by.start_date" },
-  { key: "target_date", titleTranslationKey: "common.order_by.due_date" },
+  { key: "sort_order", titleTranslationKey: "order_by.manual" },
+  { key: "-created_at", titleTranslationKey: "order_by.last_created" },
+  { key: "-updated_at", titleTranslationKey: "order_by.last_updated" },
+  { key: "start_date", titleTranslationKey: "order_by.start_date" },
+  { key: "target_date", titleTranslationKey: "order_by.due_date" },
   { key: "-priority", titleTranslationKey: "common.priority" },
 ];
 
