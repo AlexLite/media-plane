@@ -5,7 +5,6 @@
 # Python imports
 import logging
 import hashlib
-import hmac
 import json
 import time
 from urllib.parse import parse_qsl, urlencode
@@ -47,13 +46,13 @@ def build_token_identifier(api_key: str) -> str:
     """
     Build a stable, non-reversible identifier for API token logs.
 
-    We use a keyed HMAC digest so the same token always maps to the same
-    identifier without persisting the raw secret.
+    Keyed BLAKE2b keeps the identifier stable without persisting the raw
+    token, while avoiding a password-hashing primitive for log correlation.
     """
-    return hmac.new(  # codeql[py/weak-sensitive-data-hashing]: keyed token identifier, not password storage
-        settings.SECRET_KEY.encode("utf-8"),
+    return hashlib.blake2b(
         api_key.encode("utf-8"),
-        hashlib.sha256,
+        key=settings.SECRET_KEY.encode("utf-8"),
+        digest_size=32,
     ).hexdigest()
 
 
