@@ -34,7 +34,7 @@ const PROJECT_ARCHIVES_BREADCRUMB_LIST: {
   };
 } = {
   issues: {
-    labelTranslationKey: "common.issues",
+    labelTranslationKey: "issues",
     href: "/issues",
     icon: WorkItemsIcon,
   },
@@ -79,7 +79,7 @@ export const ProjectArchivesHeader = observer(function ProjectArchivesHeader(pro
               component={
                 <BreadcrumbLink
                   href={`/${workspaceSlug}/projects/${projectId}/archives/issues`}
-                  label={t("common.archives")}
+                  label={t("archives")}
                   icon={<ArchiveIcon className="h-4 w-4 text-tertiary" />}
                 />
               }

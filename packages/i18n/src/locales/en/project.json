@@ -30,15 +30,6 @@
     "cycle": "Cycle",
     "update_cycle": "Update cycle",
     "create_cycle": "Create cycle",
-    "empty_state": {
-      "not_found": {
-        "title": "Cycle does not exist",
-        "description": "The cycle you are looking for does not exist or has been deleted.",
-        "primary_button": {
-          "text": "View other cycles"
-        }
-      }
-    },
     "no_matching_cycles": "No matching cycles",
     "remove_filters_to_see_all_cycles": "Remove the filters to see all cycles",
     "remove_search_criteria_to_see_all_cycles": "Remove the search criteria to see all cycles",
@@ -134,6 +125,13 @@
       }
     },
     "empty_state": {
+      "not_found": {
+        "title": "Cycle does not exist",
+        "description": "The cycle you are looking for does not exist or has been deleted.",
+        "primary_button": {
+          "text": "View other cycles"
+        }
+      },
       "general": {
         "title": "Group and timebox your work in Cycles.",
         "description": "Break work down by timeboxed chunks, work backwards from your project deadline to set dates, and make tangible progress as a team.",
