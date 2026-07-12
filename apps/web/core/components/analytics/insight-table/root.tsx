@@ -21,9 +21,7 @@ interface InsightTableProps<T extends keyof AnalyticsTableDataMap> {
   onExport?: (rows: Row<AnalyticsTableDataMap[T]>[]) => void;
 }
 
-export function InsightTable<T extends keyof AnalyticsTableDataMap>(
-  props: InsightTableProps<T>
-): React.ReactElement {
+export function InsightTable<T extends keyof AnalyticsTableDataMap>(props: InsightTableProps<T>): React.ReactElement {
   const { data, isLoading, columns, headerText, onExport } = props;
   const { t } = useTranslation();
   if (isLoading) {

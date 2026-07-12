@@ -50,7 +50,7 @@ export function ControllerInput(props: Props) {
         <Controller
           control={control}
           name={name}
-          rules={{ required: required ? requiredMessage ?? t("field_required") : false }}
+          rules={{ required: required ? (requiredMessage ?? t("field_required")) : false }}
           render={({ field: { value, onChange, ref } }) => (
             <Input
               id={name}

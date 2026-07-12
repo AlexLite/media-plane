@@ -21,7 +21,10 @@ export const WorkspaceMemberGroups = observer(function WorkspaceMemberGroups({
   const { allowPermissions } = useUserPermissions();
   const { workspace: workspaceMemberStore } = useMember();
   const { workspaceGroups, getGroupMembers, fetchWorkspaceGroups, fetchWorkspaceGroupMembers } = useWorkspaceGroup();
-  const canViewGroups = allowPermissions([EUserPermissions.ADMIN, EUserPermissions.MEMBER], EUserPermissionsLevel.WORKSPACE);
+  const canViewGroups = allowPermissions(
+    [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
+    EUserPermissionsLevel.WORKSPACE
+  );
 
   useSWR(canViewGroups ? `WORKSPACE_MEMBER_GROUPS_${workspaceSlug}` : null, async () => {
     const groups = await fetchWorkspaceGroups(workspaceSlug);
@@ -43,7 +46,11 @@ export const WorkspaceMemberGroups = observer(function WorkspaceMemberGroups({
   return (
     <div className={`flex flex-wrap items-center gap-1 ${className}`}>
       {groups.map((group) => (
-        <span key={group.id} className="inline-flex items-center gap-1 text-caption-md-regular text-secondary" title={group.name}>
+        <span
+          key={group.id}
+          className="inline-flex items-center gap-1 text-caption-md-regular text-secondary"
+          title={group.name}
+        >
           <UsersRound className="size-3.5 shrink-0" aria-hidden />
           {group.name.replace(/^\d+(?:-\d+)+\s+/, "")}
         </span>

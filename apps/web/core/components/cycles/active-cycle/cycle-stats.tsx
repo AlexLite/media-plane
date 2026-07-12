@@ -208,7 +208,11 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                         >
                           <div className="flex w-full min-w-24 flex-grow items-center gap-1.5 truncate">
                             <IssueIdentifier issueId={issue.id} projectId={projectId} size="xs" variant="secondary" />
-                            <Tooltip position="top-start" tooltipHeading={t("common.title")} tooltipContent={issue.name}>
+                            <Tooltip
+                              position="top-start"
+                              tooltipHeading={t("common.title")}
+                              tooltipContent={issue.name}
+                            >
                               <span className="truncate text-13 text-primary">{issue.name}</span>
                             </Tooltip>
                           </div>

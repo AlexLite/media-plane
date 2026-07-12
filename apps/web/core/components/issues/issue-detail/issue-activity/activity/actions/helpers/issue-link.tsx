@@ -36,9 +36,7 @@ export function IssueLink(props: TIssueLink) {
   });
   return (
     <Tooltip
-      tooltipContent={
-        activity.issue_detail ? activity.issue_detail.name : t("activity_feed.work_item_deleted_tooltip")
-      }
+      tooltipContent={activity.issue_detail ? activity.issue_detail.name : t("activity_feed.work_item_deleted_tooltip")}
       isMobile={isMobile}
     >
       <a

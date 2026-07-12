@@ -115,10 +115,7 @@ export function InstanceSignInForm() {
       <AuthHeader />
       <div className="mt-10 flex w-full flex-grow flex-col items-center justify-center py-6">
         <div className="relative flex w-full max-w-[22.5rem] flex-col gap-6">
-          <FormHeader
-            heading={t("sign_in_heading")}
-            subHeading={t("sign_in_subheading")}
-          />
+          <FormHeader heading={t("sign_in_heading")} subHeading={t("sign_in_subheading")} />
           <form
             className="space-y-4"
             method="POST"

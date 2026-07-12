@@ -98,7 +98,9 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
   return (
     <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XL}>
       <div className="space-y-5 px-5 py-8 sm:p-6">
-        <h3 className="text-16 leading-6 font-medium text-primary">{t("onboarding_profile_setup.profile_step.image_upload.title")}</h3>
+        <h3 className="text-16 leading-6 font-medium text-primary">
+          {t("onboarding_profile_setup.profile_step.image_upload.title")}
+        </h3>
         <div className="space-y-3">
           <div className="flex items-center justify-center gap-3">
             <div
@@ -127,7 +129,9 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
                 <div>
                   <UserCirclePropertyIcon className="mx-auto h-16 w-16 text-secondary" />
                   <span className="mt-2 block text-13 font-medium text-secondary">
-                    {isDragActive ? t("onboarding_profile_setup.profile_step.image_upload.drop") : t("onboarding_profile_setup.profile_step.image_upload.drag")}
+                    {isDragActive
+                      ? t("onboarding_profile_setup.profile_step.image_upload.drop")
+                      : t("onboarding_profile_setup.profile_step.image_upload.drag")}
                   </span>
                 </div>
               )}
@@ -146,14 +150,18 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
         <p className="my-4 text-13 text-secondary">{t("onboarding_profile_setup.profile_step.image_upload.formats")}</p>
         <div className="flex items-center justify-between">
           <Button variant="error-fill" size="lg" onClick={handleImageRemove} disabled={!value}>
-            {isRemoving ? t("onboarding_profile_setup.profile_step.image_upload.removing") : t("onboarding_profile_setup.profile_step.image_upload.remove")}
+            {isRemoving
+              ? t("onboarding_profile_setup.profile_step.image_upload.removing")
+              : t("onboarding_profile_setup.profile_step.image_upload.remove")}
           </Button>
           <div className="flex items-center gap-2">
             <Button variant="secondary" size="lg" onClick={handleClose}>
               {t("onboarding_profile_setup.profile_step.image_upload.cancel")}
             </Button>
             <Button variant="primary" size="lg" onClick={handleSubmit} disabled={!image} loading={isImageUploading}>
-              {isImageUploading ? t("onboarding_profile_setup.profile_step.image_upload.uploading") : t("onboarding_profile_setup.profile_step.image_upload.save")}
+              {isImageUploading
+                ? t("onboarding_profile_setup.profile_step.image_upload.uploading")
+                : t("onboarding_profile_setup.profile_step.image_upload.save")}
             </Button>
           </div>
         </div>

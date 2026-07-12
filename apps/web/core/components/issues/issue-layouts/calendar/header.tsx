@@ -127,7 +127,11 @@ export const CalendarHeader = observer(function CalendarHeader(props: ICalendarH
         >
           {t("common.today")}
         </button>
-        <CalendarOptionsDropdown issuesFilterStore={issuesFilterStore} onToday={handleToday} updateFilters={updateFilters} />
+        <CalendarOptionsDropdown
+          issuesFilterStore={issuesFilterStore}
+          onToday={handleToday}
+          updateFilters={updateFilters}
+        />
       </div>
     </Row>
   );

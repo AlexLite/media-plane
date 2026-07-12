@@ -51,7 +51,8 @@ export const AuthRoot = observer(function AuthRoot(props: TAuthRoot) {
   // store hooks
   const { config } = useInstance();
   // derived values
-  const oAuthActionText = authMode === EAuthModes.SIGN_UP ? t("auth.common.sign_up_action") : t("auth.common.sign_in_action");
+  const oAuthActionText =
+    authMode === EAuthModes.SIGN_UP ? t("auth.common.sign_up_action") : t("auth.common.sign_in_action");
   const { isOAuthEnabled, oAuthOptions } = useOAuthConfig(oAuthActionText);
   const isEmailBasedAuthEnabled = config?.is_email_password_enabled || config?.is_magic_login_enabled;
   const noAuthMethodsAvailable = !isOAuthEnabled && !isEmailBasedAuthEnabled;

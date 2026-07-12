@@ -270,9 +270,7 @@ export function GptAssistantPopover(props: Props) {
                 onChange={onChange}
                 ref={ref}
                 placeholder={
-                  prompt && prompt !== ""
-                    ? t("gpt_assistant.prompt_with_context")
-                    : t("gpt_assistant.prompt_anything")
+                  prompt && prompt !== "" ? t("gpt_assistant.prompt_with_context") : t("gpt_assistant.prompt_anything")
                 }
                 className="w-full"
                 autoFocus

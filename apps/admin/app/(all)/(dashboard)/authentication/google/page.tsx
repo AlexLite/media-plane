@@ -48,8 +48,7 @@ const InstanceGoogleAuthenticationPage = observer(function InstanceGoogleAuthent
       loading: t("saving_configuration"),
       success: {
         title: t("configuration_saved"),
-        message: () =>
-          t(value === "1" ? "google_authentication_active" : "google_authentication_disabled"),
+        message: () => t(value === "1" ? "google_authentication_active" : "google_authentication_disabled"),
       },
       error: {
         title: t("error"),

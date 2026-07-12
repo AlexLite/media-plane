@@ -32,9 +32,7 @@ export const InstanceFailureView = observer(function InstanceFailureView() {
           <div className="relative flex flex-col items-center justify-center space-y-4">
             <img src={instanceImage} alt={t("instance_failure_image_alt")} />
             <h3 className="text-center text-20 font-medium text-on-color">{t("instance_failure_title")}</h3>
-            <p className="text-center text-14 font-medium">
-              {t("instance_failure_description")}
-            </p>
+            <p className="text-center text-14 font-medium">{t("instance_failure_description")}</p>
           </div>
           <div className="flex justify-center">
             <Button size="lg" onClick={handleRetry}>

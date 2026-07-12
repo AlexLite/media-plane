@@ -29,9 +29,7 @@ function FeaturesModulesSettingsPage({ params }: Route.ComponentProps) {
   // translation
   const { t } = useTranslation();
   // derived values
-  const pageTitle = currentProjectDetails?.name
-    ? `${currentProjectDetails?.name} - Настройки модулей`
-    : undefined;
+  const pageTitle = currentProjectDetails?.name ? `${currentProjectDetails?.name} - Настройки модулей` : undefined;
   const canPerformProjectAdminActions = allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.PROJECT);
 
   if (workspaceUserInfo && !canPerformProjectAdminActions) {

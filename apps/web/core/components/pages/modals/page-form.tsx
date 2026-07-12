@@ -126,9 +126,7 @@ export function PageForm(props: Props) {
               autoFocus
             />
             {isTitleLengthMoreThan255Character && (
-              <span className="text-11 text-danger-primary">
-                {t("page_modals.create.name_max_length")}
-              </span>
+              <span className="text-11 text-danger-primary">{t("page_modals.create.name_max_length")}</span>
             )}
           </div>
         </div>

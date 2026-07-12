@@ -82,7 +82,13 @@ export const ConfirmProjectMemberRemove = observer(function ConfirmProjectMember
           {t("cancel")}
         </Button>
         <Button variant="error-fill" size="lg" tabIndex={1} onClick={handleDeletion} loading={isDeleteLoading}>
-          {isCurrentUser ? (isDeleteLoading ? t("leaving") : t("leave")) : isDeleteLoading ? t("removing") : t("remove")}
+          {isCurrentUser
+            ? isDeleteLoading
+              ? t("leaving")
+              : t("leave")
+            : isDeleteLoading
+              ? t("removing")
+              : t("remove")}
         </Button>
       </div>
     </ModalCore>

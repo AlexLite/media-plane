@@ -125,8 +125,8 @@ export function InstanceGithubConfigForm(props: Props) {
       url: originURL,
       description: (
         <>
-          {t("oauth_autogenerate_paste_into")}{" "}
-          <CodeBlock darkerShade>{t("oauth_authorized_origin_url")}</CodeBlock> {t("oauth_field")}{" "}
+          {t("oauth_autogenerate_paste_into")} <CodeBlock darkerShade>{t("oauth_authorized_origin_url")}</CodeBlock>{" "}
+          {t("oauth_field")}{" "}
           <a
             tabIndex={-1}
             href="https://github.com/settings/applications/new"

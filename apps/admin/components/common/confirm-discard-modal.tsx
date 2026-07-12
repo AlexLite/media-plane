@@ -55,9 +55,7 @@ export function ConfirmDiscardModal(props: Props) {
                         {t("unsaved_changes_title")}
                       </Dialog.Title>
                       <div className="mt-2">
-                        <p className="text-13 text-placeholder">
-                          {t("unsaved_changes_description")}
-                        </p>
+                        <p className="text-13 text-placeholder">{t("unsaved_changes_description")}</p>
                       </div>
                     </div>
                   </div>

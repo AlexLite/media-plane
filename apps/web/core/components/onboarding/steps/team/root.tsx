@@ -250,7 +250,9 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
       {email && !emailRegex.test(email) && (
         <div className="mx-8 my-1">
           <span className="text-13">🤥</span>{" "}
-          <span className="mt-1 text-11 text-danger-primary">{t("onboarding_invite_members.errors.invalid_email_hint")}</span>
+          <span className="mt-1 text-11 text-danger-primary">
+            {t("onboarding_invite_members.errors.invalid_email_hint")}
+          </span>
         </div>
       )}
     </div>

@@ -46,8 +46,7 @@ const InstanceGiteaAuthenticationPage = observer(function InstanceGiteaAuthentic
       loading: t("saving_configuration"),
       success: {
         title: t("configuration_saved"),
-        message: () =>
-          t(value === "1" ? "gitea_authentication_active" : "gitea_authentication_disabled"),
+        message: () => t(value === "1" ? "gitea_authentication_active" : "gitea_authentication_disabled"),
       },
       error: {
         title: t("error"),

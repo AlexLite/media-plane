@@ -69,9 +69,7 @@ export function ArchiveCycleModal(props: Props) {
         <h3 className="text-18 font-medium 2xl:text-20">
           {t("project_cycles.archive_modal.title", { cycle: cycleName })}
         </h3>
-        <p className="mt-3 text-13 text-secondary">
-          {t("project_cycles.archive_modal.description")}
-        </p>
+        <p className="mt-3 text-13 text-secondary">{t("project_cycles.archive_modal.description")}</p>
         <div className="mt-3 flex justify-end gap-2">
           <Button variant="secondary" size="lg" onClick={onClose}>
             {t("cancel")}

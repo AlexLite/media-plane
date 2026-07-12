@@ -216,7 +216,6 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
     ]
   );
 
-
   useSWR(
     ["issue-detail-refresh", workspaceSlug, projectId, issueId],
     () => fetchIssue(workspaceSlug, projectId, issueId),

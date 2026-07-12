@@ -229,7 +229,9 @@ export const GroupColumn = observer(function GroupColumn({ rowData }: { rowData:
     ) || [];
 
   if (memberGroups.length === 0) {
-    return <span className="text-body-xs-regular text-placeholder">{t("workspace_settings.settings.members.no_group")}</span>;
+    return (
+      <span className="text-body-xs-regular text-placeholder">{t("workspace_settings.settings.members.no_group")}</span>
+    );
   }
 
   return (

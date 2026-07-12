@@ -152,9 +152,7 @@ export function WorkspaceCreateForm() {
             />
           </div>
           {slugError && <p className="text-13 text-danger-primary">{t("workspace_create_url_taken")}</p>}
-          {invalidSlug && (
-            <p className="text-13 text-danger-primary">{t("workspace_create_url_rules")}</p>
-          )}
+          {invalidSlug && <p className="text-13 text-danger-primary">{t("workspace_create_url_rules")}</p>}
           {errors.slug && <span className="text-11 text-danger-primary">{errors.slug.message}</span>}
         </div>
         <div className="flex flex-col gap-1">

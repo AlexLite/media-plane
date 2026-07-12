@@ -8,6 +8,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Added
 
+- Repository-wide web format baseline for the production CI gate.
 - Manual CI dispatch now runs full web format/build/lint/type checks and API lint on the selected release SHA.
 - Premiere Pro UXP implementation brief for Plane work-item review and semantic timecode markers.
 - Comment timecodes now render as semantic markers and are exposed to integrations without an FPS dependency.

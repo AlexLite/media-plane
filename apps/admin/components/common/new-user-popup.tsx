@@ -30,9 +30,7 @@ export const NewUserPopup = observer(function NewUserPopup() {
       <div className="flex gap-4">
         <div className="grow">
           <div className="text-14 font-semibold">{t("new_user_popup_title")}</div>
-          <div className="py-2 text-13 font-medium text-tertiary">
-            {t("new_user_popup_description")}
-          </div>
+          <div className="py-2 text-13 font-medium text-tertiary">{t("new_user_popup_description")}</div>
           <div className="flex items-center gap-4 pt-2">
             <Link href="/workspace/create" className={getButtonStyling("primary", "lg")}>
               {t("create_workspace")}

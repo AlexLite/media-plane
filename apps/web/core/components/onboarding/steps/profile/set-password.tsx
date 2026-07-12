@@ -130,7 +130,9 @@ export function SetPasswordRoot({ onPasswordChange, onConfirmPasswordChange, dis
             {hasPasswordMismatch && (
               <p className="mt-1 text-11 text-danger-primary">{t("onboarding_set_password.password_mismatch")}</p>
             )}
-            {isPasswordValid && <p className="mt-1 text-11 text-success-primary">{t("onboarding_set_password.passwords_match")}</p>}
+            {isPasswordValid && (
+              <p className="mt-1 text-11 text-success-primary">{t("onboarding_set_password.passwords_match")}</p>
+            )}
           </div>
         </div>
       </div>

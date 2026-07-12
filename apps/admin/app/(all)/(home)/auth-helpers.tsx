@@ -125,7 +125,8 @@ export const authErrorHandler = (
 
   if (bannerAlertErrorCodes.includes(errorCode)) {
     const fallbackTitle = errorCodeMessages[errorCode]?.title || "Error";
-    const fallbackMessageNode = errorCodeMessages[errorCode]?.message(email) || "Something went wrong. Please try again.";
+    const fallbackMessageNode =
+      errorCodeMessages[errorCode]?.message(email) || "Something went wrong. Please try again.";
     const fallbackMessage =
       typeof fallbackMessageNode === "string" ? fallbackMessageNode : "Something went wrong. Please try again.";
     const i18nKeys = AUTH_ERROR_I18N_KEYS[errorCode];

@@ -120,11 +120,7 @@ const LabelPill = observer(function LabelPill({ labelId, workspaceSlug }: { labe
   );
 });
 
-const getInboxUserActivityMessage = (
-  activity: IIssueActivity,
-  showIssue: boolean,
-  t: (key: string) => string
-) => {
+const getInboxUserActivityMessage = (activity: IIssueActivity, showIssue: boolean, t: (key: string) => string) => {
   const inboxActivityMessage = {
     declined: {
       showIssue: t("activity_feed.inbox.declined_issue"),
@@ -158,7 +154,9 @@ const getInboxUserActivityMessage = (
   }
 };
 
-const getActivityDetails = (t: (key: string, options?: Record<string, string | number>) => string): {
+const getActivityDetails = (
+  t: (key: string, options?: Record<string, string | number>) => string
+): {
   [key: string]: {
     message: (activity: IIssueActivity, showIssue: boolean, workspaceSlug: string) => React.ReactNode;
     icon: React.ReactNode;
@@ -436,7 +434,8 @@ const getActivityDetails = (t: (key: string, options?: Record<string, string | n
         return (
           <>
             <span className="flex-shrink-0">
-              {t("activity_feed.added")} {showIssue ? <IssueLink activity={activity} /> : t("activity_feed.this_work_item")}{" "}
+              {t("activity_feed.added")}{" "}
+              {showIssue ? <IssueLink activity={activity} /> : t("activity_feed.this_work_item")}{" "}
               <span className="whitespace-nowrap">{t("activity_feed.to_cycle")}</span>{" "}
             </span>
             <a
@@ -485,7 +484,9 @@ const getActivityDetails = (t: (key: string, options?: Record<string, string | n
       if (activity.verb === "created")
         return (
           <>
-            {t("activity_feed.added")} {showIssue ? <IssueLink activity={activity} /> : t("activity_feed.this_work_item")} {t("activity_feed.to_module")}{" "}
+            {t("activity_feed.added")}{" "}
+            {showIssue ? <IssueLink activity={activity} /> : t("activity_feed.this_work_item")}{" "}
+            {t("activity_feed.to_module")}{" "}
             <a
               href={`/${workspaceSlug}/projects/${activity.project}/modules/${activity.new_identifier}`}
               target="_blank"
@@ -546,7 +547,8 @@ const getActivityDetails = (t: (key: string, options?: Record<string, string | n
       if (!activity.new_value)
         return (
           <>
-            {t("activity_feed.removed_parent")} <span className="font-medium whitespace-nowrap text-primary">{activity.old_value}</span>
+            {t("activity_feed.removed_parent")}{" "}
+            <span className="font-medium whitespace-nowrap text-primary">{activity.old_value}</span>
             {showIssue && (
               <>
                 {" "}
@@ -558,7 +560,8 @@ const getActivityDetails = (t: (key: string, options?: Record<string, string | n
       else
         return (
           <>
-            {t("activity_feed.set_parent_to")} <span className="font-medium whitespace-nowrap text-primary">{activity.new_value}</span>
+            {t("activity_feed.set_parent_to")}{" "}
+            <span className="font-medium whitespace-nowrap text-primary">{activity.new_value}</span>
             {showIssue && (
               <>
                 {" "}
@@ -592,7 +595,9 @@ const getActivityDetails = (t: (key: string, options?: Record<string, string | n
       if (activity.old_value === "")
         return (
           <>
-            {t("activity_feed.marked_that")} {showIssue ? <IssueLink activity={activity} /> : t("activity_feed.this_work_item")} {t("activity_feed.relates_to")}{" "}
+            {t("activity_feed.marked_that")}{" "}
+            {showIssue ? <IssueLink activity={activity} /> : t("activity_feed.this_work_item")}{" "}
+            {t("activity_feed.relates_to")}{" "}
             <span className="font-medium whitespace-nowrap text-primary">{activity.new_value}</span>.
           </>
         );
@@ -611,7 +616,9 @@ const getActivityDetails = (t: (key: string, options?: Record<string, string | n
       if (activity.old_value === "")
         return (
           <>
-            {t("activity_feed.marked")} {showIssue ? <IssueLink activity={activity} /> : t("activity_feed.this_work_item")} {t("activity_feed.is_blocking_work_item")}{" "}
+            {t("activity_feed.marked")}{" "}
+            {showIssue ? <IssueLink activity={activity} /> : t("activity_feed.this_work_item")}{" "}
+            {t("activity_feed.is_blocking_work_item")}{" "}
             <span className="font-medium whitespace-nowrap text-primary">{activity.new_value}</span>.
           </>
         );
@@ -630,14 +637,18 @@ const getActivityDetails = (t: (key: string, options?: Record<string, string | n
       if (activity.old_value === "")
         return (
           <>
-            {t("activity_feed.marked")} {showIssue ? <IssueLink activity={activity} /> : t("activity_feed.this_work_item")} {t("activity_feed.is_blocked_by")}{" "}
+            {t("activity_feed.marked")}{" "}
+            {showIssue ? <IssueLink activity={activity} /> : t("activity_feed.this_work_item")}{" "}
+            {t("activity_feed.is_blocked_by")}{" "}
             <span className="font-medium whitespace-nowrap text-primary">{activity.new_value}</span>.
           </>
         );
       else
         return (
           <>
-            {t("activity_feed.removed")} {showIssue ? <IssueLink activity={activity} /> : t("activity_feed.this_work_item")} {t("activity_feed.being_blocked_by_work_item")}{" "}
+            {t("activity_feed.removed")}{" "}
+            {showIssue ? <IssueLink activity={activity} /> : t("activity_feed.this_work_item")}{" "}
+            {t("activity_feed.being_blocked_by_work_item")}{" "}
             <span className="font-medium whitespace-nowrap text-primary">{activity.old_value}</span>.
           </>
         );
@@ -649,14 +660,18 @@ const getActivityDetails = (t: (key: string, options?: Record<string, string | n
       if (activity.old_value === "")
         return (
           <>
-            {t("activity_feed.marked")} {showIssue ? <IssueLink activity={activity} /> : t("activity_feed.this_work_item")} {t("activity_feed.as_duplicate_of")}{" "}
+            {t("activity_feed.marked")}{" "}
+            {showIssue ? <IssueLink activity={activity} /> : t("activity_feed.this_work_item")}{" "}
+            {t("activity_feed.as_duplicate_of")}{" "}
             <span className="font-medium whitespace-nowrap text-primary">{activity.new_value}</span>.
           </>
         );
       else
         return (
           <>
-            {t("activity_feed.removed")} {showIssue ? <IssueLink activity={activity} /> : t("activity_feed.this_work_item")} {t("activity_feed.as_duplicate_of")}{" "}
+            {t("activity_feed.removed")}{" "}
+            {showIssue ? <IssueLink activity={activity} /> : t("activity_feed.this_work_item")}{" "}
+            {t("activity_feed.as_duplicate_of")}{" "}
             <span className="font-medium whitespace-nowrap text-primary">{activity.old_value}</span>.
           </>
         );
@@ -666,7 +681,8 @@ const getActivityDetails = (t: (key: string, options?: Record<string, string | n
   state: {
     message: (activity, showIssue) => (
       <>
-        {t("activity_feed.set_state_to")} <span className="font-medium break-all text-primary">{activity.new_value}</span>
+        {t("activity_feed.set_state_to")}{" "}
+        <span className="font-medium break-all text-primary">{activity.new_value}</span>
         {showIssue && (
           <>
             {" "}

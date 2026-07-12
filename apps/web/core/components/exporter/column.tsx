@@ -58,7 +58,8 @@ export const useExportColumns = () => {
       content: t("workspace_settings.settings.exports.table.exported_projects"),
       tdRender: (rowData: RowData) => (
         <div className="text-13">
-          {rowData.project.length} {t(rowData.project.length === 1 ? "common.project" : "common.projects").toLowerCase()}
+          {rowData.project.length}{" "}
+          {t(rowData.project.length === 1 ? "common.project" : "common.projects").toLowerCase()}
         </div>
       ),
     },

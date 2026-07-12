@@ -28,9 +28,7 @@ export const DayChartView = observer(function DayChartView() {
             >
               Сегодня
             </div>
-            <div className="sticky px-3 py-2 text-11 whitespace-nowrap text-placeholder">
-              Шкала часов
-            </div>
+            <div className="sticky px-3 py-2 text-11 whitespace-nowrap text-placeholder">Шкала часов</div>
           </div>
           <div className="flex h-5 w-full">
             {hourBlocks.map((hour) => (

@@ -59,7 +59,12 @@ export const AdminSidebarHelpSection = observer(function AdminSidebarHelpSection
       )}
     >
       <div className={`flex items-center gap-1 ${isSidebarCollapsed ? "flex-col justify-center" : "w-full"}`}>
-        <Tooltip tooltipContent={t("redirect_to_plane")} position="right" className="ml-4" disabled={!isSidebarCollapsed}>
+        <Tooltip
+          tooltipContent={t("redirect_to_plane")}
+          position="right"
+          className="ml-4"
+          disabled={!isSidebarCollapsed}
+        >
           <a
             href={redirectionLink}
             className={`relative flex items-center gap-1 rounded-sm bg-layer-1 px-2 py-1 text-body-xs-medium whitespace-nowrap text-secondary`}
@@ -136,7 +141,9 @@ export const AdminSidebarHelpSection = observer(function AdminSidebarHelpSection
                   );
               })}
             </div>
-            <div className="px-2 pt-2 pb-1 text-10">{t("version", undefined, { version: instance?.current_version ?? "" })}</div>
+            <div className="px-2 pt-2 pb-1 text-10">
+              {t("version", undefined, { version: instance?.current_version ?? "" })}
+            </div>
           </div>
         </Transition>
       </div>

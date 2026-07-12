@@ -211,9 +211,7 @@ export const messages = (
           <>
             <span>
               {verbText(verb)} {tt("project_activity_feed.this_project", "this project")}{" "}
-              {verb === "removed"
-                ? tt("project_activity_feed.from", "from")
-                : tt("project_activity_feed.to", "to")}{" "}
+              {verb === "removed" ? tt("project_activity_feed.from", "from") : tt("project_activity_feed.to", "to")}{" "}
               {tt("project_activity_feed.the_cycle", "the cycle")}{" "}
             </span>
             {verb !== "removed" ? (
@@ -239,9 +237,7 @@ export const messages = (
           <>
             <span>
               {verbText(verb)} {tt("project_activity_feed.this_project", "this project")}{" "}
-              {verb === "removed"
-                ? tt("project_activity_feed.from", "from")
-                : tt("project_activity_feed.to", "to")}{" "}
+              {verb === "removed" ? tt("project_activity_feed.from", "from") : tt("project_activity_feed.to", "to")}{" "}
               {tt("project_activity_feed.the_module", "the module")}{" "}
             </span>
             <span className="font-medium text-primary">
@@ -265,7 +261,9 @@ export const messages = (
       return {
         message: (
           <>
-            {newValue ? tt("project_activity_feed.enabled", "enabled") : tt("project_activity_feed.disabled", "disabled")}{" "}
+            {newValue
+              ? tt("project_activity_feed.enabled", "enabled")
+              : tt("project_activity_feed.disabled", "disabled")}{" "}
             {tt("project_activity_feed.inbox", "inbox")}
           </>
         ),
@@ -288,7 +286,9 @@ export const messages = (
       return {
         message: (
           <>
-            {newValue ? tt("project_activity_feed.enabled", "enabled") : tt("project_activity_feed.disabled", "disabled")}{" "}
+            {newValue
+              ? tt("project_activity_feed.enabled", "enabled")
+              : tt("project_activity_feed.disabled", "disabled")}{" "}
             {tt("project_activity_feed.network_access", "network access")}
           </>
         ),
@@ -307,7 +307,9 @@ export const messages = (
         message: (
           <>
             {tt("project_activity_feed.changed_project_timezone_to", "changed project timezone to")}{" "}
-            <span className="font-medium text-primary">{newValue || tt("project_activity_feed.default", "default")}</span>
+            <span className="font-medium text-primary">
+              {newValue || tt("project_activity_feed.default", "default")}
+            </span>
           </>
         ),
       };

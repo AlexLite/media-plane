@@ -194,4 +194,3 @@ export const ActivityProfileSettingsList = observer(function ProfileActivityList
     </>
   );
 });
-

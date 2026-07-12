@@ -35,7 +35,9 @@ export const EstimateTypeDropdown = observer(function EstimateTypeDropdown(props
     <div className="relative flex items-center gap-2">
       <CustomSelect
         value={value}
-        label={<span>{selectedOption?.labelTranslationKey ? t(selectedOption.labelTranslationKey) : t("common.none")}</span>}
+        label={
+          <span>{selectedOption?.labelTranslationKey ? t(selectedOption.labelTranslationKey) : t("common.none")}</span>
+        }
         onChange={onChange}
         maxHeight="lg"
         buttonClassName="bg-surface-2 border-none rounded-sm text-13 font-medium "
@@ -48,6 +50,8 @@ export const EstimateTypeDropdown = observer(function EstimateTypeDropdown(props
       </CustomSelect>
     </div>
   ) : showDefault ? (
-    <span className="capitalize">{selectedOption?.labelTranslationKey ? t(selectedOption.labelTranslationKey) : value}</span>
+    <span className="capitalize">
+      {selectedOption?.labelTranslationKey ? t(selectedOption.labelTranslationKey) : value}
+    </span>
   ) : null;
 });

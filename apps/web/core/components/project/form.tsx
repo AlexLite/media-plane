@@ -434,7 +434,7 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
             />
             {errors.timezone && <span className="text-11 text-danger-primary">{errors.timezone.message}</span>}
           </div>
-          <div className="col-span-1 rounded-lg border border-subtle bg-custom-background-80 p-4 sm:col-span-2">
+          <div className="bg-custom-background-80 col-span-1 rounded-lg border border-subtle p-4 sm:col-span-2">
             <div className="mb-3 flex flex-col gap-1">
               <h4 className="text-13 font-medium">{t("project_settings.general.default_due_time")}</h4>
               <p className="text-12 text-secondary">{t("project_settings.general.default_due_time_description")}</p>

@@ -54,8 +54,7 @@ const InstanceGithubAuthenticationPage = observer(function InstanceGithubAuthent
       loading: t("saving_configuration"),
       success: {
         title: t("configuration_saved"),
-        message: () =>
-          t(value === "1" ? "github_authentication_active" : "github_authentication_disabled"),
+        message: () => t(value === "1" ? "github_authentication_active" : "github_authentication_disabled"),
       },
       error: {
         title: t("error"),

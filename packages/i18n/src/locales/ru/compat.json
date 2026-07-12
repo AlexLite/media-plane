@@ -1,1265 +1,1265 @@
 {
-    "access":  {
-                   "private":  "Приватный",
-                   "public":  "Публичный"
-               },
-    "account_deactivated_successfully":  "Аккаунт успешно деактивирован.",
-    "account_settings":  {
-                             "api_tokens":  {
-                                                "heading":  "Персональные токены доступа"
-                                            }
-                         },
-    "activity_feed":  {
-                          "a_work_item":  "рабочий элемент",
-                          "added":  "добавил",
-                          "added_new_assignee":  "добавил нового исполнителя",
-                          "added_new_label":  "добавил метку",
-                          "added_this":  "добавил эту",
-                          "archived":  "архивировал",
-                          "as_duplicate_of":  "как дубликат",
-                          "being_blocked_by_work_item":  "блокируется рабочим элементом",
-                          "commented":  "Прокомментировал",
-                          "converted":  "преобразовал",
-                          "created":  "создал",
-                          "deleted":  "удалил",
-                          "for":  "для",
-                          "from":  "из",
-                          "from_cycle":  "из цикла",
-                          "from_module":  "из модуля",
-                          "inbox":  {
-                                        "accepted_issue":  "принял рабочий элемент",
-                                        "accepted_no_issue":  "принял этот рабочий элемент из приёма.",
-                                        "declined_duplicate_no_issue":  "отклонил этот рабочий элемент из приёма, отметив его дубликатом.",
-                                        "declined_issue":  "отклонил рабочий элемент",
-                                        "declined_no_issue":  "отклонил этот рабочий элемент из приёма.",
-                                        "from_intake_by_marking_duplicate":  "из предложений, отметив дубликат.",
-                                        "snoozed_issue":  "отложил рабочий элемент",
-                                        "snoozed_no_issue":  "отложил этот рабочий элемент.",
-                                        "updated_status":  "обновил статус рабочего элемента во входящих."
-                                    },
-                          "is_blocked_by":  "блокируется рабочим элементом",
-                          "is_blocking_work_item":  "блокирует рабочий элемент",
-                          "marked":  "отметил",
-                          "marked_that":  "отметил, что",
-                          "of":  "у",
-                          "relates_to":  "связан с",
-                          "relations": {
-                            "blocking": {
-                              "added": "отметил этот рабочий элемент как блокирующий ",
-                              "removed": "удалил блокирующий рабочий элемент "
-                            },
-                            "blocked_by": {
-                              "added": "отметил, что этот рабочий элемент заблокирован ",
-                              "removed": "удалил связь блокировки с "
-                            },
-                            "duplicate": {
-                              "added": "отметил этот рабочий элемент как дубликат ",
-                              "removed": "удалил отметку о дубликате "
-                            },
-                            "relates_to": {
-                              "added": "отметил связь этого рабочего элемента с ",
-                              "removed": "удалил связь с "
-                            }
-                          },
-                          "removed":  "удалил",
-                          "removed_assignee":  "удалил исполнителя",
-                          "removed_attachment":  "удалил вложение",
-                          "removed_blocking_work_item":  "удалил блокирующий рабочий элемент",
-                          "removed_due_date":  "удалил срок",
-                          "removed_estimate":  "удалил оценку",
-                          "removed_label":  "удалил метку",
-                          "removed_parent":  "удалил родительский элемент",
-                          "removed_relation_from":  "удалил связь с",
-                          "removed_start_date":  "удалил дату начала",
-                          "removed_this":  "удалил эту",
-                          "restored":  "восстановил",
-                          "set_cycle_to":  "установил цикл",
-                          "set_due_date_to":  "установил срок",
-                          "set_estimate_to":  "установил оценку",
-                          "set_module_to":  "установил модуль",
-                          "set_parent_to":  "установил родительский элемент",
-                          "set_priority_to":  "установил приоритет",
-                          "set_start_date_to":  "установил дату начала",
-                          "set_state_to":  "установил статус",
-                          "set_title_to":  "установил название",
-                          "this_work_item":  "этот рабочий элемент",
-                          "to":  "в",
-                          "to_cycle":  "в цикл",
-                          "to_epic":  "в эпик",
-                          "to_module":  "в модуль",
-                          "to_work_item":  "в рабочий элемент",
-                          "updated_description":  "обновил описание",
-                          "updated_the":  "обновил",
-                          "uploaded_attachment":  "загрузил вложение",
-                          "via":  "через",
-                          "work_item_deleted_tooltip":  "Этот рабочий элемент был удалён"
-                      },
-    "add_existing_work_item":  "Добавить существующий рабочий элемент",
-    "add_reaction":  "Добавить реакцию",
-    "api_token_select_expiration":  "Выберите дату истечения срока действия.",
-    "api_errors":  {
-                       "archived_cycle_cannot_be_edited":  "Архивный цикл нельзя редактировать",
-                       "archived_cycle_cannot_be_updated":  "Архивный цикл нельзя обновить",
-                       "archived_module_cannot_be_edited":  "Архивный модуль нельзя редактировать",
-                       "archived_module_cannot_be_updated":  "Архивный модуль нельзя обновить",
-                       "archived_project_cannot_be_updated":  "Архивный проект нельзя обновить",
-                       "archived_projects_cannot_be_updated":  "Архивные проекты нельзя обновлять",
-                       "at_least_one_member_required":  "Нужен хотя бы один участник",
-                       "asset_external_id_exists":  "Вложение с таким внешним ID и источником уже существует",
-                       "asset_key_does_not_exist":  "Ключ вложения не существует",
-                       "asset_not_found":  "Вложение не найдено",
-                       "asset_not_uploaded":  "Вложение ещё не загружено.",
-                       "can_only_archive_completed_or_cancelled":  "Архивировать можно только завершённые или отменённые рабочие элементы",
-                       "cannot_create_triage_state":  "Не удалось создать статус разбора",
-                       "comments_not_enabled":  "Комментарии не включены для этого проекта",
-                       "comment_not_allowed":  "У вас нет прав комментировать этот рабочий элемент",
-                       "completed_cycle_cannot_add_issues":  "Цикл уже завершён, поэтому новые рабочие элементы добавить нельзя",
-                       "completed_cycle_cannot_be_edited":  "Цикл уже завершён, поэтому его нельзя редактировать",
-                       "cycle_date_conflict":  "На выбранные даты уже есть цикл. Чтобы создать черновик цикла, уберите даты.",
-                       "cycle_dates_required_or_null":  "Дата начала и дата окончания должны быть либо обе заполнены, либо обе пусты",
-                       "cycle_delete_admin_or_creator":  "Удалить цикл может только администратор или создатель",
-                       "cycle_external_id_exists":  "Цикл с таким внешним ID и источником уже существует",
-                       "cycle_has_no_start_or_end_date":  "У цикла нет даты начала или окончания",
-                       "cycle_not_found":  "Цикл не найден",
-                       "date_required":  "Укажите дату",
-                       "default_state_cannot_be_deleted":  "Статус по умолчанию нельзя удалить",
-                       "email_configuration_disable_failed":  "Не удалось отключить настройку электронной почты",
-                       "email_credentials_invalid":  "Указаны неверные учётные данные",
-                       "email_from_address_invalid":  "Некорректный адрес отправителя",
-                       "email_network_connection_failed":  "Ошибка сетевого подключения. Проверьте интернет-соединение.",
-                       "email_receiver_required":  "Укажите адрес получателя",
-                       "email_recipients_refused":  "Сервер отклонил все адреса получателей.",
-                       "email_send_failed":  "Не удалось отправить письмо. Проверьте настройки.",
-                       "email_smtp_connection_failed":  "Не удалось подключиться к SMTP-серверу.",
-                       "email_smtp_disconnected":  "SMTP-сервер неожиданно разорвал соединение.",
-                       "email_smtp_timeout":  "Превышено время ожидания подключения к SMTP-серверу.",
-                       "estimate_not_found":  "Оценка не найдена",
-                       "estimate_point_not_found":  "Значение оценки не найдено",
-                       "estimate_points_required":  "Укажите оценки",
-                       "favorite_already_exists":  "Элемент уже есть в избранном",
-                       "filter_node_object_required":  "Каждый узел фильтра должен быть JSON-объектом",
-                       "filter_objects_not_empty":  "Объекты фильтра не должны быть пустыми",
-                       "filter_children_objects_required":  "Все дочерние элементы фильтра должны быть JSON-объектами",
-                       "filtering_field_not_allowed":  "Фильтрация по этому полю запрещена",
-                       "filter_list_value_invalid":  "Некорректное значение списка в фильтре",
-                       "forbidden":  "Доступ запрещён",
-                       "group_member_already_exists":  "Участник группы уже существует",
-                       "group_name_already_exists":  "Группа с таким названием уже существует",
-                       "group_by_duplicate":  "Группировка и подгруппировка не могут использовать один и тот же параметр",
-                       "html_content_invalid":  "HTML-содержимое некорректно",
-                       "intake_not_enabled_project":  "Приём не включён для этого проекта. Включите его в настройках проекта.",
-                       "intake_not_enabled_project_board":  "Приём не включён для доски этого проекта",
-                       "intake_not_found":  "Приём не найден",
-                       "internal_error":  "Произошла внутренняя ошибка.",
-                       "invalid_anchor":  "Некорректный якорь",
-                       "invalid_entity_type":  "Некорректный тип сущности.",
-                       "invalid_entity_type_or_id":  "Некорректный тип или ID сущности",
-                       "invalid_estimate_point":  "Некорректное значение оценки. Передайте корректный estimate_point_id",
-                       "invalid_file_type":  "Некорректный тип файла.",
-                       "invalid_filter_parameters":  "Некорректные параметры фильтра",
-                       "invalid_html":  "Передан некорректный HTML",
-                       "invalid_image_file_type":  "Некорректный тип файла. Разрешены только JPEG, PNG, WebP, JPG и GIF.",
-                       "invalid_issue_identifier":  "Некорректный идентификатор рабочего элемента",
-                       "invalid_jpeg_png_file_type":  "Некорректный тип файла. Разрешены только JPEG и PNG.",
-                       "invalid_parent_issue":  "Некорректный родительский рабочий элемент. Передайте корректный issue_id",
-                       "invalid_pipeline_item_date":  "Некорректная дата элемента пайплайна",
-                       "invalid_pipeline_item_status":  "Некорректный статус элемента пайплайна",
-                       "invalid_pipeline_item_target_time":  "Некорректное целевое время элемента пайплайна",
-                       "invalid_priority":  "Некорректный приоритет",
-                       "invalid_request":  "Некорректный запрос.",
-                       "invalid_role":  "Некорректная роль",
-                       "invalid_state":  "Некорректный статус. Передайте корректный state_id",
-                       "invalid_tab":  "Некорректная вкладка",
-                       "invalid_type":  "Некорректный тип",
-                       "invalid_url_format":  "Некорректный формат URL.",
-                       "invalid_url_scheme":  "Некорректная схема URL.",
-                       "issue_external_id_exists":  "Рабочий элемент с таким внешним ID и источником уже существует",
-                       "issue_attachment_not_found":  "Вложение рабочего элемента не найдено.",
-                       "issue_ids_required":  "Укажите ID рабочих элементов",
-                       "issue_not_found":  "Рабочий элемент не найден",
-                       "issue_relation_type_required":  "Укажите тип связи рабочего элемента",
-                       "issue_url_exists":  "URL уже существует для этого рабочего элемента",
-                       "issues_required":  "Укажите рабочие элементы",
-                       "issues_updated_successfully":  "Рабочие элементы успешно обновлены",
-                       "key_and_value_required":  "Укажите ключ и значение",
-                       "label_external_id_exists":  "Метка с таким внешним ID и источником уже существует",
-                       "label_name_exists":  "Метка с таким именем уже существует в проекте",
-                       "leaf_filter_required":  "Конечный фильтр должен быть непустым JSON-объектом",
-                       "llm_provider_required":  "Укажите API-ключ и модель LLM-провайдера",
-                       "logical_operator_in_leaf":  "Логические операторы нельзя использовать в конечном объекте фильтра",
-                       "module_delete_admin_or_creator":  "Удалить модуль может только администратор или создатель",
-                       "module_external_id_exists":  "Модуль с таким внешним ID и источником уже существует",
-                       "module_name_exists":  "Модуль с таким названием уже существует",
-                       "module_not_found":  "Модуль не найден",
-                       "name_size_required":  "Название и размер обязательны.",
-                       "name_required":  "Укажите название",
-                       "new_cycle_id_required":  "Укажите ID нового цикла",
-                       "no_asset_ids_provided":  "Не указаны ID вложений.",
-                       "intake_update_admin_or_creator":  "Обновлять рабочие элементы приёма может только администратор или создатель",
-                       "only_completed_or_cancelled_modules_archived":  "Архивировать можно только завершённые или отменённые модули",
-                       "only_active_pipeline_step":  "Завершить можно только активный шаг пайплайна",
-                       "only_completed_cycles_can_be_archived":  "Архивировать можно только завершённые циклы",
-                       "page_access_owner_only":  "Доступ нельзя изменить, потому что страница принадлежит другому пользователю",
-                       "page_archive_before_delete":  "Перед удалением страницу нужно архивировать",
-                       "page_archive_owner_or_admin":  "Архивировать страницу может только владелец или администратор",
-                       "page_delete_admin_or_owner":  "Удалить страницу может только администратор или владелец",
-                       "page_locked":  "Страница заблокирована",
-                       "page_not_found":  "Страница не найдена.",
-                       "page_unarchive_owner_or_admin":  "Разархивировать страницу может только владелец или администратор",
-                       "pagination_required":  "Параметры per_page и cursor обязательны",
-                       "payload_not_valid":  "Некорректные данные запроса",
-                       "permission_denied":  "Доступ запрещён",
-                       "pipeline_item_not_found":  "Элемент пайплайна не найден",
-                       "pipeline_item_target_after_parent":  "Целевая дата этапа пайплайна не может быть позже целевой даты родительского рабочего элемента",
-                       "pipeline_item_start_before_previous":  "Дата начала этапа пайплайна не может быть раньше срока предыдущего этапа",
-                       "pipeline_item_target_after_next_start":  "Срок этапа пайплайна не может быть позже даты начала следующего этапа",
-                       "pipeline_item_wrong_issue":  "Элемент пайплайна не относится к этому рабочему элементу",
-                       "pipeline_parent_only":  "Пайплайн можно инициализировать только для родительского рабочего элемента",
-                       "parent_issue_deadline_before_pipeline_step":  "Срок родительского рабочего элемента не может быть раньше сроков этапов пайплайна",
-                       "provide_valid_detail":  "Укажите корректные детали",
-                       "preference_not_found":  "Настройка не найдена",
-                       "project_id_required":  "Укажите ID проекта",
-                       "project_has_no_pipeline_states":  "В проекте нет статусов пайплайна",
-                       "project_identifier_special_chars":  "Идентификатор проекта не может содержать специальные символы.",
-                       "project_lead_workspace_user":  "Руководитель проекта должен быть пользователем рабочего пространства",
-                       "project_member_not_found":  "Участник проекта не найден",
-                       "project_name_special_chars":  "Название проекта не может содержать специальные символы.",
-                       "project_not_found":  "Проект не найден",
-                       "project_not_published":  "Проект не опубликован",
-                       "project_required_to_create_issue":  "Для создания рабочего элемента укажите проект.",
-                       "quick_link_not_found":  "Быстрая ссылка не найдена.",
-                       "reaction_already_exists":  "Реакция пользователя уже существует",
-                       "requested_resource_not_found":  "Запрошенный ресурс не найден.",
-                       "request_body_too_large":  "Слишком большой запрос",
-                       "request_body_too_large_detail":  "Размер тела запроса превышает максимально допустимый.",
-                       "required_key_missing":  "Обязательный ключ не существует.",
-                       "required_object_missing":  "Обязательный объект не существует.",
-                       "required_permissions_missing":  "У вас нет необходимых прав.",
-                       "something_went_wrong_try_later":  "Что-то пошло не так. Попробуйте позже.",
-                       "source_cycle_not_found":  "Исходный цикл не найден",
-                       "start_and_end_dates_required":  "Укажите дату начала и дату окончания",
-                       "start_date_after_end_date":  "Дата начала не может быть позже даты окончания",
-                       "start_date_after_target":  "Дата начала не может быть позже целевой даты",
-                       "state_external_id_exists":  "Статус с таким внешним ID и источником уже существует",
-                       "state_name_exists":  "Статус с таким названием уже существует в проекте",
-                       "sub_issue_ids_required":  "Укажите ID дочерних рабочих элементов",
-                       "successfully_updated":  "Успешно обновлено",
-                       "success":  "Успешно",
-                       "state_not_empty":  "Статус не пустой. Удалять можно только пустые статусы.",
-                       "task_required":  "Укажите задачу",
-                       "transfer_cycle_completed":  "Цикл, куда переносятся рабочие элементы, уже завершён",
-                       "triage_state_not_found":  "Статус разбора не найден",
-                       "user_already_subscribed":  "Пользователь уже подписан на рабочий элемент.",
-                       "user_only_admin_in_some_projects":  "Пользователь является единственным администратором в некоторых проектах. Ему нужно покинуть эти проекты или назначить другого администратора.",
-                       "view_issue_not_allowed":  "У вас нет прав просматривать этот рабочий элемент",
-                       "view_page_not_allowed":  "У вас нет прав просматривать эту страницу",
-                       "view_delete_admin_or_owner":  "Удалить вид может только администратор или владелец",
-                       "view_update_owner_only":  "Обновить вид может только владелец",
-                       "webhook_url_exists":  "URL уже существует в рабочем пространстве",
-                       "work_item_comment_external_id_exists":  "Комментарий рабочего элемента с таким внешним ID и источником уже существует",
-                       "work_item_delete_admin_or_creator":  "Удалить рабочий элемент может только администратор или создатель",
-                       "cannot_add_higher_workspace_role":  "Нельзя добавить пользователя с ролью выше роли в рабочем пространстве",
-                       "cannot_add_lower_workspace_role":  "Нельзя добавить пользователя с ролью ниже роли в рабочем пространстве",
-                       "cannot_assign_equal_or_higher_role":  "Нельзя назначить роль, равную вашей или выше",
-                       "cannot_delete_default_intake":  "Приём по умолчанию нельзя удалить",
-                       "cannot_delete_existing_project_identifier":  "Нельзя удалить идентификатор существующего проекта",
-                       "cannot_edit_intake_issues":  "Нельзя редактировать рабочие элементы приёма",
-                       "cannot_leave_project_only_admin":  "Нельзя покинуть проект, потому что вы единственный администратор. Сначала удалите проект или добавьте другого администратора.",
-                       "cannot_leave_workspace_only_admin":  "Нельзя покинуть рабочее пространство, потому что вы единственный администратор. Сначала удалите рабочее пространство или назначьте другого администратора.",
-                       "cannot_remove_higher_role_user":  "Нельзя удалить пользователя с ролью выше вашей",
-                       "cannot_remove_yourself":  "Нельзя удалить себя из рабочего пространства. Используйте выход из рабочего пространства.",
-                       "cannot_update_equal_or_higher_role":  "Нельзя изменить роль участника с ролью, равной вашей или выше",
-                       "cannot_update_own_role":  "Нельзя изменить собственную роль",
-                       "not_project_member":  "Вы не участник этого проекта",
-                       "attachment_delete_not_allowed":  "У вас нет прав удалять это вложение",
-                       "attachment_download_not_allowed":  "У вас нет прав скачивать это вложение",
-                       "attachment_upload_not_allowed":  "У вас нет прав загружать это вложение",
-                       "update_roles_permission_denied":  "У вас нет прав изменять роли",
-                       "you_only_admin_in_some_projects":  "В некоторых проектах вы единственный администратор. Покиньте эти проекты или назначьте другого администратора.",
-                       "workspace_creation_not_allowed":  "Создание рабочих пространств запрещено",
-                       "workspace_member_not_found":  "Участник рабочего пространства не найден",
-                       "workspace_not_found":  "Рабочее пространство не найдено",
-                       "workspace_name_and_slug_required":  "Укажите название и slug",
-                       "workspace_name_cannot_contain_url":  "Название не может содержать URL",
-                       "workspace_name_slug_max_length":  "Максимальная длина названия — 80 символов, slug — 48 символов",
-                       "workspace_owner_url_exists":  "URL уже существует для этого рабочего пространства и владельца",
-                       "workspace_slug_required":  "Укажите slug рабочего пространства"
-                   },
-    "archive_success_message":  "Архивы можно найти в архиве проекта.",
-    "at":  "в",
-    "attachment":  {
-                       "delete_confirmation":  "Вы уверены, что хотите удалить вложение - {name}? Вложение будет удалено без возможности восстановления. Это действие нельзя отменить.",
-                       "uploaded_by_on":  "{name}: загружено {date}"
-                   },
-    "attachment_operations":  {
-                                  "remove_failed":  "Не удалось удалить вложение",
-                                  "remove_failed_title":  "Вложение не удалено",
-                                  "removed":  "Вложение успешно удалено",
-                                  "removed_title":  "Вложение удалено",
-                                  "upload_failed":  "Не удалось прикрепить файл. Попробуйте загрузить снова.",
-                                  "upload_failed_title":  "Вложение не загружено",
-                                  "uploaded":  "Вложение успешно загружено",
-                                  "uploaded_title":  "Вложение загружено",
-                                  "uploading":  "Загрузка вложения..."
-                              },
-    "auth":  {
-                 "common":  {
-                                "password":  {
-                                                 "toast":  {
-                                                               "error":  {
-                                                                             "message":  "Не удалось обновить пароль. Попробуйте снова.",
-                                                                             "title":  "Не удалось обновить пароль"
-                                                                         }
-                                                           }
-                                             },
-                                "no_auth_methods_available":  "Нет доступных способов входа",
-                                "no_auth_methods_available_description":  "Обратитесь к администратору, чтобы включить способ входа.",
-                                "sign_in_action":  "Войти",
-                                "sign_up_action":  "Зарегистрироваться"
-                            },
-                 "footer":  {
-                                "join_teams_building_with_plane":  "Присоединяйтесь к командам, которые работают в Plane"
-                            },
-                 "landing":  {
-                                 "create_your_plane_account":  "Создайте аккаунт Plane",
-                                 "welcome_back_to_plane":  "С возвращением в Plane",
-                                 "work_in_all_dimensions":  "Работайте во всех измерениях"
-                             },
-                 "legal":  {
-                               "and":  "и",
-                               "our":  "нашими",
-                               "privacy_policy":  "Политикой конфиденциальности",
-                               "sign_in_prefix":  "Входя в систему, вы соглашаетесь с",
-                               "sign_up_prefix":  "Регистрируясь, вы соглашаетесь с",
-                               "terms_of_service":  "Условиями использования"
-                           }
-             },
-    "base_layouts":  {
-                         "board":  "Доска",
-                         "gantt":  "Диаграмма Ганта",
-                         "list":  "Список"
-                     },
-    "change_parent_work_item":  "Изменить родительский рабочий элемент",
-    "chart":  {
-                  "completion":  "Выполнение",
-                  "date":  "Дата"
-              },
-    "check_pending_invites":  "Проверить приглашения",
-    "commented":  "прокомментировал(а)",
-    "common":  {
-                   "access":  {
-                                  "archived":  "Архивный",
-                                  "label":  "Доступ"
-                              },
-                   "add_page":  "Добавить страницу",
-                   "clear_filters":  "Сбросить фильтры",
-                   "click_or_drag_file":  "Нажмите или перетащите файл сюда",
-                   "count":  "Количество",
-                   "created":  "Создано",
-                   "created_on_date":  "Создано {date}",
-                   "custom":  "Пользовательская",
-                   "date":  "Дата",
-                   "drop_here":  "Перетащите изображение сюда",
-                   "drop_here_to_delete":  "Перетащите сюда для удаления задачи.",
-                   "due_date":  "Срок сдачи",
-                   "due_time":  "Время дедлайна",
-                   "end_time":  "Время окончания",
-                   "failed":  "Не удалось",
-                   "items":  "Элементы",
-                   "in_project":  "в проекте:",
-                   "in_workspace":  "в рабочем пространстве:",
-                   "joined":  "Вступил",
-                   "link_count":  "{count, plural, one {# ссылка} other {# ссылок}}",
-                   "locked":  "Заблокировано",
-                   "issue":  {
-                                  "id_copied_to_clipboard":  "ID рабочего элемента скопирован в буфер обмена"
-                              },
-                   "entity":  {
-                                  "link_copied_to_clipboard":  "Ссылка на {entity} скопирована"
-                              },
-                   "new_issue":  "Новый рабочий элемент",
-                   "offline":  "Не в сети",
-                   "offline_tooltip_content":  "Вы можете продолжать вносить изменения. Они будут синхронизированы, когда вы снова подключитесь к сети.",
-                   "offline_tooltip_heading":  "Вы не в сети.",
-                   "pro_feature":  "Функция Pro",
-                   "restore":  "Восстановить",
-                   "save_view":  "Сохранить вид",
-                   "search_results_for":  "Результаты поиска для",
-                   "start_date":  "Дата начала",
-                   "sub_group_by":  "Подгруппировать по",
-                   "target_date":  "Целевая дата",
-                   "toggle_workspace_level_search":  "Переключить поиск по рабочему пространству",
-                   "update_view":  "Обновить вид",
-                   "view_all":  "Показать все",
-                   "view_less":  "Свернуть",
-                   "sign_out_error":  {
-                                          "title":  "Не удалось выйти",
-                                          "message":  "Не удалось завершить сеанс. Попробуйте снова."
-                                      },
-                   "date_range":  "Диапазон дат",
-                   "end_date":  "Дата окончания",
-                   "no_member_yet":  "Пока нет участников",
-                   "skip":  "Пропустить",
-                   "submit":  "Отправить",
-                   "uploading":  "Загрузка",
-                   "work_items_in_module":  "Рабочие элементы в модуле",
-                   "work_items_in_project":  "Рабочие элементы в проекте",
-                   "duplicate":  "Дублировать",
-                   "sign_out":  "Выйти"
-               },
-    "connection_lost":  "Соединение потеряно",
-    "create_new_workspace":  "Создать новое рабочее пространство",
-    "created_date":  "Дата создания",
-    "custom_date":  "Произвольный",
-    "dashboards":  {
-                       "widget":  {
-                                      "color_palettes":  {
-                                                             "earthen":  "Земляная",
-                                                             "horizon":  "Горизонт",
-                                                             "modern":  "Современная"
-                                                         }
-                                  }
-                   },
-    "date_filters":  {
-                         "1_month_ago":  "1 месяц назад",
-                         "1_month_from_now":  "через 1 месяц",
-                         "1_week_ago":  "1 неделю назад",
-                         "1_week_from_now":  "через 1 неделю",
-                         "2_weeks_ago":  "2 недели назад",
-                         "2_months_from_now":  "через 2 месяца",
-                         "2_weeks_from_now":  "через 2 недели",
-                         "last_30_days":  "Последние 30 дней",
-                         "last_7_days":  "Последние 7 дней",
-                         "today":  "Сегодня",
-                         "yesterday":  "Вчера"
-                     },
-    "display_name_required":  "Отображаемое имя обязательно.",
-    "drag_drop_manual_only":  "Перетаскивание доступно только при сортировке вручную",
-    "editor":  {
-                   "font":  {
-                                "mono":  "Моноширинный",
-                                "sans_serif":  "Без засечек",
-                                "serif":  "С засечками"
-                            },
-                   "sticky":  {
-                                  "background_colors":  "Цвет фона"
-                              }
-               },
-    "editor_still_processing":  "Редактор ещё обрабатывает изменения. Подождите перед продолжением.",
-    "email_is_required":  "Email обязателен.",
-    "enter_valid_hex_code":  "Введите корректный HEX-код",
-    "enter_your_display_name":  "Введите отображаемое имя",
-    "enter_your_email":  "Введите ваш email",
-    "enter_your_first_name":  "Введите ваше имя",
-    "enter_your_last_name":  "Введите вашу фамилию",
-    "error_page_description":  "Мы автоматически отслеживаем эти ошибки и работаем над восстановлением. Если проблема сохраняется — свяжитесь с нами. Попробуйте обновить страницу.",
-    "error_page_title":  "🚧 Похоже, что-то пошло не так!",
-    "estimate_operations":  {
-                                "delete_failed":  "Не удалось удалить оценку. Попробуйте снова.",
-                                "deleted":  "Оценка удалена из проекта."
-                            },
-    "failed_to_process_cover_image":  "Не удалось обработать изображение обложки",
-    "failed_to_sign_out":  "Не удалось выйти. Попробуйте снова.",
-    "failed_to_update_language":  "Не удалось обновить язык",
-    "failed_to_update_timezone":  "Не удалось обновить часовой пояс",
-    "feature_tabs_horizontal_inside_project":  "Вкладки функций будут отображаться горизонтальными вкладками внутри проекта.",
-    "feature_tabs_nested_under_project":  "Вкладки функций будут отображаться вложенными пунктами внутри проекта в формате аккордеона.",
-    "first_day_of_the_week":  "Первый день недели",
-    "first_day_of_the_week_description":  "Это изменит отображение календарей во всем приложении.",
-    "first_day_of_the_week_updated_successfully":  "Первый день недели успешно обновлён",
-    "gantt_block_dates_update_failed":  "Ошибка при обновлении дат блока",
-    "go_to_home":  "Перейти на главную",
-    "gpt_enter_task":  "Введите задачу для получения помощи ИИ.",
-    "gpt_assistant":  {
-                          "prompt_anything":  "Спросите AI о чём угодно...",
-                          "prompt_with_context":  "Опишите, что AI должен сделать с этим содержимым...",
-                          "third_party_consent":  "Используя эту функцию, вы соглашаетесь на передачу сообщения стороннему сервису."
-                      },
-    "image_picker":  {
-                         "drag_drop_image_here":  "Перетащите изображение сюда",
-                         "drop_image_here_to_upload":  "Отпустите изображение для загрузки",
-                         "image_could_not_be_uploaded":  "Не удалось загрузить изображение",
-                         "image_not_uploaded":  "Изображение не загружено",
-                         "invalid_format_error":  "Загрузите файл в допустимом формате.",
-                         "max_size_error":  "Размер изображения не должен превышать 5 МБ.",
-                         "no_images_found":  "Изображения не найдены.",
-                         "search_for_images":  "Поиск изображений",
-                         "supported_formats":  "Поддерживаемые форматы: .jpeg, .jpg, .png, .webp",
-                         "tabs":  {
-                                      "images":  "Изображения",
-                                      "unsplash":  "Unsplash",
-                                      "upload":  "Загрузить"
-                                  },
-                         "upload_and_save":  "Загрузить и сохранить",
-                         "uploading":  "Загрузка..."
-                     },
-    "issue":  {
-                  "add":  {
-                              "module":  {
-                                             "failed":  "Не удалось добавить рабочий элемент в модуль. Попробуйте снова.",
-                                             "success":  "{count, plural, one {Рабочий элемент} other {Рабочие элементы}} успешно {count, plural, one {добавлен} other {добавлены}} в модуль."
-                                         }
-                          },
-                  "pipeline":  {
-                                   "complete_active_step":  "Завершить активный шаг",
-                                   "only_active_step_can_be_completed":  "Завершить можно только активный шаг"
-                               }
-              },
-    "join":  "Присоединиться",
-    "join_project":  "Присоединиться к проекту",
-    "joining":  "Присоединение...",
-    "issue_layouts":  {
-                          "go_to_all_work_items":  "Перейти ко всем рабочим элементам",
-                          "project_view_empty":  {
-                                                     "description":  "Рабочие элементы помогают отслеживать отдельные части работы: что происходит, кто этим занимается и что уже сделано.",
-                                                     "title":  "Здесь появятся рабочие элементы представления"
-                                                 },
-                          "save_as":  "Сохранить как",
-                          "view_not_found":  {
-                                                 "description":  "Представление, которое вы ищете, не существует или у вас нет прав на его просмотр.",
-                                                 "title":  "Представление не существует"
-                                             }
-                      },
-    "instance":  {
-                     "toasts":  {
-                                    "fetch_info":  {
-                                                       "error":  {
-                                                                     "message":  "Не удалось загрузить сведения об экземпляре"
-                                                                 }
-                                                   }
-                                }
-                 },
-    "label":  {
-                  "delete_label":  "Удалить метку"
-              },
-    "language_updated_successfully":  "Язык успешно обновлен",
-    "link_copy_failed":  "Не удалось скопировать ссылку. Попробуйте снова.",
-    "link_operations":  {
-                            "create_failed_title":  "Ссылка не создана",
-                            "create_title":  "Ссылка создана",
-                            "created":  "Ссылка успешно создана",
-                            "remove_failed":  "Не удалось удалить ссылку",
-                            "remove_failed_title":  "Ссылка не удалена",
-                            "remove_title":  "Ссылка удалена",
-                            "removed":  "Ссылка успешно удалена",
-                            "update_failed":  "Не удалось обновить ссылку",
-                            "update_failed_title":  "Ссылка не обновлена",
-                            "update_title":  "Ссылка обновлена",
-                            "updated":  "Ссылка успешно обновлена"
-                        },
-    "markdown_copied":  "Markdown скопирован в буфер обмена.",
-    "members_added_successfully":  "Участники успешно добавлены.",
-    "minimum_value_is_1":  "Минимальное значение — 1",
-    "module_operations":  {
-                              "archive_failed":  "Не удалось заархивировать модуль. Попробуйте снова.",
-                              "create_failed":  "Не удалось создать модуль. Попробуйте снова.",
-                              "created":  "Модуль успешно создан.",
-                              "deleted":  "Модуль успешно удалён.",
-                              "link_copied":  "Ссылка на модуль скопирована.",
-                              "link_created":  "Ссылка модуля успешно создана.",
-                              "link_deleted":  "Ссылка модуля успешно удалена.",
-                              "link_updated":  "Ссылка модуля успешно обновлена.",
-                              "restore_failed":  "Не удалось восстановить модуль. Попробуйте снова.",
-                              "restored":  "Модуль можно найти в разделе модулей проекта.",
-                              "update_failed":  "Не удалось обновить модуль. Попробуйте снова."
-                          },
-    "module_updated_successfully":  "Модуль успешно обновлён.",
-    "more":  "еще",
-    "name_within_50_chars":  "Название должно содержать не более 50 символов.",
-    "navigation":  {
-                       "app_rail":  {
-                                        "dock":  "Закрепить панель приложения",
-                                        "icon_only":  "Только иконки",
-                                        "icon_with_name":  "Иконки с названиями",
-                                        "undock":  "Открепить панель приложения"
-                                    },
-                       "toasts":  {
-                                      "default_tab_update_failed":  "Не удалось обновить вкладку по умолчанию. Попробуйте позже.",
-                                      "default_tab_updated":  "Вкладка по умолчанию успешно обновлена.",
-                                      "hide_tab_failed":  "Не удалось скрыть вкладку. Попробуйте позже.",
-                                      "show_tab_failed":  "Что-то пошло не так. Попробуйте позже."
-                                  }
-                   },
-    "no_lead":  "Лид не назначен",
-    "no_matches_found":  "Совпадений не найдено",
-    "not_authorized":  "Нет доступа!",
-    "notification":  {
-                         "toasts":  {
-                                        "un_snoozed":  "Уведомление снова активно"
-                                    }
-                     },
-    "onboarding_failed":  "Не удалось завершить онбординг. Попробуйте снова позже.",
-    "onboarding_invite_members":  {
-                                      "add_another":  "Добавить еще",
-                                      "description":  "Работа в Plane эффективнее вместе с командой. Пригласите коллег прямо сейчас.",
-                                      "errors":  {
-                                                     "invalid_email":  "Некорректный email",
-                                                     "invalid_email_hint":  "Это не похоже на адрес электронной почты."
-                                                 },
-                                      "later":  "Сделаю позже",
-                                      "title":  "Пригласите команду",
-                                      "toast":  {
-                                                    "error":  {
-                                                                  "title":  "Ошибка!"
-                                                              },
-                                                    "success":  {
-                                                                    "message":  "Приглашения успешно отправлены.",
-                                                                    "title":  "Успешно!"
-                                                                }
-                                                }
-                                  },
-    "onboarding_invites":  {
-                               "continue_to_workspace":  "Перейти в пространство",
-                               "create_new_workspace":  "Создать новое пространство",
-                               "create_workspace":  "Создать свое пространство",
-                               "description":  "Примите приглашения, чтобы работать вместе с командой.",
-                               "join_or_create_description":  "Вся ваша работа — в одном месте.",
-                               "join_or_create_title":  "Присоединитесь по приглашению или создайте пространство",
-                               "no_invitations":  "Приглашения не найдены",
-                               "or":  "или",
-                               "title":  "Вас пригласили!"
-                           },
-    "onboarding_profile_setup":  {
-                                     "choose_image":  "Выбрать изображение",
-                                     "domain":  {
-                                                    "errors":  {
-                                                                   "required":  "Выберите хотя бы один вариант"
-                                                               },
-                                                    "question":  "В какой области вы работаете? Выберите один или несколько вариантов."
-                                                },
-                                     "first_name":  {
-                                                        "errors":  {
-                                                                       "max_length":  "Имя должно быть не длиннее 50 символов.",
-                                                                       "required":  "Имя обязательно"
-                                                                   },
-                                                        "label":  "Имя",
-                                                        "placeholder":  "Иван"
-                                                    },
-                                     "last_name":  {
-                                                       "errors":  {
-                                                                      "max_length":  "Фамилия должна быть не длиннее 50 символов.",
-                                                                      "required":  "Фамилия обязательна"
-                                                                  },
-                                                       "label":  "Фамилия",
-                                                       "placeholder":  "Иванов"
-                                                   },
-                                     "password":  {
-                                                      "confirm":  {
-                                                                      "errors":  {
-                                                                                     "mismatch":  "Пароли не совпадают"
-                                                                                 }
-                                                                  },
-                                                      "label":  "Задать пароль",
-                                                      "placeholder":  "Новый пароль..."
-                                                  },
-                                     "profile_step":  {
-                                                          "change_image":  "Изменить изображение",
-                                                          "description":  "Так вы будете отображаться в Plane.",
-                                                          "full_name":  {
-                                                                            "errors":  {
-                                                                                           "required":  "Имя обязательно"
-                                                                                       },
-                                                                            "label":  "Имя",
-                                                                            "placeholder":  "Введите ваше полное имя"
-                                                                        },
-                                                          "image_upload":  {
-                                                                               "cancel":  "Отмена",
-                                                                               "drag":  "Перетащите изображение сюда",
-                                                                               "drop":  "Перетащите изображение, чтобы загрузить",
-                                                                               "edit":  "Изменить",
-                                                                               "formats":  "Поддерживаемые форматы: .jpeg, .jpg, .png, .webp",
-                                                                               "invalid_format":  "Загрузите файл в поддерживаемом формате.",
-                                                                               "remove":  "Удалить",
-                                                                               "removing":  "Удаление",
-                                                                               "save":  "Загрузить и сохранить",
-                                                                               "title":  "Загрузить изображение",
-                                                                               "too_large":  "Размер изображения не должен превышать 5 МБ.",
-                                                                               "uploading":  "Загрузка..."
-                                                                           },
-                                                          "title":  "Создайте профиль.",
-                                                          "upload_image":  "Загрузить изображение"
-                                                      },
-                                     "role":  {
-                                                  "errors":  {
-                                                                 "required":  "Это поле обязательно"
-                                                             },
-                                                  "question":  "Какую роль вы выполняете? Выберите один вариант."
-                                              },
-                                     "toast":  {
-                                                   "error":  {
-                                                                 "failed":  "Не удалось завершить настройку профиля. Попробуйте снова!",
-                                                                 "title":  "Ошибка",
-                                                                 "user_details_failed":  "Не удалось обновить данные пользователя. Попробуйте снова!"
-                                                             },
-                                                   "success":  {
-                                                                   "completed":  "Профиль успешно настроен!",
-                                                                   "title":  "Успех"
-                                                               }
-                                               }
-                                 },
-    "onboarding_role_setup":  {
-                                  "description":  "Настроим Plane под ваш стиль работы.",
-                                  "select_one":  "Выберите один вариант",
-                                  "title":  "Какая у вас роль?"
-                              },
-    "onboarding_set_password":  {
-                                    "password_mismatch":  "Пароли не совпадают",
-                                    "passwords_match":  "✓ Пароли совпадают",
-                                    "placeholder":  "Задайте пароль",
-                                    "title":  "Задать пароль"
-                                },
-    "onboarding_use_case_setup":  {
-                                      "description":  "Расскажите о ваших целях и размере команды.",
-                                      "select_one_or_more":  "Выберите один или несколько вариантов",
-                                      "title":  "Что привело вас в Plane?"
-                                  },
-    "oops_something_went_wrong":  "Упс! Что-то пошло не так.",
-    "here":  "здесь",
-    "page":  {
-                 "version":  {
-                                  "restore_success":  "Версия страницы восстановлена.",
-                                  "restore_failed":  "Не удалось восстановить версию страницы."
-                              }
-             },
-    "page_modals":  {
-                        "create":  {
-                                       "creating":  "Создание",
-                                       "name_max_length":  "Максимальная длина названия должна быть меньше 255 символов",
-                                       "name_placeholder":  "Заголовок",
-                                       "submit":  "Создать страницу",
-                                       "title":  "Создать страницу"
-                                   },
-                        "delete":  {
-                                       "title":  "Удалить страницу"
-                                   },
-                        "export":  {
-                                       "export_format":  "Формат экспорта",
-                                       "exporting":  "Экспорт",
-                                       "include_content":  "Включить содержимое",
-                                       "options":  {
-                                                       "content_variety":  {
-                                                                               "everything":  "Все",
-                                                                               "no_assets":  "Без изображений"
-                                                                           },
-                                                       "format":  {
-                                                                      "markdown":  "Markdown",
-                                                                      "pdf":  "PDF"
-                                                                  },
-                                                       "page_format":  {
-                                                                           "a2":  "A2",
-                                                                           "a3":  "A3",
-                                                                           "a4":  "A4",
-                                                                           "legal":  "Legal",
-                                                                           "letter":  "Letter",
-                                                                           "tabloid":  "Tabloid"
-                                                                       }
-                                                   },
-                                       "page_format":  "Формат страницы",
-                                       "submit":  "Экспортировать",
-                                       "title":  "Экспорт страницы",
-                                       "toast":  {
-                                                     "error":  {
-                                                                   "message":  "Не удалось экспортировать страницу. Пожалуйста, попробуйте позже.",
-                                                                   "title":  "Ошибка!"
-                                                               },
-                                                     "success":  {
-                                                                     "message":  "Страница успешно экспортирована.",
-                                                                     "title":  "Успешно!"
-                                                                 }
-                                                 }
-                                   }
-                    },
-    "page_not_found_description":  "Извините, страница, которую вы ищете, не найдена. Возможно, она была удалена, переименована или временно недоступна.",
-    "page_operations":  {
-                            "access_change_failed":  "Не удалось пометить страницу как {access}. Попробуйте снова.",
-                            "access_changed":  "Страница помечена как {access} и перемещена в раздел {access}.",
-                            "add_to_favorites_failed":  "Не удалось добавить страницу в избранное. Попробуйте позже.",
-                            "added_to_favorites":  "Страница добавлена в избранное.",
-                            "archive_failed":  "Не удалось заархивировать страницу. Попробуйте позже.",
-                            "archived":  "Страница успешно заархивирована.",
-                            "create_failed":  "Не удалось создать страницу. Попробуйте позже.",
-                            "delete_failed":  "Не удалось удалить страницу. Попробуйте снова.",
-                            "deleted":  "Страница успешно удалена.",
-                            "deleted_by_user":  "Страницу удалил(а) {user}",
-                            "deleted_title":  "Страница удалена",
-                            "duplicate_failed":  "Не удалось дублировать страницу. Попробуйте позже.",
-                            "duplicated":  "Страница успешно дублирована.",
-                            "fetch_page_failed":  "Не удалось загрузить страницу. Попробуйте позже.",
-                            "fetch_pages_failed":  "Не удалось загрузить страницы. Попробуйте позже.",
-                            "link_copied":  "Ссылка на страницу скопирована.",
-                            "load_failed":  "Не удалось загрузить страницу",
-                            "lock_failed":  "Не удалось заблокировать страницу. Попробуйте позже.",
-                            "locked":  "Страница заблокирована.",
-                            "make_private_failed":  "Не удалось сделать страницу приватной. Попробуйте позже.",
-                            "make_public_failed":  "Не удалось сделать страницу публичной. Попробуйте позже.",
-                            "remove_from_favorites_failed":  "Не удалось удалить страницу из избранного. Попробуйте позже.",
-                            "removed_from_favorites":  "Страница удалена из избранного.",
-                            "restore_failed":  "Не удалось восстановить страницу. Попробуйте позже.",
-                            "restored":  "Страница успешно восстановлена.",
-                            "save_failed":  "Не удалось сохранить страницу",
-                            "unlock_failed":  "Не удалось разблокировать страницу. Попробуйте позже.",
-                            "unlocked":  "Страница разблокирована."
-                        },
-    "page_sync":  {
-                      "connection_lost_tooltip":  "Не удаётся подключиться к серверу WebSocket. Изменения будут синхронизированы и сохранены каждые 10 секунд.",
-                      "content_limit_message":  "Достигнут лимит контента, живая синхронизация отключена. Создайте новую страницу или используйте вложенные страницы.",
-                      "dismiss_content_limit_warning":  "Закрыть предупреждение о лимите контента",
-                      "syncing_tooltip":  "Ваши изменения синхронизируются с сервером. Вы можете продолжать вносить изменения."
-                  },
-    "please_enter_first_name":  "Введите имя",
-    "power_k":  {
-                    "clear_context_backspace":  "Очистить контекст (Backspace)",
-                    "shortcut":  {
-                                     "sequence_separator":  "+"
-                                 },
-                    "shortcuts":  {
-                                      "search_placeholder":  "Поиск сочетаний клавиш",
-                                      "title":  "Сочетания клавиш"
-                                  }
-                },
-    "profile":  {
-                    "completion_percentage":  "Процент выполненных работ",
-                    "stats":  {
-                                  "priority_distribution":  {
-                                                                "priority":  "Приоритет"
-                                                            },
-                                  "state_distribution":  {
-                                                             "not_started":  "Не начато",
-                                                             "working_on":  "В работе"
-                                                         }
-                              }
-                },
-    "profile_picture_delete_failed":  "Не удалось удалить фото профиля. Попробуйте снова.",
-    "profile_picture_deleted_successfully":  "Фото профиля успешно удалено.",
-    "profile_settings":  {
-                             "toasts":  {
-                                            "fetch":  {
-                                                          "error":  {
-                                                                        "message":  "Не удалось загрузить профиль пользователя"
-                                                                    }
-                                                      },
-                                            "finish_onboarding":  {
-                                                                      "error":  {
-                                                                                    "message":  "Не удалось завершить онбординг пользователя"
-                                                                                }
-                                                                  },
-                                            "update":  {
-                                                           "error":  {
-                                                                         "message":  "Не удалось обновить профиль пользователя"
-                                                                     }
-                                                       },
-                                            "update_theme":  {
-                                                                 "error":  {
-                                                                               "message":  "Не удалось обновить тему профиля"
-                                                                           }
-                                                             },
-                                            "update_tour":  {
-                                                                "error":  {
-                                                                              "message":  "Не удалось обновить статус тура пользователя"
-                                                                          }
-                                                            }
-                                        }
-                         },
-    "profile_update_failed":  "Не удалось обновить профиль. Попробуйте снова.",
-    "profile_updated_successfully":  "Профиль успешно обновлен.",
-    "space_issue":  {
-                         "add_comment":  "Добавить комментарий...",
-                         "comment_post_failed_message":  "Не удалось опубликовать комментарий. Попробуйте снова.",
-                         "comment_post_failed_title":  "Ошибка!",
-                         "comments":  "Комментарии",
-                         "cycle":  "Цикл",
-                         "attachments":  "Вложения",
-                         "due_date":  "Срок сдачи",
-                         "empty":  "Нет значения",
-                         "labels":  "Метки",
-                         "labels_count":  "{count, plural, one {# метка} few {# метки} many {# меток} other {# метки}}",
-                         "links":  "Ссылки",
-                         "link_copied_message":  "Ссылка на рабочий элемент скопирована в буфер обмена.",
-                         "link_copied_title":  "Ссылка скопирована!",
-                         "no_labels":  "Нет меток",
-                         "no_cycle":  "Нет цикла",
-                         "no_date":  "Нет даты",
-                         "no_modules":  "Нет модулей",
-                         "modules":  "Модули",
-                         "modules_count":  "{count, plural, one {# модуль} few {# модуля} many {# модулей} other {# модуля}}",
-                         "peek_full_screen":  "Полный экран",
-                         "peek_modal":  "Модальное окно",
-                         "peek_side":  "Боковая панель",
-                         "priority":  "Приоритет",
-                         "state":  "Статус",
-                         "sign_in":  "Войти",
-                         "sign_in_to_comment":  "Войдите, чтобы добавить комментарий",
-                         "sign_out":  "Выйти",
-                         "sub_work_items":  "Подзадачи",
-                         "user":  "Пользователь"
-                     },
-    "project_archive":  {
-                            "archive_failed":  "Не удалось заархивировать проект. Попробуйте снова.",
-                            "archive_title":  "Архивировано",
-                            "publish_updated":  "Настройки публикации успешно обновлены!",
-                            "published_link_copied":  "Ссылка на опубликованную страницу скопирована.",
-                            "restore_failed":  "Не удалось восстановить проект. Попробуйте снова.",
-                            "select_layout":  "Выберите хотя бы один вид для публикации проекта.",
-                            "unpublish_failed":  "Не удалось снять с публикации. Попробуйте снова."
-                        },
-    "project_archives":  {
-                             "archived_issue_notice":  "Этот рабочий элемент архивирован. Перейдите в раздел архивов, чтобы восстановить его.",
-                             "go_to_archives":  "Перейти к архивам",
-                             "issue_count":  "{count, plural, one {В архиве проекта # рабочий элемент} few {В архиве проекта # рабочих элемента} many {В архиве проекта # рабочих элементов} other {В архиве проекта # рабочего элемента}}"
-                         },
-    "project_cycles":  {
-                           "archive_modal":  {
-                                                 "archiving":  "Архивирование",
-                                                 "description":  "Вы уверены, что хотите заархивировать цикл? Все архивы можно будет восстановить позже.",
-                                                 "error_message":  "Не удалось заархивировать цикл. Попробуйте снова.",
-                                                 "success_message":  "Архивы можно найти в архивах проекта.",
-                                                 "success_title":  "Архивировано",
-                                                 "title":  "Архивировать цикл {cycle}"
-                                             },
-                           "chart":  {
-                                         "burn_down":  "Сгорание",
-                                         "burn_up":  "Накопление"
-                                     },
-                           "delete_modal":  {
-                                                "description_prefix":  "Вы уверены, что хотите удалить цикл",
-                                                "description_suffix":  "Все данные, связанные с циклом, будут безвозвратно удалены. Это действие нельзя отменить.",
-                                                "title":  "Удалить цикл"
-                                            },
-                           "filters":  {
-                                           "status_of_cycle":  "Статус цикла{count}"
-                                       },
-                           "toasts":  {
-                                         "create_failed":  "Ошибка при создании цикла. Попробуйте снова.",
-                                         "created":  "Цикл успешно создан.",
-                                         "date_conflict":  "У вас уже есть цикл на указанные даты. Если хотите создать черновик цикла, удалите даты.",
-                                         "deleted":  "Цикл успешно удалён.",
-                                         "update_failed":  "Ошибка при обновлении цикла. Попробуйте снова.",
-                                         "updated":  "Цикл успешно обновлён."
-                                     }
-                       },
-    "project_members":  {
-                            "toasts":  {
-                                           "leave_failed_title":  "Вы пока не можете покинуть этот проект.",
-                                           "remove_failed_title":  "Вы пока не можете удалить участника из этого проекта."
-                                       }
-                        },
-    "project_modals":  {
-                           "delete_project":  {
-                                                  "confirm_phrase_input":  "удалить мой проект",
-                                                  "confirm_placeholder":  "Введите \u0027удалить мой проект\u0027",
-                                                  "confirm_prompt_prefix":  "Для подтверждения введите",
-                                                  "confirm_prompt_suffix":  "ниже:",
-                                                  "deleting":  "Удаление...",
-                                                  "description":  "Вы уверены, что хотите удалить проект {projectName}? Все данные, связанные с проектом, будут удалены без возможности восстановления.",
-                                                  "project_name_placeholder":  "Имя проекта",
-                                                  "project_name_prompt":  "Введите имя проекта {projectName} для продолжения:",
-                                                  "submit":  "Удалить проект",
-                                                  "title":  "Удалить проект",
-                                                  "toast":  {
-                                                                "error":  {
-                                                                              "message":  "Что-то пошло не так. Пожалуйста, попробуйте позже.",
-                                                                              "title":  "Ошибка!"
-                                                                          },
-                                                                "success":  {
-                                                                                "message":  "Проект успешно удален.",
-                                                                                "title":  "Успешно!"
-                                                                            }
-                                                            }
-                                              },
-                           "leave_project":  {
-                                                 "confirm_phrase_input":  "Покинуть проект",
-                                                 "confirm_placeholder":  "Введите \u0027Покинуть проект\u0027",
-                                                 "confirm_prompt_prefix":  "Для подтверждения введите",
-                                                 "confirm_prompt_suffix":  "ниже:",
-                                                 "description_prefix":  "Вы уверены, что хотите покинуть проект -",
-                                                 "description_suffix":  "Все связанные с вами рабочие элементы станут недоступны.",
-                                                 "errors":  {
-                                                                "project_name_required":  "Имя проекта обязательно"
-                                                            },
-                                                 "leaving":  "Выход...",
-                                                 "project_name_placeholder":  "Введите имя проекта",
-                                                 "project_name_prompt":  "Введите имя проекта {projectName} для продолжения:",
-                                                 "submit":  "Покинуть проект",
-                                                 "title":  "Покинуть проект",
-                                                 "toast":  {
-                                                               "error":  {
-                                                                             "all_fields":  "Заполните все поля.",
-                                                                             "confirm_phrase":  "Подтвердите выход из проекта, введя фразу \u0027Покинуть проект\u0027.",
-                                                                             "generic":  "Что-то пошло не так, пожалуйста, попробуйте позже.",
-                                                                             "project_name":  "Введите имя проекта, как указано в описании.",
-                                                                             "title":  "Ошибка!"
-                                                                         }
-                                                           }
-                                             }
-                       },
-    "project_module":  {
-                           "no_matching_modules":  "Нет подходящих модулей",
-                           "remove_filters_to_see_all_modules":  "Снимите фильтры для просмотра всех модулей",
-                           "remove_search_criteria_to_see_all_modules":  "Очистите поиск для просмотра всех модулей"
-                       },
-    "project_modules":  {
-                            "quick_actions":  {
-                                                  "archive_module_description":  "Архивировать модуль"
-                                              }
-                        },
-    "project_multi_select":  {
-                                 "search_placeholder":  "Поиск проектов"
-                             },
-    "project_name_too_long":  "Название проекта должно содержать менее 255 символов",
-    "project_settings":  {
-                             "automations":  {
-                                                 "select_month_modal":  {
-                                                                            "errors":  {
-                                                                                           "month_range":  "Выберите значение от 1 до 12 месяцев.",
-                                                                                           "day_range": "Введите период от 7 до 365 дней."
-                                                                                       },
-                                                                            "days_label": "Дни",
-                                                                            "days_placeholder": "Введите количество дней",
-                                                                            "months_label":  "Месяцы",
-                                                                            "months_placeholder":  "Введите количество месяцев",
-                                                                            "submitting":  "Отправка...",
-                                                                            "title":  "Настроить период времени"
-                                                                        }
-                                             },
-                             "features":  {
-                                              "toasts":  {
-                                                             "update_failed":  "Не удалось обновить функцию проекта. Попробуйте снова.",
-                                                             "updated":  "Функция проекта успешно обновлена.",
-                                                             "updating":  "Обновление функции проекта..."
-                                                         }
-                                          },
-                             "members":  {
-                                             "leave_confirmation":  "Вы уверены, что хотите покинуть проект {name}? Вы сможете присоединиться снова, если вас пригласят или если проект публичный.",
-                                             "leave_title":  "Покинуть проект?",
-                                             "remove_confirmation":  "Вы уверены, что хотите удалить участника {name}? У него больше не будет доступа к этому проекту. Это действие нельзя отменить.",
-                                             "remove_title":  "Удалить {name}?"
-                                         }
-                         },
-    "project_states":  {
-                           "cannot_delete_default":  "Нельзя удалить статус по умолчанию.",
-                           "cannot_have_empty_group":  "Группа не может быть пустой.",
-                           "delete_state":  "Удалить статус",
-                           "delete_state_confirm_prefix":  "Вы уверены, что хотите удалить статус",
-                           "delete_state_confirm_suffix":  "? Все данные, связанные с этим статусом, будут безвозвратно удалены. Это действие нельзя отменить.",
-                           "describe_state_placeholder":  "Опишите этот статус для участников.",
-                           "mark_as_default":  "Сделать по умолчанию",
-                           "marking_as_default":  "Назначение по умолчанию",
-                           "state_created":  "Статус успешно создан.",
-                           "state_create_failed":  "Не удалось создать статус. Попробуйте снова.",
-                           "state_delete_failed":  "Не удалось удалить статус. Попробуйте снова.",
-                           "state_has_issues":  "Этот статус содержит рабочие элементы, сначала переместите их в другой статус.",
-                           "state_name_exists":  "Статус с таким названием уже существует. Попробуйте другое название.",
-                           "state_update_failed":  "Не удалось обновить статус. Попробуйте снова.",
-                           "state_updated":  "Статус успешно обновлён."
-                       },
-    "project_views":  {
-                          "toast":  {
-                                        "create_failed":  "Не удалось создать представление. Попробуйте снова.",
-                                        "created_success":  "Представление успешно создано.",
-                                        "delete_failed":  "Не удалось удалить представление. Попробуйте снова.",
-                                        "deleted_success":  "Представление удалено.",
-                                        "not_found":  {
-                                                          "message":  "Представление, которое вы пытаетесь обновить, не существует.",
-                                                          "title":  "Представление не найдено"
-                                                      },
-                                        "update_failed":  "Не удалось обновить представление. Попробуйте снова.",
-                                        "updated_success":  "Представление успешно обновлено."
-                                    }
-                      },
-    "reaction_created_successfully":  "Реакция добавлена",
-    "reaction_creation_failed":  "Не удалось добавить реакцию",
-    "reaction_remove_failed":  "Не удалось удалить реакцию",
-    "reaction_removed_successfully":  "Реакция удалена",
-    "reloading_to_apply_changes":  "Перезагрузка для применения изменений...",
-    "remove_parent_work_item":  "Удалить родительский рабочий элемент",
-    "rename_folder":  "Переименовать папку",
-    "repository_sync_failed":  "Не удалось синхронизировать репозиторий с проектом. Попробуйте снова.",
-    "rich_filters":  {
-                         "operators": {
-                                           "is": "равно",
-                                           "is_any_of": "одно из",
-                                           "between": "между"
-                                       },
-                         "invalid_filter":  {
-                                                "label":  "Недействительный фильтр",
-                                                "tooltip":  "Это условие фильтра больше недействительно. Свойство могло быть удалено, или у вас мог измениться доступ."
-                                            },
-                         "remove_filter":  "Удалить фильтр"
-                     },
-    "roles":  "Роли",
-    "saved":  "Сохранено",
-    "saving_ellipsis":  "Сохранение...",
-    "select_at_least_one_work_item":  "Выберите хотя бы один рабочий элемент.",
-    "select_work_item":  "Выберите рабочий элемент",
-    "select_work_items_to_delete":  "Выберите рабочие элементы для удаления",
-    "select_language":  "Выберите язык",
-    "selected":  "выбрано",
-    "selected_items_will_always_stay_visible":  "Выбранные элементы всегда будут видны в боковой панели. Остальные вы в любой момент найдете в меню «Ещё». Эти изменения применяются только к вашему интерфейсу и не влияют на других участников рабочего пространства.",
-    "self_hosted_maintenance_message":  {
-                                            "contact_support":  "Связаться с поддержкой",
-                                            "startup_failed_description":  "Некоторые сервисы могли не запуститься. Проверьте логи контейнеров, чтобы найти и устранить проблему. Если не удается разобраться, обратитесь в нашу поддержку.",
-                                            "startup_failed_title":  "🚧 Похоже, Plane запустился некорректно!"
-                                        },
-    "sidebar":  {
-                    "aria":  {
-                                 "main_sidebar":  "Основная боковая панель",
-                                 "peek_view":  "Предпросмотр боковой панели",
-                                 "resize_sidebar":  "Изменить размер боковой панели"
-                             }
-                },
-    "some_error_occurred":  "Произошла ошибка",
-    "syncing_ellipsis":  "Синхронизация...",
-    "tab_navigation":  {
-                           "clear_default":  "Убрать по умолчанию",
-                           "hide_in_more_menu":  "Скрыть в меню Еще",
-                           "set_as_default":  "Сделать по умолчанию",
-                           "show":  "Показать"
-                       },
-    "theme_operations":  {
-                             "download_failed":  "Не удалось загрузить конфигурацию темы.",
-                             "downloaded":  "Конфигурация темы успешно загружена.",
-                             "import_failed":  "Не удалось импортировать конфигурацию темы",
-                             "imported":  "Конфигурация темы успешно импортирована"
-                         },
-    "timezone_updated_successfully":  "Часовой пояс успешно обновлен",
-    "url_copied_to_clipboard":  "URL успешно скопирован в буфер обмена",
-    "user":  {
-                 "toasts":  {
-                                "fetch":  {
-                                              "error":  {
-                                                            "message":  "Не удалось загрузить текущего пользователя"
-                                                        }
-                                          },
-                                "update":  {
-                                               "error":  {
-                                                             "message":  "Не удалось обновить текущего пользователя"
-                                                         }
-                                           }
-                            }
-             },
-    "user_settings":  {
-                          "toasts":  {
-                                         "fetch":  {
-                                                       "error":  {
-                                                                     "message":  "Не удалось загрузить настройки пользователя"
-                                                                 }
-                                                   }
-                                     }
-                      },
-    "user_update_failed":  "Не удалось обновить данные пользователя. Попробуйте снова.",
-    "view_delete_failed":  "Не удалось удалить вид. Попробуйте снова.",
-    "visit_profile":  "Перейти в профиль",
-    "webhook_key_regenerated":  "Новый ключ успешно сгенерирован.",
-    "webhook_operations":  {
-                               "delete_failed":  "Не удалось удалить вебхук. Попробуйте снова.",
-                               "deleted":  "Вебхук успешно удалён."
-                           },
-    "work_item":  {
-                      "peek_error":  {
-                                         "description":  "Рабочий элемент, который вы ищете, не существует, был заархивирован или удалён.",
-                                         "title":  "Рабочий элемент не существует"
-                                     }
-                  },
-    "work_item_operations":  {
-                                 "action_failed":  "Не удалось выполнить действие",
-                                 "action_not_available":  "Действие недоступно",
-                                 "bulk_deleted":  "Рабочие элементы успешно удалены!",
-                                 "cannot_move":  "Нельзя переместить рабочий элемент",
-                                 "cannot_move_to_completed_cycle":  "Рабочий элемент нельзя переместить в завершённый цикл",
-                                 "date_update_failed":  "Ошибка при обновлении дат рабочего элемента, попробуйте снова позже.",
-                                 "delete_failed":  "Не удалось удалить рабочий элемент",
-                                 "deleted":  "Рабочий элемент успешно удалён",
-                                 "drag_disabled_for_grouping":  "Перетаскивание отключено для текущей группировки",
-                                 "due_date_before_start":  "Срок сдачи не может быть раньше даты начала рабочего элемента.",
-                                 "move_failed":  "Не удалось переместить рабочий элемент в проект. Попробуйте снова.",
-                                 "move_not_allowed":  "У вас нет прав на перемещение этого рабочего элемента",
-                                 "only_current_project_selectable_line_1":  "Выбирать можно только рабочие элементы",
-                                 "only_current_project_selectable_line_2":  "текущего проекта.",
-                                 "remove_from_cycle":  "Убрать из цикла",
-                                 "remove_from_module":  "Убрать из модуля",
-                                 "restore_failed":  "Не удалось восстановить рабочий элемент. Попробуйте снова.",
-                                 "restore_success_title":  "Восстановление выполнено",
-                                 "restored":  "Рабочий элемент можно найти в рабочих элементах проекта.",
-                                 "update_failed":  "Не удалось обновить рабочий элемент"
-                             },
-    "work_items_added_to_cycle_successfully":  "Рабочие элементы успешно добавлены в цикл.",
-    "work_items_could_not_be_added_to_cycle":  "Не удалось добавить выбранные элементы в цикл. Попробуйте снова.",
-    "workspace_invitation_page":  {
-                                      "accept":  "Принять",
-                                      "already_member":  "Вы уже являетесь участником {workspace_name}",
-                                      "continue_to_home":  "На главную",
-                                      "description":  "Рабочее пространство — это место, где вы создаёте проекты, совместно работаете над задачами и организуете различные потоки работы в вашем аккаунте Plane.",
-                                      "ignore":  "Отклонить",
-                                      "invited_to":  "Вас пригласили в {workspace_name}",
-                                      "join_community":  "Присоединяйтесь к нашему сообществу",
-                                      "link_not_active":  "Ссылка-приглашение больше не активна.",
-                                      "not_found":  "Приглашение не найдено",
-                                      "sign_in_to_continue":  "Войдите, чтобы продолжить",
-                                      "star_on_github":  "Поставить звезду на GitHub",
-                                      "start_empty_project":  "Или начните с пустого проекта"
-                                  },
-    "workspace_member_roles":  {
-                                   "admin":  "Администратор",
-                                   "guest":  "Гость",
-                                   "member":  "Участник",
-                                   "suspended":  "Приостановлен"
-                               },
-    "workspace_not_found":  "Рабочее пространство не найдено",
-    "workspace_not_found_description":  "Рабочее пространство по этому URL не найдено. Возможно, оно не существует или у вас нет прав на просмотр.",
-    "workspace_not_member_description":  "Вы не являетесь участником этого рабочего пространства. Обратитесь к администратору или проверьте ожидающие приглашения.",
-    "workspace_projects":  {
-                               "filters":  {
-                                               "my_projects":  "Мои проекты"
-                                           }
-                           },
-    "workspace_settings":  {
-                               "settings":  {
-                                                "general":  {
-                                                                "delete_modal":  {
-                                                                                     "confirm_phrase":  "удалить мое пространство",
-                                                                                     "confirmation_prefix":  "Вы собираетесь удалить пространство",
-                                                                                     "confirmation_suffix":  ". Если подтвердите действие, вы потеряете доступ ко всем данным в этом пространстве без возможности восстановления. Пожалуйста, будьте предельно внимательны.",
-                                                                                     "enter_workspace_name":  "Введите имя этого пространства, чтобы продолжить.",
-                                                                                     "final_confirmation_prefix":  "Для окончательного подтверждения введите",
-                                                                                     "final_confirmation_suffix":  "ниже."
-                                                                                 },
-                                                                "toasts":  {
-                                                                               "workspace_logo_removed":  "Логотип пространства успешно удалён.",
-                                                                               "workspace_updated":  "Пространство успешно обновлено.",
-                                                                               "workspace_url_copied":  "URL пространства скопирован в буфер обмена."
-                                                                           }
-                                                            },
-                                                "members":  {
-                                                                "details":  {
-                                                                                "group":  "Группа"
-                                                                            },
-                                                                "invitation_removed_successfully":  "Приглашение удалено.",
-                                                                "leave_title":  "Покинуть пространство?",
-                                                                "no_group":  "Нет группы",
-                                                                "remove_confirmation":  "Вы уверены, что хотите удалить участника {name}? У него больше не будет доступа к этому пространству. Это действие нельзя отменить.",
-                                                                "remove_title":  "Удалить {name}?",
-                                                                "role_update_error":  "Не удалось обновить роль участника. Попробуйте снова.",
-                                                                "role_is_required":  "Укажите роль"
-                                                            },
-                                                "webhooks":  {
-                                                                 "danger_zone":  {
-                                                                                     "delete_button":  "Удалить вебхук",
-                                                                                     "description":  "После удаления вебхук нельзя восстановить. Будущие события больше не будут доставляться в этот вебхук.",
-                                                                                     "title":  "Опасная зона"
-                                                                                 },
-                                                                 "delete_modal":  {
-                                                                                      "description":  "Вы уверены, что хотите удалить этот вебхук? Будущие события не будут доставляться в этот вебхук. Это действие нельзя отменить.",
-                                                                                      "title":  "Удалить вебхук"
-                                                                                  },
-                                                                 "enabled":  "Включить вебхук"
-                                                             }
-                                            }
-                           },
-    "Dark":  "Темная",
-    "Light":  "Светлая",
-    "clear":  "Очистить",
-    "creating_theme":  "Создание темы",
-    "epics":  "Эпики",
-    "favorite":  "В избранное",
-    "progress":  "Прогресс"
+  "access": {
+    "private": "Приватный",
+    "public": "Публичный"
+  },
+  "account_deactivated_successfully": "Аккаунт успешно деактивирован.",
+  "account_settings": {
+    "api_tokens": {
+      "heading": "Персональные токены доступа"
+    }
+  },
+  "activity_feed": {
+    "a_work_item": "рабочий элемент",
+    "added": "добавил",
+    "added_new_assignee": "добавил нового исполнителя",
+    "added_new_label": "добавил метку",
+    "added_this": "добавил эту",
+    "archived": "архивировал",
+    "as_duplicate_of": "как дубликат",
+    "being_blocked_by_work_item": "блокируется рабочим элементом",
+    "commented": "Прокомментировал",
+    "converted": "преобразовал",
+    "created": "создал",
+    "deleted": "удалил",
+    "for": "для",
+    "from": "из",
+    "from_cycle": "из цикла",
+    "from_module": "из модуля",
+    "inbox": {
+      "accepted_issue": "принял рабочий элемент",
+      "accepted_no_issue": "принял этот рабочий элемент из приёма.",
+      "declined_duplicate_no_issue": "отклонил этот рабочий элемент из приёма, отметив его дубликатом.",
+      "declined_issue": "отклонил рабочий элемент",
+      "declined_no_issue": "отклонил этот рабочий элемент из приёма.",
+      "from_intake_by_marking_duplicate": "из предложений, отметив дубликат.",
+      "snoozed_issue": "отложил рабочий элемент",
+      "snoozed_no_issue": "отложил этот рабочий элемент.",
+      "updated_status": "обновил статус рабочего элемента во входящих."
+    },
+    "is_blocked_by": "блокируется рабочим элементом",
+    "is_blocking_work_item": "блокирует рабочий элемент",
+    "marked": "отметил",
+    "marked_that": "отметил, что",
+    "of": "у",
+    "relates_to": "связан с",
+    "relations": {
+      "blocking": {
+        "added": "отметил этот рабочий элемент как блокирующий ",
+        "removed": "удалил блокирующий рабочий элемент "
+      },
+      "blocked_by": {
+        "added": "отметил, что этот рабочий элемент заблокирован ",
+        "removed": "удалил связь блокировки с "
+      },
+      "duplicate": {
+        "added": "отметил этот рабочий элемент как дубликат ",
+        "removed": "удалил отметку о дубликате "
+      },
+      "relates_to": {
+        "added": "отметил связь этого рабочего элемента с ",
+        "removed": "удалил связь с "
+      }
+    },
+    "removed": "удалил",
+    "removed_assignee": "удалил исполнителя",
+    "removed_attachment": "удалил вложение",
+    "removed_blocking_work_item": "удалил блокирующий рабочий элемент",
+    "removed_due_date": "удалил срок",
+    "removed_estimate": "удалил оценку",
+    "removed_label": "удалил метку",
+    "removed_parent": "удалил родительский элемент",
+    "removed_relation_from": "удалил связь с",
+    "removed_start_date": "удалил дату начала",
+    "removed_this": "удалил эту",
+    "restored": "восстановил",
+    "set_cycle_to": "установил цикл",
+    "set_due_date_to": "установил срок",
+    "set_estimate_to": "установил оценку",
+    "set_module_to": "установил модуль",
+    "set_parent_to": "установил родительский элемент",
+    "set_priority_to": "установил приоритет",
+    "set_start_date_to": "установил дату начала",
+    "set_state_to": "установил статус",
+    "set_title_to": "установил название",
+    "this_work_item": "этот рабочий элемент",
+    "to": "в",
+    "to_cycle": "в цикл",
+    "to_epic": "в эпик",
+    "to_module": "в модуль",
+    "to_work_item": "в рабочий элемент",
+    "updated_description": "обновил описание",
+    "updated_the": "обновил",
+    "uploaded_attachment": "загрузил вложение",
+    "via": "через",
+    "work_item_deleted_tooltip": "Этот рабочий элемент был удалён"
+  },
+  "add_existing_work_item": "Добавить существующий рабочий элемент",
+  "add_reaction": "Добавить реакцию",
+  "api_token_select_expiration": "Выберите дату истечения срока действия.",
+  "api_errors": {
+    "archived_cycle_cannot_be_edited": "Архивный цикл нельзя редактировать",
+    "archived_cycle_cannot_be_updated": "Архивный цикл нельзя обновить",
+    "archived_module_cannot_be_edited": "Архивный модуль нельзя редактировать",
+    "archived_module_cannot_be_updated": "Архивный модуль нельзя обновить",
+    "archived_project_cannot_be_updated": "Архивный проект нельзя обновить",
+    "archived_projects_cannot_be_updated": "Архивные проекты нельзя обновлять",
+    "at_least_one_member_required": "Нужен хотя бы один участник",
+    "asset_external_id_exists": "Вложение с таким внешним ID и источником уже существует",
+    "asset_key_does_not_exist": "Ключ вложения не существует",
+    "asset_not_found": "Вложение не найдено",
+    "asset_not_uploaded": "Вложение ещё не загружено.",
+    "can_only_archive_completed_or_cancelled": "Архивировать можно только завершённые или отменённые рабочие элементы",
+    "cannot_create_triage_state": "Не удалось создать статус разбора",
+    "comments_not_enabled": "Комментарии не включены для этого проекта",
+    "comment_not_allowed": "У вас нет прав комментировать этот рабочий элемент",
+    "completed_cycle_cannot_add_issues": "Цикл уже завершён, поэтому новые рабочие элементы добавить нельзя",
+    "completed_cycle_cannot_be_edited": "Цикл уже завершён, поэтому его нельзя редактировать",
+    "cycle_date_conflict": "На выбранные даты уже есть цикл. Чтобы создать черновик цикла, уберите даты.",
+    "cycle_dates_required_or_null": "Дата начала и дата окончания должны быть либо обе заполнены, либо обе пусты",
+    "cycle_delete_admin_or_creator": "Удалить цикл может только администратор или создатель",
+    "cycle_external_id_exists": "Цикл с таким внешним ID и источником уже существует",
+    "cycle_has_no_start_or_end_date": "У цикла нет даты начала или окончания",
+    "cycle_not_found": "Цикл не найден",
+    "date_required": "Укажите дату",
+    "default_state_cannot_be_deleted": "Статус по умолчанию нельзя удалить",
+    "email_configuration_disable_failed": "Не удалось отключить настройку электронной почты",
+    "email_credentials_invalid": "Указаны неверные учётные данные",
+    "email_from_address_invalid": "Некорректный адрес отправителя",
+    "email_network_connection_failed": "Ошибка сетевого подключения. Проверьте интернет-соединение.",
+    "email_receiver_required": "Укажите адрес получателя",
+    "email_recipients_refused": "Сервер отклонил все адреса получателей.",
+    "email_send_failed": "Не удалось отправить письмо. Проверьте настройки.",
+    "email_smtp_connection_failed": "Не удалось подключиться к SMTP-серверу.",
+    "email_smtp_disconnected": "SMTP-сервер неожиданно разорвал соединение.",
+    "email_smtp_timeout": "Превышено время ожидания подключения к SMTP-серверу.",
+    "estimate_not_found": "Оценка не найдена",
+    "estimate_point_not_found": "Значение оценки не найдено",
+    "estimate_points_required": "Укажите оценки",
+    "favorite_already_exists": "Элемент уже есть в избранном",
+    "filter_node_object_required": "Каждый узел фильтра должен быть JSON-объектом",
+    "filter_objects_not_empty": "Объекты фильтра не должны быть пустыми",
+    "filter_children_objects_required": "Все дочерние элементы фильтра должны быть JSON-объектами",
+    "filtering_field_not_allowed": "Фильтрация по этому полю запрещена",
+    "filter_list_value_invalid": "Некорректное значение списка в фильтре",
+    "forbidden": "Доступ запрещён",
+    "group_member_already_exists": "Участник группы уже существует",
+    "group_name_already_exists": "Группа с таким названием уже существует",
+    "group_by_duplicate": "Группировка и подгруппировка не могут использовать один и тот же параметр",
+    "html_content_invalid": "HTML-содержимое некорректно",
+    "intake_not_enabled_project": "Приём не включён для этого проекта. Включите его в настройках проекта.",
+    "intake_not_enabled_project_board": "Приём не включён для доски этого проекта",
+    "intake_not_found": "Приём не найден",
+    "internal_error": "Произошла внутренняя ошибка.",
+    "invalid_anchor": "Некорректный якорь",
+    "invalid_entity_type": "Некорректный тип сущности.",
+    "invalid_entity_type_or_id": "Некорректный тип или ID сущности",
+    "invalid_estimate_point": "Некорректное значение оценки. Передайте корректный estimate_point_id",
+    "invalid_file_type": "Некорректный тип файла.",
+    "invalid_filter_parameters": "Некорректные параметры фильтра",
+    "invalid_html": "Передан некорректный HTML",
+    "invalid_image_file_type": "Некорректный тип файла. Разрешены только JPEG, PNG, WebP, JPG и GIF.",
+    "invalid_issue_identifier": "Некорректный идентификатор рабочего элемента",
+    "invalid_jpeg_png_file_type": "Некорректный тип файла. Разрешены только JPEG и PNG.",
+    "invalid_parent_issue": "Некорректный родительский рабочий элемент. Передайте корректный issue_id",
+    "invalid_pipeline_item_date": "Некорректная дата элемента пайплайна",
+    "invalid_pipeline_item_status": "Некорректный статус элемента пайплайна",
+    "invalid_pipeline_item_target_time": "Некорректное целевое время элемента пайплайна",
+    "invalid_priority": "Некорректный приоритет",
+    "invalid_request": "Некорректный запрос.",
+    "invalid_role": "Некорректная роль",
+    "invalid_state": "Некорректный статус. Передайте корректный state_id",
+    "invalid_tab": "Некорректная вкладка",
+    "invalid_type": "Некорректный тип",
+    "invalid_url_format": "Некорректный формат URL.",
+    "invalid_url_scheme": "Некорректная схема URL.",
+    "issue_external_id_exists": "Рабочий элемент с таким внешним ID и источником уже существует",
+    "issue_attachment_not_found": "Вложение рабочего элемента не найдено.",
+    "issue_ids_required": "Укажите ID рабочих элементов",
+    "issue_not_found": "Рабочий элемент не найден",
+    "issue_relation_type_required": "Укажите тип связи рабочего элемента",
+    "issue_url_exists": "URL уже существует для этого рабочего элемента",
+    "issues_required": "Укажите рабочие элементы",
+    "issues_updated_successfully": "Рабочие элементы успешно обновлены",
+    "key_and_value_required": "Укажите ключ и значение",
+    "label_external_id_exists": "Метка с таким внешним ID и источником уже существует",
+    "label_name_exists": "Метка с таким именем уже существует в проекте",
+    "leaf_filter_required": "Конечный фильтр должен быть непустым JSON-объектом",
+    "llm_provider_required": "Укажите API-ключ и модель LLM-провайдера",
+    "logical_operator_in_leaf": "Логические операторы нельзя использовать в конечном объекте фильтра",
+    "module_delete_admin_or_creator": "Удалить модуль может только администратор или создатель",
+    "module_external_id_exists": "Модуль с таким внешним ID и источником уже существует",
+    "module_name_exists": "Модуль с таким названием уже существует",
+    "module_not_found": "Модуль не найден",
+    "name_size_required": "Название и размер обязательны.",
+    "name_required": "Укажите название",
+    "new_cycle_id_required": "Укажите ID нового цикла",
+    "no_asset_ids_provided": "Не указаны ID вложений.",
+    "intake_update_admin_or_creator": "Обновлять рабочие элементы приёма может только администратор или создатель",
+    "only_completed_or_cancelled_modules_archived": "Архивировать можно только завершённые или отменённые модули",
+    "only_active_pipeline_step": "Завершить можно только активный шаг пайплайна",
+    "only_completed_cycles_can_be_archived": "Архивировать можно только завершённые циклы",
+    "page_access_owner_only": "Доступ нельзя изменить, потому что страница принадлежит другому пользователю",
+    "page_archive_before_delete": "Перед удалением страницу нужно архивировать",
+    "page_archive_owner_or_admin": "Архивировать страницу может только владелец или администратор",
+    "page_delete_admin_or_owner": "Удалить страницу может только администратор или владелец",
+    "page_locked": "Страница заблокирована",
+    "page_not_found": "Страница не найдена.",
+    "page_unarchive_owner_or_admin": "Разархивировать страницу может только владелец или администратор",
+    "pagination_required": "Параметры per_page и cursor обязательны",
+    "payload_not_valid": "Некорректные данные запроса",
+    "permission_denied": "Доступ запрещён",
+    "pipeline_item_not_found": "Элемент пайплайна не найден",
+    "pipeline_item_target_after_parent": "Целевая дата этапа пайплайна не может быть позже целевой даты родительского рабочего элемента",
+    "pipeline_item_start_before_previous": "Дата начала этапа пайплайна не может быть раньше срока предыдущего этапа",
+    "pipeline_item_target_after_next_start": "Срок этапа пайплайна не может быть позже даты начала следующего этапа",
+    "pipeline_item_wrong_issue": "Элемент пайплайна не относится к этому рабочему элементу",
+    "pipeline_parent_only": "Пайплайн можно инициализировать только для родительского рабочего элемента",
+    "parent_issue_deadline_before_pipeline_step": "Срок родительского рабочего элемента не может быть раньше сроков этапов пайплайна",
+    "provide_valid_detail": "Укажите корректные детали",
+    "preference_not_found": "Настройка не найдена",
+    "project_id_required": "Укажите ID проекта",
+    "project_has_no_pipeline_states": "В проекте нет статусов пайплайна",
+    "project_identifier_special_chars": "Идентификатор проекта не может содержать специальные символы.",
+    "project_lead_workspace_user": "Руководитель проекта должен быть пользователем рабочего пространства",
+    "project_member_not_found": "Участник проекта не найден",
+    "project_name_special_chars": "Название проекта не может содержать специальные символы.",
+    "project_not_found": "Проект не найден",
+    "project_not_published": "Проект не опубликован",
+    "project_required_to_create_issue": "Для создания рабочего элемента укажите проект.",
+    "quick_link_not_found": "Быстрая ссылка не найдена.",
+    "reaction_already_exists": "Реакция пользователя уже существует",
+    "requested_resource_not_found": "Запрошенный ресурс не найден.",
+    "request_body_too_large": "Слишком большой запрос",
+    "request_body_too_large_detail": "Размер тела запроса превышает максимально допустимый.",
+    "required_key_missing": "Обязательный ключ не существует.",
+    "required_object_missing": "Обязательный объект не существует.",
+    "required_permissions_missing": "У вас нет необходимых прав.",
+    "something_went_wrong_try_later": "Что-то пошло не так. Попробуйте позже.",
+    "source_cycle_not_found": "Исходный цикл не найден",
+    "start_and_end_dates_required": "Укажите дату начала и дату окончания",
+    "start_date_after_end_date": "Дата начала не может быть позже даты окончания",
+    "start_date_after_target": "Дата начала не может быть позже целевой даты",
+    "state_external_id_exists": "Статус с таким внешним ID и источником уже существует",
+    "state_name_exists": "Статус с таким названием уже существует в проекте",
+    "sub_issue_ids_required": "Укажите ID дочерних рабочих элементов",
+    "successfully_updated": "Успешно обновлено",
+    "success": "Успешно",
+    "state_not_empty": "Статус не пустой. Удалять можно только пустые статусы.",
+    "task_required": "Укажите задачу",
+    "transfer_cycle_completed": "Цикл, куда переносятся рабочие элементы, уже завершён",
+    "triage_state_not_found": "Статус разбора не найден",
+    "user_already_subscribed": "Пользователь уже подписан на рабочий элемент.",
+    "user_only_admin_in_some_projects": "Пользователь является единственным администратором в некоторых проектах. Ему нужно покинуть эти проекты или назначить другого администратора.",
+    "view_issue_not_allowed": "У вас нет прав просматривать этот рабочий элемент",
+    "view_page_not_allowed": "У вас нет прав просматривать эту страницу",
+    "view_delete_admin_or_owner": "Удалить вид может только администратор или владелец",
+    "view_update_owner_only": "Обновить вид может только владелец",
+    "webhook_url_exists": "URL уже существует в рабочем пространстве",
+    "work_item_comment_external_id_exists": "Комментарий рабочего элемента с таким внешним ID и источником уже существует",
+    "work_item_delete_admin_or_creator": "Удалить рабочий элемент может только администратор или создатель",
+    "cannot_add_higher_workspace_role": "Нельзя добавить пользователя с ролью выше роли в рабочем пространстве",
+    "cannot_add_lower_workspace_role": "Нельзя добавить пользователя с ролью ниже роли в рабочем пространстве",
+    "cannot_assign_equal_or_higher_role": "Нельзя назначить роль, равную вашей или выше",
+    "cannot_delete_default_intake": "Приём по умолчанию нельзя удалить",
+    "cannot_delete_existing_project_identifier": "Нельзя удалить идентификатор существующего проекта",
+    "cannot_edit_intake_issues": "Нельзя редактировать рабочие элементы приёма",
+    "cannot_leave_project_only_admin": "Нельзя покинуть проект, потому что вы единственный администратор. Сначала удалите проект или добавьте другого администратора.",
+    "cannot_leave_workspace_only_admin": "Нельзя покинуть рабочее пространство, потому что вы единственный администратор. Сначала удалите рабочее пространство или назначьте другого администратора.",
+    "cannot_remove_higher_role_user": "Нельзя удалить пользователя с ролью выше вашей",
+    "cannot_remove_yourself": "Нельзя удалить себя из рабочего пространства. Используйте выход из рабочего пространства.",
+    "cannot_update_equal_or_higher_role": "Нельзя изменить роль участника с ролью, равной вашей или выше",
+    "cannot_update_own_role": "Нельзя изменить собственную роль",
+    "not_project_member": "Вы не участник этого проекта",
+    "attachment_delete_not_allowed": "У вас нет прав удалять это вложение",
+    "attachment_download_not_allowed": "У вас нет прав скачивать это вложение",
+    "attachment_upload_not_allowed": "У вас нет прав загружать это вложение",
+    "update_roles_permission_denied": "У вас нет прав изменять роли",
+    "you_only_admin_in_some_projects": "В некоторых проектах вы единственный администратор. Покиньте эти проекты или назначьте другого администратора.",
+    "workspace_creation_not_allowed": "Создание рабочих пространств запрещено",
+    "workspace_member_not_found": "Участник рабочего пространства не найден",
+    "workspace_not_found": "Рабочее пространство не найдено",
+    "workspace_name_and_slug_required": "Укажите название и slug",
+    "workspace_name_cannot_contain_url": "Название не может содержать URL",
+    "workspace_name_slug_max_length": "Максимальная длина названия — 80 символов, slug — 48 символов",
+    "workspace_owner_url_exists": "URL уже существует для этого рабочего пространства и владельца",
+    "workspace_slug_required": "Укажите slug рабочего пространства"
+  },
+  "archive_success_message": "Архивы можно найти в архиве проекта.",
+  "at": "в",
+  "attachment": {
+    "delete_confirmation": "Вы уверены, что хотите удалить вложение - {name}? Вложение будет удалено без возможности восстановления. Это действие нельзя отменить.",
+    "uploaded_by_on": "{name}: загружено {date}"
+  },
+  "attachment_operations": {
+    "remove_failed": "Не удалось удалить вложение",
+    "remove_failed_title": "Вложение не удалено",
+    "removed": "Вложение успешно удалено",
+    "removed_title": "Вложение удалено",
+    "upload_failed": "Не удалось прикрепить файл. Попробуйте загрузить снова.",
+    "upload_failed_title": "Вложение не загружено",
+    "uploaded": "Вложение успешно загружено",
+    "uploaded_title": "Вложение загружено",
+    "uploading": "Загрузка вложения..."
+  },
+  "auth": {
+    "common": {
+      "password": {
+        "toast": {
+          "error": {
+            "message": "Не удалось обновить пароль. Попробуйте снова.",
+            "title": "Не удалось обновить пароль"
+          }
+        }
+      },
+      "no_auth_methods_available": "Нет доступных способов входа",
+      "no_auth_methods_available_description": "Обратитесь к администратору, чтобы включить способ входа.",
+      "sign_in_action": "Войти",
+      "sign_up_action": "Зарегистрироваться"
+    },
+    "footer": {
+      "join_teams_building_with_plane": "Присоединяйтесь к командам, которые работают в Plane"
+    },
+    "landing": {
+      "create_your_plane_account": "Создайте аккаунт Plane",
+      "welcome_back_to_plane": "С возвращением в Plane",
+      "work_in_all_dimensions": "Работайте во всех измерениях"
+    },
+    "legal": {
+      "and": "и",
+      "our": "нашими",
+      "privacy_policy": "Политикой конфиденциальности",
+      "sign_in_prefix": "Входя в систему, вы соглашаетесь с",
+      "sign_up_prefix": "Регистрируясь, вы соглашаетесь с",
+      "terms_of_service": "Условиями использования"
+    }
+  },
+  "base_layouts": {
+    "board": "Доска",
+    "gantt": "Диаграмма Ганта",
+    "list": "Список"
+  },
+  "change_parent_work_item": "Изменить родительский рабочий элемент",
+  "chart": {
+    "completion": "Выполнение",
+    "date": "Дата"
+  },
+  "check_pending_invites": "Проверить приглашения",
+  "commented": "прокомментировал(а)",
+  "common": {
+    "access": {
+      "archived": "Архивный",
+      "label": "Доступ"
+    },
+    "add_page": "Добавить страницу",
+    "clear_filters": "Сбросить фильтры",
+    "click_or_drag_file": "Нажмите или перетащите файл сюда",
+    "count": "Количество",
+    "created": "Создано",
+    "created_on_date": "Создано {date}",
+    "custom": "Пользовательская",
+    "date": "Дата",
+    "drop_here": "Перетащите изображение сюда",
+    "drop_here_to_delete": "Перетащите сюда для удаления задачи.",
+    "due_date": "Срок сдачи",
+    "due_time": "Время дедлайна",
+    "end_time": "Время окончания",
+    "failed": "Не удалось",
+    "items": "Элементы",
+    "in_project": "в проекте:",
+    "in_workspace": "в рабочем пространстве:",
+    "joined": "Вступил",
+    "link_count": "{count, plural, one {# ссылка} other {# ссылок}}",
+    "locked": "Заблокировано",
+    "issue": {
+      "id_copied_to_clipboard": "ID рабочего элемента скопирован в буфер обмена"
+    },
+    "entity": {
+      "link_copied_to_clipboard": "Ссылка на {entity} скопирована"
+    },
+    "new_issue": "Новый рабочий элемент",
+    "offline": "Не в сети",
+    "offline_tooltip_content": "Вы можете продолжать вносить изменения. Они будут синхронизированы, когда вы снова подключитесь к сети.",
+    "offline_tooltip_heading": "Вы не в сети.",
+    "pro_feature": "Функция Pro",
+    "restore": "Восстановить",
+    "save_view": "Сохранить вид",
+    "search_results_for": "Результаты поиска для",
+    "start_date": "Дата начала",
+    "sub_group_by": "Подгруппировать по",
+    "target_date": "Целевая дата",
+    "toggle_workspace_level_search": "Переключить поиск по рабочему пространству",
+    "update_view": "Обновить вид",
+    "view_all": "Показать все",
+    "view_less": "Свернуть",
+    "sign_out_error": {
+      "title": "Не удалось выйти",
+      "message": "Не удалось завершить сеанс. Попробуйте снова."
+    },
+    "date_range": "Диапазон дат",
+    "end_date": "Дата окончания",
+    "no_member_yet": "Пока нет участников",
+    "skip": "Пропустить",
+    "submit": "Отправить",
+    "uploading": "Загрузка",
+    "work_items_in_module": "Рабочие элементы в модуле",
+    "work_items_in_project": "Рабочие элементы в проекте",
+    "duplicate": "Дублировать",
+    "sign_out": "Выйти"
+  },
+  "connection_lost": "Соединение потеряно",
+  "create_new_workspace": "Создать новое рабочее пространство",
+  "created_date": "Дата создания",
+  "custom_date": "Произвольный",
+  "dashboards": {
+    "widget": {
+      "color_palettes": {
+        "earthen": "Земляная",
+        "horizon": "Горизонт",
+        "modern": "Современная"
+      }
+    }
+  },
+  "date_filters": {
+    "1_month_ago": "1 месяц назад",
+    "1_month_from_now": "через 1 месяц",
+    "1_week_ago": "1 неделю назад",
+    "1_week_from_now": "через 1 неделю",
+    "2_weeks_ago": "2 недели назад",
+    "2_months_from_now": "через 2 месяца",
+    "2_weeks_from_now": "через 2 недели",
+    "last_30_days": "Последние 30 дней",
+    "last_7_days": "Последние 7 дней",
+    "today": "Сегодня",
+    "yesterday": "Вчера"
+  },
+  "display_name_required": "Отображаемое имя обязательно.",
+  "drag_drop_manual_only": "Перетаскивание доступно только при сортировке вручную",
+  "editor": {
+    "font": {
+      "mono": "Моноширинный",
+      "sans_serif": "Без засечек",
+      "serif": "С засечками"
+    },
+    "sticky": {
+      "background_colors": "Цвет фона"
+    }
+  },
+  "editor_still_processing": "Редактор ещё обрабатывает изменения. Подождите перед продолжением.",
+  "email_is_required": "Email обязателен.",
+  "enter_valid_hex_code": "Введите корректный HEX-код",
+  "enter_your_display_name": "Введите отображаемое имя",
+  "enter_your_email": "Введите ваш email",
+  "enter_your_first_name": "Введите ваше имя",
+  "enter_your_last_name": "Введите вашу фамилию",
+  "error_page_description": "Мы автоматически отслеживаем эти ошибки и работаем над восстановлением. Если проблема сохраняется — свяжитесь с нами. Попробуйте обновить страницу.",
+  "error_page_title": "🚧 Похоже, что-то пошло не так!",
+  "estimate_operations": {
+    "delete_failed": "Не удалось удалить оценку. Попробуйте снова.",
+    "deleted": "Оценка удалена из проекта."
+  },
+  "failed_to_process_cover_image": "Не удалось обработать изображение обложки",
+  "failed_to_sign_out": "Не удалось выйти. Попробуйте снова.",
+  "failed_to_update_language": "Не удалось обновить язык",
+  "failed_to_update_timezone": "Не удалось обновить часовой пояс",
+  "feature_tabs_horizontal_inside_project": "Вкладки функций будут отображаться горизонтальными вкладками внутри проекта.",
+  "feature_tabs_nested_under_project": "Вкладки функций будут отображаться вложенными пунктами внутри проекта в формате аккордеона.",
+  "first_day_of_the_week": "Первый день недели",
+  "first_day_of_the_week_description": "Это изменит отображение календарей во всем приложении.",
+  "first_day_of_the_week_updated_successfully": "Первый день недели успешно обновлён",
+  "gantt_block_dates_update_failed": "Ошибка при обновлении дат блока",
+  "go_to_home": "Перейти на главную",
+  "gpt_enter_task": "Введите задачу для получения помощи ИИ.",
+  "gpt_assistant": {
+    "prompt_anything": "Спросите AI о чём угодно...",
+    "prompt_with_context": "Опишите, что AI должен сделать с этим содержимым...",
+    "third_party_consent": "Используя эту функцию, вы соглашаетесь на передачу сообщения стороннему сервису."
+  },
+  "image_picker": {
+    "drag_drop_image_here": "Перетащите изображение сюда",
+    "drop_image_here_to_upload": "Отпустите изображение для загрузки",
+    "image_could_not_be_uploaded": "Не удалось загрузить изображение",
+    "image_not_uploaded": "Изображение не загружено",
+    "invalid_format_error": "Загрузите файл в допустимом формате.",
+    "max_size_error": "Размер изображения не должен превышать 5 МБ.",
+    "no_images_found": "Изображения не найдены.",
+    "search_for_images": "Поиск изображений",
+    "supported_formats": "Поддерживаемые форматы: .jpeg, .jpg, .png, .webp",
+    "tabs": {
+      "images": "Изображения",
+      "unsplash": "Unsplash",
+      "upload": "Загрузить"
+    },
+    "upload_and_save": "Загрузить и сохранить",
+    "uploading": "Загрузка..."
+  },
+  "issue": {
+    "add": {
+      "module": {
+        "failed": "Не удалось добавить рабочий элемент в модуль. Попробуйте снова.",
+        "success": "{count, plural, one {Рабочий элемент} other {Рабочие элементы}} успешно {count, plural, one {добавлен} other {добавлены}} в модуль."
+      }
+    },
+    "pipeline": {
+      "complete_active_step": "Завершить активный шаг",
+      "only_active_step_can_be_completed": "Завершить можно только активный шаг"
+    }
+  },
+  "join": "Присоединиться",
+  "join_project": "Присоединиться к проекту",
+  "joining": "Присоединение...",
+  "issue_layouts": {
+    "go_to_all_work_items": "Перейти ко всем рабочим элементам",
+    "project_view_empty": {
+      "description": "Рабочие элементы помогают отслеживать отдельные части работы: что происходит, кто этим занимается и что уже сделано.",
+      "title": "Здесь появятся рабочие элементы представления"
+    },
+    "save_as": "Сохранить как",
+    "view_not_found": {
+      "description": "Представление, которое вы ищете, не существует или у вас нет прав на его просмотр.",
+      "title": "Представление не существует"
+    }
+  },
+  "instance": {
+    "toasts": {
+      "fetch_info": {
+        "error": {
+          "message": "Не удалось загрузить сведения об экземпляре"
+        }
+      }
+    }
+  },
+  "label": {
+    "delete_label": "Удалить метку"
+  },
+  "language_updated_successfully": "Язык успешно обновлен",
+  "link_copy_failed": "Не удалось скопировать ссылку. Попробуйте снова.",
+  "link_operations": {
+    "create_failed_title": "Ссылка не создана",
+    "create_title": "Ссылка создана",
+    "created": "Ссылка успешно создана",
+    "remove_failed": "Не удалось удалить ссылку",
+    "remove_failed_title": "Ссылка не удалена",
+    "remove_title": "Ссылка удалена",
+    "removed": "Ссылка успешно удалена",
+    "update_failed": "Не удалось обновить ссылку",
+    "update_failed_title": "Ссылка не обновлена",
+    "update_title": "Ссылка обновлена",
+    "updated": "Ссылка успешно обновлена"
+  },
+  "markdown_copied": "Markdown скопирован в буфер обмена.",
+  "members_added_successfully": "Участники успешно добавлены.",
+  "minimum_value_is_1": "Минимальное значение — 1",
+  "module_operations": {
+    "archive_failed": "Не удалось заархивировать модуль. Попробуйте снова.",
+    "create_failed": "Не удалось создать модуль. Попробуйте снова.",
+    "created": "Модуль успешно создан.",
+    "deleted": "Модуль успешно удалён.",
+    "link_copied": "Ссылка на модуль скопирована.",
+    "link_created": "Ссылка модуля успешно создана.",
+    "link_deleted": "Ссылка модуля успешно удалена.",
+    "link_updated": "Ссылка модуля успешно обновлена.",
+    "restore_failed": "Не удалось восстановить модуль. Попробуйте снова.",
+    "restored": "Модуль можно найти в разделе модулей проекта.",
+    "update_failed": "Не удалось обновить модуль. Попробуйте снова."
+  },
+  "module_updated_successfully": "Модуль успешно обновлён.",
+  "more": "еще",
+  "name_within_50_chars": "Название должно содержать не более 50 символов.",
+  "navigation": {
+    "app_rail": {
+      "dock": "Закрепить панель приложения",
+      "icon_only": "Только иконки",
+      "icon_with_name": "Иконки с названиями",
+      "undock": "Открепить панель приложения"
+    },
+    "toasts": {
+      "default_tab_update_failed": "Не удалось обновить вкладку по умолчанию. Попробуйте позже.",
+      "default_tab_updated": "Вкладка по умолчанию успешно обновлена.",
+      "hide_tab_failed": "Не удалось скрыть вкладку. Попробуйте позже.",
+      "show_tab_failed": "Что-то пошло не так. Попробуйте позже."
+    }
+  },
+  "no_lead": "Лид не назначен",
+  "no_matches_found": "Совпадений не найдено",
+  "not_authorized": "Нет доступа!",
+  "notification": {
+    "toasts": {
+      "un_snoozed": "Уведомление снова активно"
+    }
+  },
+  "onboarding_failed": "Не удалось завершить онбординг. Попробуйте снова позже.",
+  "onboarding_invite_members": {
+    "add_another": "Добавить еще",
+    "description": "Работа в Plane эффективнее вместе с командой. Пригласите коллег прямо сейчас.",
+    "errors": {
+      "invalid_email": "Некорректный email",
+      "invalid_email_hint": "Это не похоже на адрес электронной почты."
+    },
+    "later": "Сделаю позже",
+    "title": "Пригласите команду",
+    "toast": {
+      "error": {
+        "title": "Ошибка!"
+      },
+      "success": {
+        "message": "Приглашения успешно отправлены.",
+        "title": "Успешно!"
+      }
+    }
+  },
+  "onboarding_invites": {
+    "continue_to_workspace": "Перейти в пространство",
+    "create_new_workspace": "Создать новое пространство",
+    "create_workspace": "Создать свое пространство",
+    "description": "Примите приглашения, чтобы работать вместе с командой.",
+    "join_or_create_description": "Вся ваша работа — в одном месте.",
+    "join_or_create_title": "Присоединитесь по приглашению или создайте пространство",
+    "no_invitations": "Приглашения не найдены",
+    "or": "или",
+    "title": "Вас пригласили!"
+  },
+  "onboarding_profile_setup": {
+    "choose_image": "Выбрать изображение",
+    "domain": {
+      "errors": {
+        "required": "Выберите хотя бы один вариант"
+      },
+      "question": "В какой области вы работаете? Выберите один или несколько вариантов."
+    },
+    "first_name": {
+      "errors": {
+        "max_length": "Имя должно быть не длиннее 50 символов.",
+        "required": "Имя обязательно"
+      },
+      "label": "Имя",
+      "placeholder": "Иван"
+    },
+    "last_name": {
+      "errors": {
+        "max_length": "Фамилия должна быть не длиннее 50 символов.",
+        "required": "Фамилия обязательна"
+      },
+      "label": "Фамилия",
+      "placeholder": "Иванов"
+    },
+    "password": {
+      "confirm": {
+        "errors": {
+          "mismatch": "Пароли не совпадают"
+        }
+      },
+      "label": "Задать пароль",
+      "placeholder": "Новый пароль..."
+    },
+    "profile_step": {
+      "change_image": "Изменить изображение",
+      "description": "Так вы будете отображаться в Plane.",
+      "full_name": {
+        "errors": {
+          "required": "Имя обязательно"
+        },
+        "label": "Имя",
+        "placeholder": "Введите ваше полное имя"
+      },
+      "image_upload": {
+        "cancel": "Отмена",
+        "drag": "Перетащите изображение сюда",
+        "drop": "Перетащите изображение, чтобы загрузить",
+        "edit": "Изменить",
+        "formats": "Поддерживаемые форматы: .jpeg, .jpg, .png, .webp",
+        "invalid_format": "Загрузите файл в поддерживаемом формате.",
+        "remove": "Удалить",
+        "removing": "Удаление",
+        "save": "Загрузить и сохранить",
+        "title": "Загрузить изображение",
+        "too_large": "Размер изображения не должен превышать 5 МБ.",
+        "uploading": "Загрузка..."
+      },
+      "title": "Создайте профиль.",
+      "upload_image": "Загрузить изображение"
+    },
+    "role": {
+      "errors": {
+        "required": "Это поле обязательно"
+      },
+      "question": "Какую роль вы выполняете? Выберите один вариант."
+    },
+    "toast": {
+      "error": {
+        "failed": "Не удалось завершить настройку профиля. Попробуйте снова!",
+        "title": "Ошибка",
+        "user_details_failed": "Не удалось обновить данные пользователя. Попробуйте снова!"
+      },
+      "success": {
+        "completed": "Профиль успешно настроен!",
+        "title": "Успех"
+      }
+    }
+  },
+  "onboarding_role_setup": {
+    "description": "Настроим Plane под ваш стиль работы.",
+    "select_one": "Выберите один вариант",
+    "title": "Какая у вас роль?"
+  },
+  "onboarding_set_password": {
+    "password_mismatch": "Пароли не совпадают",
+    "passwords_match": "✓ Пароли совпадают",
+    "placeholder": "Задайте пароль",
+    "title": "Задать пароль"
+  },
+  "onboarding_use_case_setup": {
+    "description": "Расскажите о ваших целях и размере команды.",
+    "select_one_or_more": "Выберите один или несколько вариантов",
+    "title": "Что привело вас в Plane?"
+  },
+  "oops_something_went_wrong": "Упс! Что-то пошло не так.",
+  "here": "здесь",
+  "page": {
+    "version": {
+      "restore_success": "Версия страницы восстановлена.",
+      "restore_failed": "Не удалось восстановить версию страницы."
+    }
+  },
+  "page_modals": {
+    "create": {
+      "creating": "Создание",
+      "name_max_length": "Максимальная длина названия должна быть меньше 255 символов",
+      "name_placeholder": "Заголовок",
+      "submit": "Создать страницу",
+      "title": "Создать страницу"
+    },
+    "delete": {
+      "title": "Удалить страницу"
+    },
+    "export": {
+      "export_format": "Формат экспорта",
+      "exporting": "Экспорт",
+      "include_content": "Включить содержимое",
+      "options": {
+        "content_variety": {
+          "everything": "Все",
+          "no_assets": "Без изображений"
+        },
+        "format": {
+          "markdown": "Markdown",
+          "pdf": "PDF"
+        },
+        "page_format": {
+          "a2": "A2",
+          "a3": "A3",
+          "a4": "A4",
+          "legal": "Legal",
+          "letter": "Letter",
+          "tabloid": "Tabloid"
+        }
+      },
+      "page_format": "Формат страницы",
+      "submit": "Экспортировать",
+      "title": "Экспорт страницы",
+      "toast": {
+        "error": {
+          "message": "Не удалось экспортировать страницу. Пожалуйста, попробуйте позже.",
+          "title": "Ошибка!"
+        },
+        "success": {
+          "message": "Страница успешно экспортирована.",
+          "title": "Успешно!"
+        }
+      }
+    }
+  },
+  "page_not_found_description": "Извините, страница, которую вы ищете, не найдена. Возможно, она была удалена, переименована или временно недоступна.",
+  "page_operations": {
+    "access_change_failed": "Не удалось пометить страницу как {access}. Попробуйте снова.",
+    "access_changed": "Страница помечена как {access} и перемещена в раздел {access}.",
+    "add_to_favorites_failed": "Не удалось добавить страницу в избранное. Попробуйте позже.",
+    "added_to_favorites": "Страница добавлена в избранное.",
+    "archive_failed": "Не удалось заархивировать страницу. Попробуйте позже.",
+    "archived": "Страница успешно заархивирована.",
+    "create_failed": "Не удалось создать страницу. Попробуйте позже.",
+    "delete_failed": "Не удалось удалить страницу. Попробуйте снова.",
+    "deleted": "Страница успешно удалена.",
+    "deleted_by_user": "Страницу удалил(а) {user}",
+    "deleted_title": "Страница удалена",
+    "duplicate_failed": "Не удалось дублировать страницу. Попробуйте позже.",
+    "duplicated": "Страница успешно дублирована.",
+    "fetch_page_failed": "Не удалось загрузить страницу. Попробуйте позже.",
+    "fetch_pages_failed": "Не удалось загрузить страницы. Попробуйте позже.",
+    "link_copied": "Ссылка на страницу скопирована.",
+    "load_failed": "Не удалось загрузить страницу",
+    "lock_failed": "Не удалось заблокировать страницу. Попробуйте позже.",
+    "locked": "Страница заблокирована.",
+    "make_private_failed": "Не удалось сделать страницу приватной. Попробуйте позже.",
+    "make_public_failed": "Не удалось сделать страницу публичной. Попробуйте позже.",
+    "remove_from_favorites_failed": "Не удалось удалить страницу из избранного. Попробуйте позже.",
+    "removed_from_favorites": "Страница удалена из избранного.",
+    "restore_failed": "Не удалось восстановить страницу. Попробуйте позже.",
+    "restored": "Страница успешно восстановлена.",
+    "save_failed": "Не удалось сохранить страницу",
+    "unlock_failed": "Не удалось разблокировать страницу. Попробуйте позже.",
+    "unlocked": "Страница разблокирована."
+  },
+  "page_sync": {
+    "connection_lost_tooltip": "Не удаётся подключиться к серверу WebSocket. Изменения будут синхронизированы и сохранены каждые 10 секунд.",
+    "content_limit_message": "Достигнут лимит контента, живая синхронизация отключена. Создайте новую страницу или используйте вложенные страницы.",
+    "dismiss_content_limit_warning": "Закрыть предупреждение о лимите контента",
+    "syncing_tooltip": "Ваши изменения синхронизируются с сервером. Вы можете продолжать вносить изменения."
+  },
+  "please_enter_first_name": "Введите имя",
+  "power_k": {
+    "clear_context_backspace": "Очистить контекст (Backspace)",
+    "shortcut": {
+      "sequence_separator": "+"
+    },
+    "shortcuts": {
+      "search_placeholder": "Поиск сочетаний клавиш",
+      "title": "Сочетания клавиш"
+    }
+  },
+  "profile": {
+    "completion_percentage": "Процент выполненных работ",
+    "stats": {
+      "priority_distribution": {
+        "priority": "Приоритет"
+      },
+      "state_distribution": {
+        "not_started": "Не начато",
+        "working_on": "В работе"
+      }
+    }
+  },
+  "profile_picture_delete_failed": "Не удалось удалить фото профиля. Попробуйте снова.",
+  "profile_picture_deleted_successfully": "Фото профиля успешно удалено.",
+  "profile_settings": {
+    "toasts": {
+      "fetch": {
+        "error": {
+          "message": "Не удалось загрузить профиль пользователя"
+        }
+      },
+      "finish_onboarding": {
+        "error": {
+          "message": "Не удалось завершить онбординг пользователя"
+        }
+      },
+      "update": {
+        "error": {
+          "message": "Не удалось обновить профиль пользователя"
+        }
+      },
+      "update_theme": {
+        "error": {
+          "message": "Не удалось обновить тему профиля"
+        }
+      },
+      "update_tour": {
+        "error": {
+          "message": "Не удалось обновить статус тура пользователя"
+        }
+      }
+    }
+  },
+  "profile_update_failed": "Не удалось обновить профиль. Попробуйте снова.",
+  "profile_updated_successfully": "Профиль успешно обновлен.",
+  "space_issue": {
+    "add_comment": "Добавить комментарий...",
+    "comment_post_failed_message": "Не удалось опубликовать комментарий. Попробуйте снова.",
+    "comment_post_failed_title": "Ошибка!",
+    "comments": "Комментарии",
+    "cycle": "Цикл",
+    "attachments": "Вложения",
+    "due_date": "Срок сдачи",
+    "empty": "Нет значения",
+    "labels": "Метки",
+    "labels_count": "{count, plural, one {# метка} few {# метки} many {# меток} other {# метки}}",
+    "links": "Ссылки",
+    "link_copied_message": "Ссылка на рабочий элемент скопирована в буфер обмена.",
+    "link_copied_title": "Ссылка скопирована!",
+    "no_labels": "Нет меток",
+    "no_cycle": "Нет цикла",
+    "no_date": "Нет даты",
+    "no_modules": "Нет модулей",
+    "modules": "Модули",
+    "modules_count": "{count, plural, one {# модуль} few {# модуля} many {# модулей} other {# модуля}}",
+    "peek_full_screen": "Полный экран",
+    "peek_modal": "Модальное окно",
+    "peek_side": "Боковая панель",
+    "priority": "Приоритет",
+    "state": "Статус",
+    "sign_in": "Войти",
+    "sign_in_to_comment": "Войдите, чтобы добавить комментарий",
+    "sign_out": "Выйти",
+    "sub_work_items": "Подзадачи",
+    "user": "Пользователь"
+  },
+  "project_archive": {
+    "archive_failed": "Не удалось заархивировать проект. Попробуйте снова.",
+    "archive_title": "Архивировано",
+    "publish_updated": "Настройки публикации успешно обновлены!",
+    "published_link_copied": "Ссылка на опубликованную страницу скопирована.",
+    "restore_failed": "Не удалось восстановить проект. Попробуйте снова.",
+    "select_layout": "Выберите хотя бы один вид для публикации проекта.",
+    "unpublish_failed": "Не удалось снять с публикации. Попробуйте снова."
+  },
+  "project_archives": {
+    "archived_issue_notice": "Этот рабочий элемент архивирован. Перейдите в раздел архивов, чтобы восстановить его.",
+    "go_to_archives": "Перейти к архивам",
+    "issue_count": "{count, plural, one {В архиве проекта # рабочий элемент} few {В архиве проекта # рабочих элемента} many {В архиве проекта # рабочих элементов} other {В архиве проекта # рабочего элемента}}"
+  },
+  "project_cycles": {
+    "archive_modal": {
+      "archiving": "Архивирование",
+      "description": "Вы уверены, что хотите заархивировать цикл? Все архивы можно будет восстановить позже.",
+      "error_message": "Не удалось заархивировать цикл. Попробуйте снова.",
+      "success_message": "Архивы можно найти в архивах проекта.",
+      "success_title": "Архивировано",
+      "title": "Архивировать цикл {cycle}"
+    },
+    "chart": {
+      "burn_down": "Сгорание",
+      "burn_up": "Накопление"
+    },
+    "delete_modal": {
+      "description_prefix": "Вы уверены, что хотите удалить цикл",
+      "description_suffix": "Все данные, связанные с циклом, будут безвозвратно удалены. Это действие нельзя отменить.",
+      "title": "Удалить цикл"
+    },
+    "filters": {
+      "status_of_cycle": "Статус цикла{count}"
+    },
+    "toasts": {
+      "create_failed": "Ошибка при создании цикла. Попробуйте снова.",
+      "created": "Цикл успешно создан.",
+      "date_conflict": "У вас уже есть цикл на указанные даты. Если хотите создать черновик цикла, удалите даты.",
+      "deleted": "Цикл успешно удалён.",
+      "update_failed": "Ошибка при обновлении цикла. Попробуйте снова.",
+      "updated": "Цикл успешно обновлён."
+    }
+  },
+  "project_members": {
+    "toasts": {
+      "leave_failed_title": "Вы пока не можете покинуть этот проект.",
+      "remove_failed_title": "Вы пока не можете удалить участника из этого проекта."
+    }
+  },
+  "project_modals": {
+    "delete_project": {
+      "confirm_phrase_input": "удалить мой проект",
+      "confirm_placeholder": "Введите \u0027удалить мой проект\u0027",
+      "confirm_prompt_prefix": "Для подтверждения введите",
+      "confirm_prompt_suffix": "ниже:",
+      "deleting": "Удаление...",
+      "description": "Вы уверены, что хотите удалить проект {projectName}? Все данные, связанные с проектом, будут удалены без возможности восстановления.",
+      "project_name_placeholder": "Имя проекта",
+      "project_name_prompt": "Введите имя проекта {projectName} для продолжения:",
+      "submit": "Удалить проект",
+      "title": "Удалить проект",
+      "toast": {
+        "error": {
+          "message": "Что-то пошло не так. Пожалуйста, попробуйте позже.",
+          "title": "Ошибка!"
+        },
+        "success": {
+          "message": "Проект успешно удален.",
+          "title": "Успешно!"
+        }
+      }
+    },
+    "leave_project": {
+      "confirm_phrase_input": "Покинуть проект",
+      "confirm_placeholder": "Введите \u0027Покинуть проект\u0027",
+      "confirm_prompt_prefix": "Для подтверждения введите",
+      "confirm_prompt_suffix": "ниже:",
+      "description_prefix": "Вы уверены, что хотите покинуть проект -",
+      "description_suffix": "Все связанные с вами рабочие элементы станут недоступны.",
+      "errors": {
+        "project_name_required": "Имя проекта обязательно"
+      },
+      "leaving": "Выход...",
+      "project_name_placeholder": "Введите имя проекта",
+      "project_name_prompt": "Введите имя проекта {projectName} для продолжения:",
+      "submit": "Покинуть проект",
+      "title": "Покинуть проект",
+      "toast": {
+        "error": {
+          "all_fields": "Заполните все поля.",
+          "confirm_phrase": "Подтвердите выход из проекта, введя фразу \u0027Покинуть проект\u0027.",
+          "generic": "Что-то пошло не так, пожалуйста, попробуйте позже.",
+          "project_name": "Введите имя проекта, как указано в описании.",
+          "title": "Ошибка!"
+        }
+      }
+    }
+  },
+  "project_module": {
+    "no_matching_modules": "Нет подходящих модулей",
+    "remove_filters_to_see_all_modules": "Снимите фильтры для просмотра всех модулей",
+    "remove_search_criteria_to_see_all_modules": "Очистите поиск для просмотра всех модулей"
+  },
+  "project_modules": {
+    "quick_actions": {
+      "archive_module_description": "Архивировать модуль"
+    }
+  },
+  "project_multi_select": {
+    "search_placeholder": "Поиск проектов"
+  },
+  "project_name_too_long": "Название проекта должно содержать менее 255 символов",
+  "project_settings": {
+    "automations": {
+      "select_month_modal": {
+        "errors": {
+          "month_range": "Выберите значение от 1 до 12 месяцев.",
+          "day_range": "Введите период от 7 до 365 дней."
+        },
+        "days_label": "Дни",
+        "days_placeholder": "Введите количество дней",
+        "months_label": "Месяцы",
+        "months_placeholder": "Введите количество месяцев",
+        "submitting": "Отправка...",
+        "title": "Настроить период времени"
+      }
+    },
+    "features": {
+      "toasts": {
+        "update_failed": "Не удалось обновить функцию проекта. Попробуйте снова.",
+        "updated": "Функция проекта успешно обновлена.",
+        "updating": "Обновление функции проекта..."
+      }
+    },
+    "members": {
+      "leave_confirmation": "Вы уверены, что хотите покинуть проект {name}? Вы сможете присоединиться снова, если вас пригласят или если проект публичный.",
+      "leave_title": "Покинуть проект?",
+      "remove_confirmation": "Вы уверены, что хотите удалить участника {name}? У него больше не будет доступа к этому проекту. Это действие нельзя отменить.",
+      "remove_title": "Удалить {name}?"
+    }
+  },
+  "project_states": {
+    "cannot_delete_default": "Нельзя удалить статус по умолчанию.",
+    "cannot_have_empty_group": "Группа не может быть пустой.",
+    "delete_state": "Удалить статус",
+    "delete_state_confirm_prefix": "Вы уверены, что хотите удалить статус",
+    "delete_state_confirm_suffix": "? Все данные, связанные с этим статусом, будут безвозвратно удалены. Это действие нельзя отменить.",
+    "describe_state_placeholder": "Опишите этот статус для участников.",
+    "mark_as_default": "Сделать по умолчанию",
+    "marking_as_default": "Назначение по умолчанию",
+    "state_created": "Статус успешно создан.",
+    "state_create_failed": "Не удалось создать статус. Попробуйте снова.",
+    "state_delete_failed": "Не удалось удалить статус. Попробуйте снова.",
+    "state_has_issues": "Этот статус содержит рабочие элементы, сначала переместите их в другой статус.",
+    "state_name_exists": "Статус с таким названием уже существует. Попробуйте другое название.",
+    "state_update_failed": "Не удалось обновить статус. Попробуйте снова.",
+    "state_updated": "Статус успешно обновлён."
+  },
+  "project_views": {
+    "toast": {
+      "create_failed": "Не удалось создать представление. Попробуйте снова.",
+      "created_success": "Представление успешно создано.",
+      "delete_failed": "Не удалось удалить представление. Попробуйте снова.",
+      "deleted_success": "Представление удалено.",
+      "not_found": {
+        "message": "Представление, которое вы пытаетесь обновить, не существует.",
+        "title": "Представление не найдено"
+      },
+      "update_failed": "Не удалось обновить представление. Попробуйте снова.",
+      "updated_success": "Представление успешно обновлено."
+    }
+  },
+  "reaction_created_successfully": "Реакция добавлена",
+  "reaction_creation_failed": "Не удалось добавить реакцию",
+  "reaction_remove_failed": "Не удалось удалить реакцию",
+  "reaction_removed_successfully": "Реакция удалена",
+  "reloading_to_apply_changes": "Перезагрузка для применения изменений...",
+  "remove_parent_work_item": "Удалить родительский рабочий элемент",
+  "rename_folder": "Переименовать папку",
+  "repository_sync_failed": "Не удалось синхронизировать репозиторий с проектом. Попробуйте снова.",
+  "rich_filters": {
+    "operators": {
+      "is": "равно",
+      "is_any_of": "одно из",
+      "between": "между"
+    },
+    "invalid_filter": {
+      "label": "Недействительный фильтр",
+      "tooltip": "Это условие фильтра больше недействительно. Свойство могло быть удалено, или у вас мог измениться доступ."
+    },
+    "remove_filter": "Удалить фильтр"
+  },
+  "roles": "Роли",
+  "saved": "Сохранено",
+  "saving_ellipsis": "Сохранение...",
+  "select_at_least_one_work_item": "Выберите хотя бы один рабочий элемент.",
+  "select_work_item": "Выберите рабочий элемент",
+  "select_work_items_to_delete": "Выберите рабочие элементы для удаления",
+  "select_language": "Выберите язык",
+  "selected": "выбрано",
+  "selected_items_will_always_stay_visible": "Выбранные элементы всегда будут видны в боковой панели. Остальные вы в любой момент найдете в меню «Ещё». Эти изменения применяются только к вашему интерфейсу и не влияют на других участников рабочего пространства.",
+  "self_hosted_maintenance_message": {
+    "contact_support": "Связаться с поддержкой",
+    "startup_failed_description": "Некоторые сервисы могли не запуститься. Проверьте логи контейнеров, чтобы найти и устранить проблему. Если не удается разобраться, обратитесь в нашу поддержку.",
+    "startup_failed_title": "🚧 Похоже, Plane запустился некорректно!"
+  },
+  "sidebar": {
+    "aria": {
+      "main_sidebar": "Основная боковая панель",
+      "peek_view": "Предпросмотр боковой панели",
+      "resize_sidebar": "Изменить размер боковой панели"
+    }
+  },
+  "some_error_occurred": "Произошла ошибка",
+  "syncing_ellipsis": "Синхронизация...",
+  "tab_navigation": {
+    "clear_default": "Убрать по умолчанию",
+    "hide_in_more_menu": "Скрыть в меню Еще",
+    "set_as_default": "Сделать по умолчанию",
+    "show": "Показать"
+  },
+  "theme_operations": {
+    "download_failed": "Не удалось загрузить конфигурацию темы.",
+    "downloaded": "Конфигурация темы успешно загружена.",
+    "import_failed": "Не удалось импортировать конфигурацию темы",
+    "imported": "Конфигурация темы успешно импортирована"
+  },
+  "timezone_updated_successfully": "Часовой пояс успешно обновлен",
+  "url_copied_to_clipboard": "URL успешно скопирован в буфер обмена",
+  "user": {
+    "toasts": {
+      "fetch": {
+        "error": {
+          "message": "Не удалось загрузить текущего пользователя"
+        }
+      },
+      "update": {
+        "error": {
+          "message": "Не удалось обновить текущего пользователя"
+        }
+      }
+    }
+  },
+  "user_settings": {
+    "toasts": {
+      "fetch": {
+        "error": {
+          "message": "Не удалось загрузить настройки пользователя"
+        }
+      }
+    }
+  },
+  "user_update_failed": "Не удалось обновить данные пользователя. Попробуйте снова.",
+  "view_delete_failed": "Не удалось удалить вид. Попробуйте снова.",
+  "visit_profile": "Перейти в профиль",
+  "webhook_key_regenerated": "Новый ключ успешно сгенерирован.",
+  "webhook_operations": {
+    "delete_failed": "Не удалось удалить вебхук. Попробуйте снова.",
+    "deleted": "Вебхук успешно удалён."
+  },
+  "work_item": {
+    "peek_error": {
+      "description": "Рабочий элемент, который вы ищете, не существует, был заархивирован или удалён.",
+      "title": "Рабочий элемент не существует"
+    }
+  },
+  "work_item_operations": {
+    "action_failed": "Не удалось выполнить действие",
+    "action_not_available": "Действие недоступно",
+    "bulk_deleted": "Рабочие элементы успешно удалены!",
+    "cannot_move": "Нельзя переместить рабочий элемент",
+    "cannot_move_to_completed_cycle": "Рабочий элемент нельзя переместить в завершённый цикл",
+    "date_update_failed": "Ошибка при обновлении дат рабочего элемента, попробуйте снова позже.",
+    "delete_failed": "Не удалось удалить рабочий элемент",
+    "deleted": "Рабочий элемент успешно удалён",
+    "drag_disabled_for_grouping": "Перетаскивание отключено для текущей группировки",
+    "due_date_before_start": "Срок сдачи не может быть раньше даты начала рабочего элемента.",
+    "move_failed": "Не удалось переместить рабочий элемент в проект. Попробуйте снова.",
+    "move_not_allowed": "У вас нет прав на перемещение этого рабочего элемента",
+    "only_current_project_selectable_line_1": "Выбирать можно только рабочие элементы",
+    "only_current_project_selectable_line_2": "текущего проекта.",
+    "remove_from_cycle": "Убрать из цикла",
+    "remove_from_module": "Убрать из модуля",
+    "restore_failed": "Не удалось восстановить рабочий элемент. Попробуйте снова.",
+    "restore_success_title": "Восстановление выполнено",
+    "restored": "Рабочий элемент можно найти в рабочих элементах проекта.",
+    "update_failed": "Не удалось обновить рабочий элемент"
+  },
+  "work_items_added_to_cycle_successfully": "Рабочие элементы успешно добавлены в цикл.",
+  "work_items_could_not_be_added_to_cycle": "Не удалось добавить выбранные элементы в цикл. Попробуйте снова.",
+  "workspace_invitation_page": {
+    "accept": "Принять",
+    "already_member": "Вы уже являетесь участником {workspace_name}",
+    "continue_to_home": "На главную",
+    "description": "Рабочее пространство — это место, где вы создаёте проекты, совместно работаете над задачами и организуете различные потоки работы в вашем аккаунте Plane.",
+    "ignore": "Отклонить",
+    "invited_to": "Вас пригласили в {workspace_name}",
+    "join_community": "Присоединяйтесь к нашему сообществу",
+    "link_not_active": "Ссылка-приглашение больше не активна.",
+    "not_found": "Приглашение не найдено",
+    "sign_in_to_continue": "Войдите, чтобы продолжить",
+    "star_on_github": "Поставить звезду на GitHub",
+    "start_empty_project": "Или начните с пустого проекта"
+  },
+  "workspace_member_roles": {
+    "admin": "Администратор",
+    "guest": "Гость",
+    "member": "Участник",
+    "suspended": "Приостановлен"
+  },
+  "workspace_not_found": "Рабочее пространство не найдено",
+  "workspace_not_found_description": "Рабочее пространство по этому URL не найдено. Возможно, оно не существует или у вас нет прав на просмотр.",
+  "workspace_not_member_description": "Вы не являетесь участником этого рабочего пространства. Обратитесь к администратору или проверьте ожидающие приглашения.",
+  "workspace_projects": {
+    "filters": {
+      "my_projects": "Мои проекты"
+    }
+  },
+  "workspace_settings": {
+    "settings": {
+      "general": {
+        "delete_modal": {
+          "confirm_phrase": "удалить мое пространство",
+          "confirmation_prefix": "Вы собираетесь удалить пространство",
+          "confirmation_suffix": ". Если подтвердите действие, вы потеряете доступ ко всем данным в этом пространстве без возможности восстановления. Пожалуйста, будьте предельно внимательны.",
+          "enter_workspace_name": "Введите имя этого пространства, чтобы продолжить.",
+          "final_confirmation_prefix": "Для окончательного подтверждения введите",
+          "final_confirmation_suffix": "ниже."
+        },
+        "toasts": {
+          "workspace_logo_removed": "Логотип пространства успешно удалён.",
+          "workspace_updated": "Пространство успешно обновлено.",
+          "workspace_url_copied": "URL пространства скопирован в буфер обмена."
+        }
+      },
+      "members": {
+        "details": {
+          "group": "Группа"
+        },
+        "invitation_removed_successfully": "Приглашение удалено.",
+        "leave_title": "Покинуть пространство?",
+        "no_group": "Нет группы",
+        "remove_confirmation": "Вы уверены, что хотите удалить участника {name}? У него больше не будет доступа к этому пространству. Это действие нельзя отменить.",
+        "remove_title": "Удалить {name}?",
+        "role_update_error": "Не удалось обновить роль участника. Попробуйте снова.",
+        "role_is_required": "Укажите роль"
+      },
+      "webhooks": {
+        "danger_zone": {
+          "delete_button": "Удалить вебхук",
+          "description": "После удаления вебхук нельзя восстановить. Будущие события больше не будут доставляться в этот вебхук.",
+          "title": "Опасная зона"
+        },
+        "delete_modal": {
+          "description": "Вы уверены, что хотите удалить этот вебхук? Будущие события не будут доставляться в этот вебхук. Это действие нельзя отменить.",
+          "title": "Удалить вебхук"
+        },
+        "enabled": "Включить вебхук"
+      }
+    }
+  },
+  "Dark": "Темная",
+  "Light": "Светлая",
+  "clear": "Очистить",
+  "creating_theme": "Создание темы",
+  "epics": "Эпики",
+  "favorite": "В избранное",
+  "progress": "Прогресс"
 }

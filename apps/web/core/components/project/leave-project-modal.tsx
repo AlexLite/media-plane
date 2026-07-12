@@ -112,8 +112,8 @@ export const LeaveProjectModal = observer(function LeaveProjectModal(props: ILea
         <span>
           <p className="text-13 leading-7 text-secondary">
             {t("project_modals.leave_project.description_prefix")}{" "}
-            <span className="font-medium text-primary">{` "${project?.name}" `}</span>
-            ? {t("project_modals.leave_project.description_suffix")}
+            <span className="font-medium text-primary">{` "${project?.name}" `}</span>?{" "}
+            {t("project_modals.leave_project.description_suffix")}
           </p>
         </span>
 

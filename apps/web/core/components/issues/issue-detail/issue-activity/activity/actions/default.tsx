@@ -44,10 +44,14 @@ export const IssueDefaultActivity = observer(function IssueDefaultActivity(props
               <span className="font-medium">{capitalizeFirstLetter(source.toLowerCase() || "")}</span>.
             </span>
           ) : (
-            <span>{t("activity_feed.created")} {t("common.work_items").toLowerCase()}.</span>
+            <span>
+              {t("activity_feed.created")} {t("common.work_items").toLowerCase()}.
+            </span>
           )
         ) : (
-          <span>{t("activity_feed.deleted")} {t("activity_feed.a_work_item")}.</span>
+          <span>
+            {t("activity_feed.deleted")} {t("activity_feed.a_work_item")}.
+          </span>
         )}
       </>
     </IssueActivityBlockComponent>

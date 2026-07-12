@@ -374,15 +374,15 @@
     "in_project": "in project:",
     "in_workspace": "in workspace:",
     "joined": "Joined",
-      "link_count": "{count, plural, one {# link} other {# links}}",
-      "locked": "Locked",
-      "issue": {
-        "id_copied_to_clipboard": "Work item ID copied to clipboard"
-      },
-      "entity": {
-        "link_copied_to_clipboard": "{entity} link copied to clipboard"
-      },
-      "new_issue": "New work item",
+    "link_count": "{count, plural, one {# link} other {# links}}",
+    "locked": "Locked",
+    "issue": {
+      "id_copied_to_clipboard": "Work item ID copied to clipboard"
+    },
+    "entity": {
+      "link_copied_to_clipboard": "{entity} link copied to clipboard"
+    },
+    "new_issue": "New work item",
     "no_member_yet": "No members yet",
     "offline": "Offline",
     "offline_tooltip_content": "You can continue making changes. They will be synced when you are back online.",
@@ -1129,7 +1129,7 @@
     "imported": "Theme configuration imported successfully"
   },
   "timezone_updated_successfully": "Timezone updated successfully",
-    "url_copied_to_clipboard": "The URL has been successfully copied to your clipboard",
+  "url_copied_to_clipboard": "The URL has been successfully copied to your clipboard",
   "user": {
     "toasts": {
       "fetch": {

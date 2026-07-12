@@ -117,9 +117,7 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
 
   const projects = (workspaceProjectIds || [])
     .map((projectId) => getProjectById(projectId))
-    .filter(
-      (project): project is NonNullable<ReturnType<typeof getProjectById>> => !!project && !project.archived_at
-    );
+    .filter((project): project is NonNullable<ReturnType<typeof getProjectById>> => !!project && !project.archived_at);
   const notificationRules = notificationGroupId ? getGroupNotificationRules(notificationGroupId) : [];
   const notificationRulesKey = notificationRules
     .map((rule) => `${rule.project_id}:${rule.state_id}`)
@@ -141,9 +139,7 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
     }
 
     setSelectedNotificationStateIds(
-      notificationRules
-        .filter((rule) => rule.project_id === selectedNotificationProjectId)
-        .map((rule) => rule.state_id)
+      notificationRules.filter((rule) => rule.project_id === selectedNotificationProjectId).map((rule) => rule.state_id)
     );
   }, [notificationGroupId, selectedNotificationProjectId, notificationRulesKey]);
 
@@ -239,7 +235,8 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
 
   const openNotificationPanel = async (group: IWorkspaceGroup) => {
     setNotificationGroupId(group.id);
-    if (!selectedNotificationProjectId && projects.length > 0) setSelectedNotificationProjectId(projects[0]?.id || null);
+    if (!selectedNotificationProjectId && projects.length > 0)
+      setSelectedNotificationProjectId(projects[0]?.id || null);
     await fetchWorkspaceGroupNotificationRules(workspaceSlug, group.id);
   };
 
@@ -305,10 +302,7 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message:
-          error?.workspace_member_id?.[0] ||
-          error?.error ||
-          t("something_went_wrong_please_try_again"),
+        message: error?.workspace_member_id?.[0] || error?.error || t("something_went_wrong_please_try_again"),
       });
     }
   };
@@ -365,7 +359,7 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
             <label className="grid gap-1.5 text-body-sm-medium">
               {t("workspace_settings.settings.groups.fields.name")}
               <input
-                className="rounded-md border border-subtle bg-surface-0 px-3 py-2 text-body-sm-regular outline-none focus:border-custom-primary-100"
+                className="bg-surface-0 focus:border-custom-primary-100 rounded-md border border-subtle px-3 py-2 text-body-sm-regular outline-none"
                 value={formData.name}
                 onChange={(event) => setFormData((current) => ({ ...current, name: event.target.value }))}
                 placeholder={t("workspace_settings.settings.groups.name_placeholder")}
@@ -376,7 +370,7 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
                 {t("workspace_settings.settings.groups.fields.color")}
                 <input
                   type="color"
-                  className="h-10 w-full rounded-md border border-subtle bg-surface-0 p-1"
+                  className="bg-surface-0 h-10 w-full rounded-md border border-subtle p-1"
                   value={formData.color}
                   onChange={(event) => setFormData((current) => ({ ...current, color: event.target.value }))}
                 />
@@ -402,11 +396,7 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
                   buttonClassName="h-10 rounded-md border border-subtle bg-surface-0 px-3 text-lg hover:bg-surface-2"
                   label={
                     <span className="flex items-center justify-center">
-                      {formData.emoji ? (
-                        getGroupEmoji(formData.emoji)
-                      ) : (
-                        <SmilePlus className="size-4 text-secondary" />
-                      )}
+                      {formData.emoji ? getGroupEmoji(formData.emoji) : <SmilePlus className="size-4 text-secondary" />}
                     </span>
                   }
                   onChange={(value) => {
@@ -420,7 +410,7 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
               <label className="grid gap-1.5 text-body-sm-medium">
                 {t("workspace_settings.settings.groups.fields.description")}
                 <input
-                  className="rounded-md border border-subtle bg-surface-0 px-3 py-2 text-body-sm-regular outline-none focus:border-custom-primary-100"
+                  className="bg-surface-0 focus:border-custom-primary-100 rounded-md border border-subtle px-3 py-2 text-body-sm-regular outline-none"
                   value={formData.description}
                   onChange={(event) => setFormData((current) => ({ ...current, description: event.target.value }))}
                   placeholder={t("workspace_settings.settings.groups.description_placeholder")}
@@ -450,7 +440,7 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex min-w-0 items-start gap-3">
                       {group.emoji ? (
-                        <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded bg-surface-2 text-base">
+                        <span className="text-base mt-0.5 flex size-7 shrink-0 items-center justify-center rounded bg-surface-2">
                           {getGroupEmoji(group.emoji)}
                         </span>
                       ) : (
@@ -498,13 +488,13 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
                               >
                                 <Users className="size-4" />
                               </Popover.Button>
-                              <Popover.Panel className="absolute right-0 top-full z-[100] mt-2 w-[28rem] max-w-[calc(100vw-2rem)] isolate overflow-hidden rounded-md border border-strong bg-layer-2 shadow-raised-200">
+                              <Popover.Panel className="absolute top-full right-0 isolate z-[100] mt-2 w-[28rem] max-w-[calc(100vw-2rem)] overflow-hidden rounded-md border border-strong bg-layer-2 shadow-raised-200">
                                 <div className="border-b border-subtle px-3 py-2.5">
                                   <div className="flex items-start justify-between gap-3">
                                     <div className="min-w-0">
                                       <div className="flex items-center gap-2">
                                         {group.emoji ? (
-                                          <span className="flex size-7 shrink-0 items-center justify-center rounded bg-surface-2 text-base">
+                                          <span className="text-base flex size-7 shrink-0 items-center justify-center rounded bg-surface-2">
                                             {getGroupEmoji(group.emoji)}
                                           </span>
                                         ) : (
@@ -686,13 +676,13 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
                               >
                                 <Bell className="size-4" />
                               </Popover.Button>
-                              <Popover.Panel className="absolute right-0 top-full z-[100] mt-2 w-[32rem] max-w-[calc(100vw-2rem)] isolate overflow-hidden rounded-md border border-strong bg-layer-2 shadow-raised-200">
+                              <Popover.Panel className="absolute top-full right-0 isolate z-[100] mt-2 w-[32rem] max-w-[calc(100vw-2rem)] overflow-hidden rounded-md border border-strong bg-layer-2 shadow-raised-200">
                                 <div className="border-b border-subtle px-3 py-2.5">
                                   <div className="flex items-start justify-between gap-3">
                                     <div className="min-w-0">
                                       <div className="flex items-center gap-2">
                                         {group.emoji ? (
-                                          <span className="flex size-7 shrink-0 items-center justify-center rounded bg-surface-2 text-base">
+                                          <span className="text-base flex size-7 shrink-0 items-center justify-center rounded bg-surface-2">
                                             {getGroupEmoji(group.emoji)}
                                           </span>
                                         ) : (
@@ -730,14 +720,12 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
                                   <label className="grid gap-1.5 text-body-xs-medium text-primary">
                                     {t("workspace_settings.settings.groups.project")}
                                     <select
-                                      className="rounded-md border border-subtle bg-surface-1 px-2 py-2 text-body-sm-regular outline-none focus:border-custom-primary-100"
+                                      className="focus:border-custom-primary-100 rounded-md border border-subtle bg-surface-1 px-2 py-2 text-body-sm-regular outline-none"
                                       value={selectedNotificationProjectId || ""}
                                       onChange={(event) => setSelectedNotificationProjectId(event.target.value || null)}
                                     >
                                       {projects.length === 0 && (
-                                        <option value="">
-                                          {t("workspace_settings.settings.groups.no_projects")}
-                                        </option>
+                                        <option value="">{t("workspace_settings.settings.groups.no_projects")}</option>
                                       )}
                                       {projects.map((project) => (
                                         <option key={project.id} value={project.id}>
@@ -772,7 +760,9 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
                                               key={state.id}
                                               type="button"
                                               className={`flex items-center justify-between gap-3 rounded border px-2 py-1.5 text-left hover:bg-surface-1 ${
-                                                selected ? "border-custom-primary-100 bg-custom-primary-100/10" : "border-subtle"
+                                                selected
+                                                  ? "border-custom-primary-100 bg-custom-primary-100/10"
+                                                  : "border-subtle"
                                               }`}
                                               onClick={() => toggleNotificationState(state.id)}
                                             >
@@ -847,7 +837,7 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
                           return (
                             <div
                               key={groupMember.id}
-                              className="flex max-w-full items-center gap-2 rounded border border-subtle bg-surface-0 px-2 py-1"
+                              className="bg-surface-0 flex max-w-full items-center gap-2 rounded border border-subtle px-2 py-1"
                             >
                               <Avatar name={getMemberName(member)} src={member.member?.avatar_url || ""} size="sm" />
                               <span className="max-w-44 truncate text-body-xs-regular text-primary">

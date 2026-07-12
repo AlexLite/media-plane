@@ -49,7 +49,9 @@ export function ApiTokenListItem(props: Props) {
               token.is_active ? "bg-success-subtle text-success-primary" : "bg-layer-1 text-placeholder"
             } ml-2 flex h-4 max-h-fit items-center rounded-xs px-2 text-11 font-medium`}
           >
-            {token.is_active ? t("workspace_settings.settings.api_tokens.status.active") : t("workspace_settings.settings.api_tokens.status.expired")}
+            {token.is_active
+              ? t("workspace_settings.settings.api_tokens.status.active")
+              : t("workspace_settings.settings.api_tokens.status.expired")}
           </span>
         </div>
         <div className="mt-1 flex w-full flex-col justify-center">

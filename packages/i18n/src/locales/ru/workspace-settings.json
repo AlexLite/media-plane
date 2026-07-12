@@ -50,10 +50,10 @@
         "pending_invites": "Ожидающие приглашения",
         "invitations_sent_successfully": "Приглашения отправлены",
         "leave_confirmation": "Подтвердите выход из пространства. Доступ будет утрачен. Это действие нельзя отменить.",
-      "details": {
-        "email_code": "Код на email",
-        "email_password": "Пароль email",
-        "invite": "Пригласить",
+        "details": {
+          "email_code": "Код на email",
+          "email_password": "Пароль email",
+          "invite": "Пригласить",
           "full_name": "Полное имя",
           "display_name": "Отображаемое имя",
           "email_address": "Email",

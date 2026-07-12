@@ -81,7 +81,9 @@ function PipelineStatusButton({
         }
       )}
       disabled={disabled || isLoading || !isActive}
-      title={isActive ? t("issue.pipeline.complete_active_step") : t("issue.pipeline.only_active_step_can_be_completed")}
+      title={
+        isActive ? t("issue.pipeline.complete_active_step") : t("issue.pipeline.only_active_step_can_be_completed")
+      }
       onClick={(event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -89,11 +91,11 @@ function PipelineStatusButton({
       }}
     >
       {item.status === "completed" ? (
-        <CheckCircle2 className="size-4 text-green-500" />
+        <CheckCircle2 className="text-green-500 size-4" />
       ) : item.status === "active" ? (
-        <CircleDot className="size-4 text-blue-500" />
+        <CircleDot className="text-blue-500 size-4" />
       ) : (
-        <Circle className="size-4 text-custom-text-300" />
+        <Circle className="text-custom-text-300 size-4" />
       )}
     </button>
   );
@@ -270,7 +272,10 @@ export const PipelineCollapsible = observer(function PipelineCollapsible(props: 
                     </Tooltip>
                   </div>
 
-                  <div className="flex flex-shrink-0 items-center gap-2 text-13" onClick={(event) => event.stopPropagation()}>
+                  <div
+                    className="flex flex-shrink-0 items-center gap-2 text-13"
+                    onClick={(event) => event.stopPropagation()}
+                  >
                     <div className="h-5">
                       <DateDropdown
                         value={item.start_date ?? null}
@@ -320,23 +325,25 @@ export const PipelineCollapsible = observer(function PipelineCollapsible(props: 
                         onChange={(assigneeIds) => updatePipelineItem(item, { assignee_ids: assigneeIds })}
                         disabled={disabled || isLoading}
                         multiple
-                        buttonVariant={(item.assignee_ids || []).length > 0 ? "transparent-without-text" : "border-without-text"}
+                        buttonVariant={
+                          (item.assignee_ids || []).length > 0 ? "transparent-without-text" : "border-without-text"
+                        }
                         buttonClassName={(item.assignee_ids || []).length > 0 ? "hover:bg-transparent px-0" : ""}
                       />
                     </div>
                   </div>
 
                   {item.auto_completed && (
-                    <div className="ml-2 flex flex-shrink-0 items-center rounded border border-custom-border-200 px-1.5 py-0.5 text-xs text-custom-text-200">
+                    <div className="border-custom-border-200 text-xs text-custom-text-200 ml-2 flex flex-shrink-0 items-center rounded border px-1.5 py-0.5">
                       <FastForward className="h-3 w-3" />
                     </div>
                   )}
                 </div>
 
                 {isExpanded && !disabled && (
-                  <div className="space-y-2 pl-6 pr-2 pb-2" onClick={(event) => event.stopPropagation()}>
+                  <div className="space-y-2 pr-2 pb-2 pl-6" onClick={(event) => event.stopPropagation()}>
                     {itemComments.length > 0 && (
-                      <div className="space-y-2 border-t border-custom-border-100 pt-2">
+                      <div className="border-custom-border-100 space-y-2 border-t pt-2">
                         {itemComments.map((comment, index) => (
                           <CommentCard
                             key={comment.id}

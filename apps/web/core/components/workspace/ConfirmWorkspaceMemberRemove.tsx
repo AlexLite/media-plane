@@ -79,9 +79,9 @@ export const ConfirmWorkspaceMemberRemove = observer(function ConfirmWorkspaceMe
                           </p>
                         ) : (
                           <p className="text-13 text-secondary">
-                            {
-                              t("workspace_settings.settings.members.remove_confirmation", { name: userDetails?.display_name })
-                            }
+                            {t("workspace_settings.settings.members.remove_confirmation", {
+                              name: userDetails?.display_name,
+                            })}
                           </p>
                         )}
                       </div>

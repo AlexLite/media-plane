@@ -26,7 +26,10 @@ export const GroupsWorkspaceSettingsHeader = observer(function GroupsWorkspaceSe
           <Breadcrumbs>
             <Breadcrumbs.Item
               component={
-                <BreadcrumbLink label={t(settingsDetails.i18n_label)} icon={<Icon className="size-4 text-tertiary" />} />
+                <BreadcrumbLink
+                  label={t(settingsDetails.i18n_label)}
+                  icon={<Icon className="size-4 text-tertiary" />}
+                />
               }
             />
           </Breadcrumbs>

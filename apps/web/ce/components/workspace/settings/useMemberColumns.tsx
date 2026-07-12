@@ -138,7 +138,9 @@ export const useMemberColumns = () => {
         if (loginMedium === "magic-code" || loginMedium === "email") {
           return (
             <div>
-              {t(`workspace_settings.settings.members.details.${loginMedium === "email" ? "email_password" : "email_code"}`)}
+              {t(
+                `workspace_settings.settings.members.details.${loginMedium === "email" ? "email_password" : "email_code"}`
+              )}
             </div>
           );
         }

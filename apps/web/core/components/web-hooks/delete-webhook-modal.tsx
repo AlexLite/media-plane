@@ -63,11 +63,7 @@ export function DeleteWebhookModal(props: IDeleteWebhook) {
       isSubmitting={isDeleting}
       isOpen={isOpen}
       title={t("workspace_settings.settings.webhooks.delete_modal.title")}
-      content={
-        <>
-          {t("workspace_settings.settings.webhooks.delete_modal.description")}
-        </>
-      }
+      content={<>{t("workspace_settings.settings.webhooks.delete_modal.description")}</>}
     />
   );
 }

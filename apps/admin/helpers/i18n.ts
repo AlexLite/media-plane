@@ -39,7 +39,8 @@ const translations: Record<TLocale, Record<string, string>> = {
     continue: "Continue",
     instance_failure_image_alt: "Instance failure illustration",
     instance_failure_title: "Unable to fetch instance details.",
-    instance_failure_description: "We were unable to fetch the details of the instance. Fret not, it might just be a connectivity issue.",
+    instance_failure_description:
+      "We were unable to fetch the details of the instance. Fret not, it might just be a connectivity issue.",
     retry: "Retry",
     instance_not_ready_image_alt: "Plane logo",
     instance_not_ready_welcome_heading: "Welcome aboard Plane!",
@@ -49,7 +50,8 @@ const translations: Record<TLocale, Record<string, string>> = {
     unsaved_changes_description: "Changes you made will be lost if you go back. Do you wish to go back?",
     keep_editing: "Keep editing",
     new_user_popup_title: "Create workspace",
-    new_user_popup_description: "Instance setup done! Welcome to Plane instance portal. Start your journey by creating your first workspace.",
+    new_user_popup_description:
+      "Instance setup done! Welcome to Plane instance portal. Start your journey by creating your first workspace.",
     new_user_popup_image_alt: "Plane icon",
     copied_to_clipboard: "Copied to clipboard",
     copied_to_clipboard_message: "The {label} has been successfully copied to your clipboard",
@@ -75,8 +77,7 @@ const translations: Record<TLocale, Record<string, string>> = {
     auth_error_authentication_failed_title: "Authentication failed",
     auth_error_authentication_failed_message: "Authentication failed. Please try again.",
     auth_error_user_account_deactivated_title: "User account deactivated",
-    auth_error_user_account_deactivated_message:
-      "User account deactivated. Please contact administrator.",
+    auth_error_user_account_deactivated_message: "User account deactivated. Please contact administrator.",
     auth_error_admin_user_already_exists_title: "Admin user already exists",
     auth_error_admin_user_already_exists_message: "Admin user already exists.",
     auth_error_admin_user_does_not_exist_title: "Admin user does not exist",
@@ -90,7 +91,8 @@ const translations: Record<TLocale, Record<string, string>> = {
     configuration_saved_successfully: "Configuration saved successfully",
     configuration_save_failed: "Failed to save configuration",
     ai_page_title: "AI features for all your workspaces",
-    ai_page_description: "Configure your AI API credentials so Plane AI features are turned on for all your workspaces.",
+    ai_page_description:
+      "Configure your AI API credentials so Plane AI features are turned on for all your workspaces.",
     ai_page_meta_title: "Artificial Intelligence Settings - God Mode",
     image_page_title: "Third-party image libraries",
     image_page_description: "Let your users search and choose images from third-party libraries",
@@ -151,13 +153,14 @@ const translations: Record<TLocale, Record<string, string>> = {
     authentication_page_description:
       "Configure authentication modes for your team and restrict sign-ups to be invite only.",
     allow_signup_without_invite: "Allow anyone to sign up even without an invite",
-    allow_signup_without_invite_description:
-      "Toggling this off will only let users sign up when they are invited.",
+    allow_signup_without_invite_description: "Toggling this off will only let users sign up when they are invited.",
     available_authentication_modes: "Available authentication modes",
     auth_method_unique_codes_name: "Unique codes",
-    auth_method_unique_codes_description: "Log in or sign up for Plane using codes sent via email. You need to have set up SMTP to use this method.",
+    auth_method_unique_codes_description:
+      "Log in or sign up for Plane using codes sent via email. You need to have set up SMTP to use this method.",
     auth_method_passwords_name: "Passwords",
-    auth_method_passwords_description: "Allow members to create accounts with passwords and use it with their email addresses to sign in.",
+    auth_method_passwords_description:
+      "Allow members to create accounts with passwords and use it with their email addresses to sign in.",
     oauth_sync_description: "Refresh user attributes from {label} during sign in",
     authentication_page_meta_title: "Authentication Settings - Plane Web",
     settings_updated_successfully: "Settings updated successfully",
@@ -229,7 +232,7 @@ const translations: Record<TLocale, Record<string, string>> = {
     oauth_gitlab_secret_description_prefix: "The client secret is also found in your",
     oauth_gitea_host: "Gitea Host",
     oauth_gitea_host_description:
-      "Use the URL of your Gitea instance. For the official Gitea instance, use \"https://gitea.com\".",
+      'Use the URL of your Gitea instance. For the official Gitea instance, use "https://gitea.com".',
     oauth_gitea_application_settings: "Gitea OAuth application settings.",
     oauth_gitea_client_id_description_prefix: "You will get this from your",
     oauth_gitea_client_secret_description_prefix: "Your client secret is also found in your",
@@ -253,7 +256,8 @@ const translations: Record<TLocale, Record<string, string>> = {
     receiver_email: "Receiver email",
     test_email_sent_to_prefix: "We have sent the test email to",
     test_email_sent_to_suffix: "Please check your spam folder if you cannot find it.",
-    test_email_recheck_smtp: "If you still cannot find it, recheck your SMTP configuration and trigger a new test email.",
+    test_email_recheck_smtp:
+      "If you still cannot find it, recheck your SMTP configuration and trigger a new test email.",
     cancel: "Cancel",
     close: "Close",
     send_email: "Send email",
@@ -350,7 +354,8 @@ const translations: Record<TLocale, Record<string, string>> = {
     continue: "Продолжить",
     instance_failure_image_alt: "Иллюстрация ошибки экземпляра",
     instance_failure_title: "Не удалось получить сведения об экземпляре.",
-    instance_failure_description: "Не удалось получить сведения об экземпляре. Возможно, возникла проблема с подключением.",
+    instance_failure_description:
+      "Не удалось получить сведения об экземпляре. Возможно, возникла проблема с подключением.",
     retry: "Повторить",
     instance_not_ready_image_alt: "Логотип Plane",
     instance_not_ready_welcome_heading: "Добро пожаловать в Plane!",
@@ -375,8 +380,7 @@ const translations: Record<TLocale, Record<string, string>> = {
     auth_error_admin_already_exists_title: "Администратор уже существует",
     auth_error_admin_already_exists_message: "Администратор уже существует. Попробуйте снова.",
     auth_error_admin_required_email_password_first_name_title: "Требуются email, пароль и имя",
-    auth_error_admin_required_email_password_first_name_message:
-      "Введите email, пароль и имя. Попробуйте снова.",
+    auth_error_admin_required_email_password_first_name_message: "Введите email, пароль и имя. Попробуйте снова.",
     auth_error_invalid_admin_email_title: "Некорректный email администратора",
     auth_error_invalid_admin_email_message: "Некорректный email администратора. Попробуйте снова.",
     auth_error_invalid_admin_password_title: "Некорректный пароль администратора",
@@ -386,8 +390,7 @@ const translations: Record<TLocale, Record<string, string>> = {
     auth_error_authentication_failed_title: "Ошибка аутентификации",
     auth_error_authentication_failed_message: "Ошибка аутентификации. Попробуйте снова.",
     auth_error_user_account_deactivated_title: "Учетная запись деактивирована",
-    auth_error_user_account_deactivated_message:
-      "Учетная запись деактивирована. Свяжитесь с администратором.",
+    auth_error_user_account_deactivated_message: "Учетная запись деактивирована. Свяжитесь с администратором.",
     auth_error_admin_user_already_exists_title: "Администратор уже существует",
     auth_error_admin_user_already_exists_message: "Администратор уже существует.",
     auth_error_admin_user_does_not_exist_title: "Администратор не существует",
@@ -467,9 +470,11 @@ const translations: Record<TLocale, Record<string, string>> = {
       "Если отключить, пользователи смогут регистрироваться только по приглашению.",
     available_authentication_modes: "Доступные методы аутентификации",
     auth_method_unique_codes_name: "Одноразовые коды",
-    auth_method_unique_codes_description: "Вход или регистрация в Plane с помощью кодов, отправленных на email. Требуется настроенный SMTP.",
+    auth_method_unique_codes_description:
+      "Вход или регистрация в Plane с помощью кодов, отправленных на email. Требуется настроенный SMTP.",
     auth_method_passwords_name: "Пароли",
-    auth_method_passwords_description: "Позволяет участникам создавать учетные записи с паролем и входить с их помощью.",
+    auth_method_passwords_description:
+      "Позволяет участникам создавать учетные записи с паролем и входить с их помощью.",
     oauth_sync_description: "Обновлять атрибуты пользователя из {label} при входе",
     authentication_page_meta_title: "Настройки аутентификации — Plane Web",
     settings_updated_successfully: "Настройки успешно обновлены",
@@ -541,7 +546,7 @@ const translations: Record<TLocale, Record<string, string>> = {
     oauth_gitlab_secret_description_prefix: "Секрет клиента также находится в",
     oauth_gitea_host: "Хост Gitea",
     oauth_gitea_host_description:
-      "Используйте URL вашего инстанса Gitea. Для официального инстанса используйте \"https://gitea.com\".",
+      'Используйте URL вашего инстанса Gitea. Для официального инстанса используйте "https://gitea.com".',
     oauth_gitea_application_settings: "настройках OAuth-приложения Gitea.",
     oauth_gitea_client_id_description_prefix: "Вы получите это в",
     oauth_gitea_client_secret_description_prefix: "Секрет клиента также находится в",
@@ -565,8 +570,7 @@ const translations: Record<TLocale, Record<string, string>> = {
     receiver_email: "Email получателя",
     test_email_sent_to_prefix: "Тестовое письмо отправлено на",
     test_email_sent_to_suffix: "Проверьте папку спам, если письмо не найдено.",
-    test_email_recheck_smtp:
-      "Если письмо не найдено, проверьте SMTP-настройки и отправьте тестовое письмо снова.",
+    test_email_recheck_smtp: "Если письмо не найдено, проверьте SMTP-настройки и отправьте тестовое письмо снова.",
     cancel: "Отмена",
     close: "Закрыть",
     send_email: "Отправить письмо",
@@ -596,8 +600,7 @@ const translations: Record<TLocale, Record<string, string>> = {
     email_security: "Защита email",
     no_email_security: "Без защиты email",
     authentication: "Аутентификация",
-    smtp_auth_recommendation:
-      "Необязательно, но рекомендуем настроить имя пользователя и пароль для SMTP-сервера.",
+    smtp_auth_recommendation: "Необязательно, но рекомендуем настроить имя пользователя и пароль для SMTP-сервера.",
     send_test_email: "Отправить тестовое письмо",
     email_settings_updated_successfully: "Настройки email успешно обновлены",
     llm_model: "Модель LLM",

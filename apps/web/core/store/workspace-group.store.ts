@@ -8,7 +8,12 @@ import { set, sortBy } from "lodash-es";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { computedFn } from "mobx-utils";
 // types
-import type { IWorkspaceGroup, IWorkspaceGroupMember, IWorkspaceGroupNotificationRule, IWorkspaceGroupNotificationRulePayload } from "@plane/types";
+import type {
+  IWorkspaceGroup,
+  IWorkspaceGroupMember,
+  IWorkspaceGroupNotificationRule,
+  IWorkspaceGroupNotificationRulePayload,
+} from "@plane/types";
 // services
 import { WorkspaceGroupService } from "@/services/workspace-group.service";
 // store
@@ -38,7 +43,10 @@ export interface IWorkspaceGroupStore {
     groupId: string,
     workspaceMemberId: string
   ) => Promise<IWorkspaceGroupMember>;
-  fetchWorkspaceGroupNotificationRules: (workspaceSlug: string, groupId: string) => Promise<IWorkspaceGroupNotificationRule[]>;
+  fetchWorkspaceGroupNotificationRules: (
+    workspaceSlug: string,
+    groupId: string
+  ) => Promise<IWorkspaceGroupNotificationRule[]>;
   updateWorkspaceGroupNotificationRules: (
     workspaceSlug: string,
     groupId: string,
@@ -145,14 +153,16 @@ export class WorkspaceGroupStore implements IWorkspaceGroupStore {
     });
 
   addWorkspaceGroupMember = async (workspaceSlug: string, groupId: string, workspaceMemberId: string) =>
-    await this.workspaceGroupService.addWorkspaceGroupMember(workspaceSlug, groupId, workspaceMemberId).then((response) => {
-      runInAction(() => {
-        const nextMembers = [...(this.groupMemberMap[groupId] || []), response];
-        set(this.groupMemberMap, [groupId], nextMembers);
-        set(this.groupMap, [groupId, "member_count"], nextMembers.length);
+    await this.workspaceGroupService
+      .addWorkspaceGroupMember(workspaceSlug, groupId, workspaceMemberId)
+      .then((response) => {
+        runInAction(() => {
+          const nextMembers = [...(this.groupMemberMap[groupId] || []), response];
+          set(this.groupMemberMap, [groupId], nextMembers);
+          set(this.groupMap, [groupId, "member_count"], nextMembers.length);
+        });
+        return response;
       });
-      return response;
-    });
 
   fetchWorkspaceGroupNotificationRules = async (workspaceSlug: string, groupId: string) =>
     await this.workspaceGroupService.listWorkspaceGroupNotificationRules(workspaceSlug, groupId).then((response) => {
@@ -165,10 +175,12 @@ export class WorkspaceGroupStore implements IWorkspaceGroupStore {
     groupId: string,
     data: IWorkspaceGroupNotificationRulePayload
   ) =>
-    await this.workspaceGroupService.updateWorkspaceGroupNotificationRules(workspaceSlug, groupId, data).then((response) => {
-      runInAction(() => set(this.groupNotificationRuleMap, [groupId], response));
-      return response;
-    });
+    await this.workspaceGroupService
+      .updateWorkspaceGroupNotificationRules(workspaceSlug, groupId, data)
+      .then((response) => {
+        runInAction(() => set(this.groupNotificationRuleMap, [groupId], response));
+        return response;
+      });
 
   deleteWorkspaceGroupMember = async (workspaceSlug: string, groupId: string, groupMemberId: string) =>
     await this.workspaceGroupService.deleteWorkspaceGroupMember(workspaceSlug, groupId, groupMemberId).then(() => {

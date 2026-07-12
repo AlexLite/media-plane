@@ -33,7 +33,9 @@ export const IssueAssigneeActivity = observer(function IssueAssigneeActivity(pro
       ends={ends}
     >
       <>
-        {activity.old_value === "" ? `${t("activity_feed.added_new_assignee")} ` : `${t("activity_feed.removed_assignee")} `}
+        {activity.old_value === ""
+          ? `${t("activity_feed.added_new_assignee")} `
+          : `${t("activity_feed.removed_assignee")} `}
         <a
           href={`/${activity.workspace_detail?.slug}/profile/${activity.new_identifier ?? activity.old_identifier}`}
           target="_blank"

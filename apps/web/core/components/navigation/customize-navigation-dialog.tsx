@@ -184,9 +184,7 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
         <div className="flex justify-between px-6 pt-4">
           <div>
             <h2 className="text-18 font-semibold text-primary">{t("customize_navigation")}</h2>
-            <p className="mt-1 text-13 text-tertiary">
-              {t("selected_items_will_always_stay_visible")}
-            </p>
+            <p className="mt-1 text-13 text-tertiary">{t("selected_items_will_always_stay_visible")}</p>
           </div>
           <button
             onClick={onClose}
@@ -276,9 +274,7 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
                     />
                     <div className="flex-1">
                       <div className="text-13 text-primary">{t("accordion_navigation_control")}</div>
-                      <div className="text-11 text-secondary">
-                        {t("feature_tabs_nested_under_project")}
-                      </div>
+                      <div className="text-11 text-secondary">{t("feature_tabs_nested_under_project")}</div>
                     </div>
                   </label>
 
@@ -293,9 +289,7 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
                     />
                     <div className="flex-1">
                       <div className="text-13 text-primary">{t("horizontal_navigation_bar")}</div>
-                      <div className="text-11 text-secondary">
-                        {t("feature_tabs_horizontal_inside_project")}
-                      </div>
+                      <div className="text-11 text-secondary">{t("feature_tabs_horizontal_inside_project")}</div>
                     </div>
                   </label>
                 </div>

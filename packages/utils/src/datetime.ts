@@ -212,7 +212,10 @@ export const calculateTimeAgo = (time: string | number | Date | null, relative =
   if (relative) return formatDistanceToNow(parsedTime, { addSuffix: true, locale: getDateLocale() });
   return isToday(parsedTime)
     ? renderFormattedTime(parsedTime)
-    : (renderFormattedDateWithTime(parsedTime, `${String(parsedTime.getHours()).padStart(2, "0")}:${String(parsedTime.getMinutes()).padStart(2, "0")}`) ?? "");
+    : (renderFormattedDateWithTime(
+        parsedTime,
+        `${String(parsedTime.getHours()).padStart(2, "0")}:${String(parsedTime.getMinutes()).padStart(2, "0")}`
+      ) ?? "");
 };
 
 export function calculateTimeAgoShort(date: string | number | Date | null): string {

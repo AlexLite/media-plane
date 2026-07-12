@@ -12,7 +12,13 @@ import useSWR from "swr";
 // plane imports
 import { useTranslation } from "@plane/i18n";
 import { stringToEmoji } from "@plane/propel/emoji-icon-picker";
-import type { ChartDataType, IAnalyticsWorkloadResponse, IAnalyticsWorkloadItem, IAnalyticsWorkloadRow, TGanttViews } from "@plane/types";
+import type {
+  ChartDataType,
+  IAnalyticsWorkloadResponse,
+  IAnalyticsWorkloadItem,
+  IAnalyticsWorkloadRow,
+  TGanttViews,
+} from "@plane/types";
 import { Avatar } from "@plane/ui";
 import { cn, getDate, getFileURL } from "@plane/utils";
 // hooks
@@ -30,7 +36,13 @@ import {
   quarterView,
   weekView,
 } from "@/components/gantt-chart/views";
-import type { IDayHourBlock, IMonthBlock, IMonthView, IQuarterMonthBlock, IWeekBlock } from "@/components/gantt-chart/views";
+import type {
+  IDayHourBlock,
+  IMonthBlock,
+  IMonthView,
+  IQuarterMonthBlock,
+  IWeekBlock,
+} from "@/components/gantt-chart/views";
 import AnalyticsEmptyState from "../empty-state";
 import AnalyticsWrapper from "../analytics-wrapper";
 
@@ -92,7 +104,10 @@ const getTimelineCurrentDate = (members: IAnalyticsWorkloadRow[]) => {
   const nearestItem = datedItems
     .map((item) => getDate(item.start_date))
     .filter((date): date is Date => !!date)
-    .sort((a, b) => Math.abs(startOfDay(a).getTime() - today.getTime()) - Math.abs(startOfDay(b).getTime() - today.getTime()))[0];
+    .sort(
+      (a, b) =>
+        Math.abs(startOfDay(a).getTime() - today.getTime()) - Math.abs(startOfDay(b).getTime() - today.getTime())
+    )[0];
 
   return nearestItem ? startOfDay(nearestItem) : today;
 };
@@ -118,9 +133,15 @@ const getTimelineRender = (view: TGanttViews, currentDate: Date, startOfWeek?: n
 const WorkloadDayChartView = ({ chartData, renderView }: { chartData: ChartDataType; renderView: IDayHourBlock[] }) => (
   <div className="absolute top-0 left-0 flex h-max min-h-full w-max">
     <div className="relative flex flex-col outline-[0.25px] outline-subtle-1">
-      <div className="sticky top-0 z-[5] w-full flex-shrink-0 bg-surface-1 outline-[1px] outline-subtle-1" style={{ height: `${HEADER_HEIGHT}px` }}>
+      <div
+        className="sticky top-0 z-[5] w-full flex-shrink-0 bg-surface-1 outline-[1px] outline-subtle-1"
+        style={{ height: `${HEADER_HEIGHT}px` }}
+      >
         <div className="inline-flex h-7 w-full justify-between">
-          <div className="sticky z-[1] m-1 flex items-center bg-surface-1 px-3 py-1 text-13 font-regular whitespace-nowrap text-secondary" style={{ left: `${SIDEBAR_WIDTH}px` }}>
+          <div
+            className="sticky z-[1] m-1 flex items-center bg-surface-1 px-3 py-1 text-13 font-regular whitespace-nowrap text-secondary"
+            style={{ left: `${SIDEBAR_WIDTH}px` }}
+          >
             ???????
           </div>
           <div className="sticky px-3 py-2 text-11 whitespace-nowrap text-placeholder">????? ?????</div>
@@ -129,12 +150,17 @@ const WorkloadDayChartView = ({ chartData, renderView }: { chartData: ChartDataT
           {renderView.map((hour) => (
             <div
               key={`hour-title-${hour.hour}`}
-              className={cn("flex flex-shrink-0 items-center justify-center p-1 text-center text-11 font-medium outline-[0.25px] outline-subtle-1", {
-                "bg-accent-primary/20": hour.current,
-              })}
+              className={cn(
+                "flex flex-shrink-0 items-center justify-center p-1 text-center text-11 font-medium outline-[0.25px] outline-subtle-1",
+                {
+                  "bg-accent-primary/20": hour.current,
+                }
+              )}
               style={{ width: `${chartData.data.dayWidth}px` }}
             >
-              <span className={cn({ "rounded-sm bg-accent-primary px-1 text-on-color": hour.current })}>{hour.title}</span>
+              <span className={cn({ "rounded-sm bg-accent-primary px-1 text-on-color": hour.current })}>
+                {hour.title}
+              </span>
             </div>
           ))}
         </div>
@@ -143,7 +169,9 @@ const WorkloadDayChartView = ({ chartData, renderView }: { chartData: ChartDataT
         {renderView.map((hour) => (
           <div
             key={`hour-column-${hour.hour}`}
-            className={cn("h-full overflow-hidden outline-[0.25px] outline-subtle", { "bg-accent-primary/20": hour.current })}
+            className={cn("h-full overflow-hidden outline-[0.25px] outline-subtle", {
+              "bg-accent-primary/20": hour.current,
+            })}
             style={{ width: `${chartData.data.dayWidth}px` }}
           />
         ))}
@@ -155,26 +183,42 @@ const WorkloadDayChartView = ({ chartData, renderView }: { chartData: ChartDataT
 const WorkloadWeekChartView = ({ chartData, renderView }: { chartData: ChartDataType; renderView: IWeekBlock[] }) => (
   <div className="absolute top-0 left-0 flex h-max min-h-full w-max">
     {renderView.map((block, rootIndex) => (
-      <div key={`week-${block.startDate.toString()}-${block.endDate.toString()}`} className="relative flex flex-col outline-[0.25px] outline-subtle-1">
-        <div className="sticky top-0 z-[5] w-full flex-shrink-0 bg-surface-1 outline-[1px] outline-subtle-1" style={{ height: `${HEADER_HEIGHT}px` }}>
+      <div
+        key={`week-${block.startDate.toString()}-${block.endDate.toString()}`}
+        className="relative flex flex-col outline-[0.25px] outline-subtle-1"
+      >
+        <div
+          className="sticky top-0 z-[5] w-full flex-shrink-0 bg-surface-1 outline-[1px] outline-subtle-1"
+          style={{ height: `${HEADER_HEIGHT}px` }}
+        >
           <div className="inline-flex h-7 w-full justify-between">
-            <div className="sticky z-[1] m-1 flex items-center bg-surface-1 px-3 py-1 text-13 font-regular whitespace-nowrap text-secondary capitalize" style={{ left: `${SIDEBAR_WIDTH}px` }}>
+            <div
+              className="sticky z-[1] m-1 flex items-center bg-surface-1 px-3 py-1 text-13 font-regular whitespace-nowrap text-secondary capitalize"
+              style={{ left: `${SIDEBAR_WIDTH}px` }}
+            >
               {block.title}
             </div>
-            <div className="sticky px-3 py-2 text-11 whitespace-nowrap text-placeholder capitalize">{block.weekData.title}</div>
+            <div className="sticky px-3 py-2 text-11 whitespace-nowrap text-placeholder capitalize">
+              {block.weekData.title}
+            </div>
           </div>
           <div className="flex h-5 w-full">
             {block.children?.map((weekDay, index) => (
               <div
                 key={`week-sub-title-${rootIndex}-${index}`}
-                className={cn("flex flex-shrink-0 justify-between p-1 text-center capitalize outline-[0.25px] outline-subtle-1", {
-                  "bg-accent-primary/20": weekDay.today,
-                })}
+                className={cn(
+                  "flex flex-shrink-0 justify-between p-1 text-center capitalize outline-[0.25px] outline-subtle-1",
+                  {
+                    "bg-accent-primary/20": weekDay.today,
+                  }
+                )}
                 style={{ width: `${chartData.data.dayWidth}px` }}
               >
                 <div className="space-x-1 text-11 font-medium text-placeholder">{weekDay.dayData.abbreviation}</div>
                 <div className="space-x-1 text-11 font-medium">
-                  <span className={cn({ "rounded-sm bg-accent-primary px-1 text-on-color": weekDay.today })}>{weekDay.date.getDate()}</span>
+                  <span className={cn({ "rounded-sm bg-accent-primary px-1 text-on-color": weekDay.today })}>
+                    {weekDay.date.getDate()}
+                  </span>
                 </div>
               </div>
             ))}
@@ -184,7 +228,9 @@ const WorkloadWeekChartView = ({ chartData, renderView }: { chartData: ChartData
           {block.children?.map((weekDay, index) => (
             <div
               key={`week-column-${rootIndex}-${index}`}
-              className={cn("h-full overflow-hidden outline-[0.25px] outline-subtle", { "bg-accent-primary/20": weekDay.today })}
+              className={cn("h-full overflow-hidden outline-[0.25px] outline-subtle", {
+                "bg-accent-primary/20": weekDay.today,
+              })}
               style={{ width: `${chartData.data.dayWidth}px` }}
             >
               {[0, 6].includes(weekDay.day) && <div className="h-full bg-surface-2 outline-[0.25px] outline-strong" />}
@@ -211,8 +257,15 @@ const WorkloadMonthChartView = ({ chartData, renderView }: { chartData: ChartDat
         <div className="sticky top-0 z-[5] w-full flex-shrink-0 bg-surface-1" style={{ height: `${HEADER_HEIGHT}px` }}>
           <div className="flex h-7" style={{ marginLeft: `${marginLeftDays * chartData.data.dayWidth}px` }}>
             {months.map((monthBlock) => (
-              <div key={`month-${monthBlock.month}-${monthBlock.year}`} className="flex outline-[0.5px] outline-subtle-1" style={{ width: `${monthBlock.days * chartData.data.dayWidth}px` }}>
-                <div className="sticky z-[1] m-1 flex items-center bg-surface-1 px-3 py-1 text-14 font-regular whitespace-nowrap text-secondary capitalize" style={{ left: `${SIDEBAR_WIDTH}px` }}>
+              <div
+                key={`month-${monthBlock.month}-${monthBlock.year}`}
+                className="flex outline-[0.5px] outline-subtle-1"
+                style={{ width: `${monthBlock.days * chartData.data.dayWidth}px` }}
+              >
+                <div
+                  className="sticky z-[1] m-1 flex items-center bg-surface-1 px-3 py-1 text-14 font-regular whitespace-nowrap text-secondary capitalize"
+                  style={{ left: `${SIDEBAR_WIDTH}px` }}
+                >
                   {monthBlock.title}
                 </div>
               </div>
@@ -222,13 +275,18 @@ const WorkloadMonthChartView = ({ chartData, renderView }: { chartData: ChartDat
             {weeks.map((weekBlock) => (
               <div
                 key={`month-sub-title-${weekBlock.startDate.toString()}-${weekBlock.endDate.toString()}`}
-                className={cn("flex flex-shrink-0 justify-between px-2 py-1 text-center capitalize outline-[0.25px] outline-subtle-1", {
-                  "bg-accent-primary/20": weekBlock.today,
-                })}
+                className={cn(
+                  "flex flex-shrink-0 justify-between px-2 py-1 text-center capitalize outline-[0.25px] outline-subtle-1",
+                  {
+                    "bg-accent-primary/20": weekBlock.today,
+                  }
+                )}
                 style={{ width: `${chartData.data.dayWidth * 7}px` }}
               >
                 <div className="space-x-1 text-11 font-medium text-placeholder">
-                  <span className={cn({ "rounded-sm bg-accent-primary px-1 text-on-color": weekBlock.today })}>{weekBlock.startDate.getDate()}-{weekBlock.endDate.getDate()}</span>
+                  <span className={cn({ "rounded-sm bg-accent-primary px-1 text-on-color": weekBlock.today })}>
+                    {weekBlock.startDate.getDate()}-{weekBlock.endDate.getDate()}
+                  </span>
                 </div>
                 <div className="space-x-1 text-11 font-medium">{weekBlock.weekData.shortTitle}</div>
               </div>
@@ -239,7 +297,9 @@ const WorkloadMonthChartView = ({ chartData, renderView }: { chartData: ChartDat
           {weeks.map((weekBlock) => (
             <div
               key={`month-column-${weekBlock.startDate.toString()}-${weekBlock.endDate.toString()}`}
-              className={cn("h-full overflow-hidden outline-[0.25px] outline-subtle", { "bg-accent-primary/20": weekBlock.today })}
+              className={cn("h-full overflow-hidden outline-[0.25px] outline-subtle", {
+                "bg-accent-primary/20": weekBlock.today,
+              })}
               style={{ width: `${chartData.data.dayWidth * 7}px` }}
             />
           ))}
@@ -249,31 +309,53 @@ const WorkloadMonthChartView = ({ chartData, renderView }: { chartData: ChartDat
   );
 };
 
-const WorkloadQuarterChartView = ({ chartData, renderView }: { chartData: ChartDataType; renderView: IMonthBlock[] }) => {
+const WorkloadQuarterChartView = ({
+  chartData,
+  renderView,
+}: {
+  chartData: ChartDataType;
+  renderView: IMonthBlock[];
+}) => {
   const quarterBlocks: IQuarterMonthBlock[] = groupMonthsToQuarters(renderView);
 
   return (
     <div className="absolute top-0 left-0 flex h-max min-h-full w-max">
       {quarterBlocks.map((quarterBlock, rootIndex) => (
-        <div key={`quarter-${quarterBlock.quarterNumber}-${quarterBlock.year}`} className="relative flex flex-col outline-[0.25px] outline-subtle-1">
-          <div className="sticky top-0 z-[5] w-full flex-shrink-0 bg-surface-1 outline-[1px] outline-subtle-1" style={{ height: `${HEADER_HEIGHT}px` }}>
+        <div
+          key={`quarter-${quarterBlock.quarterNumber}-${quarterBlock.year}`}
+          className="relative flex flex-col outline-[0.25px] outline-subtle-1"
+        >
+          <div
+            className="sticky top-0 z-[5] w-full flex-shrink-0 bg-surface-1 outline-[1px] outline-subtle-1"
+            style={{ height: `${HEADER_HEIGHT}px` }}
+          >
             <div className="inline-flex h-7 w-full justify-between">
-              <div className="sticky z-[1] my-1 flex items-center bg-surface-1 px-3 py-1 text-14 font-regular whitespace-nowrap text-secondary capitalize" style={{ left: `${SIDEBAR_WIDTH}px` }}>
+              <div
+                className="sticky z-[1] my-1 flex items-center bg-surface-1 px-3 py-1 text-14 font-regular whitespace-nowrap text-secondary capitalize"
+                style={{ left: `${SIDEBAR_WIDTH}px` }}
+              >
                 {quarterBlock.title}
               </div>
-              <div className="sticky px-3 py-2 text-11 whitespace-nowrap text-placeholder capitalize">{quarterBlock.shortTitle}</div>
+              <div className="sticky px-3 py-2 text-11 whitespace-nowrap text-placeholder capitalize">
+                {quarterBlock.shortTitle}
+              </div>
             </div>
             <div className="flex h-5 w-full">
               {quarterBlock.children.map((monthBlock, index) => (
                 <div
                   key={`quarter-sub-title-${rootIndex}-${index}`}
-                  className={cn("flex flex-shrink-0 justify-center text-center capitalize outline-[0.25px] outline-subtle-1", {
-                    "bg-accent-primary/20": monthBlock.today,
-                  })}
+                  className={cn(
+                    "flex flex-shrink-0 justify-center text-center capitalize outline-[0.25px] outline-subtle-1",
+                    {
+                      "bg-accent-primary/20": monthBlock.today,
+                    }
+                  )}
                   style={{ width: `${chartData.data.dayWidth * monthBlock.days}px` }}
                 >
                   <div className="flex h-full items-center justify-center space-x-1 text-11 font-medium">
-                    <span className={cn({ "rounded-lg bg-accent-primary px-2 text-on-color": monthBlock.today })}>{monthBlock.monthData.shortTitle}</span>
+                    <span className={cn({ "rounded-lg bg-accent-primary px-2 text-on-color": monthBlock.today })}>
+                      {monthBlock.monthData.shortTitle}
+                    </span>
                   </div>
                 </div>
               ))}
@@ -283,7 +365,9 @@ const WorkloadQuarterChartView = ({ chartData, renderView }: { chartData: ChartD
             {quarterBlock.children.map((monthBlock, index) => (
               <div
                 key={`quarter-column-${rootIndex}-${index}`}
-                className={cn("h-full overflow-hidden outline-[0.25px] outline-subtle", { "bg-accent-primary/20": monthBlock.today })}
+                className={cn("h-full overflow-hidden outline-[0.25px] outline-subtle", {
+                  "bg-accent-primary/20": monthBlock.today,
+                })}
                 style={{ width: `${chartData.data.dayWidth * monthBlock.days}px` }}
               />
             ))}
@@ -294,10 +378,21 @@ const WorkloadQuarterChartView = ({ chartData, renderView }: { chartData: ChartD
   );
 };
 
-const WorkloadChartScale = ({ currentView, chartData, renderView }: { currentView: TGanttViews; chartData: ChartDataType; renderView: unknown }) => {
-  if (currentView === "day") return <WorkloadDayChartView chartData={chartData} renderView={renderView as IDayHourBlock[]} />;
-  if (currentView === "week") return <WorkloadWeekChartView chartData={chartData} renderView={renderView as IWeekBlock[]} />;
-  if (currentView === "month") return <WorkloadMonthChartView chartData={chartData} renderView={renderView as IMonthView} />;
+const WorkloadChartScale = ({
+  currentView,
+  chartData,
+  renderView,
+}: {
+  currentView: TGanttViews;
+  chartData: ChartDataType;
+  renderView: unknown;
+}) => {
+  if (currentView === "day")
+    return <WorkloadDayChartView chartData={chartData} renderView={renderView as IDayHourBlock[]} />;
+  if (currentView === "week")
+    return <WorkloadWeekChartView chartData={chartData} renderView={renderView as IWeekBlock[]} />;
+  if (currentView === "month")
+    return <WorkloadMonthChartView chartData={chartData} renderView={renderView as IMonthView} />;
   return <WorkloadQuarterChartView chartData={chartData} renderView={renderView as IMonthBlock[]} />;
 };
 
@@ -311,12 +406,10 @@ export const Workload = observer(function Workload() {
   const [selectedGroupId, setSelectedGroupId] = useState(ALL_GROUPS);
   const [currentView, setCurrentView] = useState<TGanttViews>("week");
 
-  const { data, isLoading } = useSWR(
-    `analytics-workload-${workspaceSlug}-${selectedProjects.join(",")}`,
-    () =>
-      analyticsService.getAdvanceAnalyticsWorkload<IAnalyticsWorkloadResponse>(workspaceSlug, {
-        ...(selectedProjects?.length > 0 ? { project_ids: selectedProjects.join(",") } : {}),
-      })
+  const { data, isLoading } = useSWR(`analytics-workload-${workspaceSlug}-${selectedProjects.join(",")}`, () =>
+    analyticsService.getAdvanceAnalyticsWorkload<IAnalyticsWorkloadResponse>(workspaceSlug, {
+      ...(selectedProjects?.length > 0 ? { project_ids: selectedProjects.join(",") } : {}),
+    })
   );
 
   const groups = data?.groups ?? [];
@@ -361,7 +454,8 @@ export const Workload = observer(function Workload() {
             type="button"
             className={cn(
               "rounded border border-subtle px-3 py-1.5 text-13 font-medium text-secondary hover:bg-surface-2",
-              selectedGroupId === ALL_GROUPS && "border-custom-primary-100 bg-custom-primary-100/10 text-custom-primary-100"
+              selectedGroupId === ALL_GROUPS &&
+                "border-custom-primary-100 bg-custom-primary-100/10 text-custom-primary-100"
             )}
             onClick={() => setSelectedGroupId(ALL_GROUPS)}
           >
@@ -376,7 +470,8 @@ export const Workload = observer(function Workload() {
                 type="button"
                 className={cn(
                   "inline-flex items-center gap-1.5 rounded border border-subtle px-3 py-1.5 text-13 font-medium text-secondary hover:bg-surface-2",
-                  selectedGroupId === group.id && "border-custom-primary-100 bg-custom-primary-100/10 text-custom-primary-100"
+                  selectedGroupId === group.id &&
+                    "border-custom-primary-100 bg-custom-primary-100/10 text-custom-primary-100"
                 )}
                 onClick={() => setSelectedGroupId(group.id)}
               >
@@ -429,15 +524,22 @@ export const Workload = observer(function Workload() {
               className="vertical-scrollbar horizontal-scrollbar scrollbar-lg h-full w-full overflow-auto border-t-[0.5px] border-subtle"
             >
               <div className="flex min-h-full w-max">
-                <div className="sticky left-0 z-20 shrink-0 border-r border-subtle bg-surface-1" style={{ width: `${SIDEBAR_WIDTH}px` }}>
+                <div
+                  className="sticky left-0 z-20 shrink-0 border-r border-subtle bg-surface-1"
+                  style={{ width: `${SIDEBAR_WIDTH}px` }}
+                >
                   <div
-                    className="sticky top-0 z-30 flex items-end border-b border-subtle bg-surface-1 px-4 py-2 text-12 font-semibold uppercase text-tertiary"
+                    className="sticky top-0 z-30 flex items-end border-b border-subtle bg-surface-1 px-4 py-2 text-12 font-semibold text-tertiary uppercase"
                     style={{ height: `${HEADER_HEIGHT}px` }}
                   >
                     {t("workspace_analytics.workload_member")}
                   </div>
                   {filteredMembers.map((row) => (
-                    <div key={row.workspace_member_id} className="flex min-w-0 items-center gap-2 border-b border-subtle px-4" style={{ height: `${ROW_HEIGHT}px` }}>
+                    <div
+                      key={row.workspace_member_id}
+                      className="flex min-w-0 items-center gap-2 border-b border-subtle px-4"
+                      style={{ height: `${ROW_HEIGHT}px` }}
+                    >
                       <Avatar name={row.member.display_name} src={getFileURL(row.member.avatar_url ?? "")} size="sm" />
                       <div className="min-w-0">
                         <div className="truncate text-13 font-medium text-primary">{row.member.display_name}</div>
@@ -447,11 +549,25 @@ export const Workload = observer(function Workload() {
                   ))}
                 </div>
 
-                <div className="relative h-max min-h-full flex-shrink-0 flex-grow" style={{ width: `${chartWidth}px`, height: `${chartHeight}px` }}>
+                <div
+                  className="relative h-max min-h-full flex-shrink-0 flex-grow"
+                  style={{ width: `${chartWidth}px`, height: `${chartHeight}px` }}
+                >
                   <WorkloadChartScale currentView={currentView} chartData={chartData} renderView={renderView} />
-                  <div className="relative h-full" style={{ width: `${chartWidth}px`, transform: `translateY(${HEADER_HEIGHT}px)`, paddingBottom: `${HEADER_HEIGHT}px` }}>
+                  <div
+                    className="relative h-full"
+                    style={{
+                      width: `${chartWidth}px`,
+                      transform: `translateY(${HEADER_HEIGHT}px)`,
+                      paddingBottom: `${HEADER_HEIGHT}px`,
+                    }}
+                  >
                     {filteredMembers.map((row) => (
-                      <div key={row.workspace_member_id} className="relative border-b border-subtle" style={{ height: `${ROW_HEIGHT}px` }}>
+                      <div
+                        key={row.workspace_member_id}
+                        className="relative border-b border-subtle"
+                        style={{ height: `${ROW_HEIGHT}px` }}
+                      >
                         {row.items.map((item, itemIndex) => {
                           const position = getItemPositionWidth(chartData, {
                             id: item.id,
@@ -480,7 +596,7 @@ export const Workload = observer(function Workload() {
                             </div>
                           );
                         })}
-                        <div className="pointer-events-none sticky left-0 z-[2] ml-3 mt-1 inline-flex rounded bg-surface-1/80 px-1.5 py-0.5 text-11 font-medium text-tertiary backdrop-blur-sm">
+                        <div className="pointer-events-none sticky left-0 z-[2] mt-1 ml-3 inline-flex rounded bg-surface-1/80 px-1.5 py-0.5 text-11 font-medium text-tertiary backdrop-blur-sm">
                           {t("workspace_analytics.workload_days", { count: row.workload })}
                         </div>
                       </div>

@@ -30,16 +30,14 @@ function LegalLink({ href, children }: { href: string; children: React.ReactNode
 
 export function TermsAndConditions({ authType = EAuthModes.SIGN_IN }: TermsAndConditionsProps) {
   const { t } = useTranslation();
-  const prefix =
-    authType === EAuthModes.SIGN_UP ? t("auth.legal.sign_up_prefix") : t("auth.legal.sign_in_prefix");
+  const prefix = authType === EAuthModes.SIGN_UP ? t("auth.legal.sign_up_prefix") : t("auth.legal.sign_in_prefix");
 
   return (
     <div className="flex items-center justify-center">
       <p className="text-center text-13 whitespace-pre-line text-tertiary">
         {`${prefix}\n${t("auth.legal.our")} `}
         <LegalLink href={LEGAL_LINKS.termsOfService}>{t("auth.legal.terms_of_service")}</LegalLink>{" "}
-        {t("auth.legal.and")}{" "}
-        <LegalLink href={LEGAL_LINKS.privacyPolicy}>{t("auth.legal.privacy_policy")}</LegalLink>.
+        {t("auth.legal.and")} <LegalLink href={LEGAL_LINKS.privacyPolicy}>{t("auth.legal.privacy_policy")}</LegalLink>.
       </p>
     </div>
   );

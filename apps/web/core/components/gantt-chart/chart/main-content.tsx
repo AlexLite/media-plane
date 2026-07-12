@@ -18,7 +18,13 @@ import type {
 import { cn, getDate } from "@plane/utils";
 // components
 import { MultipleSelectGroup } from "@/components/core/multiple-select";
-import { DayChartView, GanttChartSidebar, MonthChartView, QuarterChartView, WeekChartView } from "@/components/gantt-chart";
+import {
+  DayChartView,
+  GanttChartSidebar,
+  MonthChartView,
+  QuarterChartView,
+  WeekChartView,
+} from "@/components/gantt-chart";
 // helpers
 // hooks
 import { useTimeLineChartStore } from "@/hooks/use-timeline-chart";

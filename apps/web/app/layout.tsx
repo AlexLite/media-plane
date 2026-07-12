@@ -45,13 +45,21 @@ export const meta = () => [
   { property: "og:image", content: OG_IMAGE_URL },
   { property: "og:image:width", content: "512" },
   { property: "og:image:height", content: "512" },
-  { property: "og:image:alt", content: "Plane - \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043f\u0440\u043e\u0435\u043a\u0442\u0430\u043c\u0438" },
+  {
+    property: "og:image:alt",
+    content:
+      "Plane - \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043f\u0440\u043e\u0435\u043a\u0442\u0430\u043c\u0438",
+  },
   { name: "twitter:site", content: "@planepowers" },
   { name: "twitter:card", content: "summary_large_image" },
   { name: "twitter:image", content: OG_IMAGE_URL },
   { name: "twitter:image:width", content: "512" },
   { name: "twitter:image:height", content: "512" },
-  { name: "twitter:image:alt", content: "Plane - \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043f\u0440\u043e\u0435\u043a\u0442\u0430\u043c\u0438" },
+  {
+    name: "twitter:image:alt",
+    content:
+      "Plane - \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043f\u0440\u043e\u0435\u043a\u0442\u0430\u043c\u0438",
+  },
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

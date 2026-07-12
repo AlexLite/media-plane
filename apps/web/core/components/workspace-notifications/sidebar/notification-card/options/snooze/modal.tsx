@@ -129,7 +129,9 @@ export function NotificationSnoozeModal(props: TNotificationSnoozeModal) {
 
         <div className="mt-5 flex flex-col gap-3 md:!flex-row md:items-center">
           <div className="flex-1 pb-3 md:pb-0">
-            <h6 className="mb-2 block text-body-xs-medium text-placeholder">{t("notification.snooze.modal.pick_date")}</h6>
+            <h6 className="mb-2 block text-body-xs-medium text-placeholder">
+              {t("notification.snooze.modal.pick_date")}
+            </h6>
             <Controller
               name="date"
               control={control}
@@ -152,7 +154,9 @@ export function NotificationSnoozeModal(props: TNotificationSnoozeModal) {
             />
           </div>
           <div className="flex-1">
-            <h6 className="mb-2 block text-body-xs-medium text-placeholder">{t("notification.snooze.modal.pick_time")}</h6>
+            <h6 className="mb-2 block text-body-xs-medium text-placeholder">
+              {t("notification.snooze.modal.pick_time")}
+            </h6>
             <Controller
               control={control}
               name="time"
@@ -168,7 +172,9 @@ export function NotificationSnoozeModal(props: TNotificationSnoozeModal) {
                           {value} {watch("period").toLowerCase()}
                         </span>
                       ) : (
-                        <span className="text-body-xs-medium text-placeholder">{t("notification.snooze.modal.select_time")}</span>
+                        <span className="text-body-xs-medium text-placeholder">
+                          {t("notification.snooze.modal.select_time")}
+                        </span>
                       )}
                     </div>
                   }

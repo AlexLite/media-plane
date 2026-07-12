@@ -73,8 +73,7 @@ export const CalendarMonthsDropdown = observer(function CalendarMonthsDropdown(p
 
     if (firstDay.getFullYear() !== lastDay.getFullYear()) {
       return `${monthShortTitle(firstDay)} ${firstDay.getFullYear()} - ${monthShortTitle(lastDay)} ${lastDay.getFullYear()}`;
-    } else
-      return `${monthShortTitle(firstDay)} - ${monthShortTitle(lastDay)} ${lastDay.getFullYear()}`;
+    } else return `${monthShortTitle(firstDay)} - ${monthShortTitle(lastDay)} ${lastDay.getFullYear()}`;
   };
 
   const handleDateChange = (date: Date) => {

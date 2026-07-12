@@ -85,7 +85,8 @@ export const CycleDeleteModal = observer(function CycleDeleteModal(props: ICycle
       title={t("project_cycles.delete_modal.title")}
       content={
         <>
-          {t("project_cycles.delete_modal.description_prefix")}{' "'}
+          {t("project_cycles.delete_modal.description_prefix")}
+          {' "'}
           <span className="font-medium break-words text-primary">{cycle?.name}</span>
           {'"'}? {t("project_cycles.delete_modal.description_suffix")}
         </>

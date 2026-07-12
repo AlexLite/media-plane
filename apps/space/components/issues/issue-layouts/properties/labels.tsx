@@ -42,7 +42,12 @@ export const IssueBlockLabels = observer(function IssueBlockLabels({ labelIds, s
       {labels.length <= 2 ? (
         <>
           {labels.map((label) => (
-            <Tooltip key={label.id} position="top" tooltipHeading={t("space_issue.labels")} tooltipContent={label?.name ?? ""}>
+            <Tooltip
+              key={label.id}
+              position="top"
+              tooltipHeading={t("space_issue.labels")}
+              tooltipContent={label?.name ?? ""}
+            >
               <div
                 key={label?.id}
                 className={`flex h-full max-w-full flex-shrink-0 items-center overflow-hidden rounded-sm border-[0.5px] border-strong px-2.5 py-1 text-11`}

@@ -523,7 +523,8 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                   name="use_case"
                   rules={{
                     required: t("onboarding_profile_setup.domain.errors.required"),
-                    validate: (value) => (value && value.length > 0) || t("onboarding_profile_setup.domain.errors.required"),
+                    validate: (value) =>
+                      (value && value.length > 0) || t("onboarding_profile_setup.domain.errors.required"),
                   }}
                   render={({ field: { value, onChange } }) => (
                     <div className="flex flex-wrap gap-2 overflow-auto py-2 break-all">

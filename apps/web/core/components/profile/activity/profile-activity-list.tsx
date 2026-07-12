@@ -194,4 +194,3 @@ export const ProfileActivityListPage = observer(function ProfileActivityListPage
     </>
   );
 });
-

@@ -20,7 +20,9 @@ export const SpreadsheetAttachmentColumn = observer(function SpreadsheetAttachme
   const attachmentLabel =
     attachmentCount % 10 === 1 && attachmentCount % 100 !== 11
       ? "вложение"
-      : attachmentCount % 10 >= 2 && attachmentCount % 10 <= 4 && (attachmentCount % 100 < 12 || attachmentCount % 100 > 14)
+      : attachmentCount % 10 >= 2 &&
+          attachmentCount % 10 <= 4 &&
+          (attachmentCount % 100 < 12 || attachmentCount % 100 > 14)
         ? "вложения"
         : "вложений";
 

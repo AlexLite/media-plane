@@ -214,7 +214,11 @@ export const useMenuItemFactory = (props: MenuItemFactoryProps) => {
     title: t("work_item_operations.remove_from_cycle"),
     icon: XCircle,
     action: () =>
-      handleOptionalAction(handleRemoveFromView, t("work_item_operations.action_not_available"), t("common.error.message")),
+      handleOptionalAction(
+        handleRemoveFromView,
+        t("work_item_operations.action_not_available"),
+        t("common.error.message")
+      ),
     shouldRender: isEditingAllowed,
   });
 
@@ -223,7 +227,11 @@ export const useMenuItemFactory = (props: MenuItemFactoryProps) => {
     title: t("work_item_operations.remove_from_module"),
     icon: XCircle,
     action: () =>
-      handleOptionalAction(handleRemoveFromView, t("work_item_operations.action_not_available"), t("common.error.message")),
+      handleOptionalAction(
+        handleRemoveFromView,
+        t("work_item_operations.action_not_available"),
+        t("common.error.message")
+      ),
     shouldRender: isEditingAllowed,
   });
 

@@ -149,7 +149,10 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
       {/* Header */}
-      <CommonOnboardingHeader title={t("onboarding_profile_setup.profile_step.title")} description={t("onboarding_profile_setup.profile_step.description")} />
+      <CommonOnboardingHeader
+        title={t("onboarding_profile_setup.profile_step.title")}
+        description={t("onboarding_profile_setup.profile_step.description")}
+      />
 
       {/* Profile Picture Section */}
       <Controller
@@ -192,7 +195,11 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
           onClick={() => setIsImageUploadModalOpen(true)}
         >
           <ImageIcon className="size-4" />
-          <span className="text-13">{userAvatar ? t("onboarding_profile_setup.profile_step.change_image") : t("onboarding_profile_setup.profile_step.upload_image")}</span>
+          <span className="text-13">
+            {userAvatar
+              ? t("onboarding_profile_setup.profile_step.change_image")
+              : t("onboarding_profile_setup.profile_step.upload_image")}
+          </span>
         </button>
       </div>
 

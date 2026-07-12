@@ -148,8 +148,7 @@ export class ProjectInboxStore implements IProjectInboxStore {
     if (this.inboxFilters != undefined) {
       Object.keys(this.inboxFilters).forEach((key) => {
         const filterKey = key as keyof TInboxIssueFilter;
-        if (this.inboxFilters[filterKey])
-          count = count + (this.inboxFilters?.[filterKey]?.length ?? 0);
+        if (this.inboxFilters[filterKey]) count = count + (this.inboxFilters?.[filterKey]?.length ?? 0);
       });
     }
     return count;

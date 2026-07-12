@@ -137,7 +137,7 @@ export const CommentCardDisplay = observer(function CommentCardDisplay(props: TC
             </Tooltip>
           </div>
           {comment.pipeline_item_detail && (
-            <div className="rounded border border-green-500/30 bg-green-500/10 px-1.5 py-0.5 text-[11px] leading-3 text-green-700">
+            <div className="border-green-500/30 bg-green-500/10 text-green-700 rounded border px-1.5 py-0.5 text-[11px] leading-3">
               {comment.pipeline_item_detail.name}
             </div>
           )}

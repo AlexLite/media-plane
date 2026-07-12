@@ -31,7 +31,9 @@ export const IssueNameActivity = observer(function IssueNameActivity(props: TIss
       activityId={activityId}
       ends={ends}
     >
-      <>{t("activity_feed.set_title_to")} {activity.new_value}.</>
+      <>
+        {t("activity_feed.set_title_to")} {activity.new_value}.
+      </>
     </IssueActivityBlockComponent>
   );
 });

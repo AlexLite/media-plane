@@ -143,7 +143,7 @@ export const IssueGanttBlock = observer(function IssueGanttBlock(props: Props) {
                       style={position}
                       title={item.name}
                     >
-                      <span className="block truncate px-1.5 py-0.5 text-[10px] font-medium leading-4 text-primary/70">
+                      <span className="block truncate px-1.5 py-0.5 text-[10px] leading-4 font-medium text-primary/70">
                         {item.name}
                       </span>
                     </div>
@@ -152,7 +152,7 @@ export const IssueGanttBlock = observer(function IssueGanttBlock(props: Props) {
               </div>
             )}
             <div
-              className="sticky z-[2] mt-auto w-auto flex-1 truncate overflow-hidden px-2.5 pb-5 pt-1 text-13 text-primary"
+              className="sticky z-[2] mt-auto w-auto flex-1 truncate overflow-hidden px-2.5 pt-1 pb-5 text-13 text-primary"
               style={{ left: `${SIDEBAR_WIDTH}px` }}
             >
               {issueDetails?.name}
@@ -230,7 +230,10 @@ export const IssueGanttSidebarBlock = observer(function IssueGanttSidebarBlock(p
       className="line-clamp-1 w-full cursor-pointer text-13 text-primary"
       disabled={!!issueDetails?.tempId}
     >
-      <div className="relative flex h-full w-full cursor-pointer items-center gap-2 px-2" style={overdueBackgroundStyle}>
+      <div
+        className="relative flex h-full w-full cursor-pointer items-center gap-2 px-2"
+        style={overdueBackgroundStyle}
+      >
         {issueDetails?.project_id && (
           <IssueIdentifier
             issueId={issueDetails.id}

@@ -176,9 +176,7 @@ export const WorkspaceAuthWrapper = observer(function WorkspaceAuthWrapper(props
               <img src={WorkSpaceNotAvailable} className="h-[220px] object-contain object-center" alt="Plane logo" />
             </div>
             <h3 className="text-center text-16 font-semibold">{t("workspace_not_found")}</h3>
-            <p className="text-center text-13 text-secondary">
-              {t("workspace_not_found_description")}
-            </p>
+            <p className="text-center text-13 text-secondary">{t("workspace_not_found_description")}</p>
             <div className="flex items-center justify-center gap-2 pt-4">
               {allWorkspaces && allWorkspaces.length > 0 && (
                 <Link href="/" className={cn(getButtonStyling("primary", "base"))}>
@@ -212,9 +210,7 @@ export const WorkspaceAuthWrapper = observer(function WorkspaceAuthWrapper(props
           <div className="space-y-8 text-center">
             <div className="space-y-2">
               <h3 className="text-16 font-semibold">{t("not_authorized")}</h3>
-              <p className="mx-auto w-1/2 text-13 text-secondary">
-                {t("workspace_not_member_description")}
-              </p>
+              <p className="mx-auto w-1/2 text-13 text-secondary">{t("workspace_not_member_description")}</p>
             </div>
             <div className="flex items-center justify-center gap-2">
               <Link href="/invitations">

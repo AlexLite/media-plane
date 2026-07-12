@@ -5,7 +5,12 @@
  */
 
 import { API_BASE_URL } from "@plane/constants";
-import type { IWorkspaceGroup, IWorkspaceGroupMember, IWorkspaceGroupNotificationRule, IWorkspaceGroupNotificationRulePayload } from "@plane/types";
+import type {
+  IWorkspaceGroup,
+  IWorkspaceGroupMember,
+  IWorkspaceGroupNotificationRule,
+  IWorkspaceGroupNotificationRulePayload,
+} from "@plane/types";
 // services
 import { APIService } from "@/services/api.service";
 

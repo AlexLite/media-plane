@@ -103,7 +103,7 @@ export const ProjectPipelineAliasesRoot = observer(function ProjectPipelineAlias
 
   return (
     <div className="space-y-4">
-      <div className="rounded border border-subtle bg-surface-1 px-4 py-3 text-sm text-secondary">
+      <div className="text-sm rounded border border-subtle bg-surface-1 px-4 py-3 text-secondary">
         {t("project_settings.pipeline.aliases_help")}
       </div>
       <div className="overflow-hidden rounded border border-subtle">
@@ -112,16 +112,19 @@ export const ProjectPipelineAliasesRoot = observer(function ProjectPipelineAlias
           const isDirty = draftAliases[state.id] !== aliasesToText(state.pipeline_aliases);
 
           return (
-            <div key={state.id} className="grid grid-cols-[minmax(220px,0.8fr)_minmax(280px,1fr)_auto] items-center gap-4 border-b border-subtle px-4 py-3 last:border-b-0">
+            <div
+              key={state.id}
+              className="grid grid-cols-[minmax(220px,0.8fr)_minmax(280px,1fr)_auto] items-center gap-4 border-b border-subtle px-4 py-3 last:border-b-0"
+            >
               <div className="flex min-w-0 items-center gap-3">
                 <StateGroupIcon stateGroup={state.group} color={state.color} size={EIconSize.XL} />
                 <div className="min-w-0">
-                  <div className="truncate text-sm font-medium text-primary">{state.name}</div>
+                  <div className="text-sm truncate font-medium text-primary">{state.name}</div>
                   <div className="text-xs text-secondary">{t(`workspace_projects.state.${state.group}`)}</div>
                 </div>
               </div>
               <input
-                className="h-9 rounded border border-subtle bg-transparent px-3 text-sm outline-none transition-colors placeholder:text-tertiary focus:border-custom-primary-100"
+                className="text-sm focus:border-custom-primary-100 h-9 rounded border border-subtle bg-transparent px-3 transition-colors outline-none placeholder:text-tertiary"
                 value={draftAliases[state.id] ?? ""}
                 onChange={(event) =>
                   setDraftAliases((currentDrafts) => ({ ...currentDrafts, [state.id]: event.target.value }))
@@ -133,7 +136,7 @@ export const ProjectPipelineAliasesRoot = observer(function ProjectPipelineAlias
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  className={`flex h-8 items-center gap-2 rounded border px-3 text-xs font-medium transition-colors ${
+                  className={`text-xs flex h-8 items-center gap-2 rounded border px-3 font-medium transition-colors ${
                     state.is_pipeline_enabled
                       ? "border-transparent bg-accent-primary text-on-color hover:bg-accent-primary/80"
                       : "border-subtle text-secondary hover:bg-surface-2 hover:text-primary"
@@ -146,7 +149,7 @@ export const ProjectPipelineAliasesRoot = observer(function ProjectPipelineAlias
                 </button>
                 <button
                   type="button"
-                  className="h-8 rounded border border-subtle px-3 text-xs font-medium text-secondary transition-colors hover:bg-surface-2 hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
+                  className="text-xs h-8 rounded border border-subtle px-3 font-medium text-secondary transition-colors hover:bg-surface-2 hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
                   disabled={!isEditable || isSaving || !isDirty}
                   onClick={() => handleSaveAliases(state)}
                 >

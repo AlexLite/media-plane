@@ -131,7 +131,8 @@ export function InstanceGitlabConfigForm(props: Props) {
       url: `${originURL}/auth/gitlab/callback/`,
       description: (
         <>
-          {t("oauth_autogenerate_paste_into")} <CodeBlock darkerShade>{t("oauth_redirect_uri")}</CodeBlock> {t("oauth_field_of_your")}{" "}
+          {t("oauth_autogenerate_paste_into")} <CodeBlock darkerShade>{t("oauth_redirect_uri")}</CodeBlock>{" "}
+          {t("oauth_field_of_your")}{" "}
           <a
             tabIndex={-1}
             href="https://docs.gitlab.com/ee/integration/oauth_provider.html"

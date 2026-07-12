@@ -14,10 +14,12 @@ import maintenanceModeLightModeImage from "@/app/assets/instance/maintenance-mod
 import DefaultLayout from "@/layouts/default-layout";
 
 const fallbackTranslations: Record<string, string> = {
-  error_page_title: "\u{1F6A7} \u041f\u043e\u0445\u043e\u0436\u0435, \u0447\u0442\u043e-\u0442\u043e \u043f\u043e\u0448\u043b\u043e \u043d\u0435 \u0442\u0430\u043a!",
+  error_page_title:
+    "\u{1F6A7} \u041f\u043e\u0445\u043e\u0436\u0435, \u0447\u0442\u043e-\u0442\u043e \u043f\u043e\u0448\u043b\u043e \u043d\u0435 \u0442\u0430\u043a!",
   error_page_description:
     "\u041c\u044b \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438 \u043e\u0442\u0441\u043b\u0435\u0436\u0438\u0432\u0430\u0435\u043c \u044d\u0442\u0438 \u043e\u0448\u0438\u0431\u043a\u0438 \u0438 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u043c \u043d\u0430\u0434 \u0432\u043e\u0441\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u0435\u043c. \u0415\u0441\u043b\u0438 \u043f\u0440\u043e\u0431\u043b\u0435\u043c\u0430 \u0441\u043e\u0445\u0440\u0430\u043d\u044f\u0435\u0442\u0441\u044f \u2014 \u0441\u0432\u044f\u0436\u0438\u0442\u0435\u0441\u044c \u0441 \u043d\u0430\u043c\u0438. \u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u043e\u0431\u043d\u043e\u0432\u0438\u0442\u044c \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0443.",
-  error_page_contact_support: "\u041d\u0430\u043f\u0438\u0441\u0430\u0442\u044c \u0432 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0443",
+  error_page_contact_support:
+    "\u041d\u0430\u043f\u0438\u0441\u0430\u0442\u044c \u0432 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0443",
   error_page_status_page: "\u0421\u0442\u0430\u0442\u0443\u0441 \u0441\u0435\u0440\u0432\u0438\u0441\u0430",
   error_page_twitter: "@planepowers",
   go_to_home: "\u041d\u0430 \u0433\u043b\u0430\u0432\u043d\u0443\u044e",
@@ -70,9 +72,7 @@ export function ProdErrorComponent({ onGoHome }: ProdErrorComponentProps) {
         <div className="relative mt-4 flex w-full flex-col gap-4">
           <div className="flex flex-col gap-2.5">
             <h1 className="text-left text-18 font-semibold text-primary">{t("error_page_title")}</h1>
-            <span className="text-left text-14 font-medium text-secondary">
-              {t("error_page_description")}
-            </span>
+            <span className="text-left text-14 font-medium text-secondary">{t("error_page_description")}</span>
           </div>
 
           <div className="mt-1 flex items-center justify-start gap-6">

@@ -327,7 +327,9 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                         ) : (
                           <div>
                             <span className="mt-2 block text-13 font-medium text-secondary">
-                              {isDragActive ? t("image_picker.drop_image_here_to_upload") : t("image_picker.drag_drop_image_here")}
+                              {isDragActive
+                                ? t("image_picker.drop_image_here_to_upload")
+                                : t("image_picker.drag_drop_image_here")}
                             </span>
                           </div>
                         )}
