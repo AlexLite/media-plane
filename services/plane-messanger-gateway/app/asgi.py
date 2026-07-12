@@ -1079,7 +1079,7 @@ async def send_vk_message_result(
     if not settings.vk_group_token:
         return False, "VK_GROUP_TOKEN is not configured", None
     random_id_src = f"{delivery_id or time.time_ns()}:{vk_user_id}"
-    random_id = int(hashlib.sha256(random_id_src.encode()).hexdigest()[:8], 16)
+    random_id = int(hashlib.blake2s(random_id_src.encode(), digest_size=16).hexdigest()[:8], 16)
     data = {
         "peer_id": vk_user_id,
         "message": message,
@@ -1228,7 +1228,14 @@ def decrypt_user_api_token(token_encrypted: str) -> str:
 
 
 def token_hash(token: str) -> str:
-    return hashlib.sha256(token.encode("utf-8")).hexdigest()
+    # This is an opaque identifier for diagnostics and idempotency, not a
+    # password verifier. Keying prevents offline fingerprint correlation if the
+    # SQLite database is exposed.
+    secret = token_encryption_secret()
+    if not secret:
+        raise RuntimeError("NOTIFIER_TOKEN_ENCRYPTION_KEY or SECRET_KEY is required to fingerprint user API tokens")
+    key = hashlib.blake2b(secret.encode("utf-8"), digest_size=32).digest()
+    return hashlib.blake2b(token.encode("utf-8"), key=key, digest_size=32).hexdigest()
 
 
 def get_user_api_token_row(vk_user_id: int) -> dict[str, Any] | None:
