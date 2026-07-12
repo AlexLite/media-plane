@@ -8,7 +8,14 @@ from rest_framework import serializers
 
 from plane.app.serializers.base import BaseSerializer
 from plane.app.serializers.user import UserAdminLiteSerializer
-from plane.db.models import Project, State, WorkspaceGroup, WorkspaceGroupMember, WorkspaceGroupNotificationRule, WorkspaceMember
+from plane.db.models import (
+    Project,
+    State,
+    WorkspaceGroup,
+    WorkspaceGroupMember,
+    WorkspaceGroupNotificationRule,
+    WorkspaceMember,
+)
 
 
 HEX_COLOR_RE = re.compile(r"^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$")

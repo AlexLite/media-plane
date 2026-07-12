@@ -148,7 +148,9 @@ def enrich_issue_results_with_pipeline(issue_results: List[Dict[str, Any]]) -> L
     issue_ids = [issue.get("id") for issue in issue_results]
     pipeline_items_by_issue_id: Dict[str, List[IssuePipelineItem]] = {}
 
-    pipeline_items = IssuePipelineItem.objects.filter(parent_issue_id__in=issue_ids).order_by("sort_order", "created_at")
+    pipeline_items = IssuePipelineItem.objects.filter(parent_issue_id__in=issue_ids).order_by(
+        "sort_order", "created_at"
+    )
     for item in pipeline_items:
         parent_issue_id = str(item.parent_issue_id)
         pipeline_items_by_issue_id.setdefault(parent_issue_id, []).append(item)

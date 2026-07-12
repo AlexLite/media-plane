@@ -300,7 +300,9 @@ class UserEndpoint(BaseViewSet):
                 workspaces_to_deactivate.append(workspace)
             else:
                 return Response(
-                    {"error": "Нельзя деактивировать аккаунт: в некоторых рабочих пространствах вы единственный администратор."},
+                    {
+                        "error": "Нельзя деактивировать аккаунт: в некоторых рабочих пространствах вы единственный администратор."
+                    },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 

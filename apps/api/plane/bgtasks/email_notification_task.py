@@ -284,7 +284,9 @@ def send_email_notification(issue_id, notification_data, receiver_id, email_noti
             summary = "Изменения в задаче внес"
 
             # Send the mail
-            subject = f"Обновления {issue.project.identifier}-{issue.sequence_id}: {remove_unwanted_characters(issue.name)}"
+            subject = (
+                f"Обновления {issue.project.identifier}-{issue.sequence_id}: {remove_unwanted_characters(issue.name)}"
+            )
             context = {
                 "data": template_data,
                 "summary": summary,

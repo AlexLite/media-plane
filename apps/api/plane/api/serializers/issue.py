@@ -805,7 +805,8 @@ class IssueCommentSerializer(BaseSerializer):
         if instance.pipeline_item_id:
             pipeline_item_name = instance.pipeline_item.name or instance.pipeline_item.state_name_snapshot
             if pipeline_item_name:
-                data["comment_html"] = f"<p><strong>{escape(pipeline_item_name)}:</strong></p>{data.get('comment_html') or ''}"
+                comment_html = data.get("comment_html") or ""
+                data["comment_html"] = f"<p><strong>{escape(pipeline_item_name)}:</strong></p>{comment_html}"
                 data["pipeline_item_detail"] = {
                     "id": str(instance.pipeline_item_id),
                     "name": pipeline_item_name,

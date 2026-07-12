@@ -859,7 +859,9 @@ class IssuePaginatedViewSet(BaseViewSet):
 
     def get_pipeline_items_by_issue_id(self, issue_ids):
         pipeline_items_by_issue_id = {}
-        pipeline_items = IssuePipelineItem.objects.filter(parent_issue_id__in=issue_ids).order_by("sort_order", "created_at")
+        pipeline_items = IssuePipelineItem.objects.filter(parent_issue_id__in=issue_ids).order_by(
+            "sort_order", "created_at"
+        )
 
         for item in pipeline_items:
             parent_issue_id = str(item.parent_issue_id)
@@ -909,7 +911,9 @@ class IssuePaginatedViewSet(BaseViewSet):
         pipeline_items_by_issue_id = self.get_pipeline_items_by_issue_id(issue_ids)
 
         for issue in paginated_data:
-            issue.update(self.get_pipeline_issue_payload(issue, pipeline_items_by_issue_id.get(str(issue.get("id")), [])))
+            issue.update(
+                self.get_pipeline_issue_payload(issue, pipeline_items_by_issue_id.get(str(issue.get("id")), []))
+            )
 
         return paginated_data
 

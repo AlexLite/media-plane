@@ -64,7 +64,9 @@ class ProjectInvitationsViewset(BaseViewSet):
             ).role
 
             if workspace_role in [5, 20] and workspace_role != email.get("role", 5):
-                return Response({"error": "Нельзя пригласить пользователя с ролью, отличной от роли в рабочем пространстве"})
+                return Response(
+                    {"error": "Нельзя пригласить пользователя с ролью, отличной от роли в рабочем пространстве"}
+                )
 
         workspace = Workspace.objects.get(slug=slug)
 

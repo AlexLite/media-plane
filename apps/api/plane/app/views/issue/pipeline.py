@@ -154,7 +154,9 @@ class IssuePipelineEndpoint(BaseAPIView):
         if not parent_issue:
             return Response({"error": "Issue not found"}, status=status.HTTP_404_NOT_FOUND)
         if parent_issue.parent_id:
-            return Response({"error": "Pipeline can only be initialized on a parent issue"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": "Pipeline can only be initialized on a parent issue"}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         existing_items = get_issue_pipeline_queryset(slug, project_id, issue_id)
         if existing_items.exists():
@@ -224,7 +226,9 @@ class IssuePipelineItemEndpoint(BaseAPIView):
         if "status" in request.data and request.data["status"] not in IssuePipelineItem.StatusChoices.values:
             return Response({"error": "Invalid pipeline item status"}, status=status.HTTP_400_BAD_REQUEST)
 
-        next_start_date = parse_pipeline_date(request.data["start_date"]) if "start_date" in request.data else item.start_date
+        next_start_date = (
+            parse_pipeline_date(request.data["start_date"]) if "start_date" in request.data else item.start_date
+        )
         next_target_date = (
             parse_pipeline_date(request.data["target_date"]) if "target_date" in request.data else item.target_date
         )
@@ -244,7 +248,9 @@ class IssuePipelineItemEndpoint(BaseAPIView):
                 elif field == "target_time":
                     next_target_time = parse_pipeline_time(request.data[field])
                     if request.data[field] not in ("", None) and not next_target_time:
-                        return Response({"error": "Invalid pipeline item target time"}, status=status.HTTP_400_BAD_REQUEST)
+                        return Response(
+                            {"error": "Invalid pipeline item target time"}, status=status.HTTP_400_BAD_REQUEST
+                        )
                     setattr(item, field, next_target_time)
                 elif field == "assignee_ids":
                     setattr(item, field, request.data[field] or [])
@@ -271,7 +277,9 @@ class IssuePipelineCompleteEndpoint(BaseAPIView):
             .filter(parent_issue=parent_issue)
             .order_by("sort_order", "created_at")
         )
-        item_index = next((index for index, item in enumerate(pipeline_items) if str(item.id) == str(pipeline_item_id)), None)
+        item_index = next(
+            (index for index, item in enumerate(pipeline_items) if str(item.id) == str(pipeline_item_id)), None
+        )
         if item_index is None:
             return Response({"error": "Pipeline item not found"}, status=status.HTTP_404_NOT_FOUND)
 
@@ -297,7 +305,9 @@ class IssuePipelineCompleteEndpoint(BaseAPIView):
             next_item.completed_by = None
             next_item.completed_at = None
             next_item.hidden_from_board = True
-            next_item.save(update_fields=["status", "auto_completed", "completed_by", "completed_at", "hidden_from_board"])
+            next_item.save(
+                update_fields=["status", "auto_completed", "completed_by", "completed_at", "hidden_from_board"]
+            )
             if next_item.pipeline_state_id:
                 parent_issue.state_id = next_item.pipeline_state_id
                 parent_issue.save(update_fields=["state", "updated_at"])

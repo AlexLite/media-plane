@@ -424,7 +424,9 @@ class AdvanceAnalyticsWorkloadEndpoint(AdvanceAnalyticsBaseView):
                     }
                 )
 
-        rows = sorted(rows_by_member.values(), key=lambda row: (-row["workload"], row["member"]["display_name"].lower()))
+        rows = sorted(
+            rows_by_member.values(), key=lambda row: (-row["workload"], row["member"]["display_name"].lower())
+        )
         return {"groups": groups_payload, "members": rows}
 
     @allow_permission([ROLE.ADMIN, ROLE.MEMBER], level="WORKSPACE")

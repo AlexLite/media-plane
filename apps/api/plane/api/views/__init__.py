@@ -63,4 +63,10 @@ from .user import UserEndpoint
 from .invite import WorkspaceInvitationsViewset
 
 from .sticky import StickyViewSet
-from .workspace_group import (WorkspaceGroupDetailAPIEndpoint, WorkspaceGroupListCreateAPIEndpoint, WorkspaceGroupMemberDetailAPIEndpoint, WorkspaceGroupMemberListCreateAPIEndpoint, WorkspaceGroupNotificationRuleAPIEndpoint)
+from .workspace_group import (
+    WorkspaceGroupDetailAPIEndpoint,
+    WorkspaceGroupListCreateAPIEndpoint,
+    WorkspaceGroupMemberDetailAPIEndpoint,
+    WorkspaceGroupMemberListCreateAPIEndpoint,
+    WorkspaceGroupNotificationRuleAPIEndpoint,
+)

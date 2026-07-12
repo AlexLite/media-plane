@@ -199,7 +199,9 @@ class IssueCreateSerializer(BaseSerializer):
         target_date = attrs.get("target_date")
         instance = getattr(self, "instance", None)
         if instance is not None and target_date is not None:
-            pipeline_item = IssuePipelineItem.objects.filter(child_issue=instance).select_related("parent_issue").first()
+            pipeline_item = (
+                IssuePipelineItem.objects.filter(child_issue=instance).select_related("parent_issue").first()
+            )
             if pipeline_item:
                 parent_target_date = pipeline_item.parent_issue.target_date
                 if parent_target_date and target_date > parent_target_date:
@@ -237,7 +239,9 @@ class IssueCreateSerializer(BaseSerializer):
                         {"target_date": "Pipeline step due date cannot be later than next pipeline step due date"}
                     )
 
-            if IssuePipelineItem.objects.filter(parent_issue=instance, child_issue__target_date__gt=target_date).exists():
+            if IssuePipelineItem.objects.filter(
+                parent_issue=instance, child_issue__target_date__gt=target_date
+            ).exists():
                 raise serializers.ValidationError(
                     {"target_date": "Parent issue due date cannot be earlier than existing pipeline step due dates"}
                 )

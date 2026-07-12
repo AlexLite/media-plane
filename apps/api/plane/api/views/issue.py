@@ -95,8 +95,6 @@ OFFICE_MIME_TYPES = {
     ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 }
 
-for extension, mime_type in OFFICE_MIME_TYPES.items():
-    mimetypes.add_type(mime_type, extension, strict=True)
 from plane.utils.issue_relation_mapper import get_actual_relation
 from plane.bgtasks.webhook_task import model_activity
 from plane.app.permissions import ROLE
@@ -168,6 +166,10 @@ from plane.utils.openapi import (
     WORKSPACE_NOT_FOUND_RESPONSE,
 )
 from plane.bgtasks.work_item_link_task import crawl_work_item_link_title
+
+
+for extension, mime_type in OFFICE_MIME_TYPES.items():
+    mimetypes.add_type(mime_type, extension, strict=True)
 
 
 def user_has_issue_permission(user_id, project_id, issue=None, allowed_roles=None, allow_creator=True):

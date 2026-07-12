@@ -44,7 +44,13 @@ from .project import (
     ProjectMemberPreferenceSerializer,
 )
 from .state import StateSerializer, StateLiteSerializer
-from .workspace_group import WorkspaceGroupMemberCreateSerializer, WorkspaceGroupMemberSerializer, WorkspaceGroupNotificationRuleSerializer, WorkspaceGroupNotificationRuleUpdateSerializer, WorkspaceGroupSerializer
+from .workspace_group import (
+    WorkspaceGroupMemberCreateSerializer,
+    WorkspaceGroupMemberSerializer,
+    WorkspaceGroupNotificationRuleSerializer,
+    WorkspaceGroupNotificationRuleUpdateSerializer,
+    WorkspaceGroupSerializer,
+)
 from .view import IssueViewSerializer, ViewIssueListSerializer
 from .cycle import (
     CycleSerializer,

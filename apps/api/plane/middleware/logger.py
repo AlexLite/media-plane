@@ -30,7 +30,17 @@ SENSITIVE_HEADER_NAMES = {
     "x-api-key",
     "x-auth-token",
 }
-SENSITIVE_VALUE_NAMES = {"access_token", "api_key", "authorization", "code", "cookie", "password", "refresh_token", "secret", "token"}
+SENSITIVE_VALUE_NAMES = {
+    "access_token",
+    "api_key",
+    "authorization",
+    "code",
+    "cookie",
+    "password",
+    "refresh_token",
+    "secret",
+    "token",
+}
 
 
 def is_sensitive_name(name: str) -> bool:
@@ -52,7 +62,10 @@ def sanitize_request_headers(request: Request | HttpRequest) -> str:
 
 def sanitize_query_params(query_string: str) -> str:
     return urlencode(
-        [(name, "[REDACTED]" if is_sensitive_name(name) else value) for name, value in parse_qsl(query_string, keep_blank_values=True)]
+        [
+            (name, "[REDACTED]" if is_sensitive_name(name) else value)
+            for name, value in parse_qsl(query_string, keep_blank_values=True)
+        ]
     )
 
 

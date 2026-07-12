@@ -114,7 +114,9 @@ class TestIssuePipelineAPI:
         self, session_client, workspace, project, project_states, parent_issue
     ):
         session_client.post(pipeline_initialize_url(workspace.slug, project.id, parent_issue.id), {}, format="json")
-        active_item = IssuePipelineItem.objects.get(parent_issue=parent_issue, status=IssuePipelineItem.StatusChoices.ACTIVE)
+        active_item = IssuePipelineItem.objects.get(
+            parent_issue=parent_issue, status=IssuePipelineItem.StatusChoices.ACTIVE
+        )
 
         response = session_client.post(
             pipeline_complete_url(workspace.slug, project.id, parent_issue.id, active_item.id), {}, format="json"
