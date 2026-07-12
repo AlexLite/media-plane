@@ -775,6 +775,7 @@
     "grouping_title": "{entity} Grouping",
     "priority": "{entity} Priority",
     "all": "All {entity}",
+    "filters": "Filters",
     "drop_here_to_move": "Drop here to move the {entity}",
     "delete": {
       "label": "Delete {entity}",
@@ -887,6 +888,37 @@
     "success": "{fileName} Uploaded!"
   },
   "date": "Date",
+  "emoji_picker": {
+    "and_more": "and {count} more",
+    "tabs": {
+      "emoji": "Emoji",
+      "icon": "Icon"
+    },
+    "categories": {
+      "smileys_and_emotion": "Smileys & emotion",
+      "people_and_body": "People & body",
+      "animals_and_nature": "Animals & nature",
+      "food_and_drink": "Food & drink",
+      "travel_and_places": "Travel & places",
+      "activities": "Activities",
+      "objects": "Objects",
+      "symbols": "Symbols",
+      "flags": "Flags"
+    }
+  },
+  "page_actions": {
+    "lock": "Lock",
+    "unlock": "Unlock",
+    "make_private": "Make private",
+    "make_public": "Make public",
+    "open_in_new_tab": "Open in new tab",
+    "copy_link": "Copy link",
+    "make_a_copy": "Make a copy",
+    "archive": "Archive",
+    "restore": "Restore",
+    "delete": "Delete",
+    "move": "Move"
+  },
   "exporter": {
     "csv": {
       "title": "CSV",

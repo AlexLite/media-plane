@@ -775,6 +775,7 @@
     "grouping_title": "Группировка {entity}",
     "priority": "Приоритет {entity}",
     "all": "Все {entity}",
+    "filters": "Фильтры",
     "drop_here_to_move": "Переместите {entity} сюда",
     "delete": {
       "label": "Удалить {entity}",
@@ -887,6 +888,37 @@
     "success": "{fileName} загружен!"
   },
   "date": "Дата",
+  "emoji_picker": {
+    "and_more": "и ещё {count}",
+    "tabs": {
+      "emoji": "Эмодзи",
+      "icon": "Иконка"
+    },
+    "categories": {
+      "smileys_and_emotion": "Смайлы и эмоции",
+      "people_and_body": "Люди и тело",
+      "animals_and_nature": "Животные и природа",
+      "food_and_drink": "Еда и напитки",
+      "travel_and_places": "Путешествия и места",
+      "activities": "Активности",
+      "objects": "Объекты",
+      "symbols": "Символы",
+      "flags": "Флаги"
+    }
+  },
+  "page_actions": {
+    "lock": "Заблокировать",
+    "unlock": "Разблокировать",
+    "make_private": "Сделать приватной",
+    "make_public": "Сделать публичной",
+    "open_in_new_tab": "Открыть в новой вкладке",
+    "copy_link": "Копировать ссылку",
+    "make_a_copy": "Создать копию",
+    "archive": "Архивировать",
+    "restore": "Восстановить",
+    "delete": "Удалить",
+    "move": "Переместить"
+  },
   "exporter": {
     "csv": {
       "title": "CSV",

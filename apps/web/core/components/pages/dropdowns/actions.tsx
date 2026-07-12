@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 import { ArchiveRestoreIcon, FileOutput, LockKeyhole, LockKeyholeOpen } from "lucide-react";
 // constants
 import { EPageAccess } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 // plane editor
 import { LinkIcon, CopyIcon, LockIcon, NewTabIcon, ArchiveIcon, TrashIcon, GlobeIcon } from "@plane/propel/icons";
 // plane ui
@@ -53,6 +54,7 @@ type Props = {
 
 export const PageActions = observer(function PageActions(props: Props) {
   const { extraOptions, optionsOrder, page, parentRef, storeType } = props;
+  const { t } = useTranslation();
   // states
   const [deletePageModal, setDeletePageModal] = useState(false);
   const [movePageModal, setMovePageModal] = useState(false);
@@ -87,7 +89,7 @@ export const PageActions = observer(function PageActions(props: Props) {
           action: () => {
             pageOperations.toggleLock();
           },
-          title: is_locked ? "Разблокировать" : "Заблокировать",
+          title: is_locked ? t("common.page_actions.unlock") : t("common.page_actions.lock"),
           icon: is_locked ? LockKeyholeOpen : LockKeyhole,
           shouldRender: canCurrentUserLockPage,
         },
@@ -96,21 +98,22 @@ export const PageActions = observer(function PageActions(props: Props) {
           action: () => {
             pageOperations.toggleAccess();
           },
-          title: access === EPageAccess.PUBLIC ? "Сделать приватной" : "Сделать публичной",
+          title:
+            access === EPageAccess.PUBLIC ? t("common.page_actions.make_private") : t("common.page_actions.make_public"),
           icon: access === EPageAccess.PUBLIC ? LockIcon : GlobeIcon,
           shouldRender: canCurrentUserChangeAccess && !archived_at,
         },
         {
           key: "open-in-new-tab",
           action: pageOperations.openInNewTab,
-          title: "Открыть в новой вкладке",
+          title: t("common.page_actions.open_in_new_tab"),
           icon: NewTabIcon,
           shouldRender: true,
         },
         {
           key: "copy-link",
           action: pageOperations.copyLink,
-          title: "Копировать ссылку",
+          title: t("common.page_actions.copy_link"),
           icon: LinkIcon,
           shouldRender: true,
         },
@@ -119,7 +122,7 @@ export const PageActions = observer(function PageActions(props: Props) {
           action: () => {
             pageOperations.duplicate();
           },
-          title: "Создать копию",
+          title: t("common.page_actions.make_a_copy"),
           icon: CopyIcon,
           shouldRender: canCurrentUserDuplicatePage,
         },
@@ -128,7 +131,7 @@ export const PageActions = observer(function PageActions(props: Props) {
           action: () => {
             pageOperations.toggleArchive();
           },
-          title: archived_at ? "Восстановить" : "Архивировать",
+          title: archived_at ? t("common.page_actions.restore") : t("common.page_actions.archive"),
           icon: archived_at ? ArchiveRestoreIcon : ArchiveIcon,
           shouldRender: canCurrentUserArchivePage,
         },
@@ -137,14 +140,14 @@ export const PageActions = observer(function PageActions(props: Props) {
           action: () => {
             setDeletePageModal(true);
           },
-          title: "Удалить",
+          title: t("common.page_actions.delete"),
           icon: TrashIcon,
           shouldRender: canCurrentUserDeletePage && !!archived_at,
         },
         {
           key: "move",
           action: () => setMovePageModal(true),
-          title: "Переместить",
+          title: t("common.page_actions.move"),
           icon: FileOutput,
           shouldRender: canCurrentUserMovePage && isMovePageEnabled,
         },
@@ -167,6 +170,7 @@ export const PageActions = observer(function PageActions(props: Props) {
       canCurrentUserMovePage,
       isMovePageEnabled,
       pageOperations,
+      t,
     ]
   );
   // arrange options
