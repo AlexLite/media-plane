@@ -18,7 +18,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.http import HttpResponse
 from django.test import RequestFactory
 
-from plane.middleware.logger import APITokenLogMiddleware, build_token_identifier
+from plane.middleware.logger import APITokenLogMiddleware
 
 
 @pytest.fixture
@@ -44,6 +44,7 @@ class TestAPITokenLogMiddleware:
             HTTP_AUTHORIZATION=self.AUTHORIZATION,
             HTTP_COOKIE=self.COOKIE,
         )
+        request.api_token_identifier = "api-token-identifier"
         request.user = AnonymousUser()
         response = HttpResponse(b"{}")
         with patch("plane.middleware.logger.process_logs") as process_logs:
@@ -51,11 +52,10 @@ class TestAPITokenLogMiddleware:
             assert process_logs.delay.called
             return process_logs.delay.call_args.kwargs["log_data"]
 
-    def test_token_identifier_is_hashed_not_plaintext(self, middleware, request_factory):
+    def test_token_identifier_uses_authenticated_token_id(self, middleware, request_factory):
         log_data = self._captured_log_data(middleware, request_factory)
 
-        expected_identifier = build_token_identifier(self.API_KEY)
-        assert log_data["token_identifier"] == expected_identifier
+        assert log_data["token_identifier"] == "api-token-identifier"
         assert self.API_KEY not in log_data["token_identifier"]
 
     def test_sensitive_headers_are_redacted(self, middleware, request_factory):

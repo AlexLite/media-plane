@@ -39,7 +39,7 @@ class APIKeyAuthentication(authentication.BaseAuthentication):
         # save api token last used
         api_token.last_used = timezone.now()
         api_token.save(update_fields=["last_used"])
-        return (api_token.user, api_token.token)
+        return api_token
 
     def authenticate(self, request):
         token = self.get_api_token(request=request)
@@ -47,5 +47,7 @@ class APIKeyAuthentication(authentication.BaseAuthentication):
             return None
 
         # Validate the API token
-        user, token = self.validate_api_token(token)
-        return user, token
+        api_token = self.validate_api_token(token)
+        django_request = getattr(request, "_request", request)
+        django_request.api_token_identifier = str(api_token.id)
+        return api_token.user, api_token.token

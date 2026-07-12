@@ -4,7 +4,6 @@
 
 # Python imports
 import logging
-import hashlib
 import json
 import time
 from urllib.parse import parse_qsl, urlencode
@@ -40,20 +39,6 @@ def is_sensitive_name(name: str) -> bool:
     return normalized_name in SENSITIVE_VALUE_NAMES or any(
         sensitive_name in normalized_name for sensitive_name in SENSITIVE_VALUE_NAMES
     )
-
-
-def build_token_identifier(api_key: str) -> str:
-    """
-    Build a stable, non-reversible identifier for API token logs.
-
-    Keyed BLAKE2b keeps the identifier stable without persisting the raw
-    token, while avoiding a password-hashing primitive for log correlation.
-    """
-    return hashlib.blake2b(
-        api_key.encode("utf-8"),
-        key=settings.SECRET_KEY.encode("utf-8"),
-        digest_size=32,
-    ).hexdigest()
 
 
 def sanitize_request_headers(request: Request | HttpRequest) -> str:
@@ -191,7 +176,7 @@ class APITokenLogMiddleware:
 
         try:
             log_data = {
-                "token_identifier": build_token_identifier(api_key),
+                "token_identifier": getattr(request, "api_token_identifier", "unknown"),
                 "path": request.path,
                 "method": request.method,
                 "query_params": sanitize_query_params(request.META.get("QUERY_STRING", "")),
