@@ -20,6 +20,7 @@ import { Loader } from "@plane/ui";
 import { cn, renderFormattedDate, getFileURL } from "@plane/utils";
 // components
 import { CoverImage } from "@/components/common/cover-image";
+import { WorkspaceMemberGroups } from "@/components/workspace/member-groups";
 // hooks
 import { useAppTheme } from "@/hooks/store/use-app-theme";
 import { useCommandPalette } from "@/hooks/store/use-command-palette";
@@ -39,7 +40,7 @@ export const ProfileSidebar = observer(function ProfileSidebar(props: TProfileSi
   // refs
   const ref = useRef<HTMLDivElement>(null);
   // router
-  const { userId } = useParams();
+  const { workspaceSlug, userId } = useParams();
   // store hooks
   const { data: currentUser } = useUser();
   const { profileSidebarCollapsed, toggleProfileSidebar } = useAppTheme();
@@ -135,6 +136,9 @@ export const ProfileSidebar = observer(function ProfileSidebar(props: TProfileSi
                 {userData?.first_name} {userData?.last_name}
               </h4>
               <h6 className="text-13 text-secondary">({userData?.display_name})</h6>
+              {typeof workspaceSlug === "string" && typeof userId === "string" ? (
+                <WorkspaceMemberGroups workspaceSlug={workspaceSlug} userId={userId} className="mt-2" />
+              ) : null}
             </div>
             <div className="mt-6 space-y-5">
               {userDetails.map((detail) => (

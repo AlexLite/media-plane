@@ -16,7 +16,6 @@ import { Breadcrumbs, Header, CustomMenu } from "@plane/ui";
 // components
 import { BreadcrumbLink } from "@/components/common/breadcrumb-link";
 import { ProfileIssuesFilter } from "@/components/profile/profile-issues-filter";
-import { WorkspaceMemberGroups } from "@/components/workspace/member-groups";
 // hooks
 import { useAppTheme } from "@/hooks/store/use-app-theme";
 import { useUser, useUserPermissions } from "@/hooks/store/user";
@@ -67,9 +66,6 @@ export const UserProfileHeader = observer(function UserProfileHeader(props: TUse
               />
             }
           />
-          {typeof workspaceSlug === "string" && typeof userId === "string" ? (
-            <WorkspaceMemberGroups workspaceSlug={workspaceSlug} userId={userId} />
-          ) : null}
         </Breadcrumbs>
       </Header.LeftItem>
       <Header.RightItem>

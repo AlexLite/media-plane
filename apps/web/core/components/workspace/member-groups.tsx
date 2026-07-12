@@ -5,6 +5,7 @@
 
 import useSWR from "swr";
 import { observer } from "mobx-react";
+import { UsersRound } from "lucide-react";
 import { EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
 import { useMember } from "@/hooks/store/use-member";
 import { useWorkspaceGroup } from "@/hooks/store/use-workspace-group";
@@ -40,10 +41,11 @@ export const WorkspaceMemberGroups = observer(function WorkspaceMemberGroups({
   if (!groups?.length) return null;
 
   return (
-    <div className={`flex flex-wrap justify-center gap-1 ${className}`}>
+    <div className={`flex flex-wrap items-center gap-1 ${className}`}>
       {groups.map((group) => (
-        <span key={group.id} className="rounded bg-surface-2 px-1.5 py-0.5 text-caption-md-regular text-secondary" title={group.name}>
-          {group.emoji ? `${group.emoji} ` : ""}{group.name}
+        <span key={group.id} className="inline-flex items-center gap-1 text-caption-md-regular text-secondary" title={group.name}>
+          <UsersRound className="size-3.5 shrink-0" aria-hidden />
+          {group.name.replace(/^\d+(?:-\d+)+\s+/, "")}
         </span>
       ))}
     </div>
