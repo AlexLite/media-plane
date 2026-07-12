@@ -9,7 +9,6 @@ import time
 from urllib.parse import parse_qsl, urlencode
 
 # Django imports
-from django.conf import settings
 from django.http import HttpRequest
 from django.utils import timezone
 
@@ -55,6 +54,11 @@ def sanitize_query_params(query_string: str) -> str:
     return urlencode(
         [(name, "[REDACTED]" if is_sensitive_name(name) else value) for name, value in parse_qsl(query_string, keep_blank_values=True)]
     )
+
+
+def get_sanitized_full_path(request: Request | HttpRequest) -> str:
+    query_string = sanitize_query_params(request.META.get("QUERY_STRING", ""))
+    return f"{request.path}?{query_string}" if query_string else request.path
 
 
 def sanitize_body(content: bytes | None) -> str | None:
@@ -114,7 +118,7 @@ class RequestLoggerMiddleware:
 
         # Log the request information
         api_logger.info(
-            f"{request.method} {request.get_full_path()} {response.status_code}",
+            f"{request.method} {get_sanitized_full_path(request)} {response.status_code}",
             extra={
                 "path": request.path,
                 "method": request.method,

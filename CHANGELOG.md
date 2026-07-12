@@ -22,6 +22,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- Request log messages now redact sensitive query-string values as well as structured external API logs.
 - Relative activity timestamps now show exact time today and exact date with time for older events.
 - Workspace notification cards now show an exact local time for today's events and a date with time for older events.
 - Shared date-only formatting no longer adds a midnight time, while exact timestamps and relative time use the active document locale.

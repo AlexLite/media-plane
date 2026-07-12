@@ -13,12 +13,11 @@ Covers the credential-hygiene guarantees of the external API request logger:
 from unittest.mock import Mock, patch
 
 import pytest
-from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpResponse
 from django.test import RequestFactory
 
-from plane.middleware.logger import APITokenLogMiddleware
+from plane.middleware.logger import APITokenLogMiddleware, RequestLoggerMiddleware
 
 
 @pytest.fixture
@@ -94,3 +93,18 @@ class TestAPITokenLogMiddleware:
         assert "filter=active" in log_data["query_params"]
         assert "Visible" in log_data["body"]
         assert "status" in log_data["response_body"]
+
+
+@pytest.mark.unit
+def test_request_logger_redacts_sensitive_query_values(request_factory):
+    request = request_factory.get("/api/v1/workspaces/?access_token=query-secret&filter=active")
+    request.user = AnonymousUser()
+    middleware = RequestLoggerMiddleware(Mock(return_value=HttpResponse()))
+
+    with patch("plane.middleware.logger.api_logger.info") as info:
+        middleware(request)
+
+    message = info.call_args.args[0]
+    assert "query-secret" not in message
+    assert "filter=active" in message
+    assert "access_token=%5BREDACTED%5D" in message
