@@ -1,20 +1,25 @@
-### Description
-<!-- Provide a detailed description of the changes in this PR -->
+## What changed
 
-### Type of Change
-<!-- Put an 'x' in the boxes that apply -->
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] Feature (non-breaking change which adds functionality)
-- [ ] Improvement (change that would cause existing functionality to not work as expected)
-- [ ] Code refactoring
-- [ ] Performance improvements
-- [ ] Documentation update
+## Why
 
-### Screenshots and Media (if applicable)
-<!-- Add screenshots to help explain your changes, ideally showcasing before and after -->
+## Branch workflow
 
-### Test Scenarios 
-<!-- Please describe the tests that you ran to verify your changes -->
+- [ ] Branch created from current `develop`
+- [ ] PR targets `develop`, `main`, or `release/*` intentionally
+- [ ] No unrelated changes included
 
-### References
-<!-- Link related issues if there are any -->
+## Validation
+
+- [ ] Format
+- [ ] Lint
+- [ ] Types
+- [ ] Tests
+- [ ] Migrations checked where applicable
+- [ ] Localization checks where applicable
+- [ ] Security impact reviewed
+
+## Release and deployment
+
+- [ ] No deployment performed
+- [ ] CHANGELOG updated when user-visible
+- [ ] Exact commit SHA recorded

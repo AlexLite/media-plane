@@ -3,27 +3,51 @@
 ## Fork Rules
 
 - Treat this repository as the deployable source of truth for the Plane RU fork.
-- Read [`docs/fork-workflow.md`](./docs/fork-workflow.md) before making changes.
-- Keep `preview` as the active integration branch unless the user says otherwise.
-- Use [`UPSTREAM_VERSION`](./UPSTREAM_VERSION) for the upstream base and
-  [`RELEASE_VERSION`](./RELEASE_VERSION) for the fork release tag.
-- Update [`CHANGELOG.md`](./CHANGELOG.md) and keep release/deploy notes aligned
-  with the code that is pushed to GitHub.
-- Do not modify the live `.97` deployment unless the user explicitly asks for a
-  deploy action.
-- Prefer repo changes over host-only fixes so GitHub and the deploy remain in
-  sync.
-- Before any write action, run [`scripts/check-sync.sh`](./scripts/check-sync.sh)
-  or equivalent manual checks and confirm that local, deploy, and GitHub SHAs
-  are aligned for the branch you intend to touch.
-- If the SHAs differ, reconcile first. Never assume `.97` already matches GitHub.
-- Never use `git add -A` on a mixed tree unless the user has confirmed that every
-  change in the worktree belongs in scope.
-- Keep deploy-affecting changes split by concern when possible:
-  translations, backend patches, pipeline/build changes, and docs should be
-  separate commits unless the user explicitly asks for a bundled sync.
-- After committing, verify the new commit on local, deploy, and GitHub before
-  declaring the state synced.
+- Read [`docs/fork-workflow.md`](./docs/fork-workflow.md), [`CHANGELOG.md`](./CHANGELOG.md), and any applicable nested `AGENTS.md` before making changes.
+- Use [`UPSTREAM_VERSION`](./UPSTREAM_VERSION) for the upstream base and [`RELEASE_VERSION`](./RELEASE_VERSION) for the fork release tag.
+- Do not modify a live deployment, run migrations, or change production configuration without explicit user approval.
+- Prefer repo changes over host-only fixes so GitHub and deployments remain reproducible.
+- Never add secrets, runtime `.env` files, database data, generated bundles, or temporary backup files to Git.
+
+## Git Workflow
+
+### Permanent branches
+
+- `develop` is the default integration branch.
+- `main` represents production-ready, released code.
+- Never commit or push directly to `develop` or `main`.
+- Do not rename or delete permanent branches unless the user explicitly requests it.
+
+### Task branches and pull requests
+
+- Start every task branch from an up-to-date `fork/develop`.
+- Use lowercase kebab-case names: `feat/<task>`, `fix/<task>`, `chore/<task>`, `docs/<task>`, `refactor/<task>`, `test/<task>`, `release/<version>`, or `hotfix/<task>`.
+- Normal task branches target `develop` through a pull request.
+- Release branches start from `develop`; production releases merge from `release/<version>` into `main`.
+- Hotfixes start from and target `main`, then must be merged or cherry-picked back into `develop`.
+- Do not merge a pull request until its required checks pass. Delete merged task branches when they are no longer needed.
+- Never force-push shared branches. Do not create routine `backup/*` branches; use an annotated tag for an immutable rollback or release snapshot.
+
+### Required checks
+
+Before modifying a repository:
+
+1. Run `git status --short` and `git branch --show-current`.
+2. Run `git fetch fork --prune` and confirm the task branch is based on current `fork/develop`.
+3. Check for unrelated local changes. Never overwrite, discard, reset, or delete user changes without explicit approval.
+4. Do not use `git add -A` on a mixed worktree.
+
+Before committing:
+
+1. Review `git diff` and stage only task files.
+2. Run the relevant format, lint, type, test, migration, localization, and security checks.
+3. Update `CHANGELOG.md` only for user-visible changes.
+
+After pushing:
+
+1. Verify the remote branch SHA and open a pull request to the intended base branch.
+2. Report the commit SHA and CI status.
+3. Do not deploy unless deployment was explicitly requested.
 
 ## Commands
 
@@ -38,12 +62,10 @@
 
 ## Code Style
 
-- **Imports**: Use `workspace:*` for internal packages, `catalog:` for external deps
-- **TypeScript**: Strict mode enabled, all files must be typed
-- **Formatting**: oxfmt, run `pnpm fix:format`
-- **Linting**: OxLint with shared `.oxlintrc.json` config
-- **Naming**: camelCase for variables/functions, PascalCase for components/types
-- **Error Handling**: Use try-catch with proper error types, log errors appropriately
-- **State Management**: MobX stores in `packages/shared-state`, reactive patterns
-- **Testing**: All features require unit tests, use existing test framework per package
-- **Components**: Build in `@plane/ui` with Storybook for isolated development
+- **Imports**: Use `workspace:*` for internal packages, `catalog:` for external deps.
+- **TypeScript**: Strict mode enabled; all files must be typed.
+- **Formatting**: Oxfmt; run `pnpm fix:format`.
+- **Linting**: OxLint with shared `.oxlintrc.json` config.
+- **Naming**: camelCase for variables/functions and PascalCase for components/types.
+- **Error handling**: Use try-catch with proper error types.
+- **State management**: MobX stores in `packages/shared-state` and reactive patterns.
