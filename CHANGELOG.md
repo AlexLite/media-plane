@@ -25,6 +25,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- Generic Russian date rendering now uses the Russian day-month-year order instead of an English date pattern with Russian month names.
 - Completed work items now remain overdue only when their actual completion time was after the configured due time.
 - Work items with a due date now retain their project's configured default due time instead of allowing the time to be cleared.
 - Empty mention searches now use the loaded root-level Russian no-results locale key.
