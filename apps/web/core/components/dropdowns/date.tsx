@@ -45,6 +45,7 @@ type Props = TDropdownProps & {
   renderByDefault?: boolean;
   labelClassName?: string;
   selectedLabelSuffix?: string;
+  displayTime?: boolean;
   showTimeInput?: boolean;
   timeInputLabel?: string;
   timeValue?: string | null;
@@ -78,6 +79,7 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
     renderByDefault = true,
     labelClassName = "",
     selectedLabelSuffix = "",
+    displayTime = false,
     showTimeInput = false,
     timeInputLabel = "Время",
     timeValue,
@@ -110,7 +112,7 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
 
   const isDateSelected = value && value.toString().trim() !== "";
   const selectedLabel = value
-    ? showTimeInput
+    ? showTimeInput || displayTime
       ? renderFormattedDateWithTime(value, timeValue)
       : `${renderFormattedDate(value, formatToken)}${selectedLabelSuffix}`
     : null;

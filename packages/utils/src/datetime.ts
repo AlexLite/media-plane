@@ -67,6 +67,13 @@ const normalizeTime = (time?: string | null): string => {
   return `${hours.padStart(2, "0").slice(0, 2)}:${minutes.padStart(2, "0").slice(0, 2)}`;
 };
 
+const renderDateTime = (date: Date): string => {
+  const isCurrentYear = date.getFullYear() === new Date().getFullYear();
+  const formatToken = isCurrentYear ? "dd MMM HH:mm" : "dd MMM yyyy HH:mm";
+
+  return format(date, formatToken, { locale: getDateLocale() }).replace(/\./g, "");
+};
+
 /**
  * @returns formatted date with time; omits the year for dates in the current year.
  * @example renderFormattedDateWithTime("2026-06-09", "14:30") // 09 Jun 14:30
@@ -83,10 +90,16 @@ export const renderFormattedDateWithTime = (
   const dateWithTime = new Date(parsedDate);
   dateWithTime.setHours(hours, minutes, 0, 0);
 
-  const isCurrentYear = dateWithTime.getFullYear() === new Date().getFullYear();
-  const formatToken = isCurrentYear ? "dd MMM HH:mm" : "dd MMM yyyy HH:mm";
+  return renderDateTime(dateWithTime);
+};
 
-  return format(dateWithTime, formatToken, { locale: getDateLocale() }).replace(/\./g, "");
+export const renderFormattedTimestamp = (timestamp: string | Date | undefined | null): string | undefined => {
+  if (!timestamp) return;
+
+  const parsedTimestamp = typeof timestamp === "string" ? parseISO(timestamp) : timestamp;
+  if (!isValid(parsedTimestamp)) return;
+
+  return renderDateTime(parsedTimestamp);
 };
 
 /**

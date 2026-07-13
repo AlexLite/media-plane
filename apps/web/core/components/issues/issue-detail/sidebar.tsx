@@ -146,6 +146,7 @@ export const IssueDetailsSidebar = observer(function IssueDetailsSidebar(props: 
               <DateDropdown
                 placeholder={t("issue.add.start_date")}
                 value={issue.start_date}
+                displayTime
                 onChange={(val) =>
                   issueOperations.update(workspaceSlug, projectId, issueId, {
                     start_date: val ? renderFormattedPayloadDate(val) : null,
