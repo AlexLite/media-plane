@@ -95,10 +95,7 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
     EUserPermissionsLevel.WORKSPACE
   );
-  const canManageGroups = allowPermissions(
-    [EUserPermissions.ADMIN],
-    EUserPermissionsLevel.WORKSPACE
-  );
+  const canManageGroups = allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.WORKSPACE);
 
   useSWR(canViewGroups ? `WORKSPACE_GROUPS_${workspaceSlug}` : null, () => fetchWorkspaceGroups(workspaceSlug));
   useSWR(canViewGroups ? `WORKSPACE_MEMBERS_${workspaceSlug}` : null, () =>
