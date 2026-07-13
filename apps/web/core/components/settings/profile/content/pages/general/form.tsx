@@ -23,11 +23,13 @@ import { ChangeEmailModal } from "@/components/core/modals/change-email-modal";
 import { UserImageUploadModal } from "@/components/core/modals/user-image-upload-modal";
 import { CoverImage } from "@/components/common/cover-image";
 import { SettingsBoxedControlItem } from "@/components/settings/boxed-control-item";
+import { WorkspaceMemberGroups } from "@/components/workspace/member-groups";
 // helpers
 import { handleCoverImageChange } from "@/helpers/cover-image.helper";
 // hooks
 import { useInstance } from "@/hooks/store/use-instance";
 import { useUser, useUserProfile } from "@/hooks/store/user";
+import { useWorkspace } from "@/hooks/store/use-workspace";
 // utils
 import { validatePersonName, validateDisplayName } from "@plane/utils";
 
@@ -86,6 +88,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
   // store hooks
   const { data: currentUser, updateCurrentUser } = useUser();
   const { updateUserProfile } = useUserProfile();
+  const { currentWorkspace } = useWorkspace();
   const { config } = useInstance();
 
   const isSMTPConfigured = config?.is_smtp_configured || false;
@@ -262,6 +265,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
                 <span>{`${watch("first_name")} ${watch("last_name")}`}</span>
               </div>
               <span className="text-13 tracking-tight text-tertiary">{watch("email")}</span>
+              {currentWorkspace && <WorkspaceMemberGroups workspaceSlug={currentWorkspace.slug} userId={user.id} />}
             </div>
           </div>
           <div className="flex flex-col gap-2">
