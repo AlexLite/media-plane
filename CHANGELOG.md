@@ -25,6 +25,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- Workspace-view quick actions now render their already localized labels directly, avoiding false missing-key warnings at runtime.
 - Plane Messenger Gateway service, Docker hostname, volume, and deployment overlay now consistently use the correctly spelled `messenger` name.
 - Theme-aware loading spinners now keep the server and initial client markup aligned before selecting the dark variant.
 - Space priority rendering now handles missing priority metadata safely.
