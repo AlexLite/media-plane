@@ -595,7 +595,7 @@ def get_issue_id(payload: dict[str, Any]) -> str | None:
 def get_issue(issue_id: str) -> dict[str, Any] | None:
     return db_fetchone(
         """
-        SELECT i.id::text, i.name, i.sequence_id, i.project_id::text,
+        SELECT i.id::text, i.name, i.sequence_id, i.project_id::text, i.state_id::text, i.workspace_id::text,
                p.identifier AS project_identifier, p.name AS project_name,
                w.slug AS workspace_slug
         FROM issues i
@@ -707,6 +707,43 @@ def get_assignees(issue_id: str) -> list[dict[str, Any]]:
         """,
         (issue_id,),
     )
+
+
+def filter_group_notification_recipients(issue: dict[str, Any], recipients: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    recipient_ids = [recipient["plane_user_id"] for recipient in recipients]
+    if not recipient_ids:
+        return []
+
+    grouped_recipients = {
+        row["plane_user_id"]: bool(row["is_allowed"])
+        for row in db_fetchall(
+            """
+            SELECT wm.member_id::text AS plane_user_id,
+                   BOOL_OR(rule.id IS NOT NULL) AS is_allowed
+            FROM workspace_group_members wgm
+            JOIN workspace_groups wg ON wg.id = wgm.group_id
+            JOIN workspace_members wm ON wm.id = wgm.workspace_member_id
+            LEFT JOIN workspace_group_notification_rules rule
+              ON rule.group_id = wg.id
+             AND rule.project_id = %s
+             AND rule.state_id = %s
+             AND rule.deleted_at IS NULL
+            WHERE wgm.workspace_id = %s
+              AND wgm.deleted_at IS NULL
+              AND wg.deleted_at IS NULL
+              AND wg.is_archived = FALSE
+              AND wm.is_active = TRUE
+              AND wm.member_id = ANY(%s::uuid[])
+            GROUP BY wm.member_id
+            """,
+            (issue["project_id"], issue["state_id"], issue["workspace_id"], recipient_ids),
+        )
+    }
+    return [
+        recipient
+        for recipient in recipients
+        if grouped_recipients.get(recipient["plane_user_id"], True)
+    ]
 
 
 def get_actor(payload: dict[str, Any]) -> dict[str, Any]:
@@ -2036,11 +2073,14 @@ async def handle_plane_webhook(scope, receive, send, headers):
                 if not (settings.skip_actor and user["plane_user_id"] == actor["id"])
             ]
     else:
-        recipients = [
-            user
-            for user in get_assignees(issue_id)
-            if not (settings.skip_actor and user["plane_user_id"] == actor["id"])
-        ]
+        recipients = filter_group_notification_recipients(
+            issue,
+            [
+                user
+                for user in get_assignees(issue_id)
+                if not (settings.skip_actor and user["plane_user_id"] == actor["id"])
+            ],
+        )
     links_by_id, links_by_email = get_linked_vk_users(
         [user["plane_user_id"] for user in recipients],
         [user["email"] for user in recipients if user.get("email")],

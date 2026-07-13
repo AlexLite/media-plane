@@ -23,6 +23,7 @@ from plane.db.models import (
     IssueActivity,
     UserNotificationPreference,
     ProjectMember,
+    WorkspaceGroupMember,
     WorkspaceGroupNotificationRule,
 )
 from django.db.models import Subquery
@@ -208,23 +209,26 @@ def is_group_notification_allowed(receiver_id, issue):
     if issue is None:
         return True
 
-    allowed_state_ids = list(
-        WorkspaceGroupNotificationRule.objects.filter(
-            workspace_id=issue.workspace_id,
-            project_id=issue.project_id,
-            group__is_archived=False,
-            group__group_members__workspace_member__member_id=receiver_id,
-            group__group_members__workspace_member__is_active=True,
-            group__group_members__deleted_at__isnull=True,
-        )
-        .distinct()
-        .values_list("state_id", flat=True)
-    )
+    group_membership_exists = WorkspaceGroupMember.objects.filter(
+        workspace_id=issue.workspace_id,
+        group__is_archived=False,
+        workspace_member__member_id=receiver_id,
+        workspace_member__is_active=True,
+        deleted_at__isnull=True,
+    ).exists()
 
-    if not allowed_state_ids:
+    if not group_membership_exists:
         return True
 
-    return issue.state_id in allowed_state_ids
+    return WorkspaceGroupNotificationRule.objects.filter(
+        workspace_id=issue.workspace_id,
+        project_id=issue.project_id,
+        state_id=issue.state_id,
+        group__is_archived=False,
+        group__group_members__workspace_member__member_id=receiver_id,
+        group__group_members__workspace_member__is_active=True,
+        group__group_members__deleted_at__isnull=True,
+    ).exists()
 
 
 @shared_task
