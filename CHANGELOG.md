@@ -25,6 +25,8 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- Timecode markers no longer transform text while it is being typed, preventing partial and nested marker spans.
+- Work-item polling now checks the active editor immediately before fetching, so an already scheduled refresh cannot overwrite an unsaved draft.
 - Work-item polling now pauses while a title, description, or comment editor has focus, preserving unsaved drafts during text entry.
 - Workspace group creation, editing, member management, and notification settings now require an administrator in both the UI and API.
 - Profile settings now show the current workspace groups under the user's email address.

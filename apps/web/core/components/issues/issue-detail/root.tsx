@@ -4,7 +4,7 @@
  * See the LICENSE file for details.
  */
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { observer } from "mobx-react";
 import useSWR from "swr";
 // plane imports
@@ -89,13 +89,17 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
   const { issueDetailSidebarCollapsed } = useAppTheme();
   const issueDetailRootRef = useRef<HTMLDivElement>(null);
   const [isTextEditorFocused, setIsTextEditorFocused] = useState(false);
+  const isTextEditorActive = useCallback(
+    () => Boolean(issueDetailRootRef.current?.contains(document.activeElement) && isTextEditor(document.activeElement)),
+    []
+  );
 
   useEffect(() => {
     const root = issueDetailRootRef.current;
     if (!root) return;
 
     const syncTextEditorFocus = () => {
-      setIsTextEditorFocused(root.contains(document.activeElement) && isTextEditor(document.activeElement));
+      setIsTextEditorFocused(isTextEditorActive());
     };
     let focusTimeout: number | undefined;
     const handleFocusOut = () => {
@@ -111,7 +115,7 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
       root.removeEventListener("focusout", handleFocusOut);
       window.clearTimeout(focusTimeout);
     };
-  }, []);
+  }, [isTextEditorActive]);
 
   const issueOperations: TIssueOperations = useMemo(
     () => ({
@@ -248,7 +252,10 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
 
   useSWR(
     ["issue-detail-refresh", workspaceSlug, projectId, issueId],
-    () => fetchIssue(workspaceSlug, projectId, issueId),
+    () => {
+      if (isTextEditorActive()) return;
+      return fetchIssue(workspaceSlug, projectId, issueId);
+    },
     {
       refreshInterval: isTextEditorFocused ? 0 : 60000,
       refreshWhenHidden: false,
