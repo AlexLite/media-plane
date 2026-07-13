@@ -4,7 +4,7 @@
  * See the LICENSE file for details.
  */
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { observer } from "mobx-react";
 import useSWR from "swr";
 // plane imports
@@ -59,6 +59,11 @@ export type TIssueDetailRoot = {
   is_archived?: boolean;
 };
 
+const isTextEditor = (element: Element | null) =>
+  element instanceof HTMLTextAreaElement ||
+  (element instanceof HTMLInputElement && !["checkbox", "radio", "button", "submit"].includes(element.type)) ||
+  element?.closest('[contenteditable="true"]') !== null;
+
 export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDetailRoot) {
   const { t } = useTranslation();
   const { workspaceSlug, projectId, issueId, is_archived = false } = props;
@@ -82,6 +87,31 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
   } = useIssues(EIssuesStoreType.ARCHIVED);
   const { allowPermissions } = useUserPermissions();
   const { issueDetailSidebarCollapsed } = useAppTheme();
+  const issueDetailRootRef = useRef<HTMLDivElement>(null);
+  const [isTextEditorFocused, setIsTextEditorFocused] = useState(false);
+
+  useEffect(() => {
+    const root = issueDetailRootRef.current;
+    if (!root) return;
+
+    const syncTextEditorFocus = () => {
+      setIsTextEditorFocused(root.contains(document.activeElement) && isTextEditor(document.activeElement));
+    };
+    let focusTimeout: number | undefined;
+    const handleFocusOut = () => {
+      window.clearTimeout(focusTimeout);
+      focusTimeout = window.setTimeout(syncTextEditorFocus, 0);
+    };
+
+    root.addEventListener("focusin", syncTextEditorFocus);
+    root.addEventListener("focusout", handleFocusOut);
+
+    return () => {
+      root.removeEventListener("focusin", syncTextEditorFocus);
+      root.removeEventListener("focusout", handleFocusOut);
+      window.clearTimeout(focusTimeout);
+    };
+  }, []);
 
   const issueOperations: TIssueOperations = useMemo(
     () => ({
@@ -220,7 +250,7 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
     ["issue-detail-refresh", workspaceSlug, projectId, issueId],
     () => fetchIssue(workspaceSlug, projectId, issueId),
     {
-      refreshInterval: 60000,
+      refreshInterval: isTextEditorFocused ? 0 : 60000,
       refreshWhenHidden: false,
       refreshWhenOffline: false,
       revalidateOnFocus: false,
@@ -239,42 +269,44 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
 
   return (
     <>
-      {!issue ? (
-        <EmptyState
-          image={emptyIssue}
-          title={t("issue.empty_state.issue_detail.title")}
-          description={t("issue.empty_state.issue_detail.description")}
-          primaryButton={{
-            text: t("issue.empty_state.issue_detail.primary_button.text"),
-            onClick: () => router.push(`/${workspaceSlug}/projects/${projectId}/issues`),
-          }}
-        />
-      ) : (
-        <div className="flex h-full w-full overflow-hidden">
-          <div className="h-full w-full space-y-6 overflow-y-auto px-9 py-5">
-            <IssueMainContent
-              workspaceSlug={workspaceSlug}
-              projectId={projectId}
-              issueId={issueId}
-              issueOperations={issueOperations}
-              isEditable={isEditable}
-              isArchived={is_archived}
-            />
+      <div ref={issueDetailRootRef} className="contents">
+        {!issue ? (
+          <EmptyState
+            image={emptyIssue}
+            title={t("issue.empty_state.issue_detail.title")}
+            description={t("issue.empty_state.issue_detail.description")}
+            primaryButton={{
+              text: t("issue.empty_state.issue_detail.primary_button.text"),
+              onClick: () => router.push(`/${workspaceSlug}/projects/${projectId}/issues`),
+            }}
+          />
+        ) : (
+          <div className="flex h-full w-full overflow-hidden">
+            <div className="h-full w-full space-y-6 overflow-y-auto px-9 py-5">
+              <IssueMainContent
+                workspaceSlug={workspaceSlug}
+                projectId={projectId}
+                issueId={issueId}
+                issueOperations={issueOperations}
+                isEditable={isEditable}
+                isArchived={is_archived}
+              />
+            </div>
+            <div
+              className="fixed right-0 z-[5] h-full w-full min-w-[300px] border-l border-subtle bg-surface-1 sm:w-1/2 md:relative md:w-1/4 lg:min-w-80 xl:min-w-96"
+              style={issueDetailSidebarCollapsed ? { right: `-${window?.innerWidth || 0}px` } : {}}
+            >
+              <IssueDetailsSidebar
+                workspaceSlug={workspaceSlug}
+                projectId={projectId}
+                issueId={issueId}
+                issueOperations={issueOperations}
+                isEditable={!is_archived && isEditable}
+              />
+            </div>
           </div>
-          <div
-            className="fixed right-0 z-[5] h-full w-full min-w-[300px] border-l border-subtle bg-surface-1 sm:w-1/2 md:relative md:w-1/4 lg:min-w-80 xl:min-w-96"
-            style={issueDetailSidebarCollapsed ? { right: `-${window?.innerWidth || 0}px` } : {}}
-          >
-            <IssueDetailsSidebar
-              workspaceSlug={workspaceSlug}
-              projectId={projectId}
-              issueId={issueId}
-              issueOperations={issueOperations}
-              isEditable={!is_archived && isEditable}
-            />
-          </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* peek overview */}
       <IssuePeekOverview />
