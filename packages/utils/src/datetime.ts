@@ -11,17 +11,12 @@ import { isNumber } from "lodash-es";
 const getDateLocale = () =>
   typeof document !== "undefined" && document.documentElement.lang.toLowerCase().startsWith("en") ? enUS : ru;
 
-const getDefaultDateFormat = () =>
-  typeof document !== "undefined" && document.documentElement.lang.toLowerCase().startsWith("en")
-    ? "MMM dd, yyyy"
-    : "dd MMM yyyy";
-
 // Format Date Helpers
 /**
- * @returns {string | null} formatted date in the desired format or locale-aware platform default format
+ * @returns {string | null} formatted date in the desired format or platform default format (MMM dd, yyyy)
  * @description Returns date in the formatted format
  * @param {Date | string} date
- * @param {string} formatToken (optional) // locale-aware default
+ * @param {string} formatToken (optional) // default MMM dd, yyyy
  * @example renderFormattedDate("2024-01-01", "MM-DD-YYYY") // Jan 01, 2024
  * @example renderFormattedDate("2024-01-01") // Jan 01, 2024
  */
@@ -38,11 +33,11 @@ export const renderFormattedDate = (
 
   let formattedDate;
   try {
-    // Format the date in the format provided or the active locale's default format.
-    formattedDate = format(parsedDate, formatToken ?? getDefaultDateFormat(), { locale: getDateLocale() });
+    // Format the date in the format provided or default format (MMM dd, yyyy)
+    formattedDate = format(parsedDate, formatToken ?? "MMM dd, yyyy", { locale: getDateLocale() });
   } catch (_e) {
-    // Use the active locale's default format in case of an invalid custom format.
-    formattedDate = format(parsedDate, getDefaultDateFormat(), { locale: getDateLocale() });
+    // Format the date in format (MMM dd, yyyy) in case of any error
+    formattedDate = format(parsedDate, "MMM dd, yyyy", { locale: getDateLocale() });
   }
   return formattedDate;
 };
@@ -72,6 +67,13 @@ const normalizeTime = (time?: string | null): string => {
   return `${hours.padStart(2, "0").slice(0, 2)}:${minutes.padStart(2, "0").slice(0, 2)}`;
 };
 
+const renderDateTime = (date: Date): string => {
+  const isCurrentYear = date.getFullYear() === new Date().getFullYear();
+  const formatToken = isCurrentYear ? "dd MMM HH:mm" : "dd MMM yyyy HH:mm";
+
+  return format(date, formatToken, { locale: getDateLocale() }).replace(/\./g, "");
+};
+
 /**
  * @returns formatted date with time; omits the year for dates in the current year.
  * @example renderFormattedDateWithTime("2026-06-09", "14:30") // 09 Jun 14:30
@@ -88,10 +90,16 @@ export const renderFormattedDateWithTime = (
   const dateWithTime = new Date(parsedDate);
   dateWithTime.setHours(hours, minutes, 0, 0);
 
-  const isCurrentYear = dateWithTime.getFullYear() === new Date().getFullYear();
-  const formatToken = isCurrentYear ? "dd MMM HH:mm" : "dd MMM yyyy HH:mm";
+  return renderDateTime(dateWithTime);
+};
 
-  return format(dateWithTime, formatToken, { locale: getDateLocale() }).replace(/\./g, "");
+export const renderFormattedTimestamp = (timestamp: string | Date | undefined | null): string | undefined => {
+  if (!timestamp) return;
+
+  const parsedTimestamp = typeof timestamp === "string" ? parseISO(timestamp) : timestamp;
+  if (!isValid(parsedTimestamp)) return;
+
+  return renderDateTime(parsedTimestamp);
 };
 
 /**

@@ -180,6 +180,7 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
       <div className="h-5" onClick={handleEventPropagation}>
         <DateDropdown
           value={issue.start_date ?? null}
+          displayTime
           onChange={handleStartDate}
           maxDate={maxDate}
           placeholder={t("common.start_date")}
@@ -195,6 +196,8 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
       <div className="h-5" onClick={handleEventPropagation}>
         <DateDropdown
           value={issue?.target_date ?? null}
+          displayTime
+          timeValue={issue.target_time}
           onChange={handleTargetDate}
           minDate={minDate}
           placeholder={t("common.due_date")}
