@@ -50,9 +50,9 @@ export const HIGHLIGHT_WITH_LINE = "highlight-with-line";
 export const ISSUE_PIPELINE_OVERDUE_BACKGROUND = "#f7cfb5";
 export const ISSUE_DEADLINE_OVERDUE_BACKGROUND = "#f9c1c1";
 
-export function isIssueTargetDateOverdue(date: string | null | undefined, targetTime?: string | null) {
+const getIssueTargetDateTime = (date: string | null | undefined, targetTime?: string | null) => {
   const target = getDate(date);
-  if (!target) return false;
+  if (!target) return null;
 
   const [hours, minutes] = targetTime?.split(":").map(Number) ?? [];
   if (Number.isInteger(hours) && Number.isInteger(minutes)) {
@@ -61,12 +61,22 @@ export function isIssueTargetDateOverdue(date: string | null | undefined, target
     target.setHours(23, 59, 59, 999);
   }
 
-  return target < new Date();
+  return target;
+};
+
+export function isIssueTargetDateOverdue(date: string | null | undefined, targetTime?: string | null) {
+  const target = getIssueTargetDateTime(date, targetTime);
+  return target !== null && target < new Date();
 }
 
 export function getIssueOverdueBackgroundStyle(issue: TIssue | undefined | null): CSSProperties | undefined {
   if (!issue) return undefined;
-  if (isIssueTargetDateOverdue(issue.target_date, issue.target_time)) {
+  const target = getIssueTargetDateTime(issue.target_date, issue.target_time);
+  const completedAt = getDate(issue.completed_at);
+  if (
+    isIssueTargetDateOverdue(issue.target_date, issue.target_time) &&
+    (!completedAt || (target && completedAt > target))
+  ) {
     return { backgroundColor: ISSUE_DEADLINE_OVERDUE_BACKGROUND };
   }
   if (issue.has_overdue_pipeline_items) return { backgroundColor: ISSUE_PIPELINE_OVERDUE_BACKGROUND };

@@ -25,6 +25,9 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- Completed work items now remain overdue only when their actual completion time was after the configured due time.
+- Work items with a due date now retain their project's configured default due time instead of allowing the time to be cleared.
+- Empty mention searches now use the loaded root-level Russian no-results locale key.
 - Profile-menu settings now use the direct profile routes instead of depending on an optional global modal.
 - Work-item cards now mark a due date overdue as soon as its configured due time passes.
 - Timecode markers no longer transform text while it is being typed, preventing partial and nested marker spans.
