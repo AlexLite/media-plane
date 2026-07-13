@@ -90,6 +90,24 @@ class WorkspaceEntityPermission(BasePermission):
         ).exists()
 
 
+class WorkspaceAdminWritePermission(BasePermission):
+    def has_permission(self, request, view):
+        if request.user.is_anonymous:
+            return False
+
+        if request.method in SAFE_METHODS:
+            return WorkspaceMember.objects.filter(
+                workspace__slug=view.workspace_slug, member=request.user, is_active=True
+            ).exists()
+
+        return WorkspaceMember.objects.filter(
+            member=request.user,
+            workspace__slug=view.workspace_slug,
+            role=Admin,
+            is_active=True,
+        ).exists()
+
+
 class WorkspaceViewerPermission(BasePermission):
     def has_permission(self, request, view):
         if request.user.is_anonymous:

@@ -7,7 +7,7 @@ from django.db.models import Count, Q
 from rest_framework import status
 from rest_framework.response import Response
 
-from plane.app.permissions import WorkspaceEntityPermission
+from plane.app.permissions import WorkspaceAdminWritePermission
 from plane.app.serializers import (
     WorkspaceGroupMemberCreateSerializer,
     WorkspaceGroupMemberSerializer,
@@ -22,7 +22,7 @@ from plane.db.models import Workspace, WorkspaceGroup, WorkspaceGroupMember, Wor
 class WorkspaceGroupListCreateAPIEndpoint(BaseAPIView):
     serializer_class = WorkspaceGroupSerializer
     model = WorkspaceGroup
-    permission_classes = [WorkspaceEntityPermission]
+    permission_classes = [WorkspaceAdminWritePermission]
     use_read_replica = True
 
     def get_workspace(self, slug):

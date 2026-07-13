@@ -96,7 +96,7 @@ const WorkspaceGroupsSettingsPage = observer(function WorkspaceGroupsSettingsPag
     EUserPermissionsLevel.WORKSPACE
   );
   const canManageGroups = allowPermissions(
-    [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
+    [EUserPermissions.ADMIN],
     EUserPermissionsLevel.WORKSPACE
   );
 

@@ -25,6 +25,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- Workspace group creation, editing, member management, and notification settings now require an administrator in both the UI and API.
 - Profile settings now show the current workspace groups under the user's email address.
 - The sidebar profile-menu trigger no longer nests a button inside its menu button, restoring reliable profile settings access.
 - Pipeline-state settings now require a project administrator in the API as well as in the UI.
