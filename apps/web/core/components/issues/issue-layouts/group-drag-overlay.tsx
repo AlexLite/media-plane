@@ -43,9 +43,8 @@ export function GroupDragOverlay(props: Props) {
   const messageContainerRef = useRef<HTMLDivElement>(null);
 
   const shouldOverlayBeVisible = isDraggingOverColumn && canOverlayBeVisible;
-  const orderByTranslationKey = ISSUE_ORDER_BY_OPTIONS.find(
-    (orderByObj) => orderByObj.key === orderBy
-  )?.titleTranslationKey;
+  const orderByTranslationKey = ISSUE_ORDER_BY_OPTIONS.find((orderByObj) => orderByObj.key === orderBy)
+    ?.titleTranslationKey;
 
   return (
     <div
