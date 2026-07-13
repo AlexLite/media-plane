@@ -21,7 +21,7 @@ import type { TIssue, IIssueDisplayProperties, IIssueMap } from "@plane/types";
 import { EIssueServiceType } from "@plane/types";
 // ui
 import { ControlLink, DropIndicator } from "@plane/ui";
-import { cn, generateWorkItemLink, getDate } from "@plane/utils";
+import { cn, generateWorkItemLink } from "@plane/utils";
 // components
 import RenderIfVisible from "@/components/core/render-if-visible-HOC";
 import {
@@ -29,6 +29,8 @@ import {
   ISSUE_DEADLINE_OVERDUE_BACKGROUND,
   ISSUE_PIPELINE_OVERDUE_BACKGROUND,
   getIssueBlockId,
+  isIssueDeadlineOverdue,
+  isIssuePipelineOverdue,
 } from "@/components/issues/issue-layouts/utils";
 // helpers
 // hooks
@@ -70,17 +72,6 @@ interface IssueDetailsBlockProps {
   quickActions: TRenderQuickActions;
   isReadOnly: boolean;
   isEpic?: boolean;
-}
-
-function isIssueDateOverdue(date: string | null | undefined) {
-  const target = getDate(date);
-  if (!target) return false;
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  target.setHours(0, 0, 0, 0);
-
-  return target < today;
 }
 
 const KanbanIssueDetailsBlock = observer(function KanbanIssueDetailsBlock(props: IssueDetailsBlockProps) {
@@ -268,8 +259,8 @@ export const KanbanIssueBlock = observer(function KanbanIssueBlock(props: IssueB
 
   if (!issue) return null;
 
-  const isIssueDeadlineOverdue = isIssueDateOverdue(issue.target_date);
-  const hasOnlyPipelineOverdue = !!issue.has_overdue_pipeline_items && !isIssueDeadlineOverdue;
+  const hasIssueDeadlineOverdue = isIssueDeadlineOverdue(issue);
+  const hasOnlyPipelineOverdue = isIssuePipelineOverdue(issue);
 
   return (
     <>
@@ -302,13 +293,13 @@ export const KanbanIssueBlock = observer(function KanbanIssueBlock(props: IssueB
             { "z-[100] bg-layer-1": isCurrentBlockDragging },
             {
               "!border-orange-200/80 hover:!border-orange-300/80": hasOnlyPipelineOverdue,
-              "!border-red-200/80 hover:!border-red-300/80": isIssueDeadlineOverdue,
+              "!border-red-200/80 hover:!border-red-300/80": hasIssueDeadlineOverdue,
             }
           )}
           style={
             hasOnlyPipelineOverdue
               ? { backgroundColor: ISSUE_PIPELINE_OVERDUE_BACKGROUND }
-              : isIssueDeadlineOverdue
+              : hasIssueDeadlineOverdue
                 ? { backgroundColor: ISSUE_DEADLINE_OVERDUE_BACKGROUND }
                 : undefined
           }
