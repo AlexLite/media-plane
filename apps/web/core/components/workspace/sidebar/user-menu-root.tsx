@@ -104,7 +104,11 @@ export const UserMenuRoot = observer(function UserMenuRoot() {
               </p>
               <p className="text-caption-md-regular">{currentUser?.email}</p>
               {currentWorkspace?.slug && currentUser?.id ? (
-                <WorkspaceMemberGroups workspaceSlug={currentWorkspace.slug} userId={currentUser.id} className="mt-1" />
+                <WorkspaceMemberGroups
+                  workspaceSlug={currentWorkspace.slug}
+                  userId={currentUser.id}
+                  className="mt-1 justify-center"
+                />
               ) : null}
             </div>
           </div>
