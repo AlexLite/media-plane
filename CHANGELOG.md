@@ -25,6 +25,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- The sidebar profile-menu trigger no longer nests a button inside its menu button, restoring reliable profile settings access.
 - Pipeline-state settings now require a project administrator in the API as well as in the UI.
 - Group notification rules now suppress ordinary Inbox and Messenger deliveries outside the group's subscribed project statuses, while direct mentions remain deliverable.
 - List and kanban work-item cards now use the shared locale-aware due-date-and-time formatter when a due time is set.
