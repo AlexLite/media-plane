@@ -197,7 +197,6 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
         <DateDropdown
           value={issue?.target_date ?? null}
           displayTime
-          timeValue={issue.target_time}
           onChange={handleTargetDate}
           minDate={minDate}
           placeholder={t("common.due_date")}
