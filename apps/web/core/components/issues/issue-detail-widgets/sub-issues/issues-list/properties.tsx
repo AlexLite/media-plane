@@ -184,6 +184,7 @@ export const SubIssuesListItemProperties = observer(function SubIssuesListItemPr
         <div className="h-5">
           <DateDropdown
             value={issue.start_date ?? null}
+            displayTime
             onChange={handleStartDate}
             maxDate={maxDate}
             placeholder={t("common.order_by.start_date")}
