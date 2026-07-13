@@ -64,22 +64,33 @@ const getIssueTargetDateTime = (date: string | null | undefined, targetTime?: st
   return target;
 };
 
+const getIssueCompletedDateTime = (completedAt: string | null | undefined) => {
+  if (!completedAt) return null;
+
+  const timestamp = new Date(completedAt);
+  return Number.isNaN(timestamp.getTime()) ? null : timestamp;
+};
+
 export function isIssueTargetDateOverdue(date: string | null | undefined, targetTime?: string | null) {
   const target = getIssueTargetDateTime(date, targetTime);
   return target !== null && target < new Date();
 }
 
-export function getIssueOverdueBackgroundStyle(issue: TIssue | undefined | null): CSSProperties | undefined {
-  if (!issue) return undefined;
+export function isIssueDeadlineOverdue(issue: TIssue | undefined | null) {
+  if (!issue) return false;
+
   const target = getIssueTargetDateTime(issue.target_date, issue.target_time);
-  const completedAt = getDate(issue.completed_at);
-  if (
-    isIssueTargetDateOverdue(issue.target_date, issue.target_time) &&
-    (!completedAt || (target && completedAt > target))
-  ) {
-    return { backgroundColor: ISSUE_DEADLINE_OVERDUE_BACKGROUND };
-  }
-  if (issue.has_overdue_pipeline_items) return { backgroundColor: ISSUE_PIPELINE_OVERDUE_BACKGROUND };
+  const completedAt = getIssueCompletedDateTime(issue.completed_at);
+  return target !== null && target < new Date() && (!completedAt || completedAt > target);
+}
+
+export function isIssuePipelineOverdue(issue: TIssue | undefined | null) {
+  return !!issue?.has_overdue_pipeline_items && !isIssueDeadlineOverdue(issue);
+}
+
+export function getIssueOverdueBackgroundStyle(issue: TIssue | undefined | null): CSSProperties | undefined {
+  if (isIssueDeadlineOverdue(issue)) return { backgroundColor: ISSUE_DEADLINE_OVERDUE_BACKGROUND };
+  if (isIssuePipelineOverdue(issue)) return { backgroundColor: ISSUE_PIPELINE_OVERDUE_BACKGROUND };
   return undefined;
 }
 
