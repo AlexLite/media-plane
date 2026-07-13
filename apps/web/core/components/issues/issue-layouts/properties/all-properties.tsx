@@ -324,6 +324,11 @@ export const IssueProperties = observer(function IssueProperties(props: IIssuePr
             renderByDefault={isMobile}
             showTooltip
             labelClassName="text-caption-sm-regular"
+            selectedLabelSuffix={targetTimeLabel}
+            showTimeInput
+            timeInputLabel={t("common.due_time")}
+            timeValue={issue.target_time}
+            onTimeChange={handleTargetTime}
           />
         </div>
       </WithDisplayPropertiesHOC>
