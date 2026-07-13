@@ -27,6 +27,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 - Profile browser-tab titles and the profile-menu preferences label are now localized in Russian.
 - Work-item ordering no longer passes an already localized label back through the translator, preventing false missing-key warnings.
+- Kanban cards now use the exact due time and completion timestamp when determining overdue status.
 - Completed work items now remain overdue only when their actual completion time was after the configured due time.
 - Work items with a due date now retain their project's configured default due time instead of allowing the time to be cleared.
 - Empty mention searches now use the loaded root-level Russian no-results locale key.
