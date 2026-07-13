@@ -43,9 +43,9 @@ export function GroupDragOverlay(props: Props) {
   const messageContainerRef = useRef<HTMLDivElement>(null);
 
   const shouldOverlayBeVisible = isDraggingOverColumn && canOverlayBeVisible;
-  const readableOrderBy = t(
-    ISSUE_ORDER_BY_OPTIONS.find((orderByObj) => orderByObj.key === orderBy)?.titleTranslationKey || ""
-  );
+  const orderByTranslationKey = ISSUE_ORDER_BY_OPTIONS.find(
+    (orderByObj) => orderByObj.key === orderBy
+  )?.titleTranslationKey;
 
   return (
     <div
@@ -79,9 +79,9 @@ export function GroupDragOverlay(props: Props) {
             </div>
           ) : (
             <>
-              {readableOrderBy && (
+              {orderByTranslationKey && (
                 <span>
-                  {t("issue.layouts.ordered_by_label")} <span className="font-semibold">{t(readableOrderBy)}</span>.
+                  {t("issue.layouts.ordered_by_label")} <span className="font-semibold">{t(orderByTranslationKey)}</span>.
                 </span>
               )}
               <span>{t("entity.drop_here_to_move", { entity: isEpic ? "epic" : "work item" })}</span>
