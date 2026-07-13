@@ -4,12 +4,11 @@
  * See the LICENSE file for details.
  */
 
-import { Mark, markInputRule, markPasteRule, mergeAttributes } from "@tiptap/core";
+import { Mark, markPasteRule, mergeAttributes } from "@tiptap/core";
 // constants
 import { CORE_EXTENSIONS } from "@/constants/extension";
 
 const timecodePattern = "(?:\\d{2}:)?[0-5]\\d:[0-5]\\d";
-const inputRegex = new RegExp(`(?:^|\\s)(${timecodePattern})$`);
 const pasteRegex = new RegExp(`\\b${timecodePattern}\\b`, "g");
 const exactTimecodeRegex = new RegExp(`^${timecodePattern}$`);
 
@@ -68,16 +67,6 @@ export const TimecodeExtension = Mark.create({
 
   renderHTML({ HTMLAttributes }) {
     return ["span", mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
-  },
-
-  addInputRules() {
-    return [
-      markInputRule({
-        find: inputRegex,
-        type: this.type,
-        getAttributes: (match) => ({ timecode: match[1] }),
-      }),
-    ];
   },
 
   addPasteRules() {
