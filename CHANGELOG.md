@@ -25,6 +25,8 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- Profile-menu settings now use the direct profile routes instead of depending on an optional global modal.
+- Work-item cards now mark a due date overdue as soon as its configured due time passes.
 - Timecode markers no longer transform text while it is being typed, preventing partial and nested marker spans.
 - Work-item polling now checks the active editor immediately before fetching, so an already scheduled refresh cannot overwrite an unsaved draft.
 - Work-item polling now pauses while a title, description, or comment editor has focus, preserving unsaved drafts during text entry.

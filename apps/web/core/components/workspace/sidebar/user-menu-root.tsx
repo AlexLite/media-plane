@@ -20,7 +20,6 @@ import { AppSidebarItem } from "@/components/sidebar/sidebar-item";
 import { WorkspaceMemberGroups } from "@/components/workspace/member-groups";
 // hooks
 import { useAppTheme } from "@/hooks/store/use-app-theme";
-import { useCommandPalette } from "@/hooks/store/use-command-palette";
 import { useUser } from "@/hooks/store/user";
 import { useWorkspace } from "@/hooks/store/use-workspace";
 
@@ -34,7 +33,6 @@ export const UserMenuRoot = observer(function UserMenuRoot() {
   const { data: currentUser } = useUser();
   const { currentWorkspace } = useWorkspace();
   const { signOut } = useUser();
-  const { toggleProfileSettingsModal } = useCommandPalette();
   // derived values
   const isUserInstanceAdmin = false;
   // translation
@@ -115,10 +113,7 @@ export const UserMenuRoot = observer(function UserMenuRoot() {
       <div>
         <CustomMenu.MenuItem
           onClick={() =>
-            toggleProfileSettingsModal({
-              activeTab: "general",
-              isOpen: true,
-            })
+            router.push("/settings/profile/general")
           }
           className="flex items-center gap-2"
         >
@@ -127,10 +122,7 @@ export const UserMenuRoot = observer(function UserMenuRoot() {
         </CustomMenu.MenuItem>
         <CustomMenu.MenuItem
           onClick={() =>
-            toggleProfileSettingsModal({
-              activeTab: "preferences",
-              isOpen: true,
-            })
+            router.push("/settings/profile/preferences")
           }
           className="flex items-center gap-2"
         >
