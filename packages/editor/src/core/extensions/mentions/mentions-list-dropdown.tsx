@@ -202,7 +202,7 @@ export const MentionsListDropdown = forwardRef(function MentionsListDropdown(pro
             </div>
           ))
         ) : (
-          <div className="text-center text-13 text-placeholder">{t("common.no_results")}</div>
+          <div className="text-center text-13 text-placeholder">{t("no_results")}</div>
         )}
       </div>
     </>
