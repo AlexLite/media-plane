@@ -20,7 +20,6 @@ import { AppSidebarItem } from "@/components/sidebar/sidebar-item";
 import { WorkspaceMemberGroups } from "@/components/workspace/member-groups";
 // hooks
 import { useAppTheme } from "@/hooks/store/use-app-theme";
-import { useCommandPalette } from "@/hooks/store/use-command-palette";
 import { useUser } from "@/hooks/store/user";
 import { useWorkspace } from "@/hooks/store/use-workspace";
 
@@ -34,7 +33,6 @@ export const UserMenuRoot = observer(function UserMenuRoot() {
   const { data: currentUser } = useUser();
   const { currentWorkspace } = useWorkspace();
   const { signOut } = useUser();
-  const { toggleProfileSettingsModal } = useCommandPalette();
   // derived values
   const isUserInstanceAdmin = false;
   // translation
@@ -106,7 +104,11 @@ export const UserMenuRoot = observer(function UserMenuRoot() {
               </p>
               <p className="text-caption-md-regular">{currentUser?.email}</p>
               {currentWorkspace?.slug && currentUser?.id ? (
-                <WorkspaceMemberGroups workspaceSlug={currentWorkspace.slug} userId={currentUser.id} className="mt-1" />
+                <WorkspaceMemberGroups
+                  workspaceSlug={currentWorkspace.slug}
+                  userId={currentUser.id}
+                  className="mt-1 justify-center"
+                />
               ) : null}
             </div>
           </div>
@@ -114,24 +116,14 @@ export const UserMenuRoot = observer(function UserMenuRoot() {
       </div>
       <div>
         <CustomMenu.MenuItem
-          onClick={() =>
-            toggleProfileSettingsModal({
-              activeTab: "general",
-              isOpen: true,
-            })
-          }
+          onClick={() => router.push("/settings/profile/general")}
           className="flex items-center gap-2"
         >
           <Settings className="size-3.5 shrink-0" />
           {t("settings")}
         </CustomMenu.MenuItem>
         <CustomMenu.MenuItem
-          onClick={() =>
-            toggleProfileSettingsModal({
-              activeTab: "preferences",
-              isOpen: true,
-            })
-          }
+          onClick={() => router.push("/settings/profile/preferences")}
           className="flex items-center gap-2"
         >
           <Settings2 className="size-3.5 shrink-0" />

@@ -50,20 +50,25 @@ export const HIGHLIGHT_WITH_LINE = "highlight-with-line";
 export const ISSUE_PIPELINE_OVERDUE_BACKGROUND = "#f7cfb5";
 export const ISSUE_DEADLINE_OVERDUE_BACKGROUND = "#f9c1c1";
 
-export function isIssueTargetDateOverdue(date: string | null | undefined) {
+export function isIssueTargetDateOverdue(date: string | null | undefined, targetTime?: string | null) {
   const target = getDate(date);
   if (!target) return false;
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  target.setHours(0, 0, 0, 0);
+  const [hours, minutes] = targetTime?.split(":").map(Number) ?? [];
+  if (Number.isInteger(hours) && Number.isInteger(minutes)) {
+    target.setHours(hours, minutes, 0, 0);
+  } else {
+    target.setHours(23, 59, 59, 999);
+  }
 
-  return target < today;
+  return target < new Date();
 }
 
 export function getIssueOverdueBackgroundStyle(issue: TIssue | undefined | null): CSSProperties | undefined {
   if (!issue) return undefined;
-  if (isIssueTargetDateOverdue(issue.target_date)) return { backgroundColor: ISSUE_DEADLINE_OVERDUE_BACKGROUND };
+  if (isIssueTargetDateOverdue(issue.target_date, issue.target_time)) {
+    return { backgroundColor: ISSUE_DEADLINE_OVERDUE_BACKGROUND };
+  }
   if (issue.has_overdue_pipeline_items) return { backgroundColor: ISSUE_PIPELINE_OVERDUE_BACKGROUND };
   return undefined;
 }
