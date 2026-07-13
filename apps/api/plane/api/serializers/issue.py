@@ -306,13 +306,14 @@ class IssueSerializer(BaseSerializer):
             except IntegrityError:
                 pass
 
-        if "target_date" in validated_data:
-            if validated_data.get("target_date") is None:
+        target_date = validated_data.get("target_date", instance.target_date)
+        if target_date is None:
+            if "target_date" in validated_data:
                 validated_data["target_time"] = None
-            elif validated_data.get("target_time") is None and instance.target_time is None:
-                default_target_time = self._get_default_target_time(instance)
-                if default_target_time:
-                    validated_data["target_time"] = default_target_time
+        elif validated_data.get("target_time", instance.target_time) is None:
+            default_target_time = self._get_default_target_time(instance)
+            if default_target_time:
+                validated_data["target_time"] = default_target_time
 
         # Time updation occues even when other related models are updated
         instance.updated_at = timezone.now()
@@ -320,6 +321,10 @@ class IssueSerializer(BaseSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
+        if data.get("target_date") and data.get("target_time") is None:
+            default_target_time = self._get_default_target_time(instance)
+            if default_target_time:
+                data["target_time"] = default_target_time.strftime("%H:%M")
         if "assignees" in self.fields:
             if "assignees" in self.expand:
                 from .user import UserLiteSerializer
