@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     branches:
-      - "preview"
+      - "develop"
     types:
       - "opened"
       - "synchronize"
@@ -27,7 +27,7 @@ on:
       - ".github/workflows/i18n-hardcoded-check.yml"
   push:
     branches:
-      - "preview"
+      - "develop"
     paths:
       - "apps/web/**/*.ts"
       - "apps/web/**/*.tsx"

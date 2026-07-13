@@ -1,58 +1,35 @@
 # Fork Workflow
 
-This fork is maintained as a deploy-oriented mirror of Plane with Russian
-localization and a small set of fork-specific patches.
+This repository is the deployable source of truth for the Plane RU fork. Russian localization is the required locale; keep non-RU locale completeness report-only unless its maintainers explicitly adopt it.
 
-## Branching
+## Branches and pull requests
 
-- `preview` is the active integration branch.
-- Keep working changes small and commit them directly to `preview` when they are
-  ready to mirror to GitHub and deploy.
+- `develop` is the integration and default branch.
+- `main` contains production-ready released code.
+- Create each task branch from current `fork/develop` and open its pull request back to `develop`.
+- Use `feat/`, `fix/`, `chore/`, `docs/`, `refactor/`, `test/`, `release/`, and `hotfix/` prefixes with lowercase kebab-case names.
+- Release branches are stabilized from `develop` and merged into `main` only after validation.
+- Hotfix branches start from `main`, target `main`, and are then merged or cherry-picked into `develop`.
+- Do not push directly to `develop` or `main`, force-push shared branches, or create routine backup branches.
 
-## Versioning
+## Development loop
 
-- Use `v{upstream_version}-ru.{patch_number}` for fork releases.
-- Track the upstream base version in [`UPSTREAM_VERSION`](../UPSTREAM_VERSION).
-- Track the current fork release tag in [`RELEASE_VERSION`](../RELEASE_VERSION).
+1. Fetch the fork and create a clean task worktree from `fork/develop`.
+2. Make one focused change set; do not mix translation, runtime, deployment, and maintenance changes without a reason.
+3. Run the relevant checks and inspect the diff.
+4. Commit only task files, push the task branch, and open a pull request to `develop`.
+5. Merge only after required checks pass.
+6. Deploy only an exact validated commit SHA or annotated release tag, and only with explicit approval.
+
+## Release and deployment
+
+- Use `v{upstream_version}-ru.{patch_number}` for fork release tags.
+- Track the upstream base in [`UPSTREAM_VERSION`](../UPSTREAM_VERSION) and the current fork release tag in [`RELEASE_VERSION`](../RELEASE_VERSION).
 - Record user-visible changes in [`CHANGELOG.md`](../CHANGELOG.md).
+- Build release images from clean committed source with `build-backend-ru.sh` or `build-web-ipv4.sh` where applicable.
+- Keep `web` and `web-ru` as a zero-downtime pair unless an approved topology change says otherwise.
+- Verify local, GitHub, target-source, image revision, health checks, and worktree cleanliness before a deploy.
 
-## Development Loop
+## Upstream synchronization
 
-1. Sync from upstream with `scripts/sync-upstream.sh`.
-2. Make the fork-specific change locally.
-3. Run `scripts/check-sync.sh` before editing if you need to confirm local,
-   deploy, and GitHub state.
-4. Verify the local stack and tests.
-5. Update `CHANGELOG.md` and bump the fork version if the change is
-   release-worthy.
-6. Commit to `preview`.
-7. Push `preview` to GitHub.
-8. Build and deploy the matching images to the self-host stack.
-
-## Build and Deploy
-
-- Use `build-backend-ru.sh` for the backend image when an explicit release tag
-  is needed.
-- Use `build-web-ipv4.sh` for the frontend image when an explicit release tag
-  is needed.
-- Set `RELEASE_VERSION` or update [`RELEASE_VERSION`](../RELEASE_VERSION) before
-  building release images.
-- Use the compose files in the repo as the source of truth for local, test, and
-  self-host environments.
-- Keep deployment tags aligned with the GitHub commit that produced them.
-- Do not add one-off root-level hotfix Dockerfiles for runtime-only layers.
-  Bring hotfixes back into source and build clean images from the canonical app
-  Dockerfiles instead.
-
-## Principles
-
-- GitHub should reflect the deployable source of truth.
-- The deploy should come from a tagged or committed release snapshot.
-- Host-only changes should be avoided unless they are part of a deliberate
-  deployment adjustment.
-- Use `scripts/check-sync.sh` whenever you need a quick answer to "do local,
-  deploy, and GitHub actually match right now?"
-- Russian is the only required locale for this fork. Keep non-RU locale
-  completeness report-only unless their maintainers explicitly adopt it.
-- Keep the `web` and `web-ru` zero-downtime frontend pair until measured
-  resource pressure justifies an approved topology cutover.
+`scripts/sync-upstream.sh` may use an upstream branch named `preview`; that is an upstream reference, not a fork integration branch. Preserve this distinction when updating synchronization tooling.
