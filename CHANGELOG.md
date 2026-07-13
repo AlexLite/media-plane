@@ -25,6 +25,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- Work-item polling now pauses while a title, description, or comment editor has focus, preserving unsaved drafts during text entry.
 - Workspace group creation, editing, member management, and notification settings now require an administrator in both the UI and API.
 - Profile settings now show the current workspace groups under the user's email address.
 - The sidebar profile-menu trigger no longer nests a button inside its menu button, restoring reliable profile settings access.
