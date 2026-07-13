@@ -116,18 +116,14 @@ export const UserMenuRoot = observer(function UserMenuRoot() {
       </div>
       <div>
         <CustomMenu.MenuItem
-          onClick={() =>
-            router.push("/settings/profile/general")
-          }
+          onClick={() => router.push("/settings/profile/general")}
           className="flex items-center gap-2"
         >
           <Settings className="size-3.5 shrink-0" />
           {t("settings")}
         </CustomMenu.MenuItem>
         <CustomMenu.MenuItem
-          onClick={() =>
-            router.push("/settings/profile/preferences")
-          }
+          onClick={() => router.push("/settings/profile/preferences")}
           className="flex items-center gap-2"
         >
           <Settings2 className="size-3.5 shrink-0" />
