@@ -32,6 +32,11 @@ python manage.py create_bucket
 # Clear Cache before starting to remove stale values
 python manage.py clear_cache
 
+# A stopped container can leave an incomplete manifest behind. The manifest is a
+# generated artifact, so remove it before rebuilding static assets on startup.
+STATIC_ROOT="$(python manage.py shell -c "from django.conf import settings; print(settings.STATIC_ROOT)")"
+rm -f "${STATIC_ROOT}/staticfiles.json"
+
 # Collect static files
 python manage.py collectstatic --noinput
 
