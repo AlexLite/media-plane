@@ -69,6 +69,11 @@
   "workspace_analytics": {
     "label": "Аналитика",
     "page_label": "{workspace} - Аналитика",
+    "work_items_modal": {
+      "title": "Аналитика для «{title}»",
+      "in_cycle": " в цикле «{name}»",
+      "in_module": " в модуле «{name}»"
+    },
     "open_tasks": "Всего открытых рабочих элементов",
     "error": "Ошибка при получении данных",
     "work_items_closed_in": "Рабочие элементы закрыты в",
