@@ -77,8 +77,8 @@ export const SubIssuesListItemProperties = observer(function SubIssuesListItemPr
   //derived values
   const stateDetails = useMemo(() => getStateById(issue.state_id), [getStateById, issue.state_id]);
   const shouldHighlight = useMemo(
-    () => shouldHighlightIssueDueDate(issue.target_date, stateDetails?.group),
-    [issue.target_date, stateDetails?.group]
+    () => shouldHighlightIssueDueDate(issue.target_date, stateDetails?.group, issue.target_time),
+    [issue.target_date, issue.target_time, stateDetails?.group]
   );
   // date range is enabled only when both dates are available and both dates are enabled
   const isDateRangeEnabled: boolean = Boolean(

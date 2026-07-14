@@ -21,7 +21,7 @@ export function WorkItemPreviewCardDate(props: Props) {
   const { startDate, stateGroup, targetDate, targetTime } = props;
   // derived values
   const isDateRangeEnabled = Boolean(startDate && targetDate);
-  const shouldHighlightDate = shouldHighlightIssueDueDate(targetDate, stateGroup);
+  const shouldHighlightDate = shouldHighlightIssueDueDate(targetDate, stateGroup, targetTime);
 
   if (!startDate && !targetDate) return null;
 

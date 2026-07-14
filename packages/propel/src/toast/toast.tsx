@@ -7,7 +7,7 @@
 import * as React from "react";
 import { Toast as BaseToast } from "@base-ui-components/react/toast";
 import { AlertTriangle, CheckIcon, InfoIcon, XIcon } from "lucide-react";
-import { translate } from "@plane/i18n";
+import { hasTranslation, translate } from "@plane/i18n";
 import { CloseIcon } from "../icons/actions/close-icon";
 // spinner
 import { CircularBarSpinner } from "../spinners/circular-bar-spinner";
@@ -91,8 +91,9 @@ const translateToastText = (value?: string): string | undefined => {
   const translationKey = getToastTranslationKey(value);
   if (!translationKey) return value;
   const key = `toast_messages.${translationKey}`;
+  if (!hasTranslation(key)) return value;
   const translated = translate(key);
-  return translated === key ? value : translated;
+  return translated;
 };
 
 const toastManager = BaseToast.createToastManager();

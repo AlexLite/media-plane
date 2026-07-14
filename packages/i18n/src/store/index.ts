@@ -369,6 +369,13 @@ export class TranslationStore {
     }
   }
 
+  hasTranslation(key: string): boolean {
+    return Boolean(
+      this.getMessageInstance(key, this.currentLocale) ||
+      (this.currentLocale !== FALLBACK_LANGUAGE && this.getMessageInstance(key, FALLBACK_LANGUAGE))
+    );
+  }
+
   private warnAboutMissingKey(key: string): void {
     const warningKey = `${this.currentLocale}:${key}`;
     if (this.missingKeyWarnings.has(warningKey)) return;
@@ -421,3 +428,4 @@ export class TranslationStore {
 export const translationStore = new TranslationStore();
 
 export const translate = (key: string, params?: Record<string, unknown>): string => translationStore.t(key, params);
+export const hasTranslation = (key: string): boolean => translationStore.hasTranslation(key);
