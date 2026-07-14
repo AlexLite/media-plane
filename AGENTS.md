@@ -8,6 +8,9 @@
 - Do not modify a live deployment, run migrations, or change production configuration without explicit user approval.
 - Prefer repo changes over host-only fixes so GitHub and deployments remain reproducible.
 - Never add secrets, runtime `.env` files, database data, generated bundles, or temporary backup files to Git.
+- Start with a read-only audit. Code, GitHub state, databases, containers, DNS, Caddy, runtime environment, and deployments may be changed only when the user explicitly requests the corresponding action.
+- Use the SSH aliases `plane2` and `plane`; never use direct server IP addresses. Do not print secrets or the contents of runtime environment files in commands, logs, or reports.
+- Never push to `upstream` (`makeplane/plane`). The writable GitHub repository is `AlexLite/plane-l10n-ru-sync`, normally exposed locally as `fork`.
 
 ## Git Workflow
 
@@ -26,7 +29,8 @@
 - Release branches start from `develop`; production releases merge from `release/<version>` into `main`.
 - Hotfixes start from and target `main`, then must be merged or cherry-picked back into `develop`.
 - Do not merge a pull request until its required checks pass. Delete merged task branches when they are no longer needed.
-- Never force-push shared branches. Do not create routine `backup/*` branches; use an annotated tag for an immutable rollback or release snapshot.
+- Never force-push shared branches.
+- Before editing tracked source, create a local `backup/*` branch at the exact starting SHA. Do not push routine backup branches; use an annotated tag for an immutable shared rollback or release snapshot.
 
 ### Required checks
 
@@ -36,6 +40,7 @@ Before modifying a repository:
 2. Run `git fetch fork --prune` and confirm the task branch is based on current `fork/develop`.
 3. Check for unrelated local changes. Never overwrite, discard, reset, or delete user changes without explicit approval.
 4. Do not use `git add -A` on a mixed worktree.
+5. Treat `apps/api/plane/app/views/external/base.py` as protected until the Unsplash incident is assigned as a separate task. Never stage, commit, or deploy an unrelated local modification to that file.
 
 Before committing:
 
@@ -48,6 +53,19 @@ After pushing:
 1. Verify the remote branch SHA and open a pull request to the intended base branch.
 2. Report the commit SHA and CI status.
 3. Do not deploy unless deployment was explicitly requested.
+
+## Production operations
+
+- Acceptance (`plane2`): source `/home/dev/src/plane-v131-ru`, runtime `/home/dev/plane-selfhost/plane-app`, compose project `plane-app`, source remote `fork`.
+- Production (`plane`): source `/opt/plane/release/current`, runtime `/opt/plane`, compose project `plane-app`, source remote `origin` (the fork on this host).
+- Before every deploy, verify the `develop` SHA on GitHub and both target source trees, source cleanliness, target files, build result, image revision, container health, local HTTP, and external HTTPS.
+- Fetch and fast-forward from the fork's `develop`; never replace the required `fetch` plus `ff-only` update with manual source copying.
+- Build the frontend with `build-web-ipv4.sh` from clean committed source and the target host's production environment without displaying environment values.
+- Update `web` first and wait for it to become healthy; only then update `web-ru` and wait for it to become healthy. Never use `--remove-orphans`.
+- On `plane`, always use `docker compose -p plane-app -f /opt/plane/compose.yaml -f /opt/plane/compose.override.yaml ...`; running an implicit compose command from `/opt/plane` creates the wrong project.
+- Validate compose with `config --quiet` before restarting services. Preserve compact YAML syntax when changing an image value.
+- Do not remove or alter `plane-messenger-gateway`, its configuration or storage, MinIO storage, rollback files, old notifier state, or unattached volumes without a separately approved cleanup plan. `plane_logs_migrator` on production requires explicit confirmation before removal.
+- Do not clean old compose/Caddy backups on acceptance unless the user explicitly reverses the existing no-cleanup instruction.
 
 ## Commands
 
