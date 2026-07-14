@@ -25,6 +25,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- Work-item analytics modal headings are localized, and profile settings reliably show the user's current workspace groups.
 - Kanban issue responses now include due time from the first render, avoiding an incorrect temporary `00:00` label.
 - Due-date highlighting now begins 24 hours before the exact due time; completed and cancelled items remain excluded, while the Kanban overdue card state continues to use the actual deadline.
 - Toast localization no longer probes nonexistent generated keys for already-localized text, preventing false missing-key warnings such as `toast_messages.id`.

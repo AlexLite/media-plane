@@ -265,7 +265,9 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
                 <span>{`${watch("first_name")} ${watch("last_name")}`}</span>
               </div>
               <span className="text-13 tracking-tight text-tertiary">{watch("email")}</span>
-              {currentWorkspace && <WorkspaceMemberGroups workspaceSlug={currentWorkspace.slug} userId={user.id} />}
+              {currentWorkspace && (
+                <WorkspaceMemberGroups className="mt-1" workspaceSlug={currentWorkspace.slug} userId={user.id} />
+              )}
             </div>
           </div>
           <div className="flex flex-col gap-2">

@@ -69,6 +69,11 @@
   "workspace_analytics": {
     "label": "Analytics",
     "page_label": "{workspace} - Analytics",
+    "work_items_modal": {
+      "title": "Analytics for \"{title}\"",
+      "in_cycle": " in cycle \"{name}\"",
+      "in_module": " in module \"{name}\""
+    },
     "open_tasks": "Total open tasks",
     "error": "There was some error in fetching the data.",
     "work_items_closed_in": "Work items closed in",
