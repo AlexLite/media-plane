@@ -178,6 +178,7 @@ class IssueListEndpoint(BaseAPIView):
                 "priority",
                 "start_date",
                 "target_date",
+                "target_time",
                 "sequence_id",
                 "project_id",
                 "parent_id",

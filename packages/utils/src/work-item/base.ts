@@ -4,7 +4,6 @@
  * See the LICENSE file for details.
  */
 
-import { differenceInCalendarDays } from "date-fns/differenceInCalendarDays";
 import { isEmpty } from "lodash-es";
 import { v4 as uuidv4 } from "uuid";
 // plane imports
@@ -167,11 +166,13 @@ export const createIssuePayload: (projectId: string, formData: Partial<TIssue>) 
  * @description check if the issue due date should be highlighted
  * @param date
  * @param stateGroup
+ * @param targetTime
  * @returns boolean
  */
 export const shouldHighlightIssueDueDate = (
   date: string | Date | null,
-  stateGroup: TStateGroups | undefined
+  stateGroup: TStateGroups | undefined,
+  targetTime?: string | null
 ): boolean => {
   if (!date || !stateGroup) return false;
   // if the issue is completed or cancelled, don't highlight the due date
@@ -180,10 +181,16 @@ export const shouldHighlightIssueDueDate = (
   const parsedDate = getDate(date);
   if (!parsedDate) return false;
 
-  const targetDateDistance = differenceInCalendarDays(parsedDate, new Date());
+  const [hours, minutes] = targetTime?.split(":").map(Number) ?? [NaN, NaN];
+  const hasValidTargetTime =
+    Number.isInteger(hours) && Number.isInteger(minutes) && hours >= 0 && hours < 24 && minutes >= 0 && minutes < 60;
 
-  // if the issue is overdue, highlight the due date
-  return targetDateDistance <= 0;
+  if (hasValidTargetTime) parsedDate.setHours(hours, minutes, 0, 0);
+  // Retain the previous end-of-day interpretation for legacy records that genuinely have no time.
+  else parsedDate.setHours(23, 59, 59, 999);
+
+  // Highlight the due date for the final 24 hours, including the overdue period.
+  return parsedDate.getTime() - Date.now() <= 24 * 60 * 60 * 1000;
 };
 
 export const getIssueBlocksStructure = (block: TIssue): IGanttBlock => ({
