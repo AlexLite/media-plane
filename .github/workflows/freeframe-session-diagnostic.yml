@@ -9,16 +9,16 @@ permissions:
   contents: read
 
 jobs:
-  inspect:
+  validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Show migration base
-        env:
-          GH_TOKEN: ${{ github.token }}
-          REPOSITORY: ${{ github.repository }}
-          REF: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/checkout@v7
+      - name: Prepare test environment
+        run: cp apps/api/.env.example apps/api/.env
+      - name: Run migration and contract checks
         run: |
-          curl -fsSL -H "Authorization: Bearer ${GH_TOKEN}" -H "X-GitHub-Api-Version: 2022-11-28" "https://api.github.com/repos/${REPOSITORY}/tarball/${REF}" -o repo.tar.gz
-          mkdir repo
-          tar -xzf repo.tar.gz -C repo --strip-components=1
-          find repo/apps/api/plane/db/migrations -maxdepth 1 -type f -name '*.py' -printf '%f\n' | sort | tail -20
+          docker compose -f docker-compose-test.yml run --rm --build api-tests \
+            /bin/sh -c "python manage.py makemigrations --check --dry-run && python manage.py migrate --noinput && pytest -q plane/tests/contract/app/test_freeframe_review_session.py"
+      - name: Tear down test services
+        if: always()
+        run: docker compose -f docker-compose-test.yml down -v
