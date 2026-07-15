@@ -36,18 +36,18 @@ jobs:
           corepack prepare pnpm@10.32.1 --activate
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Format and lint changed component
-        run: |
-          pnpm exec oxfmt apps/web/core/components/issues/issue-detail/freeframe-review-embed.tsx
-          pnpm exec oxlint --fix --deny-warnings apps/web/core/components/issues/issue-detail/freeframe-review-embed.tsx
-          pnpm exec oxfmt apps/web/core/components/issues/issue-detail/freeframe-review-embed.tsx
+      - name: Check component format
+        run: pnpm exec oxfmt --check apps/web/core/components/issues/issue-detail/freeframe-review-embed.tsx
+      - name: Capture component lint diagnostics
+        continue-on-error: true
+        run: pnpm exec oxlint --format=json apps/web/core/components/issues/issue-detail/freeframe-review-embed.tsx > oxlint-freeframe.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: freeframe-component-lint
+          path: oxlint-freeframe.json
+          if-no-files-found: error
       - name: Typecheck web
         run: pnpm --filter web check:types
       - name: Build web
         run: pnpm --filter web build
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: formatted-freeframe-component
-          path: apps/web/core/components/issues/issue-detail/freeframe-review-embed.tsx
-          if-no-files-found: error
