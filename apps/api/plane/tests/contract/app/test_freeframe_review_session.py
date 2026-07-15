@@ -23,7 +23,7 @@ pytestmark = pytest.mark.django_db
 
 def _url(workspace, project, issue):
     return (
-        f"/api/v1/workspaces/{workspace.slug}/projects/{project.id}/issues/"
+        f"/api/workspaces/{workspace.slug}/projects/{project.id}/issues/"
         f"{issue.id}/freeframe-review-session/"
     )
 
