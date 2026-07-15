@@ -22,19 +22,22 @@ jobs:
         run: |
           docker compose config > /tmp/plane-compose.yml
           grep -F 'VITE_FREEFRAME_REVIEW_EMBED_URL: https://freeframe.staging.example/integrations/plane/review' /tmp/plane-compose.yml
-      - name: Build Plane web image
-        run: docker compose build web
+      - name: Build tagged Plane web image
+        run: |
+          docker build \
+            --file apps/web/Dockerfile.web \
+            --build-arg VITE_FREEFRAME_REVIEW_EMBED_URL=https://freeframe.staging.example/integrations/plane/review \
+            --tag plane-web-review-test:latest \
+            .
       - name: Extract Plane web bundle
         run: |
-          image_id=$(docker compose images -q web)
-          test -n "$image_id"
-          container_id=$(docker create "$image_id")
-          echo "$container_id" > /tmp/plane-web-container-id
+          container_id=$(docker create plane-web-review-test:latest)
           docker cp "$container_id":/usr/share/nginx/html /tmp/plane-web
           docker rm -f "$container_id"
       - name: Capture FreeFrame bundle strings
         if: always()
         run: |
+          mkdir -p /tmp/plane-web
           grep -R -n -i 'freeframe' /tmp/plane-web > /tmp/freeframe-bundle-diagnostics.txt || true
           find /tmp/plane-web -maxdepth 3 -type f | sort >> /tmp/freeframe-bundle-diagnostics.txt
       - uses: actions/upload-artifact@v4
