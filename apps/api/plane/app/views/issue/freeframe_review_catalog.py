@@ -120,6 +120,15 @@ class FreeFrameReviewCatalogEndpoint(BaseAPIView):
         return _private_response(payload)
 
     def post(self, request, slug, project_id, issue_id):
+        access_token, error_response = _catalog_context(
+            request,
+            slug,
+            project_id,
+            issue_id,
+        )
+        if error_response:
+            return error_response
+
         name = request.data.get("name")
         description = request.data.get("description")
         asset_type = request.data.get("asset_type")
@@ -141,15 +150,6 @@ class FreeFrameReviewCatalogEndpoint(BaseAPIView):
                 {"error": "A supported asset_type is required"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
-        access_token, error_response = _catalog_context(
-            request,
-            slug,
-            project_id,
-            issue_id,
-        )
-        if error_response:
-            return error_response
 
         body = {
             "name": name.strip(),
