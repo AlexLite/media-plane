@@ -40,21 +40,7 @@ jobs:
         run: |
           pnpm exec oxfmt --check apps/web/core/components/issues/issue-detail/freeframe-review-embed.tsx
           pnpm exec oxlint --deny-warnings apps/web/core/components/issues/issue-detail/freeframe-review-embed.tsx
-      - name: Capture web typecheck output
-        id: typecheck
-        continue-on-error: true
-        shell: bash
-        run: |
-          set -o pipefail
-          pnpm --filter web check:types 2>&1 | tee freeframe-web-typecheck.log
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: freeframe-web-typecheck
-          path: freeframe-web-typecheck.log
-          if-no-files-found: error
-      - name: Fail when typecheck failed
-        if: steps.typecheck.outcome == 'failure'
-        run: exit 1
-      - name: Build web
-        run: pnpm --filter web build
+      - name: Typecheck web and dependencies
+        run: pnpm check:types --filter=web
+      - name: Build web and dependencies
+        run: pnpm build --filter=web
