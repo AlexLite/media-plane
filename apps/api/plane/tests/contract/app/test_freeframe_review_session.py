@@ -6,6 +6,7 @@ from uuid import uuid4
 
 import jwt
 import pytest
+from django.conf import settings
 from rest_framework.test import APIClient
 
 from plane.db.models import (
@@ -103,6 +104,20 @@ def test_missing_signing_secret_fails_closed(session_client, workspace, review_p
     assert response.status_code == 503
 
 
+def test_plane_secret_cannot_be_reused_for_review_tokens(
+    session_client,
+    workspace,
+    review_project,
+    review_issue,
+    monkeypatch,
+):
+    monkeypatch.setenv("FREEFRAME_REVIEW_JWT_SECRET", settings.SECRET_KEY)
+    FreeFrameReviewLink.objects.create(issue=review_issue, asset_id=uuid4())
+
+    response = session_client.get(_url(workspace, review_project, review_issue))
+    assert response.status_code == 503
+
+
 def test_member_receives_upload_scope_but_cannot_manage_link(
     workspace,
     review_project,
@@ -176,6 +191,39 @@ def test_guest_receives_only_read_and_comment_scopes(workspace, review_project, 
         issuer="media-plane",
     )
     assert claims["scopes"] == ["review:read", "review:comment"]
+
+
+def test_workspace_admin_can_manage_when_project_role_is_guest(workspace, review_project, review_issue, monkeypatch):
+    workspace_admin = User.objects.create(
+        email="workspace-admin@plane.so",
+        username="freeframe-workspace-admin",
+        first_name="Workspace",
+        last_name="Admin",
+    )
+    WorkspaceMember.objects.create(workspace=workspace, member=workspace_admin, role=20, is_active=True)
+    ProjectMember.objects.create(
+        workspace=workspace,
+        project=review_project,
+        member=workspace_admin,
+        role=5,
+        is_active=True,
+    )
+    monkeypatch.setenv("FREEFRAME_REVIEW_JWT_SECRET", "plane-freeframe-test-secret")
+
+    client = APIClient()
+    client.force_authenticate(user=workspace_admin)
+    url = _url(workspace, review_project, review_issue)
+
+    assert client.put(url, {"asset_id": str(uuid4())}, format="json").status_code == 201
+    response = client.get(url)
+    claims = jwt.decode(
+        response.data["integration_token"],
+        "plane-freeframe-test-secret",
+        algorithms=["HS256"],
+        audience="freeframe-review",
+        issuer="media-plane",
+    )
+    assert claims["scopes"] == ["review:read", "review:comment", "review:upload", "review:manage"]
 
 
 def test_link_is_immutable_until_deleted(session_client, workspace, review_project, review_issue):
