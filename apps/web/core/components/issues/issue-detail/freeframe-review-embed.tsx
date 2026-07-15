@@ -4,9 +4,9 @@
  * See the LICENSE file for details.
  */
 
-import type { FormEvent } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "@plane/i18n";
+import { FreeFrameReviewAssetPicker } from "./freeframe-review-asset-picker";
 
 const FREEFRAME_READY_MESSAGE = "freeframe:plane-review:ready";
 const FREEFRAME_RESIZE_MESSAGE = "freeframe:plane-review:resize";
@@ -38,7 +38,6 @@ export function FreeFrameReviewEmbed(props: Props) {
   const [session, setSession] = useState<TFreeFrameSession | null>(null);
   const [loadState, setLoadState] = useState<TLoadState>("loading");
   const [canManage, setCanManage] = useState(false);
-  const [assetId, setAssetId] = useState("");
   const [isMutating, setIsMutating] = useState(false);
   const [hasMutationError, setHasMutationError] = useState(false);
   const [height, setHeight] = useState(560);
@@ -52,11 +51,13 @@ export function FreeFrameReviewEmbed(props: Props) {
       return null;
     }
   }, [embedUrl]);
-  const sessionUrl = useMemo(
+  const issueApiPrefix = useMemo(
     () =>
-      `/api/workspaces/${encodeURIComponent(workspaceSlug)}/projects/${encodeURIComponent(projectId)}/issues/${encodeURIComponent(issueId)}/freeframe-review-session/`,
+      `/api/workspaces/${encodeURIComponent(workspaceSlug)}/projects/${encodeURIComponent(projectId)}/issues/${encodeURIComponent(issueId)}`,
     [issueId, projectId, workspaceSlug]
   );
+  const sessionUrl = `${issueApiPrefix}/freeframe-review-session/`;
+  const catalogUrl = `${issueApiPrefix}/freeframe-review-assets/`;
 
   const loadSession = useCallback(
     async (signal?: AbortSignal) => {
@@ -91,7 +92,6 @@ export function FreeFrameReviewEmbed(props: Props) {
   );
 
   useEffect(() => {
-    setAssetId("");
     setHasMutationError(false);
     const controller = new AbortController();
 
@@ -134,12 +134,10 @@ export function FreeFrameReviewEmbed(props: Props) {
     return () => window.removeEventListener("message", handleMessage);
   }, [embedOrigin, session]);
 
-  const handleConnect = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const normalizedAssetId = assetId.trim();
-    if (!UUID_PATTERN.test(normalizedAssetId)) {
+  const connectAsset = async (assetId: string): Promise<boolean> => {
+    if (!UUID_PATTERN.test(assetId)) {
       setHasMutationError(true);
-      return;
+      return false;
     }
 
     setIsMutating(true);
@@ -152,13 +150,14 @@ export function FreeFrameReviewEmbed(props: Props) {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ asset_id: normalizedAssetId }),
+        body: JSON.stringify({ asset_id: assetId }),
       });
       if (!response.ok) throw new Error(String(response.status));
-      setAssetId("");
       await loadSession();
+      return true;
     } catch {
       setHasMutationError(true);
+      return false;
     } finally {
       setIsMutating(false);
     }
@@ -189,27 +188,14 @@ export function FreeFrameReviewEmbed(props: Props) {
   if (loadState === "unlinked" && canManage) {
     return (
       <section className="rounded-lg border border-subtle bg-surface-1 p-3">
-        <form className="flex flex-wrap items-center gap-2" onSubmit={handleConnect}>
-          <span className="max-w-full truncate text-11 text-tertiary">{embedOrigin}</span>
-          <input
-            type="text"
-            value={assetId}
-            onChange={(event) => setAssetId(event.target.value)}
-            placeholder="00000000-0000-4000-8000-000000000000"
-            aria-label={embedOrigin}
-            autoComplete="off"
-            disabled={isMutating}
-            className="focus:border-accent min-w-64 flex-1 rounded-md border border-subtle bg-surface-1 px-3 py-2 text-13 text-primary outline-none"
-          />
-          <button
-            type="submit"
-            disabled={isMutating || !assetId.trim()}
-            className="bg-accent rounded-md px-3 py-2 text-13 font-medium text-on-color disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {isMutating ? t("adding") : t("add")}
-          </button>
-        </form>
-        {hasMutationError && <p className="text-red-500 mt-2 text-12">{t("something_went_wrong_please_try_again")}</p>}
+        <FreeFrameReviewAssetPicker
+          catalogUrl={catalogUrl}
+          disabled={isMutating}
+          onSelect={connectAsset}
+        />
+        {hasMutationError && (
+          <p className="text-red-500 mt-2 text-12">{t("something_went_wrong_please_try_again")}</p>
+        )}
       </section>
     );
   }
