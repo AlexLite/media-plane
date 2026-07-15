@@ -3,7 +3,7 @@ name: FreeFrame Session Diagnostic
 on:
   pull_request:
     branches:
-      - feat/freeframe-review-issue-embed
+      - develop
 
 permissions:
   contents: read
