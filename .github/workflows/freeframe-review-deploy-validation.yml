@@ -1,0 +1,32 @@
+name: FreeFrame Review Deploy Validation
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+permissions:
+  contents: read
+
+jobs:
+  plane-web-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Prepare compose environment
+        run: |
+          cp .env.example .env
+          cp apps/api/.env.example apps/api/.env
+          sed -i 's|^VITE_FREEFRAME_REVIEW_EMBED_URL=.*|VITE_FREEFRAME_REVIEW_EMBED_URL="https://freeframe.staging.example/integrations/plane/review"|' .env
+      - name: Validate compose build argument
+        run: |
+          docker compose config > /tmp/plane-compose.yml
+          grep -F 'VITE_FREEFRAME_REVIEW_EMBED_URL: https://freeframe.staging.example/integrations/plane/review' /tmp/plane-compose.yml
+      - name: Build Plane web image
+        run: docker compose build web
+      - name: Verify URL is compiled into Vite bundle
+        run: |
+          container_id=$(docker create web:latest)
+          trap 'docker rm -f "$container_id" >/dev/null 2>&1 || true' EXIT
+          docker cp "$container_id":/usr/share/nginx/html /tmp/plane-web
+          grep -R -F 'https://freeframe.staging.example/integrations/plane/review' /tmp/plane-web
