@@ -104,7 +104,6 @@ def test_missing_signing_secret_fails_closed(session_client, workspace, review_p
 
 
 def test_member_receives_upload_scope_but_cannot_manage_link(
-    api_client,
     workspace,
     review_project,
     review_issue,
@@ -148,10 +147,12 @@ def test_member_receives_upload_scope_but_cannot_manage_link(
 
 def test_link_is_immutable_until_deleted(session_client, workspace, review_project, review_issue):
     first_asset = uuid4()
+    second_asset = uuid4()
     url = _url(workspace, review_project, review_issue)
 
     assert session_client.put(url, {"asset_id": str(first_asset)}, format="json").status_code == 201
     assert session_client.put(url, {"asset_id": str(first_asset)}, format="json").status_code == 200
-    assert session_client.put(url, {"asset_id": str(uuid4())}, format="json").status_code == 409
+    assert session_client.put(url, {"asset_id": str(second_asset)}, format="json").status_code == 409
     assert session_client.delete(url).status_code == 204
     assert not FreeFrameReviewLink.objects.filter(issue=review_issue).exists()
+    assert session_client.put(url, {"asset_id": str(second_asset)}, format="json").status_code == 201
