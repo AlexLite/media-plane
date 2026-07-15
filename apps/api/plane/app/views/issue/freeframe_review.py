@@ -7,12 +7,13 @@ from datetime import timedelta
 from uuid import UUID, uuid4
 
 import jwt
+from django.conf import settings
 from django.db import IntegrityError, transaction
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.response import Response
 
-from plane.app.permissions import ProjectEntityPermission
+from plane.app.permissions import ProjectLitePermission
 from plane.app.permissions.base import ROLE
 from plane.db.models import FreeFrameReviewLink, Issue, ProjectMember, WorkspaceMember
 
@@ -70,10 +71,17 @@ def _issue(slug, project_id, issue_id):
     ).first()
 
 
+def _signing_secret():
+    secret = os.environ.get("FREEFRAME_REVIEW_JWT_SECRET", "").strip()
+    if not secret or secret == settings.SECRET_KEY:
+        return None
+    return secret
+
+
 class FreeFrameReviewSessionEndpoint(BaseAPIView):
     """Manage an issue-to-asset binding and mint short-lived FreeFrame tokens."""
 
-    permission_classes = [ProjectEntityPermission]
+    permission_classes = [ProjectLitePermission]
 
     def get(self, request, slug, project_id, issue_id):
         issue = _issue(slug, project_id, issue_id)
@@ -84,10 +92,10 @@ class FreeFrameReviewSessionEndpoint(BaseAPIView):
         if not link:
             return Response({"error": "FreeFrame review is not linked"}, status=status.HTTP_404_NOT_FOUND)
 
-        secret = os.environ.get("FREEFRAME_REVIEW_JWT_SECRET", "").strip()
+        secret = _signing_secret()
         if not secret:
             return Response(
-                {"error": "FreeFrame review integration is not configured"},
+                {"error": "FreeFrame review integration is not configured securely"},
                 status=status.HTTP_503_SERVICE_UNAVAILABLE,
             )
 
