@@ -26,7 +26,9 @@ jobs:
         run: docker compose build web
       - name: Verify URL is compiled into Vite bundle
         run: |
-          container_id=$(docker create web:latest)
+          image_id=$(docker compose images -q web)
+          test -n "$image_id"
+          container_id=$(docker create "$image_id")
           trap 'docker rm -f "$container_id" >/dev/null 2>&1 || true' EXIT
           docker cp "$container_id":/usr/share/nginx/html /tmp/plane-web
           grep -R -F 'https://freeframe.staging.example/integrations/plane/review' /tmp/plane-web
