@@ -242,7 +242,7 @@ export function FreeFrameReviewEmbed(props: Props) {
         title={embedOrigin}
         className="block w-full border-0"
         style={{ height }}
-        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+        sandbox="allow-scripts allow-forms allow-popups"
         allow="fullscreen"
       />
     </section>
