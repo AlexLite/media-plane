@@ -175,9 +175,7 @@ export function FreeFrameReviewAssetPicker(props: Props) {
           {assets.map((asset) => (
             <option key={asset.id} value={asset.id}>
               {asset.name} · {asset.asset_type}
-              {asset.latest_version?.processing_status
-                ? ` · ${asset.latest_version.processing_status}`
-                : ""}
+              {asset.latest_version?.processing_status ? ` · ${asset.latest_version.processing_status}` : ""}
             </option>
           ))}
         </select>
@@ -205,9 +203,7 @@ export function FreeFrameReviewAssetPicker(props: Props) {
         />
         <select
           value={newAssetType}
-          onChange={(event) =>
-            setNewAssetType(event.target.value as (typeof ASSET_TYPES)[number])
-          }
+          onChange={(event) => setNewAssetType(event.target.value as (typeof ASSET_TYPES)[number])}
           aria-label={t("type")}
           disabled={busy}
           className="focus:border-accent rounded-md border border-subtle bg-surface-1 px-3 py-2 text-13 text-primary outline-none"
@@ -227,9 +223,7 @@ export function FreeFrameReviewAssetPicker(props: Props) {
         </button>
       </form>
 
-      {hasError && (
-        <p className="text-red-500 text-12">{t("something_went_wrong_please_try_again")}</p>
-      )}
+      {hasError && <p className="text-red-500 text-12">{t("something_went_wrong_please_try_again")}</p>}
     </div>
   );
 }
