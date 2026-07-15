@@ -199,19 +199,17 @@ export function FreeFrameReviewEmbed(props: Props) {
             aria-label={embedOrigin}
             autoComplete="off"
             disabled={isMutating}
-            className="min-w-64 flex-1 rounded-md border border-subtle bg-surface-1 px-3 py-2 text-13 text-primary outline-none focus:border-accent"
+            className="focus:border-accent min-w-64 flex-1 rounded-md border border-subtle bg-surface-1 px-3 py-2 text-13 text-primary outline-none"
           />
           <button
             type="submit"
             disabled={isMutating || !assetId.trim()}
-            className="rounded-md bg-accent px-3 py-2 text-13 font-medium text-on-color disabled:cursor-not-allowed disabled:opacity-50"
+            className="bg-accent rounded-md px-3 py-2 text-13 font-medium text-on-color disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isMutating ? t("adding") : t("add")}
           </button>
         </form>
-        {hasMutationError && (
-          <p className="mt-2 text-12 text-red-500">{t("something_went_wrong_please_try_again")}</p>
-        )}
+        {hasMutationError && <p className="text-red-500 mt-2 text-12">{t("something_went_wrong_please_try_again")}</p>}
       </section>
     );
   }
@@ -234,7 +232,7 @@ export function FreeFrameReviewEmbed(props: Props) {
         </div>
       )}
       {hasMutationError && (
-        <p className="border-b border-subtle px-3 py-2 text-12 text-red-500">
+        <p className="text-red-500 border-b border-subtle px-3 py-2 text-12">
           {t("something_went_wrong_please_try_again")}
         </p>
       )}
