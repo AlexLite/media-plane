@@ -45,6 +45,7 @@ export function FreeFrameReviewAssetPicker(props: Props) {
   const [assets, setAssets] = useState<TCatalogAsset[]>([]);
   const [selectedAssetId, setSelectedAssetId] = useState("");
   const [query, setQuery] = useState("");
+  const [submittedQuery, setSubmittedQuery] = useState("");
   const [newAssetName, setNewAssetName] = useState("");
   const [newAssetType, setNewAssetType] = useState<(typeof ASSET_TYPES)[number]>("video");
   const [isLoading, setIsLoading] = useState(true);
@@ -57,8 +58,7 @@ export function FreeFrameReviewAssetPicker(props: Props) {
       setHasError(false);
       try {
         const search = new URLSearchParams({ limit: "50" });
-        const normalizedQuery = query.trim();
-        if (normalizedQuery) search.set("q", normalizedQuery);
+        if (submittedQuery) search.set("q", submittedQuery);
 
         const response = await fetch(`${catalogUrl}?${search.toString()}`, {
           credentials: "include",
@@ -82,7 +82,7 @@ export function FreeFrameReviewAssetPicker(props: Props) {
         setIsLoading(false);
       }
     },
-    [catalogUrl, query]
+    [catalogUrl, submittedQuery]
   );
 
   useEffect(() => {
@@ -93,7 +93,12 @@ export function FreeFrameReviewAssetPicker(props: Props) {
 
   const handleSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    void loadAssets();
+    const normalizedQuery = query.trim();
+    if (normalizedQuery === submittedQuery) {
+      void loadAssets();
+      return;
+    }
+    setSubmittedQuery(normalizedQuery);
   };
 
   const handleSelect = async () => {
