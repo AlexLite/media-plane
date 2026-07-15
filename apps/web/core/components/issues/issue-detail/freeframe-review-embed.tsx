@@ -4,16 +4,25 @@
  * See the LICENSE file for details.
  */
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "@plane/i18n";
 
 const FREEFRAME_READY_MESSAGE = "freeframe:plane-review:ready";
 const FREEFRAME_RESIZE_MESSAGE = "freeframe:plane-review:resize";
 const FREEFRAME_INIT_MESSAGE = "freeframe:plane-review:init";
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 type TFreeFrameSession = {
   asset_id: string;
   integration_token: string;
+  can_manage: boolean;
 };
+
+type TFreeFrameError = {
+  can_manage?: boolean;
+};
+
+type TLoadState = "loading" | "hidden" | "unlinked" | "linked";
 
 type Props = {
   workspaceSlug: string;
@@ -23,10 +32,15 @@ type Props = {
 
 export function FreeFrameReviewEmbed(props: Props) {
   const { workspaceSlug, projectId, issueId } = props;
+  const { t } = useTranslation();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [session, setSession] = useState<TFreeFrameSession | null>(null);
+  const [loadState, setLoadState] = useState<TLoadState>("loading");
+  const [canManage, setCanManage] = useState(false);
+  const [assetId, setAssetId] = useState("");
+  const [isMutating, setIsMutating] = useState(false);
+  const [hasMutationError, setHasMutationError] = useState(false);
   const [height, setHeight] = useState(560);
-  const [isUnavailable, setIsUnavailable] = useState(false);
 
   const embedUrl = import.meta.env.VITE_FREEFRAME_REVIEW_EMBED_URL as string | undefined;
   const embedOrigin = useMemo(() => {
@@ -37,42 +51,56 @@ export function FreeFrameReviewEmbed(props: Props) {
       return null;
     }
   }, [embedUrl]);
+  const sessionUrl = useMemo(
+    () =>
+      `/api/workspaces/${encodeURIComponent(workspaceSlug)}/projects/${encodeURIComponent(projectId)}/issues/${encodeURIComponent(issueId)}/freeframe-review-session/`,
+    [issueId, projectId, workspaceSlug]
+  );
+
+  const loadSession = useCallback(
+    async (signal?: AbortSignal) => {
+      setSession(null);
+      setLoadState("loading");
+
+      if (!embedOrigin) {
+        setLoadState("hidden");
+        return;
+      }
+
+      const response = await fetch(sessionUrl, {
+        credentials: "include",
+        headers: { Accept: "application/json" },
+        signal,
+      });
+      const payload = (await response.json().catch(() => ({}))) as TFreeFrameSession & TFreeFrameError;
+
+      if (response.status === 404) {
+        const manageable = payload.can_manage === true;
+        setCanManage(manageable);
+        setLoadState(manageable ? "unlinked" : "hidden");
+        return;
+      }
+      if (!response.ok) throw new Error(String(response.status));
+
+      setCanManage(payload.can_manage === true);
+      setSession(payload);
+      setLoadState("linked");
+    },
+    [embedOrigin, sessionUrl]
+  );
 
   useEffect(() => {
-    setSession(null);
-    setIsUnavailable(false);
-
-    if (!embedOrigin) {
-      setIsUnavailable(true);
-      return;
-    }
-
+    setAssetId("");
+    setHasMutationError(false);
     const controller = new AbortController();
-    const sessionUrl = `/api/workspaces/${encodeURIComponent(workspaceSlug)}/projects/${encodeURIComponent(projectId)}/issues/${encodeURIComponent(issueId)}/freeframe-review-session/`;
 
-    fetch(sessionUrl, {
-      credentials: "include",
-      headers: { Accept: "application/json" },
-      signal: controller.signal,
-    })
-      .then(async (response) => {
-        if (response.status === 204 || response.status === 404) {
-          setIsUnavailable(true);
-          return null;
-        }
-        if (!response.ok) throw new Error("Unable to initialize FreeFrame review");
-        return (await response.json()) as TFreeFrameSession;
-      })
-      .then((value) => {
-        if (value) setSession(value);
-      })
-      .catch((error) => {
-        if (error instanceof DOMException && error.name === "AbortError") return;
-        setIsUnavailable(true);
-      });
+    loadSession(controller.signal).catch((error) => {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+      setLoadState("hidden");
+    });
 
     return () => controller.abort();
-  }, [embedOrigin, issueId, projectId, workspaceSlug]);
+  }, [loadSession]);
 
   useEffect(() => {
     if (!embedOrigin || !session) return;
@@ -105,14 +133,114 @@ export function FreeFrameReviewEmbed(props: Props) {
     return () => window.removeEventListener("message", handleMessage);
   }, [embedOrigin, session]);
 
-  if (isUnavailable || !embedUrl || !embedOrigin || !session) return null;
+  const handleConnect = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const normalizedAssetId = assetId.trim();
+    if (!UUID_PATTERN.test(normalizedAssetId)) {
+      setHasMutationError(true);
+      return;
+    }
+
+    setIsMutating(true);
+    setHasMutationError(false);
+    try {
+      const response = await fetch(sessionUrl, {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ asset_id: normalizedAssetId }),
+      });
+      if (!response.ok) throw new Error(String(response.status));
+      setAssetId("");
+      await loadSession();
+    } catch {
+      setHasMutationError(true);
+    } finally {
+      setIsMutating(false);
+    }
+  };
+
+  const handleDisconnect = async () => {
+    setIsMutating(true);
+    setHasMutationError(false);
+    try {
+      const response = await fetch(sessionUrl, {
+        method: "DELETE",
+        credentials: "include",
+        headers: { Accept: "application/json" },
+      });
+      if (!response.ok) throw new Error(String(response.status));
+      setSession(null);
+      setCanManage(true);
+      setLoadState("unlinked");
+    } catch {
+      setHasMutationError(true);
+    } finally {
+      setIsMutating(false);
+    }
+  };
+
+  if (!embedUrl || !embedOrigin || loadState === "loading" || loadState === "hidden") return null;
+
+  if (loadState === "unlinked" && canManage) {
+    return (
+      <section className="rounded-lg border border-subtle bg-surface-1 p-3">
+        <form className="flex flex-wrap items-center gap-2" onSubmit={handleConnect}>
+          <span className="max-w-full truncate text-11 text-tertiary">{embedOrigin}</span>
+          <input
+            type="text"
+            value={assetId}
+            onChange={(event) => setAssetId(event.target.value)}
+            placeholder="00000000-0000-4000-8000-000000000000"
+            aria-label={embedOrigin}
+            autoComplete="off"
+            disabled={isMutating}
+            className="min-w-64 flex-1 rounded-md border border-subtle bg-surface-1 px-3 py-2 text-13 text-primary outline-none focus:border-accent"
+          />
+          <button
+            type="submit"
+            disabled={isMutating || !assetId.trim()}
+            className="rounded-md bg-accent px-3 py-2 text-13 font-medium text-on-color disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isMutating ? t("adding") : t("add")}
+          </button>
+        </form>
+        {hasMutationError && (
+          <p className="mt-2 text-12 text-red-500">{t("something_went_wrong_please_try_again")}</p>
+        )}
+      </section>
+    );
+  }
+
+  if (!session) return null;
 
   return (
     <section className="overflow-hidden rounded-lg border border-subtle bg-surface-1">
+      {canManage && (
+        <div className="flex items-center justify-between gap-3 border-b border-subtle px-3 py-2">
+          <code className="min-w-0 truncate text-11 text-tertiary">{session.asset_id}</code>
+          <button
+            type="button"
+            disabled={isMutating}
+            onClick={handleDisconnect}
+            className="shrink-0 rounded-md border border-subtle px-2.5 py-1.5 text-12 text-secondary hover:bg-surface-2 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isMutating ? t("loading") : t("remove")}
+          </button>
+        </div>
+      )}
+      {hasMutationError && (
+        <p className="border-b border-subtle px-3 py-2 text-12 text-red-500">
+          {t("something_went_wrong_please_try_again")}
+        </p>
+      )}
       <iframe
         ref={iframeRef}
         src={embedUrl}
-        title="FreeFrame media review"
+        title={embedOrigin}
         className="block w-full border-0"
         style={{ height }}
         sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
