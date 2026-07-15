@@ -1,9 +1,9 @@
 name: FreeFrame Session Diagnostic
 
 on:
-  push:
+  pull_request:
     branches:
-      - feat/freeframe-review-session-api
+      - feat/freeframe-review-issue-embed
 
 permissions:
   contents: read
