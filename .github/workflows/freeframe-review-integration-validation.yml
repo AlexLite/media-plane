@@ -38,8 +38,8 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Check integration components
         run: |
-          pnpm exec oxfmt --check apps/web/core/components/issues/issue-detail/main-content.tsx apps/web/core/components/issues/issue-detail/freeframe-review-asset-picker.tsx apps/web/core/components/issues/issue-detail/freeframe-review-embed.tsx
-          pnpm exec oxlint --deny-warnings apps/web/core/components/issues/issue-detail/main-content.tsx apps/web/core/components/issues/issue-detail/freeframe-review-asset-picker.tsx apps/web/core/components/issues/issue-detail/freeframe-review-embed.tsx
+          pnpm exec oxfmt --check apps/web/core/components/issues/issue-detail/freeframe-review-asset-picker.tsx apps/web/core/components/issues/issue-detail/freeframe-review-embed.tsx
+          pnpm exec oxlint --deny-warnings apps/web/core/components/issues/issue-detail/freeframe-review-asset-picker.tsx apps/web/core/components/issues/issue-detail/freeframe-review-embed.tsx
       - name: Typecheck web and dependencies
         run: pnpm turbo run check:types --filter=web...
       - name: Build web and dependencies
