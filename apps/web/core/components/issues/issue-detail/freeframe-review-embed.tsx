@@ -33,13 +33,16 @@ export function FreeFrameReviewEmbed(props: Props) {
   }, [embedUrl]);
 
   useEffect(() => {
+    setSession(null);
+    setIsUnavailable(false);
+
     if (!embedOrigin) {
       setIsUnavailable(true);
       return;
     }
 
     const controller = new AbortController();
-    const sessionUrl = `/api/v1/workspaces/${encodeURIComponent(workspaceSlug)}/projects/${encodeURIComponent(projectId)}/issues/${encodeURIComponent(issueId)}/freeframe-review-session/`;
+    const sessionUrl = `/api/workspaces/${encodeURIComponent(workspaceSlug)}/projects/${encodeURIComponent(projectId)}/issues/${encodeURIComponent(issueId)}/freeframe-review-session/`;
 
     fetch(sessionUrl, {
       credentials: "include",
