@@ -53,6 +53,8 @@ def _review_scopes(request, slug, project_id):
         is_active=True,
     ).exists()
     if project_member.role == ROLE.ADMIN.value or workspace_admin:
+        if "review:upload" not in scopes:
+            scopes.append("review:upload")
         scopes.append("review:manage")
 
     return scopes
