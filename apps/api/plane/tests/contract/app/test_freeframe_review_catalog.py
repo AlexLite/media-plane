@@ -146,17 +146,24 @@ def test_catalog_post_normalizes_and_forwards_new_asset():
     }
 
 
-def test_catalog_post_rejects_unsupported_asset_type():
+def test_catalog_post_authorizes_before_rejecting_unsupported_asset_type():
     endpoint = FreeFrameReviewCatalogEndpoint()
     request = _request(data={"name": "Cut", "asset_type": "document"})
 
-    with patch(
-        "plane.app.views.issue.freeframe_review_catalog._catalog_context",
-    ) as catalog_context:
+    with (
+        patch(
+            "plane.app.views.issue.freeframe_review_catalog._catalog_context",
+            return_value=("scoped-access-token", None),
+        ) as catalog_context,
+        patch(
+            "plane.app.views.issue.freeframe_review_catalog._freeframe_request",
+        ) as freeframe_request,
+    ):
         response = endpoint.post(request, "workspace", uuid4(), uuid4())
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    catalog_context.assert_not_called()
+    catalog_context.assert_called_once()
+    freeframe_request.assert_not_called()
 
 
 def test_catalog_routes_are_registered():
