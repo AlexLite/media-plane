@@ -4,7 +4,8 @@
  * See the LICENSE file for details.
  */
 
-import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "@plane/i18n";
 
 const FREEFRAME_READY_MESSAGE = "freeframe:plane-review:ready";
