@@ -103,6 +103,19 @@ export function FreeFrameReviewEmbed(props: Props) {
     return () => controller.abort();
   }, [loadSession]);
 
+  const postSessionToIframe = useCallback(() => {
+    if (!embedOrigin || !session) return;
+
+    iframeRef.current?.contentWindow?.postMessage(
+      {
+        type: FREEFRAME_INIT_MESSAGE,
+        assetId: session.asset_id,
+        integrationToken: session.integration_token,
+      },
+      embedOrigin
+    );
+  }, [embedOrigin, session]);
+
   useEffect(() => {
     if (!embedOrigin || !session) return;
 
@@ -111,14 +124,7 @@ export function FreeFrameReviewEmbed(props: Props) {
       if (!event.data || typeof event.data !== "object") return;
 
       if (event.data.type === FREEFRAME_READY_MESSAGE) {
-        iframeRef.current?.contentWindow?.postMessage(
-          {
-            type: FREEFRAME_INIT_MESSAGE,
-            assetId: session.asset_id,
-            integrationToken: session.integration_token,
-          },
-          embedOrigin
-        );
+        postSessionToIframe();
       }
 
       if (
@@ -132,7 +138,7 @@ export function FreeFrameReviewEmbed(props: Props) {
 
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
-  }, [embedOrigin, session]);
+  }, [embedOrigin, postSessionToIframe, session]);
 
   const connectAsset = async (assetId: string): Promise<boolean> => {
     if (!UUID_PATTERN.test(assetId)) {
@@ -220,6 +226,7 @@ export function FreeFrameReviewEmbed(props: Props) {
         ref={iframeRef}
         src={embedUrl}
         title={embedOrigin}
+        onLoad={postSessionToIframe}
         className="block w-full border-0"
         style={{ height }}
         sandbox="allow-scripts allow-forms allow-popups"
