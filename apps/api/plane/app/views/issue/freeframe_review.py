@@ -170,7 +170,7 @@ class FreeFrameReviewSessionEndpoint(BaseAPIView):
         if not issue:
             return Response({"error": "Work item not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        deleted, _ = FreeFrameReviewLink.objects.filter(issue=issue).delete()
+        deleted = FreeFrameReviewLink.objects.filter(issue=issue).delete()
         if not deleted:
             return Response({"error": "FreeFrame review is not linked"}, status=status.HTTP_404_NOT_FOUND)
         return Response(status=status.HTTP_204_NO_CONTENT)
