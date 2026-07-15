@@ -119,12 +119,16 @@ export function FreeFrameReviewEmbed(props: Props) {
   useEffect(() => {
     if (!embedOrigin || !session) return;
 
+    const initRetryId = window.setInterval(postSessionToIframe, 500);
+    postSessionToIframe();
+
     const handleMessage = (event: MessageEvent) => {
       if (event.origin !== embedOrigin || event.source !== iframeRef.current?.contentWindow) return;
       if (!event.data || typeof event.data !== "object") return;
 
       if (event.data.type === FREEFRAME_READY_MESSAGE) {
         postSessionToIframe();
+        window.clearInterval(initRetryId);
       }
 
       if (
@@ -132,12 +136,16 @@ export function FreeFrameReviewEmbed(props: Props) {
         typeof event.data.height === "number" &&
         Number.isFinite(event.data.height)
       ) {
+        window.clearInterval(initRetryId);
         setHeight(Math.min(Math.max(Math.round(event.data.height), 320), 1600));
       }
     };
 
     window.addEventListener("message", handleMessage);
-    return () => window.removeEventListener("message", handleMessage);
+    return () => {
+      window.clearInterval(initRetryId);
+      window.removeEventListener("message", handleMessage);
+    };
   }, [embedOrigin, postSessionToIframe, session]);
 
   const connectAsset = async (assetId: string): Promise<boolean> => {
