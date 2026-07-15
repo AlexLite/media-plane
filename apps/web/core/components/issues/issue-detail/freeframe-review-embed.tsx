@@ -188,14 +188,8 @@ export function FreeFrameReviewEmbed(props: Props) {
   if (loadState === "unlinked" && canManage) {
     return (
       <section className="rounded-lg border border-subtle bg-surface-1 p-3">
-        <FreeFrameReviewAssetPicker
-          catalogUrl={catalogUrl}
-          disabled={isMutating}
-          onSelect={connectAsset}
-        />
-        {hasMutationError && (
-          <p className="text-red-500 mt-2 text-12">{t("something_went_wrong_please_try_again")}</p>
-        )}
+        <FreeFrameReviewAssetPicker catalogUrl={catalogUrl} disabled={isMutating} onSelect={connectAsset} />
+        {hasMutationError && <p className="text-red-500 mt-2 text-12">{t("something_went_wrong_please_try_again")}</p>}
       </section>
     );
   }
