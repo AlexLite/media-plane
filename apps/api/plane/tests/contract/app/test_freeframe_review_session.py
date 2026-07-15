@@ -145,6 +145,39 @@ def test_member_receives_upload_scope_but_cannot_manage_link(
     assert forbidden.status_code == 403
 
 
+def test_guest_receives_only_read_and_comment_scopes(workspace, review_project, review_issue, monkeypatch):
+    guest = User.objects.create(
+        email="guest@plane.so",
+        username="freeframe-guest",
+        first_name="Review",
+        last_name="Guest",
+    )
+    WorkspaceMember.objects.create(workspace=workspace, member=guest, role=5, is_active=True)
+    ProjectMember.objects.create(
+        workspace=workspace,
+        project=review_project,
+        member=guest,
+        role=5,
+        is_active=True,
+    )
+    FreeFrameReviewLink.objects.create(issue=review_issue, asset_id=uuid4())
+    monkeypatch.setenv("FREEFRAME_REVIEW_JWT_SECRET", "plane-freeframe-test-secret")
+
+    client = APIClient()
+    client.force_authenticate(user=guest)
+    response = client.get(_url(workspace, review_project, review_issue))
+
+    assert response.status_code == 200
+    claims = jwt.decode(
+        response.data["integration_token"],
+        "plane-freeframe-test-secret",
+        algorithms=["HS256"],
+        audience="freeframe-review",
+        issuer="media-plane",
+    )
+    assert claims["scopes"] == ["review:read", "review:comment"]
+
+
 def test_link_is_immutable_until_deleted(session_client, workspace, review_project, review_issue):
     first_asset = uuid4()
     second_asset = uuid4()
