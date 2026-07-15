@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                         unique=True,
                     ),
                 ),
-                ("asset_id", models.UUIDField(db_index=True, unique=True)),
+                ("asset_id", models.UUIDField(db_index=True)),
                 (
                     "created_by",
                     models.ForeignKey(
@@ -43,9 +43,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "issue",
-                    models.OneToOneField(
+                    models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name="freeframe_review_link",
+                        related_name="freeframe_review_links",
                         to="db.issue",
                     ),
                 ),
@@ -66,5 +66,21 @@ class Migration(migrations.Migration):
                 "db_table": "freeframe_review_links",
                 "ordering": ("-created_at",),
             },
+        ),
+        migrations.AddConstraint(
+            model_name="freeframereviewlink",
+            constraint=models.UniqueConstraint(
+                condition=models.Q(("deleted_at__isnull", True)),
+                fields=("issue",),
+                name="freeframe_review_unique_active_issue",
+            ),
+        ),
+        migrations.AddConstraint(
+            model_name="freeframereviewlink",
+            constraint=models.UniqueConstraint(
+                condition=models.Q(("deleted_at__isnull", True)),
+                fields=("asset_id",),
+                name="freeframe_review_unique_active_asset",
+            ),
         ),
     ]
