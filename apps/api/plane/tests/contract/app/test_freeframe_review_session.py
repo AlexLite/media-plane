@@ -321,6 +321,7 @@ def test_invalid_freeframe_api_url_fails_closed(monkeypatch):
 
 
 def test_remote_registration_exchanges_plane_token_for_scoped_session(monkeypatch):
+    monkeypatch.undo()
     request_mock = MagicMock(side_effect=[{"access_token": "scoped-access-token"}, {}])
     monkeypatch.setattr(review_module, "_freeframe_request", request_mock)
     asset_id = uuid4()
