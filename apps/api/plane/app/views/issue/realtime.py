@@ -19,6 +19,8 @@ from plane.utils.realtime import issue_realtime_channel
 
 from .. import BaseAPIView
 
+SSE_FLUSH_PADDING = ":" + (" " * 4096) + "\n"
+
 
 class ServerSentEventRenderer(BaseRenderer):
     media_type = "text/event-stream"
@@ -70,7 +72,7 @@ async def issue_event_stream(issue_id):
             event = json.loads(payload)
             event_id = event.get("event_id", "")
             event_type = event.get("type", "message")
-            yield f"id: {event_id}\nevent: {event_type}\ndata: {payload}\n\n"
+            yield f"{SSE_FLUSH_PADDING}id: {event_id}\nevent: {event_type}\ndata: {payload}\n\n"
     finally:
         if reader_task is not None:
             reader_task.cancel()
