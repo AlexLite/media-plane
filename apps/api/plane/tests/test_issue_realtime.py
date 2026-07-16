@@ -2,9 +2,10 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
+import asyncio
 import json
 from types import SimpleNamespace
-from unittest.mock import patch
+from unittest.mock import AsyncMock, MagicMock, patch
 from uuid import uuid4
 
 from django.test import SimpleTestCase
@@ -14,10 +15,9 @@ from rest_framework.test import APIRequestFactory
 
 from plane.app.signals.realtime import publish_comment_change
 from plane.app.views.issue.realtime import (
-    SSE_FLUSH_PADDING,
-    SSE_HEARTBEAT_PADDING,
     IssueRealtimeEventsEndpoint,
     ServerSentEventRenderer,
+    issue_event_stream,
 )
 from plane.utils.realtime import (
     build_issue_realtime_event,
@@ -27,10 +27,35 @@ from plane.utils.realtime import (
 
 
 class IssueRealtimeEventTests(SimpleTestCase):
-    def test_heartbeat_padding_accumulates_to_event_flush_size(self):
-        self.assertTrue(SSE_HEARTBEAT_PADDING.startswith(":"))
-        self.assertTrue(SSE_HEARTBEAT_PADDING.endswith("\n\n"))
-        self.assertGreaterEqual(len(SSE_HEARTBEAT_PADDING) * 4, len(SSE_FLUSH_PADDING))
+    @patch("plane.app.views.issue.realtime.SSE_MAX_IDLE_HEARTBEATS", 1)
+    @patch("plane.app.views.issue.realtime.asyncio.wait_for", new_callable=AsyncMock, side_effect=TimeoutError)
+    @patch("plane.app.views.issue.realtime.async_redis.Redis.from_url")
+    def test_idle_stream_closes_after_max_heartbeats(self, from_url, _wait_for):
+        async def messages():
+            await asyncio.Future()
+            yield None
+
+        pubsub = MagicMock()
+        pubsub.listen.return_value = messages()
+        pubsub.subscribe = AsyncMock()
+        pubsub.unsubscribe = AsyncMock()
+        pubsub.aclose = AsyncMock()
+        redis = MagicMock()
+        redis.pubsub.return_value = pubsub
+        redis.aclose = AsyncMock()
+        from_url.return_value = redis
+
+        async def consume_stream():
+            stream = issue_event_stream(uuid4())
+            chunks = [chunk async for chunk in stream]
+            return chunks
+
+        chunks = asyncio.run(consume_stream())
+
+        self.assertEqual(chunks, ["retry: 3000\n: connected\n\n", ": heartbeat\n\n"])
+        pubsub.unsubscribe.assert_awaited_once()
+        pubsub.aclose.assert_awaited_once()
+        redis.aclose.assert_awaited_once()
 
     @patch("plane.app.signals.realtime.publish_issue_realtime_event")
     @patch("plane.app.signals.realtime.transaction.on_commit", side_effect=lambda callback: callback())
