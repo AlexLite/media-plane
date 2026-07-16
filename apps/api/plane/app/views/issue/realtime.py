@@ -20,6 +20,7 @@ from plane.utils.realtime import issue_realtime_channel
 from .. import BaseAPIView
 
 SSE_FLUSH_PADDING = ":" + (" " * 65536) + "\n\n"
+SSE_HEARTBEAT_PADDING = ":" + (" " * 16384) + "\n\n"
 
 
 class ServerSentEventRenderer(BaseRenderer):
@@ -62,7 +63,12 @@ async def issue_event_stream(issue_id):
             try:
                 message = await asyncio.wait_for(message_queue.get(), timeout=15.0)
             except TimeoutError:
-                yield ": heartbeat\n\n"
+                # Some public reverse proxies buffer streaming bodies even when
+                # X-Accel-Buffering is disabled. Accumulating 64 KiB across four
+                # heartbeats forces a downstream write and releases abandoned
+                # upstream subscriptions without padding every heartbeat to the
+                # full proxy buffer size.
+                yield f": heartbeat\n\n{SSE_HEARTBEAT_PADDING}"
                 continue
 
             payload = message.get("data")

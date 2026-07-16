@@ -13,7 +13,12 @@ from rest_framework.request import Request
 from rest_framework.test import APIRequestFactory
 
 from plane.app.signals.realtime import publish_comment_change
-from plane.app.views.issue.realtime import IssueRealtimeEventsEndpoint, ServerSentEventRenderer
+from plane.app.views.issue.realtime import (
+    SSE_FLUSH_PADDING,
+    SSE_HEARTBEAT_PADDING,
+    IssueRealtimeEventsEndpoint,
+    ServerSentEventRenderer,
+)
 from plane.utils.realtime import (
     build_issue_realtime_event,
     issue_realtime_channel,
@@ -22,6 +27,11 @@ from plane.utils.realtime import (
 
 
 class IssueRealtimeEventTests(SimpleTestCase):
+    def test_heartbeat_padding_accumulates_to_event_flush_size(self):
+        self.assertTrue(SSE_HEARTBEAT_PADDING.startswith(":"))
+        self.assertTrue(SSE_HEARTBEAT_PADDING.endswith("\n\n"))
+        self.assertGreaterEqual(len(SSE_HEARTBEAT_PADDING) * 4, len(SSE_FLUSH_PADDING))
+
     @patch("plane.app.signals.realtime.publish_issue_realtime_event")
     @patch("plane.app.signals.realtime.transaction.on_commit", side_effect=lambda callback: callback())
     def test_soft_deleted_comment_publishes_deleted_event(self, _on_commit, publish_event):
