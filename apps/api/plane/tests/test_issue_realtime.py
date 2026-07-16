@@ -7,7 +7,11 @@ from unittest.mock import patch
 from uuid import uuid4
 
 from django.test import SimpleTestCase
+from rest_framework.negotiation import DefaultContentNegotiation
+from rest_framework.request import Request
+from rest_framework.test import APIRequestFactory
 
+from plane.app.views.issue.realtime import IssueRealtimeEventsEndpoint, ServerSentEventRenderer
 from plane.utils.realtime import (
     build_issue_realtime_event,
     issue_realtime_channel,
@@ -16,6 +20,15 @@ from plane.utils.realtime import (
 
 
 class IssueRealtimeEventTests(SimpleTestCase):
+    def test_endpoint_accepts_event_stream_content_negotiation(self):
+        request = Request(APIRequestFactory().get("/events/", HTTP_ACCEPT="text/event-stream"))
+        renderers = [renderer() for renderer in IssueRealtimeEventsEndpoint.renderer_classes]
+
+        renderer, media_type = DefaultContentNegotiation().select_renderer(request, renderers)
+
+        self.assertIsInstance(renderer, ServerSentEventRenderer)
+        self.assertEqual(media_type, "text/event-stream")
+
     def test_issue_channel_is_scoped_to_issue(self):
         issue_id = uuid4()
         self.assertEqual(issue_realtime_channel(issue_id), f"plane:realtime:issue:{issue_id}")

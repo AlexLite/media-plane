@@ -8,6 +8,7 @@ import redis.asyncio as async_redis
 from django.conf import settings
 from django.http import StreamingHttpResponse
 from rest_framework import status
+from rest_framework.renderers import BaseRenderer, JSONRenderer
 from rest_framework.response import Response
 
 from plane.app.permissions import ROLE, allow_permission
@@ -15,6 +16,20 @@ from plane.db.models import Issue, Project, ProjectMember
 from plane.utils.realtime import issue_realtime_channel
 
 from .. import BaseAPIView
+
+
+class ServerSentEventRenderer(BaseRenderer):
+    media_type = "text/event-stream"
+    format = "sse"
+
+    def render(self, data, accepted_media_type=None, renderer_context=None):
+        if data is None:
+            return b""
+        if isinstance(data, bytes):
+            return data
+        if isinstance(data, str):
+            return data.encode(self.charset)
+        return json.dumps(data).encode(self.charset)
 
 
 async def issue_event_stream(issue_id):
@@ -51,6 +66,11 @@ async def issue_event_stream(issue_id):
 
 
 class IssueRealtimeEventsEndpoint(BaseAPIView):
+    # EventSource sends `Accept: text/event-stream`. Registering an SSE
+    # renderer prevents DRF from rejecting the request with HTTP 406 before
+    # the streaming response reaches this view.
+    renderer_classes = [JSONRenderer, ServerSentEventRenderer]
+
     @allow_permission([ROLE.ADMIN, ROLE.MEMBER, ROLE.GUEST])
     def get(self, request, slug, project_id, issue_id):
         project = Project.objects.filter(pk=project_id, workspace__slug=slug, archived_at__isnull=True).first()
