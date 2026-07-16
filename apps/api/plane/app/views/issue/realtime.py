@@ -68,7 +68,12 @@ class IssueRealtimeEventsEndpoint(BaseAPIView):
         if membership is None:
             return Response({"error": "Project access required"}, status=status.HTTP_403_FORBIDDEN)
 
-        if membership.role == ROLE.GUEST.value and not project.guest_view_all_features and issue.created_by != request.user:
+        is_restricted_guest = (
+            membership.role == ROLE.GUEST.value
+            and not project.guest_view_all_features
+            and issue.created_by != request.user
+        )
+        if is_restricted_guest:
             return Response({"error": "You are not allowed to view this issue"}, status=status.HTTP_403_FORBIDDEN)
 
         response = StreamingHttpResponse(issue_event_stream(issue_id), content_type="text/event-stream")
