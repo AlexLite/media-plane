@@ -28,12 +28,15 @@ from plane.utils.realtime import (
 
 class IssueRealtimeEventTests(SimpleTestCase):
     @patch("plane.app.views.issue.realtime.SSE_MAX_IDLE_HEARTBEATS", 1)
-    @patch("plane.app.views.issue.realtime.asyncio.wait_for", new_callable=AsyncMock, side_effect=TimeoutError)
     @patch("plane.app.views.issue.realtime.async_redis.Redis.from_url")
-    def test_idle_stream_closes_after_max_heartbeats(self, from_url, _wait_for):
+    def test_idle_stream_closes_after_max_heartbeats(self, from_url):
         async def messages():
             await asyncio.Future()
             yield None
+
+        async def timeout_immediately(awaitable, timeout):
+            awaitable.close()
+            raise TimeoutError
 
         pubsub = MagicMock()
         pubsub.listen.return_value = messages()
@@ -50,7 +53,8 @@ class IssueRealtimeEventTests(SimpleTestCase):
             chunks = [chunk async for chunk in stream]
             return chunks
 
-        chunks = asyncio.run(consume_stream())
+        with patch("plane.app.views.issue.realtime.asyncio.wait_for", new=timeout_immediately):
+            chunks = asyncio.run(consume_stream())
 
         self.assertEqual(chunks, ["retry: 3000\n: connected\n\n", ": heartbeat\n\n"])
         pubsub.unsubscribe.assert_awaited_once()
