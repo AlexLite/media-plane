@@ -20,7 +20,7 @@ from plane.utils.realtime import issue_realtime_channel
 from .. import BaseAPIView
 
 SSE_FLUSH_PADDING = ":" + (" " * 65536) + "\n\n"
-SSE_HEARTBEAT_PADDING = ":" + (" " * 16384) + "\n\n"
+SSE_MAX_IDLE_HEARTBEATS = 20
 
 
 class ServerSentEventRenderer(BaseRenderer):
@@ -58,19 +58,24 @@ async def issue_event_stream(issue_id):
         await pubsub.subscribe(channel)
         reader_task = asyncio.create_task(read_messages())
         yield "retry: 3000\n: connected\n\n"
+        idle_heartbeat_count = 0
 
         while True:
             try:
                 message = await asyncio.wait_for(message_queue.get(), timeout=15.0)
             except TimeoutError:
-                # Some public reverse proxies buffer streaming bodies even when
-                # X-Accel-Buffering is disabled. Accumulating 64 KiB across four
-                # heartbeats forces a downstream write and releases abandoned
-                # upstream subscriptions without padding every heartbeat to the
-                # full proxy buffer size.
-                yield f": heartbeat\n\n{SSE_HEARTBEAT_PADDING}"
+                idle_heartbeat_count += 1
+                yield ": heartbeat\n\n"
+                # The public relay can keep the upstream request open after its
+                # downstream client has disappeared. Rotate idle streams so the
+                # Redis subscription is eventually released regardless of the
+                # relay's disconnect propagation. Native EventSource reconnects
+                # using the retry value sent above.
+                if idle_heartbeat_count >= SSE_MAX_IDLE_HEARTBEATS:
+                    return
                 continue
 
+            idle_heartbeat_count = 0
             payload = message.get("data")
             if not isinstance(payload, str):
                 payload = payload.decode("utf-8")
