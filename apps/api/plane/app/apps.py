@@ -7,3 +7,7 @@ from django.apps import AppConfig
 
 class AppApiConfig(AppConfig):
     name = "plane.app"
+
+    def ready(self):
+        # Register transaction-safe publishers for issue and comment changes.
+        from plane.app.signals import realtime  # noqa: F401
