@@ -11,7 +11,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 - Repository-wide web format baseline for the production CI gate.
 - Manual CI dispatch now runs full web format/build/lint/type checks and API lint on the selected release SHA.
 - Optional Plane Messenger Gateway deployment overlay with the existing VK adapter, isolated runtime storage, strict secret validation, and private-by-default host binding.
-- Premiere Pro UXP implementation brief for Plane work-item review and semantic timecode markers.
+- FreeFrame-backed Premiere Pro UXP implementation brief covering Plane authentication, asset linking, version upload, and frame-accurate marker synchronization.
 - Comment timecodes now render as semantic markers and are exposed to integrations without an FPS dependency.
 - Project auto-archive keeps legacy month presets, adds weekly presets, and supports custom periods from 7 to 365 days.
 - Day-based auto-archive settings retain a rounded legacy month value, so an application rollback does not silently disable archival.
