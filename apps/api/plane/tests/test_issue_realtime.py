@@ -3,6 +3,7 @@
 # See the LICENSE file for details.
 
 import json
+from types import SimpleNamespace
 from unittest.mock import patch
 from uuid import uuid4
 
@@ -11,6 +12,7 @@ from rest_framework.negotiation import DefaultContentNegotiation
 from rest_framework.request import Request
 from rest_framework.test import APIRequestFactory
 
+from plane.app.signals.realtime import publish_comment_change
 from plane.app.views.issue.realtime import IssueRealtimeEventsEndpoint, ServerSentEventRenderer
 from plane.utils.realtime import (
     build_issue_realtime_event,
@@ -20,6 +22,25 @@ from plane.utils.realtime import (
 
 
 class IssueRealtimeEventTests(SimpleTestCase):
+    @patch("plane.app.signals.realtime.publish_issue_realtime_event")
+    @patch("plane.app.signals.realtime.transaction.on_commit", side_effect=lambda callback: callback())
+    def test_soft_deleted_comment_publishes_deleted_event(self, _on_commit, publish_event):
+        comment_id = uuid4()
+        instance = SimpleNamespace(
+            id=comment_id,
+            issue_id=uuid4(),
+            project_id=uuid4(),
+            workspace_id=uuid4(),
+            updated_by_id=None,
+            created_by_id=uuid4(),
+            deleted_at=object(),
+        )
+
+        publish_comment_change(sender=None, instance=instance, created=False)
+
+        self.assertEqual(publish_event.call_args.kwargs["event_type"], "comment.deleted")
+        self.assertEqual(publish_event.call_args.kwargs["data"], {"id": str(comment_id)})
+
     def test_endpoint_accepts_event_stream_content_negotiation(self):
         request = Request(APIRequestFactory().get("/events/", HTTP_ACCEPT="text/event-stream"))
         renderers = [renderer() for renderer in IssueRealtimeEventsEndpoint.renderer_classes]

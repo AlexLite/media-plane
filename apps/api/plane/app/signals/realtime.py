@@ -58,6 +58,20 @@ def publish_comment_change(sender, instance, created, raw=False, update_fields=N
     if raw:
         return
 
+    # The standard API delete path is a soft delete implemented as save(), so
+    # it emits post_save rather than post_delete.
+    if instance.deleted_at is not None:
+        event_kwargs = {
+            "event_type": "comment.deleted",
+            "issue_id": instance.issue_id,
+            "project_id": instance.project_id,
+            "workspace_id": instance.workspace_id,
+            "actor_id": _actor_id(instance),
+            "data": {"id": str(instance.id)},
+        }
+        transaction.on_commit(lambda: publish_issue_realtime_event(**event_kwargs))
+        return
+
     # IssueComment.save() performs a second internal save after creating its
     # Description row. Ignore that implementation detail to avoid duplicates.
     if update_fields and set(update_fields).issubset({"description_id"}):
