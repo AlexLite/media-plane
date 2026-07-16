@@ -38,6 +38,7 @@ interface IIssueView {
   embedIssue?: boolean;
   embedRemoveCurrentNotification?: () => void;
   issueOperations: TIssueOperations;
+  rootId?: string;
 }
 
 export const IssueView = observer(function IssueView(props: IIssueView) {
@@ -52,6 +53,7 @@ export const IssueView = observer(function IssueView(props: IIssueView) {
     embedIssue = false,
     embedRemoveCurrentNotification,
     issueOperations,
+    rootId,
   } = props;
   // states
   const [peekMode, setPeekMode] = useState<TPeekModes>("side-peek");
@@ -137,6 +139,7 @@ export const IssueView = observer(function IssueView(props: IIssueView) {
     <div className="w-full text-body-sm-regular">
       {issueId && (
         <div
+          id={rootId}
           ref={issuePeekOverviewRef}
           className={peekOverviewIssueClassName}
           style={{
