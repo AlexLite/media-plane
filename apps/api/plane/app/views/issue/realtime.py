@@ -19,7 +19,7 @@ from plane.utils.realtime import issue_realtime_channel
 
 from .. import BaseAPIView
 
-SSE_FLUSH_PADDING = ":" + (" " * 65536) + "\n"
+SSE_FLUSH_PADDING = ":" + (" " * 65536) + "\n\n"
 
 
 class ServerSentEventRenderer(BaseRenderer):
@@ -72,7 +72,7 @@ async def issue_event_stream(issue_id):
             event = json.loads(payload)
             event_id = event.get("event_id", "")
             event_type = event.get("type", "message")
-            yield f"{SSE_FLUSH_PADDING}id: {event_id}\nevent: {event_type}\ndata: {payload}\n\n"
+            yield f"id: {event_id}\nevent: {event_type}\ndata: {payload}\n\n{SSE_FLUSH_PADDING}"
     finally:
         if reader_task is not None:
             reader_task.cancel()
