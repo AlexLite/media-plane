@@ -36,6 +36,8 @@ export interface IIssueCommentStoreActions {
     data: Partial<TIssueComment>
   ) => Promise<any>;
   removeComment: (workspaceSlug: string, projectId: string, issueId: string, commentId: string) => Promise<any>;
+  upsertComment: (issueId: string, comment: TIssueComment) => void;
+  removeCommentLocally: (issueId: string, commentId: string) => void;
 }
 
 export interface IIssueCommentStore extends IIssueCommentStoreActions {
@@ -70,6 +72,8 @@ export class IssueCommentStore implements IIssueCommentStore {
       createComment: action,
       updateComment: action,
       removeComment: action,
+      upsertComment: action,
+      removeCommentLocally: action,
     });
     // root store
     this.serviceType = serviceType;
@@ -89,6 +93,25 @@ export class IssueCommentStore implements IIssueCommentStore {
     return this.commentMap[commentId] ?? undefined;
   };
 
+  upsertComment = (issueId: string, comment: TIssueComment) => {
+    if (!issueId || !comment?.id) return;
+
+    runInAction(() => {
+      update(this.comments, issueId, (commentIds) => uniq(concat(commentIds ?? [], [comment.id])));
+      set(this.commentMap, comment.id, comment);
+      this.rootIssueDetail.commentReaction.applyCommentReactions(comment.id, comment.comment_reactions || []);
+    });
+  };
+
+  removeCommentLocally = (issueId: string, commentId: string) => {
+    if (!issueId || !commentId) return;
+
+    runInAction(() => {
+      if (this.comments[issueId]) pull(this.comments[issueId], commentId);
+      delete this.commentMap[commentId];
+    });
+  };
+
   fetchComments = async (
     workspaceSlug: string,
     projectId: string,
@@ -106,16 +129,8 @@ export class IssueCommentStore implements IIssueCommentStore {
 
     const comments = await this.issueCommentService.getIssueComments(workspaceSlug, projectId, issueId, props);
 
-    const commentIds = comments.map((comment) => comment.id);
     runInAction(() => {
-      update(this.comments, issueId, (_commentIds) => {
-        if (!_commentIds) return commentIds;
-        return uniq(concat(_commentIds, commentIds));
-      });
-      comments.forEach((comment) => {
-        this.rootIssueDetail.commentReaction.applyCommentReactions(comment.id, comment?.comment_reactions || []);
-        set(this.commentMap, comment.id, comment);
-      });
+      comments.forEach((comment) => this.upsertComment(issueId, comment));
       this.loader = undefined;
     });
 
@@ -124,15 +139,7 @@ export class IssueCommentStore implements IIssueCommentStore {
 
   createComment = async (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssueComment>) => {
     const response = await this.issueCommentService.createIssueComment(workspaceSlug, projectId, issueId, data);
-
-    runInAction(() => {
-      update(this.comments, issueId, (_commentIds) => {
-        if (!_commentIds) return [response.id];
-        return uniq(concat(_commentIds, [response.id]));
-      });
-      set(this.commentMap, response.id, response);
-    });
-
+    this.upsertComment(issueId, response);
     return response;
   };
 
@@ -172,12 +179,7 @@ export class IssueCommentStore implements IIssueCommentStore {
 
   removeComment = async (workspaceSlug: string, projectId: string, issueId: string, commentId: string) => {
     const response = await this.issueCommentService.deleteIssueComment(workspaceSlug, projectId, issueId, commentId);
-
-    runInAction(() => {
-      pull(this.comments[issueId], commentId);
-      delete this.commentMap[commentId];
-    });
-
+    this.removeCommentLocally(issueId, commentId);
     return response;
   };
 }
