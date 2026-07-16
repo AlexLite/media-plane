@@ -44,6 +44,15 @@ def linked_review_issue(workspace, review_project):
     return issue
 
 
+@pytest.fixture
+def unlinked_review_issue(workspace, review_project):
+    return Issue.objects.create(
+        workspace=workspace,
+        project=review_project,
+        name="Review without a linked asset",
+    )
+
+
 def test_linked_session_returns_server_controlled_public_api_url(
     session_client,
     workspace,
@@ -54,7 +63,26 @@ def test_linked_session_returns_server_controlled_public_api_url(
 
     assert response.status_code == 200
     assert response.data["freeframe_api_url"] == "https://freeframe.example.test/api"
+    assert "http://freeframe-api:8000" not in str(response.data)
     assert response["Cache-Control"] == "no-store, private"
+
+
+def test_unlinked_session_preserves_controlled_unlinked_response(
+    session_client,
+    workspace,
+    review_project,
+    unlinked_review_issue,
+    monkeypatch,
+):
+    monkeypatch.delenv("FREEFRAME_REVIEW_PUBLIC_API_URL")
+
+    response = session_client.get(_url(workspace, review_project, unlinked_review_issue))
+
+    assert response.status_code == 404
+    assert response.data == {
+        "error": "FreeFrame review is not linked",
+        "can_manage": True,
+    }
 
 
 @pytest.mark.parametrize(
@@ -66,6 +94,8 @@ def test_linked_session_returns_server_controlled_public_api_url(
         "https://freeframe.example.test/api?token=bad",
         "https://freeframe.example.test/api#fragment",
         " https://freeframe.example.test",
+        "https://freeframe.example.test:invalid/api",
+        "https://freeframe.example.test\\api",
     ],
 )
 def test_invalid_public_api_url_fails_closed(
@@ -85,5 +115,8 @@ def test_invalid_public_api_url_fails_closed(
 
 
 def test_public_api_url_normalization_is_https_only(monkeypatch):
-    monkeypatch.setenv("FREEFRAME_REVIEW_PUBLIC_API_URL", "https://freeframe.example.test/api///")
-    assert freeframe_public_api_url() == "https://freeframe.example.test/api"
+    monkeypatch.setenv(
+        "FREEFRAME_REVIEW_PUBLIC_API_URL",
+        "https://freeframe.example.test//api///v1///",
+    )
+    assert freeframe_public_api_url() == "https://freeframe.example.test/api/v1"

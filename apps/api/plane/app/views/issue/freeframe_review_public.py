@@ -10,6 +10,7 @@ from plane.app.views.issue.freeframe_review import (
     FreeFrameReviewSessionEndpoint,
     _configuration_error_response,
 )
+from plane.utils.url import normalize_url_path
 
 
 def freeframe_public_api_url():
@@ -17,11 +18,17 @@ def freeframe_public_api_url():
     if not value or value.strip() != value or any(character.isspace() for character in value):
         return None
 
-    parsed = urlsplit(value)
+    try:
+        parsed = urlsplit(value)
+        parsed.port
+    except ValueError:
+        return None
+
     if (
         parsed.scheme != "https"
         or not parsed.netloc
         or not parsed.hostname
+        or "\\" in value
         or parsed.username
         or parsed.password
         or parsed.query
@@ -29,7 +36,8 @@ def freeframe_public_api_url():
     ):
         return None
 
-    return urlunsplit(("https", parsed.netloc, parsed.path.rstrip("/"), "", ""))
+    normalized = urlunsplit(("https", parsed.netloc, parsed.path.rstrip("/"), "", ""))
+    return normalize_url_path(normalized)
 
 
 class FreeFrameReviewPublicSessionEndpoint(FreeFrameReviewSessionEndpoint):
