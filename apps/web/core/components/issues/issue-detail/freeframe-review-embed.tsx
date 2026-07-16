@@ -237,6 +237,8 @@ export function FreeFrameReviewEmbed(props: Props) {
         onLoad={postSessionToIframe}
         className="block w-full border-0"
         style={{ height }}
+        // The configured embed URL is validated as cross-origin; preserving its origin is required for exact postMessage checks.
+        // eslint-disable-next-line react/iframe-missing-sandbox
         sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
         allow="fullscreen"
       />
