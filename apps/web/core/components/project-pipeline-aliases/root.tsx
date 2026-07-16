@@ -15,6 +15,8 @@ import { StateGroupIcon } from "@plane/propel/icons";
 import type { IState } from "@plane/types";
 import { EUserProjectRoles } from "@plane/types";
 import { sortStates } from "@plane/utils";
+// components
+import { getDefaultStateNameTranslationKey } from "@/components/project-states/default-state-name";
 // hooks
 import { useProjectState } from "@/hooks/store/use-project-state";
 import { useUserPermissions } from "@/hooks/store/user";
@@ -39,6 +41,12 @@ const normalizeAliases = (value: string) => {
 };
 
 const aliasesToText = (aliases: string[] | undefined) => aliases?.join(", ") ?? "";
+const PIPELINE_STATE_LOADER_IDS = [
+  "pipeline-state-loader-1",
+  "pipeline-state-loader-2",
+  "pipeline-state-loader-3",
+  "pipeline-state-loader-4",
+];
 
 export const ProjectPipelineAliasesRoot = observer(function ProjectPipelineAliasesRoot(props: Props) {
   const { workspaceSlug, projectId } = props;
@@ -67,12 +75,8 @@ export const ProjectPipelineAliasesRoot = observer(function ProjectPipelineAlias
   useEffect(() => {
     if (!states) return;
     setDraftAliases((currentDrafts) =>
-      states.reduce<Record<string, string>>(
-        (acc, state) => ({
-          ...acc,
-          [state.id]: currentDrafts[state.id] ?? aliasesToText(state.pipeline_aliases),
-        }),
-        {}
+      Object.fromEntries(
+        states.map((state) => [state.id, currentDrafts[state.id] ?? aliasesToText(state.pipeline_aliases)])
       )
     );
   }, [states]);
@@ -95,8 +99,8 @@ export const ProjectPipelineAliasesRoot = observer(function ProjectPipelineAlias
   if (!states)
     return (
       <div className="space-y-3">
-        {[...Array(4)].map((_, index) => (
-          <div key={index} className="h-14 w-full animate-pulse rounded border border-subtle bg-surface-2" />
+        {PIPELINE_STATE_LOADER_IDS.map((loaderId) => (
+          <div key={loaderId} className="h-14 w-full animate-pulse rounded border border-subtle bg-surface-2" />
         ))}
       </div>
     );
@@ -110,6 +114,8 @@ export const ProjectPipelineAliasesRoot = observer(function ProjectPipelineAlias
         {sortedStates.map((state) => {
           const isSaving = savingStateId === state.id;
           const isDirty = draftAliases[state.id] !== aliasesToText(state.pipeline_aliases);
+          const stateNameTranslationKey = getDefaultStateNameTranslationKey(state.name);
+          const localizedStateName = stateNameTranslationKey ? t(stateNameTranslationKey) : state.name;
 
           return (
             <div
@@ -119,7 +125,7 @@ export const ProjectPipelineAliasesRoot = observer(function ProjectPipelineAlias
               <div className="flex min-w-0 items-center gap-3">
                 <StateGroupIcon stateGroup={state.group} color={state.color} size={EIconSize.XL} />
                 <div className="min-w-0">
-                  <div className="text-sm truncate font-medium text-primary">{state.name}</div>
+                  <div className="text-sm truncate font-medium text-primary">{localizedStateName}</div>
                   <div className="text-xs text-secondary">{t(`workspace_projects.state.${state.group}`)}</div>
                 </div>
               </div>
