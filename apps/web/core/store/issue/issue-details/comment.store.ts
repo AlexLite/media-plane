@@ -130,6 +130,7 @@ export class IssueCommentStore implements IIssueCommentStore {
     const comments = await this.issueCommentService.getIssueComments(workspaceSlug, projectId, issueId, props);
 
     runInAction(() => {
+      update(this.comments, issueId, (commentIds) => commentIds ?? []);
       comments.forEach((comment) => this.upsertComment(issueId, comment));
       this.loader = undefined;
     });
