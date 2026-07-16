@@ -919,6 +919,33 @@
     "delete": "Delete",
     "move": "Move"
   },
+  "freeframe_review": {
+    "title": "FreeFrame Review",
+    "open_review": "Open review",
+    "close_review": "Close review",
+    "overlay_title": "Media review",
+    "iframe_title": "FreeFrame media review",
+    "unlink": "Unlink",
+    "no_asset": "No attached asset",
+    "no_asset_description": "Attach a media asset to start the review.",
+    "no_asset_permission_hint": "A project or workspace administrator can attach an asset.",
+    "attach_or_create": "Attach or create asset",
+    "select_asset": "Select asset",
+    "asset_type_label": "Asset type",
+    "create_asset": "Create asset",
+    "asset_type": {
+      "video": "Video",
+      "image": "Image",
+      "audio": "Audio",
+      "image_carousel": "Image carousel"
+    },
+    "status": {
+      "uploading": "Uploading",
+      "processing": "Processing",
+      "ready": "Ready",
+      "failed": "Failed"
+    }
+  },
   "exporter": {
     "csv": {
       "title": "CSV",

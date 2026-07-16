@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: ./apps/web/Dockerfile.web
+      args:
+        VITE_FREEFRAME_REVIEW_EMBED_URL: ${VITE_FREEFRAME_REVIEW_EMBED_URL:-}
     restart: always
     depends_on:
       - api
