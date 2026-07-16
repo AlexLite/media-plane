@@ -54,7 +54,7 @@ export const useIssueRealtime = ({ workspaceSlug, projectId, issueId, shouldResy
     const handleIssueUpdate = (message: Event) => {
       const event = parseEnvelope<Partial<TIssue>>(message as MessageEvent<string>);
       if (!event || event.issue_id !== issueId) return;
-      issueDetail.issue.updateIssue(issueId, event.data);
+      issueDetail.rootIssueStore.issues.updateIssue(issueId, event.data);
     };
 
     const handleCommentUpsert = (message: Event) => {
