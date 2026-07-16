@@ -109,24 +109,30 @@ Use the normal Plane upgrade/migrator procedure and confirm that Django migratio
 4. Upload the first media version.
 5. Confirm processing changes to ready automatically.
 6. Open playback and create a timecoded comment.
-7. Open the same asset in normal FreeFrame and confirm the public comment is visible.
-8. Upload a subsequent version.
-9. Disconnect the asset and connect it again.
-10. Verify Guest access is limited to read/comment, Member adds upload, and project/workspace Admin adds asset link management.
+7. Draw an annotation, submit it with a comment, and confirm that focusing the comment restores the overlay on the same media version.
+8. Open the same asset in normal FreeFrame and confirm the public comment and annotation are visible.
+9. Upload a subsequent version.
+10. Disconnect the asset and connect it again.
+11. Switch Plane between Russian and English and confirm the embedded review follows the active locale without a page reload.
+12. Verify Guest access is limited to read/comment, Member adds upload, and project/workspace Admin adds asset link management.
 
 ## 6. User-visible behavior and permissions
 
-The integration does not add a global FreeFrame button. It renders an inline section in the Plane work-item body, above Activity:
+The integration does not add a global FreeFrame button. It renders a compact Review widget in the Plane work-item body, above Activity:
 
-- an unlinked work item shows the asset search/create picker only to a project or workspace Admin;
-- after linking, all project members with review access see the embedded FreeFrame panel;
+- an unlinked work item gives a project or workspace Admin an active attach/create action and shows other users a disabled no-asset state;
+- after linking, all project members with review access receive an active Open review action;
+- Open review mounts the cross-origin FreeFrame panel inside a centered, near-full-screen modal with a dimmed Plane backdrop, media on the left, and version comments on the right;
+- closing the modal returns focus to the work item and unmounts the iframe;
+- the active Plane locale is sent in the existing origin-checked initialization message; FreeFrame resolves all integration UI copy from its `ru` or `en` locale dictionary;
+- video and image reviews expose the upstream Fabric.js drawing tools, persist `drawing_data` with the public version-bound comment, and restore the drawing when its comment is focused;
 - Guest receives `review:read` and `review:comment`;
 - Member additionally receives `review:upload` and sees the new-version action;
 - project/workspace Admin additionally receives `review:manage` and sees link, unlink, asset picker, and create controls.
 
 Plane requests a short-lived issue-bound integration token from its API. Plane sends the token and asset ID to the exact configured FreeFrame iframe origin with `postMessage`; neither value is placed in the iframe URL or browser storage. FreeFrame exchanges that token for a short-lived scoped session and revalidates the Plane workspace, project, work item, user, asset link, and requested operation on every integration API call.
 
-The iframe uses both `allow-scripts` and `allow-same-origin`. This is intentional only because the configured iframe is a validated cross-origin FreeFrame URL: preserving the FreeFrame origin is required for exact two-way `postMessage` origin checks. Never configure the embed URL to a Plane same-origin path.
+The modal-hosted iframe uses both `allow-scripts` and `allow-same-origin`. This is intentional only because the configured iframe is a validated cross-origin FreeFrame URL: preserving the FreeFrame origin is required for exact two-way `postMessage` origin checks. Never configure the embed URL to a Plane same-origin path.
 
 ## 7. Failure checks
 

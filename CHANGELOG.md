@@ -8,6 +8,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Added
 
+- FreeFrame review now opens from a compact work-item widget into a focused, near-full-screen overlay; linked, unlinked, and permission-limited states use Plane locale keys.
 - Repository-wide web format baseline for the production CI gate.
 - Manual CI dispatch now runs full web format/build/lint/type checks and API lint on the selected release SHA.
 - Optional Plane Messenger Gateway deployment overlay with the existing VK adapter, isolated runtime storage, strict secret validation, and private-by-default host binding.

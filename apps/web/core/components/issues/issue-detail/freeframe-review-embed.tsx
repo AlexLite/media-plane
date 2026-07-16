@@ -5,11 +5,12 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Maximize2, Video, X } from "lucide-react";
 import { useTranslation } from "@plane/i18n";
+import { EModalPosition, EModalWidth, ModalCore } from "@plane/ui";
 import { FreeFrameReviewAssetPicker } from "./freeframe-review-asset-picker";
 
 const FREEFRAME_READY_MESSAGE = "freeframe:plane-review:ready";
-const FREEFRAME_RESIZE_MESSAGE = "freeframe:plane-review:resize";
 const FREEFRAME_INIT_MESSAGE = "freeframe:plane-review:init";
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -33,14 +34,15 @@ type Props = {
 
 export function FreeFrameReviewEmbed(props: Props) {
   const { workspaceSlug, projectId, issueId } = props;
-  const { t } = useTranslation();
+  const { t, currentLocale } = useTranslation();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [session, setSession] = useState<TFreeFrameSession | null>(null);
   const [loadState, setLoadState] = useState<TLoadState>("loading");
   const [canManage, setCanManage] = useState(false);
   const [isMutating, setIsMutating] = useState(false);
   const [hasMutationError, setHasMutationError] = useState(false);
-  const [height, setHeight] = useState(560);
+  const [isReviewOpen, setIsReviewOpen] = useState(false);
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
 
   const embedUrl = import.meta.env.VITE_FREEFRAME_REVIEW_EMBED_URL as string | undefined;
   const embedOrigin = useMemo(() => {
@@ -79,7 +81,7 @@ export function FreeFrameReviewEmbed(props: Props) {
       if (response.status === 404) {
         const manageable = payload.can_manage === true;
         setCanManage(manageable);
-        setLoadState(manageable ? "unlinked" : "hidden");
+        setLoadState("unlinked");
         return;
       }
       if (!response.ok) throw new Error(String(response.status));
@@ -111,10 +113,11 @@ export function FreeFrameReviewEmbed(props: Props) {
         type: FREEFRAME_INIT_MESSAGE,
         assetId: session.asset_id,
         integrationToken: session.integration_token,
+        locale: currentLocale,
       },
       embedOrigin
     );
-  }, [embedOrigin, session]);
+  }, [currentLocale, embedOrigin, session]);
 
   useEffect(() => {
     if (!embedOrigin || !session) return;
@@ -129,15 +132,6 @@ export function FreeFrameReviewEmbed(props: Props) {
       if (event.data.type === FREEFRAME_READY_MESSAGE) {
         postSessionToIframe();
         window.clearInterval(initRetryId);
-      }
-
-      if (
-        event.data.type === FREEFRAME_RESIZE_MESSAGE &&
-        typeof event.data.height === "number" &&
-        Number.isFinite(event.data.height)
-      ) {
-        window.clearInterval(initRetryId);
-        setHeight(Math.min(Math.max(Math.round(event.data.height), 320), 1600));
       }
     };
 
@@ -168,6 +162,7 @@ export function FreeFrameReviewEmbed(props: Props) {
       });
       if (!response.ok) throw new Error(String(response.status));
       await loadSession();
+      setIsPickerOpen(false);
       return true;
     } catch {
       setHasMutationError(true);
@@ -190,6 +185,28 @@ export function FreeFrameReviewEmbed(props: Props) {
       setSession(null);
       setCanManage(true);
       setLoadState("unlinked");
+      setIsReviewOpen(false);
+    } catch {
+      setHasMutationError(true);
+    } finally {
+      setIsMutating(false);
+    }
+  };
+
+  const handleOpenReview = async () => {
+    setIsMutating(true);
+    setHasMutationError(false);
+    try {
+      const response = await fetch(sessionUrl, {
+        credentials: "include",
+        headers: { Accept: "application/json" },
+      });
+      const payload = (await response.json().catch(() => ({}))) as TFreeFrameSession & TFreeFrameError;
+      if (!response.ok) throw new Error(String(response.status));
+
+      setCanManage(payload.can_manage === true);
+      setSession(payload);
+      setIsReviewOpen(true);
     } catch {
       setHasMutationError(true);
     } finally {
@@ -199,10 +216,44 @@ export function FreeFrameReviewEmbed(props: Props) {
 
   if (!embedUrl || !embedOrigin || loadState === "loading" || loadState === "hidden") return null;
 
-  if (loadState === "unlinked" && canManage) {
+  if (loadState === "unlinked") {
     return (
       <section className="rounded-lg border border-subtle bg-surface-1 p-3">
-        <FreeFrameReviewAssetPicker catalogUrl={catalogUrl} disabled={isMutating} onSelect={connectAsset} />
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-3">
+            <span className="grid size-9 shrink-0 place-items-center rounded-md bg-surface-2 text-secondary">
+              <Video size={18} aria-hidden="true" />
+            </span>
+            <div className="min-w-0">
+              <h3 className="text-13 font-medium text-primary">{t("freeframe_review.title")}</h3>
+              <p className="text-11 text-tertiary">{t("freeframe_review.no_asset_description")}</p>
+            </div>
+          </div>
+          {canManage ? (
+            <button
+              type="button"
+              disabled={isMutating}
+              onClick={() => setIsPickerOpen((current) => !current)}
+              className="bg-accent rounded-md px-3 py-2 text-12 font-medium text-on-color disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {t("freeframe_review.attach_or_create")}
+            </button>
+          ) : (
+            <button
+              type="button"
+              disabled
+              title={t("freeframe_review.no_asset_permission_hint")}
+              className="rounded-md border border-subtle px-3 py-2 text-12 text-tertiary opacity-60"
+            >
+              {t("freeframe_review.no_asset")}
+            </button>
+          )}
+        </div>
+        {isPickerOpen && canManage && (
+          <div className="mt-3 border-t border-subtle pt-3">
+            <FreeFrameReviewAssetPicker catalogUrl={catalogUrl} disabled={isMutating} onSelect={connectAsset} />
+          </div>
+        )}
         {hasMutationError && <p className="text-red-500 mt-2 text-12">{t("something_went_wrong_please_try_again")}</p>}
       </section>
     );
@@ -211,37 +262,76 @@ export function FreeFrameReviewEmbed(props: Props) {
   if (!session) return null;
 
   return (
-    <section className="overflow-hidden rounded-lg border border-subtle bg-surface-1">
-      {canManage && (
-        <div className="flex items-center justify-between gap-3 border-b border-subtle px-3 py-2">
-          <code className="min-w-0 truncate text-11 text-tertiary">{session.asset_id}</code>
+    <>
+      <section className="rounded-lg border border-subtle bg-surface-1 p-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-3">
+            <span className="grid size-9 shrink-0 place-items-center rounded-md bg-surface-2 text-secondary">
+              <Video size={18} aria-hidden="true" />
+            </span>
+            <div className="min-w-0">
+              <h3 className="text-13 font-medium text-primary">{t("freeframe_review.title")}</h3>
+              <code className="block truncate text-11 text-tertiary">{session.asset_id}</code>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            {canManage && (
+              <button
+                type="button"
+                disabled={isMutating}
+                onClick={handleDisconnect}
+                className="rounded-md border border-subtle px-2.5 py-2 text-12 text-secondary hover:bg-surface-2 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isMutating ? t("loading") : t("freeframe_review.unlink")}
+              </button>
+            )}
+            <button
+              type="button"
+              disabled={isMutating}
+              onClick={() => void handleOpenReview()}
+              className="bg-accent inline-flex items-center gap-2 rounded-md px-3 py-2 text-12 font-medium text-on-color disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <Maximize2 size={14} aria-hidden="true" />
+              {t("freeframe_review.open_review")}
+            </button>
+          </div>
+        </div>
+        {hasMutationError && <p className="text-red-500 mt-2 text-12">{t("something_went_wrong_please_try_again")}</p>}
+      </section>
+
+      <ModalCore
+        isOpen={isReviewOpen}
+        handleClose={() => setIsReviewOpen(false)}
+        position={EModalPosition.CENTER}
+        width={EModalWidth.VIIXL}
+        className="flex h-[calc(100vh-2rem)] max-h-[900px] !max-w-[1440px] flex-col overflow-hidden sm:w-[calc(100vw-3rem)]"
+      >
+        <div className="flex shrink-0 items-center justify-between gap-3 border-b border-subtle px-4 py-3">
+          <div className="min-w-0">
+            <h2 className="text-14 font-medium text-primary">{t("freeframe_review.overlay_title")}</h2>
+            <code className="block truncate text-11 text-tertiary">{session.asset_id}</code>
+          </div>
           <button
             type="button"
-            disabled={isMutating}
-            onClick={handleDisconnect}
-            className="shrink-0 rounded-md border border-subtle px-2.5 py-1.5 text-12 text-secondary hover:bg-surface-2 disabled:cursor-not-allowed disabled:opacity-50"
+            onClick={() => setIsReviewOpen(false)}
+            aria-label={t("freeframe_review.close_review")}
+            className="grid size-8 shrink-0 place-items-center rounded-md text-secondary hover:bg-surface-2 hover:text-primary"
           >
-            {isMutating ? t("loading") : t("remove")}
+            <X size={18} aria-hidden="true" />
           </button>
         </div>
-      )}
-      {hasMutationError && (
-        <p className="text-red-500 border-b border-subtle px-3 py-2 text-12">
-          {t("something_went_wrong_please_try_again")}
-        </p>
-      )}
-      <iframe
-        ref={iframeRef}
-        src={embedUrl}
-        title={embedOrigin}
-        onLoad={postSessionToIframe}
-        className="block w-full border-0"
-        style={{ height }}
-        // The configured embed URL is validated as cross-origin; preserving its origin is required for exact postMessage checks.
-        // eslint-disable-next-line react/iframe-missing-sandbox
-        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-        allow="fullscreen"
-      />
-    </section>
+        <iframe
+          ref={iframeRef}
+          src={embedUrl}
+          title={t("freeframe_review.iframe_title")}
+          onLoad={postSessionToIframe}
+          className="block min-h-0 flex-1 border-0"
+          // The configured embed URL is validated as cross-origin; preserving its origin is required for exact postMessage checks.
+          // eslint-disable-next-line react/iframe-missing-sandbox
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+          allow="fullscreen"
+        />
+      </ModalCore>
+    </>
   );
 }

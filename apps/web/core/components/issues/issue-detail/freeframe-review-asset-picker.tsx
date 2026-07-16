@@ -168,14 +168,16 @@ export function FreeFrameReviewAssetPicker(props: Props) {
         <select
           value={selectedAssetId}
           onChange={(event) => setSelectedAssetId(event.target.value)}
-          aria-label={t("select")}
+          aria-label={t("freeframe_review.select_asset")}
           disabled={busy || assets.length === 0}
           className="focus:border-accent min-w-64 flex-1 rounded-md border border-subtle bg-surface-1 px-3 py-2 text-13 text-primary outline-none disabled:opacity-50"
         >
           {assets.map((asset) => (
             <option key={asset.id} value={asset.id}>
-              {asset.name} · {asset.asset_type}
-              {asset.latest_version?.processing_status ? ` · ${asset.latest_version.processing_status}` : ""}
+              {asset.name} · {t(`freeframe_review.asset_type.${asset.asset_type}`)}
+              {asset.latest_version?.processing_status
+                ? ` · ${t(`freeframe_review.status.${asset.latest_version.processing_status}`)}`
+                : ""}
             </option>
           ))}
         </select>
@@ -204,13 +206,13 @@ export function FreeFrameReviewAssetPicker(props: Props) {
         <select
           value={newAssetType}
           onChange={(event) => setNewAssetType(event.target.value as (typeof ASSET_TYPES)[number])}
-          aria-label={t("type")}
+          aria-label={t("freeframe_review.asset_type_label")}
           disabled={busy}
           className="focus:border-accent rounded-md border border-subtle bg-surface-1 px-3 py-2 text-13 text-primary outline-none"
         >
           {ASSET_TYPES.map((assetType) => (
             <option key={assetType} value={assetType}>
-              {assetType}
+              {t(`freeframe_review.asset_type.${assetType}`)}
             </option>
           ))}
         </select>
@@ -219,7 +221,7 @@ export function FreeFrameReviewAssetPicker(props: Props) {
           disabled={busy || !newAssetName.trim()}
           className="rounded-md border border-subtle px-3 py-2 text-13 text-secondary hover:bg-surface-2 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {isCreating ? t("adding") : t("create")}
+          {isCreating ? t("adding") : t("freeframe_review.create_asset")}
         </button>
       </form>
 
