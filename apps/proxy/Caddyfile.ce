@@ -11,6 +11,11 @@
 	
 	reverse_proxy /live/* live:3000
 
+	@issue_events path_regexp ^/api/workspaces/[^/]+/projects/[^/]+/issues/[^/]+/events/$
+	reverse_proxy @issue_events api:8000 {
+		flush_interval -1
+	}
+
 	reverse_proxy /api/* api:8000
 
 	reverse_proxy /auth/* api:8000
