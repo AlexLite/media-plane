@@ -23,6 +23,7 @@ import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 import { useIssues } from "@/hooks/store/use-issues";
 import { useUserPermissions } from "@/hooks/store/user";
 import { useAppRouter } from "@/hooks/use-app-router";
+import { useIssueRealtime } from "@/hooks/use-issue-realtime";
 // local components
 import { IssuePeekOverview } from "../peek-overview";
 import { IssueMainContent } from "./main-content";
@@ -116,6 +117,14 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
       window.clearTimeout(focusTimeout);
     };
   }, [isTextEditorActive]);
+
+  const shouldResyncRealtime = useCallback(() => !isTextEditorActive(), [isTextEditorActive]);
+  const { isConnected: isRealtimeConnected } = useIssueRealtime({
+    workspaceSlug,
+    projectId,
+    issueId,
+    shouldResync: shouldResyncRealtime,
+  });
 
   const issueOperations: TIssueOperations = useMemo(
     () => ({
@@ -257,7 +266,9 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
       return fetchIssue(workspaceSlug, projectId, issueId);
     },
     {
-      refreshInterval: isTextEditorFocused ? 0 : 60000,
+      // SSE is authoritative while connected. Polling remains a fallback when
+      // Redis, the stream, or the reverse proxy is unavailable.
+      refreshInterval: isRealtimeConnected || isTextEditorFocused ? 0 : 60000,
       refreshWhenHidden: false,
       refreshWhenOffline: false,
       revalidateOnFocus: false,
