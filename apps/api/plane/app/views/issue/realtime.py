@@ -19,7 +19,7 @@ from plane.utils.realtime import issue_realtime_channel
 
 from .. import BaseAPIView
 
-SSE_FLUSH_PADDING = ":" + (" " * 4096) + "\n"
+SSE_FLUSH_PADDING = ":" + (" " * 65536) + "\n"
 
 
 class ServerSentEventRenderer(BaseRenderer):
