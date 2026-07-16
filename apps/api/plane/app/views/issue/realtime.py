@@ -2,7 +2,9 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
+import asyncio
 import json
+from contextlib import suppress
 
 import redis.asyncio as async_redis
 from django.conf import settings
@@ -40,14 +42,24 @@ async def issue_event_stream(issue_id):
     redis_client = async_redis.Redis.from_url(settings.REDIS_URL, **redis_kwargs)
     pubsub = redis_client.pubsub()
     channel = issue_realtime_channel(issue_id)
+    messages = pubsub.listen()
+    message_queue = asyncio.Queue()
 
+    async def read_messages():
+        async for message in messages:
+            if message.get("type") == "message":
+                await message_queue.put(message)
+
+    reader_task = None
     try:
         await pubsub.subscribe(channel)
+        reader_task = asyncio.create_task(read_messages())
         yield "retry: 3000\n: connected\n\n"
 
         while True:
-            message = await pubsub.get_message(ignore_subscribe_messages=True, timeout=15.0)
-            if message is None:
+            try:
+                message = await asyncio.wait_for(message_queue.get(), timeout=15.0)
+            except TimeoutError:
                 yield ": heartbeat\n\n"
                 continue
 
@@ -60,6 +72,12 @@ async def issue_event_stream(issue_id):
             event_type = event.get("type", "message")
             yield f"id: {event_id}\nevent: {event_type}\ndata: {payload}\n\n"
     finally:
+        if reader_task is not None:
+            reader_task.cancel()
+            with suppress(asyncio.CancelledError):
+                await reader_task
+        with suppress(RuntimeError):
+            await messages.aclose()
         await pubsub.unsubscribe(channel)
         await pubsub.aclose()
         await redis_client.aclose()
