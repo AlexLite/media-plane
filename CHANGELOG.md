@@ -8,7 +8,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Added
 
-- Work-item details now receive status and comment changes over an authenticated SSE stream, applying targeted MobX updates while retaining polling only as a connection-failure fallback.
+- Full-page and peek work-item details now receive status and comment changes over an authenticated SSE stream, applying targeted MobX updates while retaining polling only as a connection-failure fallback.
 - Repository-wide web format baseline for the production CI gate.
 - Manual CI dispatch now runs full web format/build/lint/type checks and API lint on the selected release SHA.
 - Optional Plane Messenger Gateway deployment overlay with the existing VK adapter, isolated runtime storage, strict secret validation, and private-by-default host binding.
