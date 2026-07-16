@@ -36,8 +36,6 @@ export interface IIssueCommentStoreActions {
     data: Partial<TIssueComment>
   ) => Promise<any>;
   removeComment: (workspaceSlug: string, projectId: string, issueId: string, commentId: string) => Promise<any>;
-  upsertComment: (issueId: string, comment: TIssueComment) => void;
-  removeCommentLocally: (issueId: string, commentId: string) => void;
 }
 
 export interface IIssueCommentStore extends IIssueCommentStoreActions {
@@ -48,6 +46,8 @@ export interface IIssueCommentStore extends IIssueCommentStoreActions {
   // helper methods
   getCommentsByIssueId: (issueId: string) => string[] | undefined;
   getCommentById: (activityId: string) => TIssueComment | undefined;
+  upsertComment: (issueId: string, comment: TIssueComment) => void;
+  removeCommentLocally: (issueId: string, commentId: string) => void;
 }
 
 export class IssueCommentStore implements IIssueCommentStore {
