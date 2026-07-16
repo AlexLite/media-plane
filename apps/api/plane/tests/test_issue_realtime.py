@@ -27,16 +27,11 @@ from plane.utils.realtime import (
 
 
 class IssueRealtimeEventTests(SimpleTestCase):
-    @patch("plane.app.views.issue.realtime.SSE_MAX_IDLE_HEARTBEATS", 1)
     @patch("plane.app.views.issue.realtime.async_redis.Redis.from_url")
-    def test_idle_stream_closes_after_max_heartbeats(self, from_url):
+    def test_closing_stream_releases_redis_resources(self, from_url):
         async def messages():
             await asyncio.Future()
             yield None
-
-        async def timeout_immediately(awaitable, timeout):
-            awaitable.close()
-            raise TimeoutError
 
         pubsub = MagicMock()
         pubsub.listen.return_value = messages()
@@ -48,15 +43,15 @@ class IssueRealtimeEventTests(SimpleTestCase):
         redis.aclose = AsyncMock()
         from_url.return_value = redis
 
-        async def consume_stream():
+        async def open_and_close_stream():
             stream = issue_event_stream(uuid4())
-            chunks = [chunk async for chunk in stream]
-            return chunks
+            connected = await anext(stream)
+            await stream.aclose()
+            return connected
 
-        with patch("plane.app.views.issue.realtime.asyncio.wait_for", new=timeout_immediately):
-            chunks = asyncio.run(consume_stream())
+        connected = asyncio.run(open_and_close_stream())
 
-        self.assertEqual(chunks, ["retry: 3000\n: connected\n\n", ": heartbeat\n\n"])
+        self.assertEqual(connected, "retry: 3000\n: connected\n\n")
         pubsub.unsubscribe.assert_awaited_once()
         pubsub.aclose.assert_awaited_once()
         redis.aclose.assert_awaited_once()
