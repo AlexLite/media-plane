@@ -25,6 +25,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- Pipeline settings now display standard project state names with the same locale-aware labels used by state settings.
 - API startup now discards a stale generated static manifest before rebuilding static assets, preventing a restart loop after an interrupted static collection.
 - Work-item analytics modal headings are localized, and profile settings reliably show the user's current workspace groups.
 - Kanban issue responses now include due time from the first render, avoiding an incorrect temporary `00:00` label.

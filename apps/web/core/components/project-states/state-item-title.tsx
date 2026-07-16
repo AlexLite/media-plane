@@ -14,6 +14,7 @@ import { EditIcon, StateGroupIcon } from "@plane/propel/icons";
 import type { IState, TStateOperationsCallbacks } from "@plane/types";
 // local imports
 import { useProjectState } from "@/hooks/store/use-project-state";
+import { getDefaultStateNameTranslationKey } from "./default-state-name";
 import { StateDelete, StateMarksAsDefault } from "./options";
 
 type TBaseStateItemTitleProps = {
@@ -43,25 +44,8 @@ export const StateItemTitle = observer(function StateItemTitle(props: TStateItem
   // derived values
   const statePercentage = getStatePercentageInGroup(state.id);
   const percentage = statePercentage ? statePercentage / 100 : undefined;
-  const defaultStateNameMap: Record<string, string> = {
-    backlog: "workspace_projects.state.backlog",
-    unstarted: "workspace_projects.state.unstarted",
-    "un-started": "workspace_projects.state.unstarted",
-    un_started: "workspace_projects.state.unstarted",
-    todo: "workspace_projects.state.unstarted",
-    "to do": "workspace_projects.state.unstarted",
-    "in progress": "workspace_projects.state.started",
-    "in-progress": "workspace_projects.state.started",
-    in_progress: "workspace_projects.state.started",
-    started: "workspace_projects.state.started",
-    done: "workspace_projects.state.completed",
-    completed: "workspace_projects.state.completed",
-    cancelled: "workspace_projects.state.cancelled",
-    canceled: "workspace_projects.state.cancelled",
-  };
-  const localizedStateName = defaultStateNameMap[state.name.toLowerCase()]
-    ? t(defaultStateNameMap[state.name.toLowerCase()])
-    : state.name;
+  const stateNameTranslationKey = getDefaultStateNameTranslationKey(state.name);
+  const localizedStateName = stateNameTranslationKey ? t(stateNameTranslationKey) : state.name;
 
   return (
     <div className="flex w-full items-center justify-between gap-2">
@@ -88,7 +72,7 @@ export const StateItemTitle = observer(function StateItemTitle(props: TStateItem
           <div className="flex-shrink-0 text-11 transition-all">
             <StateMarksAsDefault
               stateId={state.id}
-              isDefault={state.default ? true : false}
+              isDefault={Boolean(state.default)}
               markStateAsDefaultCallback={props.stateOperationsCallbacks.markStateAsDefault}
             />
           </div>
