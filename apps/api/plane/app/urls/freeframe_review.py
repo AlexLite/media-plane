@@ -4,16 +4,18 @@
 
 from django.urls import path
 
-from plane.app.views.issue.freeframe_review import FreeFrameReviewSessionEndpoint
 from plane.app.views.issue.freeframe_review_catalog import (
     FreeFrameReviewCatalogEndpoint,
+)
+from plane.app.views.issue.freeframe_review_public import (
+    FreeFrameReviewPublicSessionEndpoint,
 )
 
 
 urlpatterns = [
     path(
         "workspaces/<str:slug>/projects/<uuid:project_id>/issues/<uuid:issue_id>/freeframe-review-session/",
-        FreeFrameReviewSessionEndpoint.as_view(),
+        FreeFrameReviewPublicSessionEndpoint.as_view(),
         name="freeframe-review-session",
     ),
     path(

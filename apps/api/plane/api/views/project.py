@@ -6,7 +6,7 @@
 import json
 
 # Django imports
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.db.models import Exists, F, Func, OuterRef, Prefetch, Q, Subquery, Count
 from django.db.models.functions import Coalesce
 from django.utils import timezone
@@ -38,6 +38,7 @@ from plane.db.models import (
     ProjectPage,
 )
 from plane.bgtasks.webhook_task import model_activity, webhook_activity
+from plane.utils.exception_logger import log_exception
 from .base import BaseAPIView
 from plane.utils.host import base_host
 from plane.api.serializers import (
@@ -223,48 +224,55 @@ class ProjectListCreateAPIEndpoint(BaseAPIView):
             serializer = ProjectCreateSerializer(data={**request.data}, context={"workspace_id": workspace.id})
 
             if serializer.is_valid():
-                serializer.save()
+                with transaction.atomic():
+                    serializer.save()
 
-                # Add the user as Administrator to the project
-                _ = ProjectMember.objects.create(project_id=serializer.instance.id, member=request.user, role=20)
-
-                if serializer.instance.project_lead is not None and str(serializer.instance.project_lead) != str(
-                    request.user.id
-                ):
                     ProjectMember.objects.create(
                         project_id=serializer.instance.id,
-                        member_id=serializer.instance.project_lead,
+                        member=request.user,
                         role=20,
                     )
 
-                State.objects.bulk_create(
-                    [
-                        State(
-                            name=state["name"],
-                            color=state["color"],
-                            project=serializer.instance,
-                            sequence=state["sequence"],
-                            workspace=serializer.instance.workspace,
-                            group=state["group"],
-                            default=state.get("default", False),
-                            created_by=request.user,
+                    if (
+                        serializer.instance.project_lead_id is not None
+                        and serializer.instance.project_lead_id != request.user.id
+                    ):
+                        ProjectMember.objects.create(
+                            project_id=serializer.instance.id,
+                            member_id=serializer.instance.project_lead_id,
+                            role=20,
                         )
-                        for state in DEFAULT_STATES
-                    ]
-                )
 
-                project = self.get_queryset().filter(pk=serializer.instance.id).first()
+                    State.objects.bulk_create(
+                        [
+                            State(
+                                name=state["name"],
+                                color=state["color"],
+                                project=serializer.instance,
+                                sequence=state["sequence"],
+                                workspace=serializer.instance.workspace,
+                                group=state["group"],
+                                default=state.get("default", False),
+                                created_by=request.user,
+                            )
+                            for state in DEFAULT_STATES
+                        ]
+                    )
 
-                # Model activity
-                model_activity.delay(
-                    model_name="project",
-                    model_id=str(project.id),
-                    requested_data=request.data,
-                    current_instance=None,
-                    actor_id=request.user.id,
-                    slug=slug,
-                    origin=base_host(request=request, is_app=True),
-                )
+                    project = self.get_queryset().filter(pk=serializer.instance.id).first()
+
+                    def _dispatch_model_activity():
+                        model_activity.delay(
+                            model_name="project",
+                            model_id=str(project.id),
+                            requested_data=request.data,
+                            current_instance=None,
+                            actor_id=request.user.id,
+                            slug=slug,
+                            origin=base_host(request=request, is_app=True),
+                        )
+
+                    transaction.on_commit(_dispatch_model_activity, robust=True)
 
                 serializer = ProjectSerializer(project)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -275,12 +283,23 @@ class ProjectListCreateAPIEndpoint(BaseAPIView):
                     {"name": "The project name is already taken"},
                     status=status.HTTP_409_CONFLICT,
                 )
+            log_exception(e)
+            return Response(
+                {"error": "An unexpected error occurred"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
         except Workspace.DoesNotExist:
             return Response({"error": "Workspace does not exist"}, status=status.HTTP_404_NOT_FOUND)
         except ValidationError:
             return Response(
                 {"identifier": "The project identifier is already taken"},
                 status=status.HTTP_409_CONFLICT,
+            )
+        except Exception as e:
+            log_exception(e)
+            return Response(
+                {"error": "An unexpected error occurred"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
 

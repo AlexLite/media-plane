@@ -6,9 +6,9 @@
 from datetime import timedelta
 import logging
 from typing import List, Dict, Any, Callable, Optional
-import os
 
 # Django imports
+from django.conf import settings
 from django.utils import timezone
 from django.db.models import F, Window, Subquery
 from django.db.models.functions import RowNumber
@@ -91,10 +91,10 @@ def flush_to_mongo_and_delete(
 
 def process_cleanup_task(
     queryset_func: Callable,
-    transform_func: Callable[[Dict], Dict],
     model,
     task_name: str,
-    collection_name: str,
+    transform_func: Optional[Callable[[Dict], Dict]] = None,
+    collection_name: Optional[str] = None,
 ):
     """
     Generic function to process cleanup tasks.
@@ -109,7 +109,7 @@ def process_cleanup_task(
     logger.info(f"Starting {task_name} cleanup task")
 
     # Get MongoDB collection
-    mongo_collection = get_mongo_collection(collection_name)
+    mongo_collection = get_mongo_collection(collection_name) if collection_name else None
     mongo_available = mongo_collection is not None
 
     # Get queryset
@@ -121,14 +121,12 @@ def process_cleanup_task(
     total_processed = 0
     total_batches = 0
 
-    for record in queryset:
-        # Transform record for MongoDB
-        buffer.append(transform_func(record))
-        ids_to_delete.append(record["id"])
-
-        # Flush batch when it reaches BATCH_SIZE
-        if len(buffer) >= BATCH_SIZE:
-            total_batches += 1
+    def flush_batch() -> None:
+        nonlocal total_batches, total_processed
+        if not buffer:
+            return
+        total_batches += 1
+        try:
             flush_to_mongo_and_delete(
                 mongo_collection=mongo_collection,
                 buffer=buffer,
@@ -136,21 +134,26 @@ def process_cleanup_task(
                 model=model,
                 mongo_available=mongo_available,
             )
-            total_processed += len(buffer)
-            buffer.clear()
-            ids_to_delete.clear()
+        except Exception as exc:
+            # A failed batch must not prevent later cleanup runs from handling
+            # the remaining rows.
+            log_exception(exc)
+        total_processed += len(buffer)
+        buffer.clear()
+        ids_to_delete.clear()
+
+    for record in queryset:
+        # Transform record for MongoDB
+        buffer.append(transform_func(record) if transform_func else record)
+        ids_to_delete.append(record["id"] if transform_func else record)
+
+        # Flush batch when it reaches BATCH_SIZE
+        if len(buffer) >= BATCH_SIZE:
+            flush_batch()
 
     # Process final batch if any records remain
     if buffer:
-        total_batches += 1
-        flush_to_mongo_and_delete(
-            mongo_collection=mongo_collection,
-            buffer=buffer,
-            ids_to_delete=ids_to_delete,
-            model=model,
-            mongo_available=mongo_available,
-        )
-        total_processed += len(buffer)
+        flush_batch()
 
     logger.info(
         f"{task_name} cleanup task completed",
@@ -266,7 +269,7 @@ def transform_webhook_log(record: Dict):
 # Queryset functions for each cleanup task
 def get_api_logs_queryset():
     """Get API logs older than cutoff days."""
-    cutoff_days = int(os.environ.get("HARD_DELETE_AFTER_DAYS", 30))
+    cutoff_days = settings.API_ACTIVITY_LOG_RETENTION_DAYS
     cutoff_time = timezone.now() - timedelta(days=cutoff_days)
     logger.info(f"API logs cutoff time: {cutoff_time}")
 
@@ -293,7 +296,7 @@ def get_api_logs_queryset():
 
 def get_email_logs_queryset():
     """Get email logs older than cutoff days."""
-    cutoff_days = int(os.environ.get("HARD_DELETE_AFTER_DAYS", 30))
+    cutoff_days = settings.EMAIL_LOG_RETENTION_DAYS
     cutoff_time = timezone.now() - timedelta(days=cutoff_days)
     logger.info(f"Email logs cutoff time: {cutoff_time}")
 
@@ -392,7 +395,7 @@ def get_issue_description_versions_queryset():
 
 def get_webhook_logs_queryset():
     """Get email logs older than cutoff days."""
-    cutoff_days = int(os.environ.get("HARD_DELETE_AFTER_DAYS", 30))
+    cutoff_days = settings.WEBHOOK_LOG_RETENTION_DAYS
     cutoff_time = timezone.now() - timedelta(days=cutoff_days)
     logger.info(f"Webhook logs cutoff time: {cutoff_time}")
 

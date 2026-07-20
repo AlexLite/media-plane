@@ -116,13 +116,18 @@ class ProjectCreateSerializer(BaseSerializer):
         if project_identifier is not None and re.match(Project.FORBIDDEN_IDENTIFIER_CHARS_PATTERN, project_identifier):
             raise serializers.ValidationError("Project identifier cannot contain special characters.")
 
-        if data.get("project_lead", None) is not None:
-            # Check if the project lead is a member of the workspace
-            if not WorkspaceMember.objects.filter(
+        project_lead = data.get("project_lead")
+        if (
+            project_lead
+            and not WorkspaceMember.objects.filter(
                 workspace_id=self.context["workspace_id"],
-                member_id=data.get("project_lead"),
-            ).exists():
-                raise serializers.ValidationError("Project lead should be a user in the workspace")
+                member=project_lead,
+                is_active=True,
+            ).exists()
+        ):
+            raise serializers.ValidationError(
+                {"project_lead": "The provided user is not a member of this workspace."}
+            )
 
         if data.get("default_assignee", None) is not None:
             # Check if the default assignee is a member of the workspace

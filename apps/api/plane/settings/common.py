@@ -403,6 +403,25 @@ WEB_URL = os.environ.get("WEB_URL")
 
 HARD_DELETE_AFTER_DAYS = int(os.environ.get("HARD_DELETE_AFTER_DAYS", 60))
 
+
+def _retention_days(env_var, default):
+    """Return a non-negative retention window or the safe default."""
+    raw = os.environ.get(env_var)
+    if raw is None:
+        return default
+    try:
+        days = int(raw)
+    except ValueError:
+        return default
+    return days if days >= 0 else default
+
+
+API_ACTIVITY_LOG_RETENTION_DAYS = _retention_days(
+    "API_ACTIVITY_LOG_RETENTION_DAYS", 14
+)
+WEBHOOK_LOG_RETENTION_DAYS = _retention_days("WEBHOOK_LOG_RETENTION_DAYS", 14)
+EMAIL_LOG_RETENTION_DAYS = _retention_days("EMAIL_LOG_RETENTION_DAYS", 7)
+
 # Instance Changelog URL
 INSTANCE_CHANGELOG_URL = os.environ.get("INSTANCE_CHANGELOG_URL", "")
 

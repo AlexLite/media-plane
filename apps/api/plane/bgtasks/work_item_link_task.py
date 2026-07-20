@@ -38,19 +38,20 @@ def validate_url_ip(url: str) -> None:
     parsed = urlparse(url)
     hostname = parsed.hostname
 
-    if not hostname:
-        raise ValueError("Invalid URL: No hostname found")
-
-    # Only allow HTTP and HTTPS to prevent file://, gopher://, etc.
+    # Reject non-web schemes before checking the hostname so values such as
+    # ``file:///etc/passwd`` fail for the security boundary they violate.
     if parsed.scheme not in ("http", "https"):
         raise ValueError("Invalid URL scheme. Only HTTP and HTTPS are allowed")
+
+    if not hostname:
+        raise ValueError("Invalid URL: No hostname found")
 
     # Resolve hostname to IP addresses — this catches domain names that
     # point to internal IPs (e.g. attacker.com -> 169.254.169.254)
 
     try:
         addr_info = socket.getaddrinfo(hostname, None)
-    except socket.gaierror:
+    except (socket.gaierror, UnicodeError):
         raise ValueError("Hostname could not be resolved")
 
     if not addr_info:
