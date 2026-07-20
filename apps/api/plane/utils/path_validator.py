@@ -179,7 +179,12 @@ def get_safe_redirect_url(base_url: str, next_path: str = "", params: dict = {})
         url = base_url
 
     # Check if the URL is allowed
-    if url_has_allowed_host_and_scheme(url, allowed_hosts=get_allowed_hosts()):
+    allowed_hosts = set(get_allowed_hosts())
+    base_host = urlparse(base_url).netloc
+    if base_host:
+        allowed_hosts.add(base_host)
+
+    if url_has_allowed_host_and_scheme(url, allowed_hosts=allowed_hosts):
         return url
 
     # Return the base URL if the URL is not allowed
