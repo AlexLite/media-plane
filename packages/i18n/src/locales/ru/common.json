@@ -919,6 +919,33 @@
     "delete": "Удалить",
     "move": "Переместить"
   },
+  "freeframe_review": {
+    "title": "Ревью в FreeFrame",
+    "open_review": "Открыть ревью",
+    "close_review": "Закрыть ревью",
+    "overlay_title": "Ревью медиа",
+    "iframe_title": "Ревью медиа в FreeFrame",
+    "unlink": "Отвязать",
+    "no_asset": "Нет прикреплённого ассета",
+    "no_asset_description": "Прикрепите медиаассет, чтобы начать ревью.",
+    "no_asset_permission_hint": "Прикрепить ассет может администратор проекта или рабочего пространства.",
+    "attach_or_create": "Прикрепить или создать ассет",
+    "select_asset": "Выбрать ассет",
+    "asset_type_label": "Тип ассета",
+    "create_asset": "Создать ассет",
+    "asset_type": {
+      "video": "Видео",
+      "image": "Изображение",
+      "audio": "Аудио",
+      "image_carousel": "Карусель изображений"
+    },
+    "status": {
+      "uploading": "Загрузка",
+      "processing": "Обработка",
+      "ready": "Готово",
+      "failed": "Ошибка"
+    }
+  },
   "exporter": {
     "csv": {
       "title": "CSV",
