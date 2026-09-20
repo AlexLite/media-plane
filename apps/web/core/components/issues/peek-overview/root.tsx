@@ -219,7 +219,9 @@ export const IssuePeekOverview = observer(function IssuePeekOverview(props: IWor
     ["peek-issue", peekIssue?.workspaceSlug, peekIssue?.projectId, peekIssue?.issueId],
     () => peekIssue && issueOperations.fetch(peekIssue.workspaceSlug, peekIssue.projectId, peekIssue.issueId),
     {
-      refreshInterval: 60000,
+      // Legacy polling can replace editor state while a user is typing.
+      // Keep it disabled here; the newer frontend receives updates over SSE.
+      refreshInterval: 0,
       refreshWhenHidden: false,
       refreshWhenOffline: false,
       revalidateIfStale: false,

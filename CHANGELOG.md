@@ -25,6 +25,7 @@ The version scheme follows `v{upstream_version}-ru.{patch_number}`.
 
 ### Fixed
 
+- Legacy issue details and peek views no longer poll every 60 seconds, preventing active title, description, and comment drafts from being replaced while users are typing.
 - API startup now discards a stale generated static manifest before rebuilding static assets, preventing a restart loop after an interrupted static collection.
 - Work-item analytics modal headings are localized, and profile settings reliably show the user's current workspace groups.
 - Kanban issue responses now include due time from the first render, avoiding an incorrect temporary `00:00` label.

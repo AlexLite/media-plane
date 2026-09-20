@@ -4,7 +4,7 @@
  * See the LICENSE file for details.
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useMemo } from "react";
 import { observer } from "mobx-react";
 import useSWR from "swr";
 // plane imports
@@ -59,11 +59,6 @@ export type TIssueDetailRoot = {
   is_archived?: boolean;
 };
 
-const isTextEditor = (element: Element | null) =>
-  element instanceof HTMLTextAreaElement ||
-  (element instanceof HTMLInputElement && !["checkbox", "radio", "button", "submit"].includes(element.type)) ||
-  element?.closest('[contenteditable="true"]') !== null;
-
 export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDetailRoot) {
   const { t } = useTranslation();
   const { workspaceSlug, projectId, issueId, is_archived = false } = props;
@@ -87,36 +82,6 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
   } = useIssues(EIssuesStoreType.ARCHIVED);
   const { allowPermissions } = useUserPermissions();
   const { issueDetailSidebarCollapsed } = useAppTheme();
-  const issueDetailRootRef = useRef<HTMLDivElement>(null);
-  const [isTextEditorFocused, setIsTextEditorFocused] = useState(false);
-  const isTextEditorActive = useCallback(
-    () => Boolean(issueDetailRootRef.current?.contains(document.activeElement) && isTextEditor(document.activeElement)),
-    []
-  );
-
-  useEffect(() => {
-    const root = issueDetailRootRef.current;
-    if (!root) return;
-
-    const syncTextEditorFocus = () => {
-      setIsTextEditorFocused(isTextEditorActive());
-    };
-    let focusTimeout: number | undefined;
-    const handleFocusOut = () => {
-      window.clearTimeout(focusTimeout);
-      focusTimeout = window.setTimeout(syncTextEditorFocus, 0);
-    };
-
-    root.addEventListener("focusin", syncTextEditorFocus);
-    root.addEventListener("focusout", handleFocusOut);
-
-    return () => {
-      root.removeEventListener("focusin", syncTextEditorFocus);
-      root.removeEventListener("focusout", handleFocusOut);
-      window.clearTimeout(focusTimeout);
-    };
-  }, [isTextEditorActive]);
-
   const issueOperations: TIssueOperations = useMemo(
     () => ({
       fetch: async (workspaceSlug: string, projectId: string, issueId: string) => {
@@ -252,12 +217,11 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
 
   useSWR(
     ["issue-detail-refresh", workspaceSlug, projectId, issueId],
-    () => {
-      if (isTextEditorActive()) return;
-      return fetchIssue(workspaceSlug, projectId, issueId);
-    },
+    () => fetchIssue(workspaceSlug, projectId, issueId),
     {
-      refreshInterval: isTextEditorFocused ? 0 : 60000,
+      // Legacy polling can replace editor state while a user is typing.
+      // Keep it disabled here; the newer frontend receives updates over SSE.
+      refreshInterval: 0,
       refreshWhenHidden: false,
       refreshWhenOffline: false,
       revalidateOnFocus: false,
@@ -276,7 +240,7 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
 
   return (
     <>
-      <div ref={issueDetailRootRef} className="contents">
+      <div className="contents">
         {!issue ? (
           <EmptyState
             image={emptyIssue}
